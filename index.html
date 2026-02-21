@@ -12,6 +12,11 @@
             --accent-color: #6366f1;
             --text-main: #ffffff;
             --text-dim: #9ca3af;
+            --card-bg: #111114;
+        }
+
+        * {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -33,50 +38,28 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 800px;
-            height: 800px;
+            width: 1000px;
+            height: 1000px;
             background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
             z-index: -1;
             pointer-events: none;
             transition: all 1s ease;
         }
 
-        /* Stopwatch Icon (Top Right) */
-        .stopwatch-wrapper {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            z-index: 100;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-dim);
-            transition: all 0.3s ease;
-        }
-
-        .stopwatch-wrapper:hover {
-            color: var(--text-main);
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
-        }
-
-        /* Main Container */
+        /* Main Hub Container */
         .core-container {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 480px;
+            height: 480px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
         }
 
-        /* Central Circle */
         .core-circle {
-            width: 190px;
-            height: 190px;
+            width: 230px;
+            height: 230px;
             background: linear-gradient(135deg, #1e1e24 0%, #0f0f12 100%);
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
@@ -87,38 +70,37 @@
             cursor: pointer;
             transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 20;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(99, 102, 241, 0.05);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), inset 0 0 25px rgba(99, 102, 241, 0.05);
             text-align: center;
-            padding: 20px;
+            padding: 25px;
         }
 
         .core-container:hover .core-circle {
             transform: scale(1.05);
             border-color: var(--accent-color);
-            box-shadow: 0 0 60px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 0 70px rgba(99, 102, 241, 0.25);
         }
 
         .core-circle h1 {
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1.35rem;
             line-height: 1.2;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             pointer-events: none;
         }
 
         .core-circle p {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             color: var(--text-dim);
             letter-spacing: 0.05em;
             text-transform: uppercase;
             pointer-events: none;
         }
 
-        /* Floating Orbiting Nodes */
         .node {
             position: absolute;
-            width: 65px;
-            height: 65px;
+            width: 80px;
+            height: 80px;
             background: #16161a;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
@@ -131,26 +113,22 @@
             opacity: 0;
             transform: translate(0, 0) scale(0.5);
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2);
-            will-change: transform, opacity;
         }
 
-        /* Expansion when container or core is hovered/active */
         .core-container:hover .node, .core-container.active .node {
             opacity: 1;
         }
 
-        /* Position logic - Fixed "crazy" hover by ensuring hover maintains translation */
-        .core-container .node:nth-child(2) { --tx: 0px; --ty: -150px; }
-        .core-container .node:nth-child(3) { --tx: 140px; --ty: -45px; }
-        .core-container .node:nth-child(4) { --tx: 90px; --ty: 120px; }
-        .core-container .node:nth-child(5) { --tx: -90px; --ty: 120px; }
-        .core-container .node:nth-child(6) { --tx: -140px; --ty: -45px; }
+        .core-container .node:nth-child(2) { --tx: 0px; --ty: -185px; }
+        .core-container .node:nth-child(3) { --tx: 175px; --ty: -55px; }
+        .core-container .node:nth-child(4) { --tx: 115px; --ty: 150px; }
+        .core-container .node:nth-child(5) { --tx: -115px; --ty: 150px; }
+        .core-container .node:nth-child(6) { --tx: -175px; --ty: -55px; }
 
         .core-container:hover .node, .core-container.active .node {
             transform: translate(var(--tx), var(--ty)) scale(1);
         }
 
-        /* Stabilized Individual Node Hover */
         .node:hover {
             background: var(--accent-color);
             color: white;
@@ -161,8 +139,8 @@
 
         .node-label {
             position: absolute;
-            bottom: -30px;
-            font-size: 0.75rem;
+            bottom: -35px;
+            font-size: 0.85rem;
             font-weight: 600;
             white-space: nowrap;
             opacity: 0;
@@ -177,67 +155,74 @@
             transform: translateY(0);
         }
 
-        /* Detail Overlay */
+        /* Full Page Content Overlay */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 5, 8, 0.9);
-            backdrop-filter: blur(12px);
+            background: rgba(5, 5, 8, 0.95);
+            backdrop-filter: blur(20px);
             z-index: 100;
             display: none;
-            align-items: center;
-            justify-content: center;
             opacity: 0;
             transition: opacity 0.4s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .overlay.active {
-            display: flex;
+            display: block;
             opacity: 1;
         }
 
-        .content-card {
-            max-width: 500px;
-            width: 90%;
-            padding: 40px;
-            background: #111114;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 32px;
-            position: relative;
-            transform: scale(0.9) translateY(20px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .content-container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 100px 20px 150px 20px;
         }
 
-        .overlay.active .content-card {
-            transform: scale(1) translateY(0);
+        .section-block {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .overlay.active .section-block {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .close-btn {
-            position: absolute;
-            top: 24px;
-            right: 24px;
+            position: fixed;
+            top: 30px;
+            right: 30px;
             background: rgba(255,255,255,0.05);
-            border: none;
+            border: 1px solid rgba(255,255,255,0.1);
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s;
+            z-index: 110;
+            transition: all 0.3s ease;
         }
 
-        .close-btn:hover { background: rgba(255,255,255,0.15); }
+        .close-btn:hover {
+            background: var(--accent-color);
+            border-color: white;
+            transform: rotate(90deg);
+        }
 
         .skill-tag {
             display: inline-block;
-            padding: 6px 14px;
+            padding: 8px 16px;
             background: rgba(99, 102, 241, 0.1);
             color: var(--accent-color);
             border-radius: 12px;
@@ -246,15 +231,111 @@
             margin: 4px;
         }
 
+        h2.section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2.section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, rgba(99, 102, 241, 0.5), transparent);
+        }
+
+        .card-inner {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 30px;
+        }
+
+        /* Social Icon Grid */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 18px;
+            transition: all 0.3s ease;
+            color: var(--text-dim);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Project Card Styling */
+        .project-card {
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: var(--accent-color);
+        }
+
+        /* Protected Modal Styling */
+        .permission-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: #1a1a1f;
+            padding: 40px;
+            border-radius: 32px;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 1000;
+            text-align: center;
+            display: none;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            transition: all 0.3s ease;
+        }
+
+        .permission-modal.visible {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            display: none;
+        }
+
+        .modal-overlay.visible { display: block; }
+
         @media (max-width: 640px) {
-            .core-circle { width: 160px; height: 160px; }
-            .node { width: 55px; height: 55px; }
-            .core-container .node:nth-child(2) { --ty: -130px; }
-            .core-container .node:nth-child(3) { --tx: 115px; --ty: -35px; }
-            .core-container .node:nth-child(4) { --tx: 80px; --ty: 100px; }
-            .core-container .node:nth-child(5) { --tx: -80px; --ty: 100px; }
-            .core-container .node:nth-child(6) { --tx: -115px; --ty: -35px; }
-            .stopwatch-wrapper { top: 1rem; right: 1rem; }
+            .core-container { width: 380px; height: 380px; }
+            .core-circle { width: 180px; height: 180px; }
+            .node { width: 65px; height: 65px; }
+            h2.section-title { font-size: 1.8rem; }
+            .card-inner { padding: 25px; }
+            .social-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -262,138 +343,287 @@
 
     <div class="ambient-glow" id="glow"></div>
 
-    <!-- Apple Style Stopwatch Icon -->
-    <div class="stopwatch-wrapper">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;">
-            <circle cx="12" cy="13" r="8"></circle>
-            <path d="M12 9v4l2 2"></path>
-            <path d="M12 2v3"></path>
-            <path d="M17 5l-1.5 1.5"></path>
-            <path d="M7 5l1.5 1.5"></path>
-            <path d="M10 2h4"></path>
-        </svg>
-    </div>
-
     <div class="core-container" id="mainCore">
-        <!-- Center Core -->
         <div class="core-circle" id="coreTrigger">
             <p id="topText">Professional</p>
             <h1 id="mainText">MD. RAFAT<br>UDDIN ARMAN</h1>
-            <p id="bottomText" style="margin-top: 8px; font-size: 0.6rem; color: var(--accent-color); font-weight: 800;">HOVER TO UNLOCK</p>
+            <p id="bottomText" style="margin-top: 8px; font-size: 0.65rem; color: var(--accent-color); font-weight: 800;">HOVER TO UNLOCK</p>
         </div>
 
         <!-- Orbiting Options -->
-        <div class="node" onclick="showSection('about')" onmouseover="updateCore('About', 'Who I Am')" onmouseout="resetCore()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <div class="node" onclick="openFullPage('about')" onmouseover="updateCore('About', 'Who I Am')" onmouseout="resetCore()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span class="node-label">About Me</span>
         </div>
-        <div class="node" onclick="showSection('work')" onmouseover="updateCore('Skills', 'My Expertise')" onmouseout="resetCore()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <div class="node" onclick="openFullPage('work')" onmouseover="updateCore('Expertise', 'Technical Depth')" onmouseout="resetCore()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
             <span class="node-label">Expertise</span>
         </div>
-        <div class="node" onclick="showSection('projects')" onmouseover="updateCore('Work', 'Latest Projects')" onmouseout="resetCore()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg>
+        <div class="node" onclick="openFullPage('projects')" onmouseover="updateCore('Network', 'Portfolios & Social')" onmouseout="resetCore()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg>
             <span class="node-label">Portfolio</span>
         </div>
-        <div class="node" onclick="showSection('education')" onmouseover="updateCore('Edu', 'Academic Path')" onmouseout="resetCore()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <div class="node" onclick="openFullPage('education')" onmouseover="updateCore('Growth', 'Academic & Training')" onmouseout="resetCore()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
             <span class="node-label">Education</span>
         </div>
-        <div class="node" onclick="showSection('contact')" onmouseover="updateCore('Contact', 'Get In Touch')" onmouseout="resetCore()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <div class="node" onclick="openFullPage('contact')" onmouseover="updateCore('Connect', 'Global Availability')" onmouseout="resetCore()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             <span class="node-label">Contact</span>
         </div>
     </div>
 
-    <!-- Overlay Sections -->
-    <div class="overlay" id="overlay">
-        <button class="close-btn" onclick="hideSection()">&times;</button>
+    <!-- Permission Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closePermissionModal()"></div>
+    <div class="permission-modal" id="permissionModal">
+        <div class="w-16 h-16 bg-indigo-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-indigo-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Permission Required</h3>
+        <p class="text-gray-400 mb-8" id="permissionText">Please send a WhatsApp message to request access to this platform.</p>
+        <div class="flex flex-col gap-3">
+            <a id="permissionWhatsappBtn" href="https://wa.me/60135847289" target="_blank" class="w-full py-4 bg-green-600 hover:bg-green-500 text-white rounded-2xl font-bold transition-all flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                Request Access
+            </a>
+            <button onclick="closePermissionModal()" class="w-full py-3 text-gray-500 hover:text-white transition-all font-medium">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Unified One-Page Overlay -->
+    <div class="overlay" id="fullPageOverlay">
+        <button class="close-btn" onclick="closeFullPage()">&times;</button>
         
-        <div class="content-card" id="content-about" style="display: none;">
-            <h2 class="text-3xl font-extrabold mb-6 text-white border-b border-white/10 pb-4">About Me</h2>
-            <p class="text-gray-300 text-lg leading-relaxed mb-6">
-                I am a talented and driven team leader with a passion for UI/UX design and technology strategy. Based in Rajshahi, Bangladesh, I bridge the gap between complex technical requirements and intuitive user experiences.
-            </p>
-            <div class="p-6 bg-indigo-600/10 rounded-2xl border border-indigo-500/20">
-                <p class="text-indigo-400 font-semibold mb-2 italic">"Crafting digital excellence through 6+ years of dedicated design leadership."</p>
-            </div>
-        </div>
+        <div class="content-container">
+            
+            <!-- About Section -->
+            <section id="section-about" class="section-block">
+                <h2 class="section-title text-white">About Me</h2>
+                <div class="card-inner">
+                    <p class="text-gray-300 text-xl leading-relaxed mb-6">
+                        Highly motivated and accomplished Computer Science graduate with a proven track record in <strong>UI/UX Design</strong>, <strong>Machine Translation</strong>, and <strong>Robotics</strong>. I leverage technology to bridge communication gaps and solve complex structural problems through human-centric innovation.
+                    </p>
+                    <div class="p-6 bg-indigo-600/10 rounded-2xl border border-indigo-500/20">
+                        <p class="text-indigo-400 font-semibold italic">"Driven by leadership, excellence, and the intersection of AI with critical healthcare communication."</p>
+                    </div>
+                </div>
+            </section>
 
-        <div class="content-card" id="content-work" style="display: none;">
-            <h2 class="text-3xl font-extrabold mb-6 text-white border-b border-white/10 pb-4">Expertise</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="p-4 bg-white/5 rounded-xl">
-                    <h3 class="font-bold text-white mb-1">UI/UX Design</h3>
-                    <p class="text-sm text-gray-400">Advanced prototyping and user-centric flows.</p>
+            <!-- Expertise Section -->
+            <section id="section-work" class="section-block">
+                <h2 class="section-title text-white">Expertise</h2>
+                <div class="card-inner">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-6 bg-white/5 rounded-2xl">
+                            <h3 class="font-bold text-white text-lg mb-2">Web Development</h3>
+                            <p class="text-gray-400 text-sm">Professional experience with PHP, JavaScript, Web APIs, and SQL databases. Specialized in gym management systems and travel planning platforms.</p>
+                        </div>
+                        <div class="p-6 bg-white/5 rounded-2xl">
+                            <h3 class="font-bold text-white text-lg mb-2">Team Leadership & HR</h3>
+                            <p class="text-gray-400 text-sm">Experience as an HR Manager and Interpreter Team Leader. Managed multidisciplinary teams across Development, Design, Sales, and Marketing.</p>
+                        </div>
+                        <div class="p-6 bg-white/5 rounded-2xl">
+                            <h3 class="font-bold text-white text-lg mb-2">Robotics & IoT</h3>
+                            <p class="text-gray-400 text-sm">Champion programmer and designer in Robotics. Expertise in Line Following Robots, Robo Soccer, and IoT-based system design.</p>
+                        </div>
+                        <div class="p-6 bg-white/5 rounded-2xl">
+                            <h3 class="font-bold text-white text-lg mb-2">Design Mastery</h3>
+                            <p class="text-gray-400 text-sm">Professional Graphic Design, Front-End development, and high-fidelity App UI/UX Design focusing on HCI principles.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12">
+                        <h3 class="text-sm uppercase tracking-widest text-indigo-400 font-bold mb-4">Professional Skills Matrix</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-tag">PHP (Prof.)</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">SQL Database</span>
+                            <span class="skill-tag">Web API</span>
+                            <span class="skill-tag">Robotics Design</span>
+                            <span class="skill-tag">IoT System Design</span>
+                            <span class="skill-tag">Agile Management</span>
+                            <span class="skill-tag">Quality Assurance</span>
+                            <span class="skill-tag">Post-Editing (PE)</span>
+                            <span class="skill-tag">Machine Translation</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-4 bg-white/5 rounded-xl">
-                    <h3 class="font-bold text-white mb-1">Team Leadership</h3>
-                    <p class="text-sm text-gray-400">Managing project lifecycles and talent.</p>
-                </div>
-            </div>
-            <div class="mt-8">
-                <h3 class="text-sm uppercase tracking-widest text-indigo-400 font-bold mb-4">Tech Stack</h3>
-                <div class="flex flex-wrap">
-                    <span class="skill-tag">Figma</span>
-                    <span class="skill-tag">Project Management</span>
-                    <span class="skill-tag">HR Operations</span>
-                    <span class="skill-tag">Agile</span>
-                    <span class="skill-tag">Interaction Design</span>
-                </div>
-            </div>
-        </div>
+            </section>
 
-        <div class="content-card" id="content-projects" style="display: none;">
-            <h2 class="text-3xl font-extrabold mb-6 text-white border-b border-white/10 pb-4">Portfolio</h2>
-            <div class="space-y-4">
-                <div class="group p-5 bg-white/5 rounded-2xl border border-white/10 hover:bg-indigo-600/10 hover:border-indigo-500/30 transition-all cursor-pointer">
-                    <h4 class="text-xl font-bold text-white">Freelance Excellence</h4>
-                    <p class="text-gray-400 mt-2">Delivered 100+ successful projects for international clients in the tech industry.</p>
-                </div>
-                <div class="group p-5 bg-white/5 rounded-2xl border border-white/10 hover:bg-indigo-600/10 hover:border-indigo-500/30 transition-all cursor-pointer">
-                    <h4 class="text-xl font-bold text-white">HR & Leadership</h4>
-                    <p class="text-gray-400 mt-2">Specializing in building high-performance remote teams and establishing clear workflows.</p>
-                </div>
-            </div>
-        </div>
+            <!-- Portfolio Section -->
+            <section id="section-projects" class="section-block">
+                <h2 class="section-title text-white">Portfolio & Projects</h2>
+                <div class="card-inner space-y-10">
+                    <!-- Major Projects -->
+                    <div class="space-y-4">
+                        <h3 class="text-sm uppercase tracking-widest text-indigo-400 font-bold mb-4">Key Professional Projects</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="project-card">
+                                <h4 class="font-bold text-white">DevsFIT</h4>
+                                <p class="text-xs text-indigo-400 mb-2">Fitness & Gym Management System</p>
+                                <p class="text-sm text-gray-400">PHP, Bootstrap, SQL. Developed fitness tracking and unified store inventory.</p>
+                            </div>
+                            <div class="project-card">
+                                <h4 class="font-bold text-white">Obosor</h4>
+                                <p class="text-xs text-indigo-400 mb-2">Startup Bangladesh Funded</p>
+                                <p class="text-sm text-gray-400">Head of Contents. Won Innovation Grant (BIG-2019) for book purchase service.</p>
+                            </div>
+                            <div class="project-card">
+                                <h4 class="font-bold text-white">Trip Planner</h4>
+                                <p class="text-xs text-indigo-400 mb-2">Travel Navigation Platform</p>
+                                <p class="text-sm text-gray-400">Facilitated cost estimation, transport booking, and spot finding.</p>
+                            </div>
+                            <div class="project-card">
+                                <h4 class="font-bold text-white">TinyTime</h4>
+                                <p class="text-xs text-indigo-400 mb-2">University Routine Generator</p>
+                                <p class="text-sm text-gray-400">Automated scheduling specifically designed for university academic cycles.</p>
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="content-card" id="content-education" style="display: none;">
-            <h2 class="text-3xl font-extrabold mb-6 text-white border-b border-white/10 pb-4">Education</h2>
-            <div class="bg-gradient-to-br from-indigo-900/20 to-transparent p-6 rounded-3xl border border-white/5">
-                <h3 class="text-2xl font-bold text-white">Varendra University</h3>
-                <p class="text-indigo-400 font-medium">Rajshahi, Bangladesh</p>
-                <div class="mt-4 pt-4 border-t border-white/5 text-gray-400 text-sm">
-                    Specialized in technical project coordination and organizational leadership.
-                </div>
-            </div>
-        </div>
+                    <div class="h-px bg-white/5 w-full"></div>
 
-        <div class="content-card" id="content-contact" style="display: none;">
-            <h2 class="text-3xl font-extrabold mb-6 text-white border-b border-white/10 pb-4">Connect</h2>
-            <p class="text-gray-300 mb-8">Ready to bring your next big idea to life. Let's collaborate.</p>
-            <div class="space-y-3">
-                <a href="https://about.me/r4f47" target="_blank" class="block w-full p-4 bg-indigo-600 text-center rounded-2xl font-bold hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-600/20">
-                    Visit About.me
-                </a>
-                <a href="mailto:rafatarman1@gmail.com" class="block w-full p-4 bg-white/5 border border-white/10 text-center rounded-2xl font-bold hover:bg-white/10 transition-colors">
-                    Send Email
-                </a>
-            </div>
+                    <!-- Social Grid -->
+                    <div>
+                        <h3 class="text-sm uppercase tracking-widest text-indigo-400 font-bold mb-6">Professional Network</h3>
+                        <div class="social-grid">
+                            <a href="https://www.behance.net/RafatArman" target="_blank" class="social-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M8 12h3"/><path d="M14 12h2"/></svg>
+                                <span>Behance</span>
+                            </a>
+                            <a href="https://dribbble.com/RafatArman" target="_blank" class="social-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8.5 2.5c3.5 10 13 10 13 10M5 19c6.5-6.5 14-3 14-3M12 2v20"/></svg>
+                                <span>Dribbble</span>
+                            </a>
+                            <a href="https://github.com/rafatarman" target="_blank" class="social-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/rafat-uddin-arman/" target="_blank" class="social-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                                <span>LinkedIn</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm uppercase tracking-widest text-red-500 font-bold mb-6 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            Protected Socials
+                        </h3>
+                        <div class="social-grid">
+                            <div onclick="requestPermission('Facebook')" class="social-link cursor-pointer opacity-70 grayscale hover:grayscale-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                <span>Facebook</span>
+                            </div>
+                            <div onclick="requestPermission('Instagram')" class="social-link cursor-pointer opacity-70 grayscale hover:grayscale-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                <span>Instagram</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section id="section-education" class="section-block">
+                <h2 class="section-title text-white">Academic Path</h2>
+                <div class="card-inner space-y-10">
+                    <!-- Masters -->
+                    <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Universiti Teknikal Malaysia Melaka (UTeM)</h3>
+                            <p class="text-indigo-400 text-lg font-medium">Masters by Research in Computer Science</p>
+                            <p class="text-gray-300 mt-3 leading-relaxed font-light">
+                                Research specialized in <strong>Human-Centric Interfaces (HCI)</strong> and <strong>AI-driven communication</strong> for Life-Critical Healthcare Systems.
+                            </p>
+                        </div>
+                        <div class="px-4 py-2 bg-indigo-500/10 rounded-full border border-indigo-500/20 text-indigo-400 font-bold text-sm whitespace-nowrap">Postgraduate</div>
+                    </div>
+
+                    <div class="h-px bg-white/5 w-full"></div>
+
+                    <!-- B.Sc -->
+                    <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Varendra University</h3>
+                            <p class="text-indigo-400 text-lg font-medium">B.Sc. in Computer Science & Engineering</p>
+                            <p class="text-gray-400 mt-2 text-sm italic">Passing: Jan 17, 2021 | Rajshahi, BD</p>
+                            <p class="text-gray-400 mt-3 text-sm leading-relaxed">
+                                <strong>Coursework:</strong> Data Structures, Operating Systems, Computer Networks, AI/ML basics, Cybersecurity Foundation, ICT Law and Ethics, Project Management.
+                            </p>
+                        </div>
+                        <div class="px-4 py-2 bg-white/5 rounded-full border border-white/10 text-gray-500 font-bold text-sm whitespace-nowrap">Undergraduate</div>
+                    </div>
+
+                    <!-- Certs & Skills -->
+                    <div class="mt-8 pt-8 border-t border-white/5">
+                        <h3 class="text-sm uppercase tracking-widest text-indigo-400 font-bold mb-6">Certifications & Specialized Training</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <h4 class="font-bold text-white text-sm">EF SET English Certificate</h4>
+                                <p class="text-xs text-gray-400">C2 Proficient (73/100). Reading/Listening Mastered.</p>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <h4 class="font-bold text-white text-sm">Intro to Machine Translation</h4>
+                                <p class="text-xs text-gray-400">Translators without Borders (Feb 2025).</p>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <h4 class="font-bold text-white text-sm">Robotics & IoT Mastery</h4>
+                                <p class="text-xs text-gray-400">Robotics Society (Skill Dev on Robotics, 2019).</p>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <h4 class="font-bold text-white text-sm">Entrepreneurship edX</h4>
+                                <p class="text-xs text-gray-400">Emerging Economies (2019).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="section-contact" class="section-block">
+                <h2 class="section-title text-white">Get In Touch</h2>
+                <div class="card-inner text-center">
+                    <p class="text-gray-300 text-lg mb-10">Available for innovative research and technical leadership opportunities globally.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="mailto:rafatarman1@gmail.com" class="px-10 py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all shadow-xl shadow-indigo-600/20 text-lg">
+                            rafatarman1@gmail.com
+                        </a>
+                        <a href="https://about.me/r4f47" target="_blank" class="px-10 py-5 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-2xl font-bold transition-all text-lg">
+                            About.me
+                        </a>
+                    </div>
+                    <div class="mt-12 text-gray-500 font-medium grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-white">Rajshahi, Bangladesh</p>
+                            <p>+880 1304196201</p>
+                        </div>
+                        <div>
+                            <p class="text-white">USA Region Access</p>
+                            <p>+1(289)2127042</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 
     <script>
-        const overlay = document.getElementById('overlay');
-        const sections = ['about', 'work', 'projects', 'education', 'contact'];
+        const overlay = document.getElementById('fullPageOverlay');
         const mainText = document.getElementById('mainText');
         const topText = document.getElementById('topText');
         const bottomText = document.getElementById('bottomText');
         const glow = document.getElementById('glow');
+        const mainCore = document.getElementById('mainCore');
+        const permModal = document.getElementById('permissionModal');
+        const modalOverlay = document.getElementById('modalOverlay');
 
         function updateCore(primary, secondary) {
             mainText.innerHTML = primary.toUpperCase();
             topText.innerText = secondary;
-            bottomText.innerText = "CLICK TO VIEW";
+            bottomText.innerText = "EXPLORE NOW";
             glow.style.background = `radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(0, 0, 0, 0) 70%)`;
         }
 
@@ -404,27 +634,42 @@
             glow.style.background = `radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(0, 0, 0, 0) 70%)`;
         }
 
-        function showSection(sectionId) {
-            sections.forEach(s => {
-                document.getElementById(`content-${s}`).style.display = 'none';
-            });
-            document.getElementById(`content-${sectionId}`).style.display = 'block';
+        function openFullPage(sectionId) {
             overlay.classList.add('active');
+            mainCore.style.opacity = "0";
+            mainCore.style.transform = "scale(0.8)";
+            setTimeout(() => {
+                const target = document.getElementById(`section-${sectionId}`);
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            }, 50);
         }
 
-        function hideSection() {
+        function closeFullPage() {
             overlay.classList.remove('active');
+            mainCore.style.opacity = "1";
+            mainCore.style.transform = "scale(1)";
         }
 
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) hideSection();
-        });
+        function requestPermission(platform) {
+            document.getElementById('permissionText').innerText = `You are requesting access to my ${platform} profile. Please click below to send a permission request via WhatsApp.`;
+            document.getElementById('permissionWhatsappBtn').href = `https://wa.me/60135847289?text=Hello%20Rafat,%20I%20would%20like%20to%20request%20access%20to%20your%20${encodeURIComponent(platform)}%20profile%20from%20your%20portfolio.`;
+            permModal.classList.add('visible');
+            modalOverlay.classList.add('visible');
+        }
+
+        function closePermissionModal() {
+            permModal.classList.remove('visible');
+            modalOverlay.classList.remove('visible');
+        }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') hideSection();
+            if (e.key === 'Escape') {
+                closeFullPage();
+                closePermissionModal();
+            }
         });
 
-        document.getElementById('mainCore').addEventListener('click', function(e) {
+        mainCore.addEventListener('click', function(e) {
             if(e.target === this || e.target.id === 'coreTrigger') {
                 this.classList.toggle('active');
             }
