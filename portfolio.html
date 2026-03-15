@@ -62,17 +62,94 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 20px 20px 100px 20px;
+            padding: 0 20px 150px 20px;
         }
 
+        /* Section Headings */
+        .section-header {
+            margin: 80px 0 40px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            white-space: nowrap;
+        }
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--accent-color), transparent);
+        }
+
+        /* Generic Card */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* About Section */
+        .about-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #ccc;
+        }
+
+        /* Education Layout */
+        .edu-item {
+            position: relative;
+            padding-left: 30px;
+            border-left: 2px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+        .edu-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        /* Skills Matrix */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .skill-tag {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .skill-tag:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        /* Project Grid */
         .project-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 24px;
         }
-
         .project-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -83,7 +160,6 @@
             flex-direction: column;
             gap: 20px;
         }
-
         .project-card:hover {
             border-color: var(--accent-color);
             background: #0f0f14;
@@ -99,22 +175,7 @@
             letter-spacing: 0.1em;
         }
 
-        .project-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .project-desc {
-            font-size: 0.9rem;
-            color: #888;
-            line-height: 1.6;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.8s ease forwards;
-        }
-
+        .fade-in { animation: fadeIn 0.8s ease forwards; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -130,58 +191,115 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             Back to Hub
         </a>
-        <h1 class="text-5xl font-black uppercase tracking-tighter mb-4">Portfolio</h1>
-        <p class="text-gray-500 font-medium tracking-widest uppercase text-xs">Selected Engineering & Research Projects</p>
+        <h1 class="text-5xl font-black uppercase tracking-tighter mb-4">Professional Portfolio</h1>
+        <p class="text-gray-500 font-medium tracking-[0.4em] uppercase text-xs">Md. Rafat Uddin Arman</p>
     </header>
 
     <main class="container">
+        
+        <!-- SECTION: ABOUT -->
+        <div class="section-header">
+            <h2>About Me</h2>
+            <div class="line"></div>
+        </div>
+        <div class="glass-card">
+            <p class="about-text">
+                Highly motivated and accomplished Computer Science graduate with a proven track record in <strong>UI/UX Design</strong>, <strong>Machine Translation</strong>, and <strong>Robotics</strong>. I specialize in bridging communication gaps and solving complex structural problems through human-centric innovation. Driven by leadership and excellence, my work often intersects AI with critical healthcare communication and high-fidelity digital ecosystems.
+            </p>
+        </div>
+
+        <!-- SECTION: SKILLS -->
+        <div class="section-header">
+            <h2>Expertise</h2>
+            <div class="line"></div>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-tag">PHP (Prof.)</div>
+            <div class="skill-tag">JavaScript</div>
+            <div class="skill-tag">SQL Databases</div>
+            <div class="skill-tag">UI/UX Design</div>
+            <div class="skill-tag">Machine Translation</div>
+            <div class="skill-tag">Robotics Engineering</div>
+            <div class="skill-tag">IoT Architecture</div>
+            <div class="skill-tag">Agile Management</div>
+            <div class="skill-tag">HCI Research</div>
+            <div class="skill-tag">Post-Editing (PE)</div>
+            <div class="skill-tag">Web APIs</div>
+            <div class="skill-tag">Quality Assurance</div>
+        </div>
+
+        <!-- SECTION: EDUCATION -->
+        <div class="section-header">
+            <h2>Education</h2>
+            <div class="line"></div>
+        </div>
+        <div class="glass-card">
+            <div class="edu-item">
+                <h3 class="text-xl font-bold text-white">Universiti Teknikal Malaysia Melaka (UTeM)</h3>
+                <p class="text-indigo-400 font-semibold mb-2">Masters by Research in Computer Science</p>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Research specialized in Human-Centric Interfaces (HCI) and AI-driven communication for Life-Critical Healthcare Systems.
+                </p>
+            </div>
+            <div class="edu-item" style="margin-bottom: 0;">
+                <h3 class="text-xl font-bold text-white">Varendra University</h3>
+                <p class="text-indigo-400 font-semibold mb-2">B.Sc. in Computer Science & Engineering</p>
+                <p class="text-gray-500 text-sm">Graduated: Jan 2021 | Rajshahi, BD</p>
+                <p class="text-gray-500 text-xs mt-2 italic">Relevant Coursework: Data Structures, Operating Systems, AI/ML basics, Cybersecurity Foundation.</p>
+            </div>
+        </div>
+
+        <!-- SECTION: PROJECTS -->
+        <div class="section-header">
+            <h2>Case Studies</h2>
+            <div class="line"></div>
+        </div>
         <div class="project-grid">
             <!-- Project 1 -->
             <div class="project-card">
                 <span class="project-tag">Gym Management</span>
-                <h2 class="project-title">DevsFIT</h2>
-                <p class="project-desc">A full-stack ecosystem developed with PHP and SQL. Features unified store inventory, subscription tracking, and member analytics.</p>
+                <h2 class="text-xl font-bold">DevsFIT</h2>
+                <p class="project-desc text-sm text-gray-500">A full-stack ecosystem developed with PHP and SQL. Features unified store inventory, subscription tracking, and member analytics.</p>
                 <div class="flex gap-2">
-                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5">PHP</span>
-                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5">MySQL</span>
+                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5 uppercase">PHP</span>
+                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5 uppercase">MySQL</span>
                 </div>
             </div>
 
             <!-- Project 2 -->
             <div class="project-card">
                 <span class="project-tag">Grant Winner</span>
-                <h2 class="project-title">Obosor</h2>
-                <p class="project-desc">Won the BIG-2019 Innovation Grant from Startup Bangladesh. Focused on a high-fidelity book purchase and content platform.</p>
+                <h2 class="text-xl font-bold">Obosor</h2>
+                <p class="project-desc text-sm text-gray-500">Won the BIG-2019 Innovation Grant from Startup Bangladesh. Focused on a high-fidelity book purchase and content platform.</p>
                 <div class="flex gap-2">
-                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5">UI/UX</span>
-                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5">Management</span>
+                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5 uppercase">UI/UX</span>
+                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5 uppercase">BIG-2019</span>
                 </div>
             </div>
 
             <!-- Project 3 -->
             <div class="project-card">
                 <span class="project-tag">Navigation Tech</span>
-                <h2 class="project-title">Trip Planner</h2>
-                <p class="project-desc">A travel planning engine that facilitates cost estimation, transport booking, and automated sightseeing route generation.</p>
+                <h2 class="text-xl font-bold">Trip Planner</h2>
+                <p class="project-desc text-sm text-gray-500">A travel planning engine that facilitates cost estimation, transport booking, and automated sightseeing route generation.</p>
                 <div class="flex gap-2">
-                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5">API</span>
-                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5">Algorithm</span>
+                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5 uppercase">API</span>
+                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5 uppercase">Algorithm</span>
                 </div>
             </div>
 
             <!-- Project 4 -->
             <div class="project-card">
                 <span class="project-tag">Edu Automation</span>
-                <h2 class="project-title">TinyTime</h2>
-                <p class="project-desc">University routine generator using custom logic to prevent room clashes and optimize faculty schedules automatically.</p>
+                <h2 class="text-xl font-bold">TinyTime</h2>
+                <p class="project-desc text-sm text-gray-500">University routine generator using custom logic to prevent room clashes and optimize faculty schedules automatically.</p>
                 <div class="flex gap-2">
-                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5">Automation</span>
-                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5">Logic</span>
+                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5 uppercase">Logic</span>
+                    <span class="px-3 py-1 bg-white/5 rounded-lg text-[10px] border border-white/5 uppercase">Scheduler</span>
                 </div>
             </div>
-            
-            <!-- More projects can be added here -->
         </div>
+
     </main>
 
 </body>
