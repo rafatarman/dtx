@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <!-- Link the central brain file -->
+    <script src="main.js" defer></script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header Styling */
+        header {
+            padding: 80px 20px 40px 20px;
+            text-align: center;
+        }
+        .name {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        .subtitle {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: #6366f1;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        /* Listing Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 50px 20px;
+        }
+        .listing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+        .service-item {
+            background: rgba(8, 8, 8, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 24px;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .service-item:hover {
+            border-color: #6366f1;
+            background: rgba(17, 17, 17, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        .icon {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        .label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .name { font-size: 2.2rem; }
+            header { padding-top: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- This container is the hook for main.js to show the bot/particles -->
+    <div id="animation-container"></div>
+
+    <div class="content-layer">
+        <header>
+            <h1 class="name">Md. Rafat Uddin Arman</h1>
+            <p class="subtitle">Web Development Ecosystem</p>
+        </header>
+
+        <main class="container">
+            <div class="listing-grid">
+                <a href="index.html" class="service-item"><span class="icon">🏠</span><span class="label">Return to Hub</span></a>
+                <a href="portfolio.html" class="service-item"><span class="icon">⭐</span><span class="label">My Portfolio</span></a>
+                <a href="dtx_agency.html" class="service-item"><span class="icon">🏢</span><span class="label">DTx Design Agency</span></a>
+                <a href="global_connect.html" class="service-item"><span class="icon">🌍</span><span class="label">DTx Global Connect</span></a>
+                <a href="research.html" class="service-item"><span class="icon">🔬</span><span class="label">Research Portfolio</span></a>
+                <a href="amazon_va.html" class="service-item"><span class="icon">📦</span><span class="label">Amazon VA Services</span></a>
+                <a href="about.html" class="service-item"><span class="icon">👨‍💻</span><span class="label">About Me</span></a>
+                <a href="web_engineering.html" class="service-item"><span class="icon">💻</span><span class="label">Web Engineering</span></a>
+                <a href="ui_ux.html" class="service-item"><span class="icon">🎨</span><span class="label">UI/UX Strategy</span></a>
+                <a href="robotics.html" class="service-item"><span class="icon">🤖</span><span class="label">Robotics & IoT</span></a>
+            </div>
+        </main>
+        
+        <!-- Target for global footer injection -->
+        <div id="global-footer"></div>
+    </div>
+
+</body>
+</html>
