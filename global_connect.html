@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Connect | Student Consultancy & Travel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #0a0a0a;
+            --accent-color: #6366f1;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .glow-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% -10%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            padding: 60px 20px 40px 20px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+
+        .back-btn:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 100px 20px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-color);
+            background: #0f0f14;
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+        }
+
+        .service-tag {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .service-desc {
+            font-size: 0.9rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .contact-section {
+            margin-top: 80px;
+            padding: 50px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 32px;
+            text-align: center;
+        }
+
+        .contact-btn {
+            padding: 15px 30px;
+            border-radius: 16px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            margin: 10px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-whatsapp { background: #25d366; color: white; }
+        .btn-facebook { background: #1877f2; color: white; }
+        .btn-page { background: #ffffff; color: black; }
+        
+        .contact-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="fade-in">
+
+    <div class="glow-overlay"></div>
+
+    <header>
+        <a href="index.html" class="back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Hub
+        </a>
+        <h1 class="text-5xl font-black uppercase tracking-tighter mb-4">Global Connect</h1>
+        <p class="text-gray-500 font-medium tracking-widest uppercase text-xs">Bridge Your Future with Global Opportunities</p>
+    </header>
+
+    <main class="container">
+        <div class="service-grid">
+            
+            <!-- Service 1: Student Consultancy -->
+            <div class="service-card">
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                <div>
+                    <span class="service-tag">Study Abroad</span>
+                    <h2 class="service-title">Student Consultancy</h2>
+                    <p class="service-desc">Expert guidance for your academic journey abroad. We assist in university selection, application processes, visa documentation, and scholarship hunting to ensure you land in your dream institution.</p>
+                </div>
+            </div>
+
+            <!-- Service 2: Global Air Tickets -->
+            <div class="service-card">
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+                </div>
+                <div>
+                    <span class="service-tag">Global Travel</span>
+                    <h2 class="service-title">Lowest Fare Air Tickets</h2>
+                    <p class="service-desc">Travel the world without breaking the bank. We provide access to the most competitive airfare rates for all international and domestic routes, tailored to your schedule and budget.</p>
+                </div>
+            </div>
+
+            <!-- Service 3: Visa Support -->
+            <div class="service-card">
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="12" x="3" y="5" rx="2"/><path d="M3 10h18"/><path d="M8 15h.01"/><path d="M11 15h.01"/><path d="M14 15h.01"/></svg>
+                </div>
+                <div>
+                    <span class="service-tag">Compliance</span>
+                    <h2 class="service-title">Visa Assistance</h2>
+                    <p class="service-desc">Navigating complex visa requirements can be daunting. We provide end-to-end support for student, tourist, and business visas, helping you prepare the right paperwork for a successful outcome.</p>
+                </div>
+            </div>
+
+            <!-- Service 4: Global eSIM -->
+            <div class="service-card">
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/><path d="M8 10h8"/><path d="M8 6h8"/></svg>
+                </div>
+                <div>
+                    <span class="service-tag">Connectivity</span>
+                    <h2 class="service-title">Global eSIM</h2>
+                    <p class="service-desc">Stay connected instantly in 190+ countries. We provide high-speed digital eSIMs that eliminate expensive roaming fees and physical SIM swapping, ensuring you have data the moment you land.</p>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Call to Action / Direct Contact -->
+        <div class="contact-section">
+            <h2 class="text-3xl font-black mb-4">Ready to Start?</h2>
+            <p class="text-gray-400 mb-8 max-w-xl mx-auto">Get personalized advice and the best rates by reaching out directly. Whether it's for studies, travel, or data plans, I'm here to help you every step of the way.</p>
+            
+            <div class="flex flex-wrap justify-center items-center">
+                <a href="https://wa.me/60135847289" target="_blank" class="contact-btn btn-whatsapp">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    WhatsApp
+                </a>
+                <a href="https://www.facebook.com/r4f47" target="_blank" class="contact-btn btn-facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    Personal ID
+                </a>
+                <a href="https://www.facebook.com/DTx.global" target="_blank" class="contact-btn btn-page">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    Official Page
+                </a>
+            </div>
+            <p class="text-[10px] text-gray-600 mt-6 uppercase tracking-[0.2em]">Global Support Available 24/7</p>
+        </div>
+    </main>
+
+</body>
+</html>
