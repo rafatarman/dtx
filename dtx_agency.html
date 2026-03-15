@@ -123,6 +123,32 @@
             margin-bottom: 5px;
         }
 
+        .contact-section {
+            margin-top: 80px;
+            padding: 50px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 32px;
+            text-align: center;
+        }
+
+        .contact-btn {
+            padding: 15px 35px;
+            border-radius: 16px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            margin: 10px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-facebook { background: #1877f2; color: white; }
+        
+        .contact-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+
         .fade-in {
             animation: fadeIn 0.8s ease forwards;
         }
@@ -269,6 +295,20 @@
                 </div>
             </div>
             
+        </div>
+
+        <!-- Call to Action / Social Connection -->
+        <div class="contact-section">
+            <h2 class="text-3xl font-black mb-4">Start Your Project</h2>
+            <p class="text-gray-400 mb-8 max-w-xl mx-auto">Elevate your brand with high-fidelity design solutions. Connect with our official agency page for inquiries and consultations.</p>
+            
+            <div class="flex flex-wrap justify-center">
+                <a href="https://www.facebook.com/DTx.bd" target="_blank" class="contact-btn btn-facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    Connect with DTx Agency
+                </a>
+            </div>
+            <p class="text-[10px] text-gray-600 mt-6 uppercase tracking-[0.2em]">Creative Strategy • Premium Execution</p>
         </div>
     </main>
 
