@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security Lab | Case Study Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <!-- Links to the Space AI and Shared UI (main.js) -->
+    <script src="main.js" defer></script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        #animation-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            transition: all 0.4s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            background: rgba(99, 102, 241, 0.03);
+            transform: translateY(-5px);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+
+        .back-btn:hover {
+            background: #6366f1;
+            border-color: #6366f1;
+        }
+
+        .intel-tag {
+            font-family: 'Inter', monospace;
+            color: #6366f1;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .case-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: rgba(99, 102, 241, 0.1);
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            line-height: 1;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .personal-note {
+            border-left: 2px solid #6366f1;
+            padding-left: 20px;
+            margin: 40px 0;
+            background: linear-gradient(to right, rgba(99, 102, 241, 0.05), transparent);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <!-- Deep Space Animation Hook -->
+    <div id="animation-container"></div>
+
+    <div class="content-layer max-w-7xl mx-auto py-10">
+        <header class="mb-16 text-center md:text-left">
+            <a href="index.html" class="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Return to Hub
+            </a>
+            <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-4 uppercase italic glow-text">Security Dossier</h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-4xl font-light">
+                An exhaustive archive of 16 technical case studies. From global infrastructure sabotage to personal observations on the silent mechanics of data theft and information seating.
+            </p>
+        </header>
+
+        <!-- PERSONAL OBSERVATION BRIEFING -->
+        <div class="personal-note p-8 glass-panel mb-16">
+            <h2 class="text-xl font-black uppercase mb-4 text-indigo-400 tracking-widest">Field Observation: The Mechanics of Theft</h2>
+            <p class="text-gray-300 leading-relaxed italic">
+                "In my research, I have observed that data theft is rarely a 'loud' event. It happens through 'Information Seating'—where attackers plant themselves within social media trust loops, observing habits before ever executing a line of code. I found that people often hand over their entire digital identity through seemingly harmless social media interactions, where metadata scraping and profile linking do the work of a thousand hackers."
+            </p>
+        </div>
+
+        <!-- CASE STUDIES GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+            
+            <!-- Case Study 01 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">01</div>
+                <span class="intel-tag">Case Study: Industrial</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Stuxnet PLC Sabotage</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">Analyzing the first digital weapon to bridge the air-gap and physically destroy nuclear centrifuges via logic manipulation.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: SCADA & Air-Gap Infiltration</div>
+            </div>
+
+            <!-- Case Study 02 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">02</div>
+                <span class="intel-tag">Case Study: Mobile</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Pegasus Zero-Click</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">How state-level actors bypass all user interaction to fully compromise modern smartphones through silent messaging protocols.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: NSO Group & iMessage Exploits</div>
+            </div>
+
+            <!-- Case Study 03 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">03</div>
+                <span class="intel-tag">Case Study: Future</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Quantum Shor's Threat</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">The upcoming failure of RSA encryption. Analysis of how quantum computers will solve prime factorization in minutes.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Post-Quantum Cryptography</div>
+            </div>
+
+            <!-- Case Study 04 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">04</div>
+                <span class="intel-tag">Case Study: Social</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Information Seating</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">My study on how social media users are 'seated' for theft through psychological trust loops and metadata harvesting.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Social Media Ops & Metadata</div>
+            </div>
+
+            <!-- Case Study 05 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">05</div>
+                <span class="intel-tag">Case Study: Web3</span>
+                <h3 class="text-lg font-black mb-3 uppercase">The Ronin Bridge Drain</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">Analysis of the $600M theft through social engineering of a senior engineer and validator node compromise.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Blockchain Security & Social Hacks</div>
+            </div>
+
+            <!-- Case Study 06 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">06</div>
+                <span class="intel-tag">Case Study: Network</span>
+                <h3 class="text-lg font-black mb-3 uppercase">SolarWinds Supply Chain</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">How a single infected update patch compromised thousands of government agencies and private tech giants globally.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Supply Chain Integrity</div>
+            </div>
+
+            <!-- Case Study 07 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">07</div>
+                <span class="intel-tag">Case Study: Identity</span>
+                <h3 class="text-lg font-black mb-3 uppercase">SIM Swapping Mechanics</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">Study of how social media accounts are stolen by deceiving telecom providers into transferring phone numbers to attacker SIMs.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: 2FA Failure & Social Engineering</div>
+            </div>
+
+            <!-- Case Study 08 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">08</div>
+                <span class="intel-tag">Case Study: Data</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Shadow Profile Mining</h3>
+                <p class="text-gray-400 text-xs leading-relaxed mb-4">Observation of how major platforms build data profiles for non-users by scraping contact lists of existing users.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Data Thrift & Privacy Leaks</div>
+            </div>
+
+            <!-- Case Study 09 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">09</div>
+                <span class="intel-tag">Case Study: AI</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Prompt Injection Sabotage</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">Exploiting LLM logic to leak private instructions or execute unauthorized actions within enterprise AI environments.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Adversarial AI & LLM Security</div>
+            </div>
+
+            <!-- Case Study 10 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">10</div>
+                <span class="intel-tag">Case Study: Infrastructure</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Darkside & Colonial Pipeline</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">How a single stolen password led to the shutdown of major fuel infrastructure through Ransomware-as-a-Service.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: RaaS & Critical Infrastructure</div>
+            </div>
+
+            <!-- Case Study 11 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">11</div>
+                <span class="intel-tag">Case Study: Forensics</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Metadata Location Tracing</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">My findings on how 'anonymous' social media uploads reveal exact GPS coordinates through hidden EXIF data layers.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Digital Fingerprinting & OSINT</div>
+            </div>
+
+            <!-- Case Study 12 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">12</div>
+                <span class="intel-tag">Case Study: Hardware</span>
+                <h3 class="text-lg font-black mb-3 uppercase">The WiFi Pineapple Trap</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">Analyzing data theft in public hubs where malicious hotspots mimic trusted networks to intercept all unencrypted traffic.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: MitM Attacks & Rogue APs</div>
+            </div>
+
+            <!-- Case Study 13 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">13</div>
+                <span class="intel-tag">Case Study: Cryptography</span>
+                <h3 class="text-lg font-black mb-3 uppercase">The Heartbleed Leak</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">Review of the OpenSSL flaw that allowed attackers to read memory buffers, exposing private keys and passwords of millions.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Buffer Over-read & SSL Security</div>
+            </div>
+
+            <!-- Case Study 14 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">14</div>
+                <span class="intel-tag">Case Study: Social Media</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Clickjacking & Visual Deception</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">Observation of how invisible UI layers on social media sites trick users into clicking 'Allow' for malicious app permissions.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: UI Redressing & Permission Theft</div>
+            </div>
+
+            <!-- Case Study 15 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">15</div>
+                <span class="intel-tag">Case Study: Dark Web</span>
+                <h3 class="text-lg font-black mb-3 uppercase">The Silk Road 2.0 Fall</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">Study on how anonymity was broken through server-side vulnerabilities and behavioral tracking of administrators.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Tor De-anonymization & OpSec</div>
+            </div>
+
+            <!-- Case Study 16 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">16</div>
+                <span class="intel-tag">Case Study: Enterprise</span>
+                <h3 class="text-lg font-black mb-3 uppercase">Credential Stuffing Logic</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-4">Analysis of how millions of stolen passwords from one breach are automated to unlock accounts across every other major service.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-3">TOPIC: Password Re-use & Automation</div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER TARGET -->
+        <div id="global-footer"></div>
+    </div>
+</body>
+</html>
