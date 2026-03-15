@@ -37,6 +37,14 @@
             margin: 0 auto;
         }
 
+        .header-btns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
         .back-btn {
             display: inline-flex;
             align-items: center;
@@ -52,13 +60,24 @@
             text-decoration: none;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            margin-bottom: 40px;
         }
 
         .back-btn:hover {
             background: var(--accent-color);
             border-color: var(--accent-color);
             transform: scale(1.05);
+        }
+
+        .rg-btn {
+            background: #00ccbb15;
+            border-color: #00ccbb40;
+            color: #00ccbb;
+        }
+
+        .rg-btn:hover {
+            background: #00ccbb;
+            border-color: #00ccbb;
+            color: white;
         }
 
         .container {
@@ -121,6 +140,15 @@
             color: #ccc;
         }
 
+        .network-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 32px;
+            margin-top: 40px;
+        }
+
         .fade-in { animation: fadeIn 0.8s ease forwards; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -133,10 +161,16 @@
     <div class="glow-overlay"></div>
 
     <header>
-        <a href="index.html" class="back-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            Back to Hub
-        </a>
+        <div class="header-btns">
+            <a href="index.html" class="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Back to Hub
+            </a>
+            <a href="https://www.researchgate.net/profile/Rafat-Arman-2?ev=hdr_xprf" target="_blank" class="back-btn rg-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 20H8c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h2"/><path d="M18 14H10"/><path d="M18 10H10"/><path d="M14 6h4c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2h-4"/></svg>
+                ResearchGate Profile
+            </a>
+        </div>
         <h1 class="text-5xl font-black uppercase tracking-tighter mb-4">Research Portfolio</h1>
         <p class="text-gray-500 font-medium tracking-[0.4em] uppercase text-xs">Academic Studies & Critical Analysis</p>
     </header>
@@ -203,6 +237,19 @@
                 <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Fiscal Research</span>
                 <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Economic Justice</span>
             </div>
+        </div>
+
+        <!-- SECTION: RESEARCH NETWORK -->
+        <div class="section-header">
+            <h2>Research Network</h2>
+            <div class="line"></div>
+        </div>
+        <div class="network-section">
+            <h3 class="text-2xl font-bold mb-4">Connect on ResearchGate</h3>
+            <p class="text-gray-400 mb-8 max-w-xl mx-auto">Access full-text publications, datasets, and track the progress of my ongoing academic studies through my official research profile.</p>
+            <a href="https://www.researchgate.net/profile/Rafat-Arman-2?ev=hdr_xprf" target="_blank" class="back-btn rg-btn" style="padding: 15px 40px; font-size: 13px;">
+                View Scientific Profile
+            </a>
         </div>
 
     </main>
