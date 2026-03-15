@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Portfolio | Md. Rafat Uddin Arman</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #0a0a0a;
+            --accent-color: #6366f1;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .glow-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% -10%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            padding: 60px 20px 40px 20px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+
+        .back-btn:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 150px 20px;
+        }
+
+        /* Section Headings */
+        .section-header {
+            margin: 80px 0 40px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            white-space: nowrap;
+        }
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--accent-color), transparent);
+        }
+
+        /* Research Card Styling */
+        .research-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 24px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .research-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .status-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+        }
+        .status-published { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .status-ongoing { background: rgba(99, 102, 241, 0.1); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.2); }
+        .status-report { background: rgba(234, 179, 8, 0.1); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.2); }
+
+        .study-details {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ccc;
+        }
+
+        .fade-in { animation: fadeIn 0.8s ease forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="fade-in">
+
+    <div class="glow-overlay"></div>
+
+    <header>
+        <a href="index.html" class="back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Hub
+        </a>
+        <h1 class="text-5xl font-black uppercase tracking-tighter mb-4">Research Portfolio</h1>
+        <p class="text-gray-500 font-medium tracking-[0.4em] uppercase text-xs">Academic Studies & Critical Analysis</p>
+    </header>
+
+    <main class="container">
+        
+        <!-- SECTION: ACADEMIC CORE -->
+        <div class="section-header">
+            <h2>UTeM Academic Journey</h2>
+            <div class="line"></div>
+        </div>
+        <div class="research-card">
+            <h3 class="text-2xl font-bold text-white mb-2">Universiti Teknikal Malaysia Melaka (UTeM)</h3>
+            <p class="text-indigo-400 font-semibold mb-6">Master of Computer Science (Research)</p>
+            <div class="study-details">
+                <p>My postgraduate research focuses on the intersection of <strong>Human-Computer Interaction (HCI)</strong> and <strong>Artificial Intelligence</strong> within life-critical environments. I am specifically investigating how AI-driven predictive interfaces can optimize communication protocols in healthcare systems to reduce cognitive load and prevent fatal errors.</p>
+            </div>
+        </div>
+
+        <!-- SECTION: ACTIVE RESEARCH -->
+        <div class="section-header">
+            <h2>Current Research Papers</h2>
+            <div class="line"></div>
+        </div>
+
+        <!-- Paper 1 -->
+        <div class="research-card">
+            <span class="status-tag status-published">Journal Article / Published</span>
+            <h3 class="text-2xl font-bold text-white mb-4">Phase I: Preliminary Survey on User Interaction with Critical Healthcare Interfaces</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">
+                This research paper establishes the baseline data for my Masters' study. It utilizes a comprehensive preliminary survey to identify existing pain points in life-critical communication systems. The findings were used to develop a journal entry that highlights the urgent need for AI-integrated interaction models to safeguard patient data and system responses.
+            </p>
+            <div class="flex gap-4">
+                <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Data Analysis</span>
+                <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">HCI Evaluation</span>
+            </div>
+        </div>
+
+        <!-- Paper 2 -->
+        <div class="research-card">
+            <span class="status-tag status-ongoing">Ongoing / Main Thesis</span>
+            <h3 class="text-2xl font-bold text-white mb-4">Phase II: Developing AI-Driven Predictive Interaction Models for Life-Critical Systems</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">
+                The core of my postgraduate work. I am currently working on this second main research paper, which focuses on the design and implementation of an AI model capable of predicting user intent and mitigating system errors in high-stakes environments. This work aims to revolutionize how practitioners interact with digital healthcare infrastructure during emergencies.
+            </p>
+            <div class="flex gap-4">
+                <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Predictive Modeling</span>
+                <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">AI Integration</span>
+            </div>
+        </div>
+
+        <!-- SECTION: GENERAL RESEARCH -->
+        <div class="section-header">
+            <h2>Socio-Economic Analysis</h2>
+            <div class="line"></div>
+        </div>
+        <div class="research-card">
+            <span class="status-tag status-report">Analytical Report</span>
+            <h3 class="text-2xl font-bold text-white mb-4">The "Unseen Tax": Systemic Leakage in the Bangladeshi Context</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">
+                A critical research report examining the fiscal environment of Bangladesh. This analysis explores the concept of "unseen taxes"—the financial burden placed on citizens through government money laundering, public fund mismanagement, and the "burning" of state assets. Using data-driven insights (facilitated by advanced AI models like Gemini), the report reveals how systemic corruption acts as a hidden economic drain on the general population.
+            </p>
+            <div class="flex gap-4">
+                <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Fiscal Research</span>
+                <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Economic Justice</span>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>
