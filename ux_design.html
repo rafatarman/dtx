@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX Strategy & Experience Engineering | Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <!-- Brain file for Space AI and Shared UI -->
+    <script src="main.js" defer></script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        #animation-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            transition: all 0.4s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            background: rgba(99, 102, 241, 0.03);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+
+        .back-btn:hover {
+            background: #6366f1;
+            border-color: #6366f1;
+            transform: scale(1.05);
+        }
+
+        .intel-tag {
+            font-family: 'Inter', monospace;
+            color: #6366f1;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .case-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: rgba(99, 102, 241, 0.1);
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            line-height: 1;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .tool-badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #ccc;
+        }
+
+        .highlight-section {
+            border-left: 2px solid #6366f1;
+            padding-left: 24px;
+            margin: 40px 0;
+            background: linear-gradient(to right, rgba(99, 102, 241, 0.05), transparent);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <!-- Space Animation Hook -->
+    <div id="animation-container"></div>
+
+    <div class="content-layer max-w-6xl mx-auto py-10">
+        <header class="mb-16 text-center md:text-left">
+            <a href="index.html" class="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Return to Hub
+            </a>
+            <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-4 uppercase italic glow-text">Experience Engineering</h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-4xl">Advanced HCI Dossier. Exploring the structural intersection of aging populations, emergency response logic, and bio-digital healthcare convergence.</p>
+        </header>
+
+        <!-- CORE RESEARCH PREVIEW -->
+        <section class="glass-panel p-8 md:p-12 mb-10 overflow-hidden relative">
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="intel-tag">HCI Research Domain</span>
+                    <h2 class="text-3xl md:text-4xl font-black mb-6 uppercase tracking-tight italic">Merging Technology with Health</h2>
+                    <p class="text-gray-400 mb-8 leading-relaxed">
+                        My primary mission is the seamless integration of digital intelligence into the biological realm. By bridging the gap between medical infrastructure and user interaction, we can convert raw physiological data into actionable, life-saving insights through **High-Fidelity Telemetry Visualization**.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="tool-badge">Bio-Data Logic</span>
+                        <span class="tool-badge">Medical UI</span>
+                        <span class="tool-badge">Geriatric UX</span>
+                        <span class="tool-badge">Emergency UX</span>
+                    </div>
+                </div>
+                <div class="border-l border-white/10 pl-8 hidden lg:block">
+                    <blockquote class="text-xl italic font-light text-gray-300">
+                        "The most critical interface is the one that stands between a patient's data and a practitioner's hands."
+                    </blockquote>
+                    <p class="mt-4 text-[10px] text-indigo-400 font-black uppercase tracking-[0.4em]">— The Medical Bridge</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPECIALIZED CASE STUDY LISTING -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            
+            <!-- Case Study 07: Geriatric Interaction -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">07</div>
+                <span class="intel-tag">Case Study: Geriatric UX</span>
+                <h3 class="text-xl font-black mb-4 uppercase">UX for the Elderly</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-6">Redesigning digital experiences for aging demographics. Focus on high-contrast accessibility (WCAG AAA), cognitive load reduction for memory-impaired users, and motor-friendly tap targets.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-4 uppercase">TOPIC: Visual Clarity & Tactile Feedback</div>
+            </div>
+
+            <!-- Case Study 08: Emergency Response -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">08</div>
+                <span class="intel-tag">Case Study: Emergency UX</span>
+                <h3 class="text-xl font-black mb-4 uppercase">Zero-Friction Emergency UI</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-6">Designing for "Tunnel Vision" scenarios. Developing interfaces that prioritize speed and path-of-least-resistance during split-second medical or technical crises.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-4 uppercase">TOPIC: Alert Fatigue & Critical Path Logic</div>
+            </div>
+
+            <!-- Case Study 09: Healthcare Convergence -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">09</div>
+                <span class="intel-tag">Case Study: Bio-Tech</span>
+                <h3 class="text-xl font-black mb-4 uppercase">Health-Tech Convergence</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-6">Architecting the synchronization layer between wearable bio-sensors and clinical dashboards to enable proactive rather than reactive healthcare.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-4 uppercase">TOPIC: Telemetry & Real-time Integration</div>
+            </div>
+
+            <!-- Case Study 01 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">01</div>
+                <span class="intel-tag">Case Study: Healthcare</span>
+                <h3 class="text-xl font-black mb-4 uppercase">Predictive Dashboards</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-6">Analyzing how real-time AI predictions can be visualized to prevent "Alarm Fatigue" in ICU environments.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-4 uppercase">TOPIC: Alert Hierarchy & Cognitive Load</div>
+            </div>
+
+            <!-- Case Study 02 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">02</div>
+                <span class="intel-tag">Case Study: Cognitive</span>
+                <h3 class="text-xl font-black mb-4 uppercase">Eye-Tracking Pathfinding</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-6">Utilizing eye-tracking heatmaps to identify "dead zones" in complex data-heavy administrative portals.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-4 uppercase">TOPIC: Fitts's Law & Visual Weight</div>
+            </div>
+
+            <!-- Case Study 03 -->
+            <div class="glass-panel p-8 relative overflow-hidden">
+                <div class="case-number">03</div>
+                <span class="intel-tag">Case Study: Ethics</span>
+                <h3 class="text-xl font-black mb-4 uppercase">Deceptive UI Analytics</h3>
+                <p class="text-gray-500 text-xs leading-relaxed mb-6">Researching "Dark Patterns" and how visual deception is used to harvest personal metadata on social platforms.</p>
+                <div class="text-[9px] text-indigo-400 font-bold border-t border-white/5 pt-4 uppercase">TOPIC: UX Ethics & Consent Architecture</div>
+            </div>
+
+        </div>
+
+        <!-- SPECIALIZED SECTION: GERIATRIC DESIGN PILLARS -->
+        <section class="highlight-section">
+            <h3 class="text-2xl font-black uppercase mb-6 tracking-tight">Designing for the Silver Generation</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    UX for the elderly requires a fundamental shift in empathy. We must account for physiological changes such as reduced visual acuity, diminished motor precision, and slower cognitive processing of new UI metaphors. My research focuses on using **Skeuomorphic Affordances** to bridge the gap between physical memory and digital action.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_10px_#6366f1]"></div>
+                        <span class="text-xs text-gray-300 font-bold uppercase tracking-widest">Target Sizing: Minimum 48dp for all touchpoints.</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_10px_#6366f1]"></div>
+                        <span class="text-xs text-gray-300 font-bold uppercase tracking-widest">Contrast: Strict adherence to 7:1 ratio for text.</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_10px_#6366f1]"></div>
+                        <span class="text-xs text-gray-300 font-bold uppercase tracking-widest">Haptics: Using vibration to confirm successful interaction.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SHARED FOOTER -->
+        <div id="global-footer"></div>
+    </div>
+</body>
+</html>
