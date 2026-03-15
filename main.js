@@ -1,11 +1,11 @@
 /**
  * Md. Rafat Uddin Arman - Professional Ecosystem Shared Logic
  * This file handles global animations, shared components, and navigation shortcuts.
- * VERSION: 2.1 - Self-Styling & Behavioral AI Edition
+ * VERSION: 3.0 - Deep Space "Ship-Cat" AI Edition
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Inject Global Styles for Animations (Ensures zero-config for new pages)
+    // 1. Inject Global Styles for Space Animations
     injectGlobalAnimationStyles();
 
     // 2. Initialize Global Navigation Shortcuts
@@ -14,19 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Setup Shared Footer Injection
     injectSharedComponents();
     
-    // 4. Initialize Animations
+    // 4. Initialize Space Animations
     const animContainer = document.getElementById('animation-container');
     if (animContainer) {
-        initNeuralBackground(animContainer); // Interactive particle web
-        initSentinelAnimation(animContainer); // Advanced behavioral bot
+        initStarfield(animContainer); // Distant drifting stars
+        initSpaceshipAnimation(animContainer); // The "Space Cat" AI Ship
     }
 
-    console.log('%c Neural Ecosystem Hub: Active ', 'background: #6366f1; color: #fff; font-weight: bold; padding: 5px;');
+    console.log('%c Deep Space Ecosystem Hub: Active ', 'background: #000; color: #6366f1; font-weight: bold; padding: 5px; border: 1px solid #6366f1;');
 });
 
 /**
- * Injects required CSS for the bot and background directly into the document.
- * This prevents the need for manual CSS copying across all Canvas pages.
+ * Injects required CSS for the Space UI directly into the document.
  */
 function injectGlobalAnimationStyles() {
     if (document.getElementById('ecosystem-styles')) return;
@@ -40,42 +39,41 @@ function injectGlobalAnimationStyles() {
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
-            background: #000;
+            background: radial-gradient(circle at center, #050505 0%, #000 100%);
         }
-        .sentinel-sprite {
+        .ship-sprite {
             position: absolute;
-            width: 80px; height: 80px;
+            width: 60px; height: 60px;
             pointer-events: none;
             will-change: transform;
-            filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.7));
+            filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
             z-index: 5;
         }
-        .sentinel-glow {
+        .ship-thruster {
             position: absolute;
-            width: 250px; height: 250px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            will-change: left, top;
-            z-index: 1;
-        }
-        .sentinel-status {
-            position: absolute;
-            top: -45px; left: 50%;
+            bottom: -5px; left: 50%;
+            width: 10px; height: 20px;
+            background: linear-gradient(to top, transparent, #6366f1);
             transform: translateX(-50%);
-            font-size: 11px;
+            border-radius: 50%;
+            opacity: 0.8;
+            filter: blur(2px);
+        }
+        .ship-status {
+            position: absolute;
+            top: -50px; left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
             color: #6366f1;
             font-family: 'Inter', monospace;
-            font-weight: 800;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            background: rgba(0,0,0,0.8);
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            letter-spacing: 0.2em;
+            background: rgba(0,0,0,0.9);
+            padding: 2px 10px;
+            border: 1px solid rgba(99, 102, 241, 0.4);
             white-space: nowrap;
-            pointer-events: none;
+            opacity: 0;
             transition: opacity 0.5s;
         }
     `;
@@ -84,7 +82,6 @@ function injectGlobalAnimationStyles() {
 
 function initGlobalShortcuts() {
     document.addEventListener('keydown', (e) => {
-        // ESC key: Global shortcut to return to the landing hub
         if (e.key === 'Escape') {
             window.location.href = 'index.html';
         }
@@ -96,7 +93,7 @@ function injectSharedComponents() {
     if (footerTarget) {
         const currentYear = new Date().getFullYear();
         footerTarget.innerHTML = `
-            <footer class="mt-20 py-12 border-t border-white/5 text-center relative z-20 bg-black/50 backdrop-blur-sm">
+            <footer class="mt-20 py-12 border-t border-white/5 text-center relative z-20 bg-black/80 backdrop-blur-xl">
                 <p class="text-[10px] text-gray-600 uppercase tracking-[0.4em] font-medium">
                     &copy; ${currentYear} Md. Rafat Uddin Arman • Principal Engineering Hub
                 </p>
@@ -111,9 +108,9 @@ function injectSharedComponents() {
 }
 
 /**
- * Interactive Particle Web Logic
+ * Distant Starfield Logic
  */
-function initNeuralBackground(container) {
+function initStarfield(container) {
     const canvas = document.createElement('canvas');
     canvas.style.position = 'absolute';
     canvas.style.top = '0'; canvas.style.left = '0';
@@ -122,43 +119,30 @@ function initNeuralBackground(container) {
     container.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
-    let particles = [];
-    const particleCount = 50;
-    const connectionDist = 160;
-    const mouse = { x: null, y: null, radius: 180 };
+    let stars = [];
+    const starCount = 150;
 
-    window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
     function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resize);
     resize();
 
-    class Particle {
+    class Star {
         constructor() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 1.5 + 0.5;
-            this.velX = (Math.random() - 0.5) * 0.4;
-            this.velY = (Math.random() - 0.5) * 0.4;
+            this.size = Math.random() * 1.2;
+            this.opacity = Math.random();
+            this.speed = Math.random() * 0.05 + 0.01;
         }
         update() {
-            this.x += this.velX;
-            this.y += this.velY;
-            if (this.x > canvas.width || this.x < 0) this.velX *= -1;
-            if (this.y > canvas.height || this.y < 0) this.velY *= -1;
-            
-            if (mouse.x != null) {
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < mouse.radius) {
-                    const force = (mouse.radius - distance) / mouse.radius;
-                    this.x -= (dx / distance) * force * 2;
-                    this.y -= (dy / distance) * force * 2;
-                }
+            this.y += this.speed;
+            if (this.y > canvas.height) {
+                this.y = -5;
+                this.x = Math.random() * canvas.width;
             }
         }
         draw() {
-            ctx.fillStyle = 'rgba(99, 102, 241, 0.4)';
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fill();
@@ -167,62 +151,52 @@ function initNeuralBackground(container) {
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (particles.length === 0) {
-            for(let i=0; i<particleCount; i++) particles.push(new Particle());
-        }
-        
-        particles.forEach((p, i) => {
-            p.update();
-            p.draw();
-            for (let j = i; j < particles.length; j++) {
-                const dx = p.x - particles[j].x;
-                const dy = p.y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < connectionDist) {
-                    ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - (dist / connectionDist))})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.beginPath(); 
-                    ctx.moveTo(p.x, p.y); 
-                    ctx.lineTo(particles[j].x, particles[j].y); 
-                    ctx.stroke();
-                }
-            }
-        });
+        if (stars.length === 0) for(let i=0; i<starCount; i++) stars.push(new Star());
+        stars.forEach(s => { s.update(); s.draw(); });
         requestAnimationFrame(animate);
     }
     animate();
 }
 
 /**
- * Advanced Behavioral Bot Logic
+ * Advanced Behavioral Ship-Cat AI
  */
-function initSentinelAnimation(container) {
-    const sentinel = document.createElement('div');
-    sentinel.className = 'sentinel-sprite';
+function initSpaceshipAnimation(container) {
+    const ship = document.createElement('div');
+    ship.className = 'ship-sprite';
     
     const statusBox = document.createElement('div');
-    statusBox.className = 'sentinel-status';
-    statusBox.style.opacity = '0';
-    sentinel.appendChild(statusBox);
+    statusBox.className = 'ship-status';
+    ship.appendChild(statusBox);
 
-    sentinel.insertAdjacentHTML('beforeend', `
+    // Thruster visual
+    const thruster = document.createElement('div');
+    thruster.className = 'ship-thruster';
+    ship.appendChild(thruster);
+
+    // Space Shuttle / Ship SVG
+    ship.insertAdjacentHTML('beforeend', `
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path id="outer-frame" d="M50 10L90 50L50 90L10 50L50 10Z" stroke="#6366f1" stroke-width="2" />
-            <circle id="inner-eye" cx="50" cy="50" r="10" fill="#6366f1" />
-            <path id="sub-frame" d="M50 25L75 50L50 75L25 50L50 25Z" stroke="white" stroke-width="1" opacity="0.4" />
+            <path d="M50 5L85 85H15L50 5Z" stroke="#6366f1" stroke-width="4" fill="black" />
+            <path d="M50 20L75 80H25L50 20Z" fill="#6366f1" opacity="0.4" />
+            <circle cx="50" cy="55" r="8" fill="white" opacity="0.8">
+                 <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" />
+            </circle>
         </svg>
     `);
 
-    const glow = document.createElement('div');
-    glow.className = 'sentinel-glow';
-    container.appendChild(glow);
-    container.appendChild(sentinel);
+    container.appendChild(ship);
 
     let posX = Math.random() * window.innerWidth, posY = Math.random() * window.innerHeight;
-    let velX = 0, velY = 0, targetX = posX, targetY = posY, angle = 0;
-    
-    const behaviors = ['wandering', 'grooming', 'watchingTV', 'playing', 'swinging'];
-    let currentBehavior = 'wandering', behaviorTimer = 0;
+    let velX = 0, velY = 0, angle = 0;
+    const mouse = { x: -1000, y: -1000 };
+    const trackingRadius = 300; // Radius for "Mouse Awareness"
+
+    window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+    const behaviors = ['wandering', 'drifting', 'cleaning', 'curious'];
+    let currentBehavior = 'wandering';
+    let behaviorTimer = 0;
 
     function setStatus(text) {
         statusBox.innerText = text;
@@ -231,60 +205,91 @@ function initSentinelAnimation(container) {
     }
 
     function changeBehavior() {
-        currentBehavior = behaviors[Math.floor(Math.random() * behaviors.length)];
-        behaviorTimer = Math.random() * 400 + 200;
-        const eye = sentinel.querySelector('#inner-eye');
+        // AI State Decision
+        const dx = mouse.x - posX;
+        const dy = mouse.y - posY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
 
-        if (currentBehavior === 'wandering') {
-            setStatus('SEARCHING');
-            targetX = Math.random() * window.innerWidth;
-            targetY = Math.random() * window.innerHeight;
-            eye.setAttribute('fill', '#6366f1');
-        } else if (currentBehavior === 'grooming') {
-            setStatus('CALIBRATING');
-            eye.setAttribute('fill', '#ffffff');
-        } else if (currentBehavior === 'watchingTV') {
-            setStatus('MONITORING');
-            eye.setAttribute('fill', '#10b981');
-        } else if (currentBehavior === 'playing') {
-            setStatus('IDLE_PLAY');
-            eye.setAttribute('fill', '#f59e0b');
-        } else if (currentBehavior === 'swinging') {
-            setStatus('GRAVITY_SIM');
-            eye.setAttribute('fill', '#8b5cf6');
+        if (dist < trackingRadius) {
+            currentBehavior = 'curious';
+            setStatus('TRACKING_USER');
+        } else {
+            currentBehavior = behaviors[Math.floor(Math.random() * 3)]; // Pick non-curious behavior
+            behaviorTimer = Math.random() * 300 + 200;
+            if (currentBehavior === 'wandering') setStatus('AUTO_ROAM');
+            if (currentBehavior === 'drifting') setStatus('Z-GRAVITY_DRIFT');
+            if (currentBehavior === 'cleaning') setStatus('SYSTEM_PURGE');
         }
     }
 
     function update() {
-        if (--behaviorTimer <= 0) changeBehavior();
+        const dx = mouse.x - posX;
+        const dy = mouse.y - posY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
 
-        if (currentBehavior === 'wandering') {
-            velX += (targetX - posX) * 0.0001;
-            velY += (targetY - posY) * 0.0001;
-            const s = Math.sqrt(velX*velX + velY*velY);
-            if (s > 1.2) { velX = (velX/s)*1.2; velY = (velY/s)*1.2; }
-            angle += (Math.atan2(velY, velX) * 180 / Math.PI - angle) * 0.05;
-        } else if (currentBehavior === 'grooming') {
-            velX *= 0.95; velY *= 0.95; angle += 6; 
-        } else if (currentBehavior === 'watchingTV') {
-            velX = (Math.random()-0.5)*0.6; velY = (Math.random()-0.5)*0.6;
-            angle += Math.sin(Date.now()*0.01)*3;
-        } else if (currentBehavior === 'playing') {
-            const t = Date.now()*0.006; velX = Math.cos(t)*3; velY = Math.sin(t)*3; angle += 12;
-        } else if (currentBehavior === 'swinging') {
-            const t = Date.now()*0.003; posX += Math.sin(t)*2; angle = Math.sin(t)*25;
+        // State Override: Becomes curious if mouse enters radius
+        if (dist < trackingRadius && currentBehavior !== 'curious') {
+            changeBehavior();
+        } else if (dist > trackingRadius && currentBehavior === 'curious') {
+            changeBehavior();
         }
 
-        posX += velX; posY += velY;
-        sentinel.style.left = `${posX}px`; sentinel.style.top = `${posY}px`;
-        sentinel.style.transform = `rotate(${angle}deg)`;
-        glow.style.left = `${posX + 40}px`; glow.style.top = `${posY + 40}px`;
+        if (--behaviorTimer <= 0 && currentBehavior !== 'curious') changeBehavior();
 
-        // Teleport screen wrap
-        if (posX < -120) posX = window.innerWidth + 100;
-        if (posX > window.innerWidth + 120) posX = -100;
-        if (posY < -120) posY = window.innerHeight + 100;
-        if (posY > window.innerHeight + 120) posY = -100;
+        // Gravity/Physics Logic
+        const gravity = 0.02; // Downward space pull
+        velY += gravity * 0.1;
+
+        if (currentBehavior === 'curious') {
+            // Track mouse with high agility
+            velX += (dx * 0.0005);
+            velY += (dy * 0.0005);
+            thruster.style.height = `${20 + Math.random() * 20}px`;
+        } 
+        else if (currentBehavior === 'wandering') {
+            // Roam like a cat (random sprints and turns)
+            if (Math.random() < 0.01) {
+                velX += (Math.random() - 0.5) * 5;
+                velY += (Math.random() - 0.5) * 5;
+            }
+            thruster.style.height = '10px';
+        }
+        else if (currentBehavior === 'drifting') {
+            // Slow idle float
+            velX *= 0.99;
+            velY *= 0.99;
+            thruster.style.height = '5px';
+        }
+        else if (currentBehavior === 'cleaning') {
+            // Spin in place (grooming)
+            angle += 15;
+            velX *= 0.9;
+            velY *= 0.9;
+            thruster.style.height = '0px';
+        }
+
+        // Apply Speed Dampening
+        velX *= 0.98;
+        velY *= 0.98;
+
+        posX += velX;
+        posY += velY;
+
+        // Rotation: Point towards velocity or rotate if cleaning
+        if (currentBehavior !== 'cleaning') {
+            const travelAngle = Math.atan2(velY, velX) * 180 / Math.PI;
+            angle += (travelAngle + 90 - angle) * 0.1;
+        }
+
+        ship.style.left = `${posX}px`;
+        ship.style.top = `${posY}px`;
+        ship.style.transform = `rotate(${angle}deg)`;
+
+        // Screen Wrap
+        if (posX < -100) posX = window.innerWidth + 50;
+        if (posX > window.innerWidth + 100) posX = -50;
+        if (posY < -100) posY = window.innerHeight + 50;
+        if (posY > window.innerHeight + 100) posY = -100;
 
         requestAnimationFrame(update);
     }
