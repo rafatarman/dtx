@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Md. Rafat Uddin Arman | Hub</title>
-    <!-- Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font for professional typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
-    <!-- Link to the central logic file for animation and shared UI -->
+    <!-- Links the Deep Space Ship-Cat Logic -->
     <script src="main.js" defer></script>
     <style>
         body {
@@ -18,24 +16,13 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            position: relative;
         }
         
-        /* Container for the background animation character */
-        #animation-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
+        /* The main logic file (main.js) styles #animation-container automatically */
+        
         .fade-in {
             position: relative;
-            z-index: 10;
+            z-index: 10; /* Ensures content stays above the space background */
             animation: fadeIn 0.8s ease forwards;
         }
 
@@ -55,6 +42,7 @@
             letter-spacing: -0.05em;
             text-transform: uppercase;
             line-height: 1;
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
         }
 
         .subtitle {
@@ -79,9 +67,9 @@
             gap: 12px;
         }
 
-        /* Standardized listing items with glassmorphism to allow the sentinel to peek through */
+        /* Glassmorphism effect to see the starfield and ship behind the buttons */
         .service-item {
-            background: rgba(8, 8, 8, 0.4);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 28px;
@@ -97,35 +85,13 @@
 
         .service-item:hover {
             border-color: #6366f1;
-            background: rgba(17, 17, 17, 0.85);
+            background: rgba(99, 102, 241, 0.08);
             transform: translateY(-4px);
-            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
 
         .icon { font-size: 1.3rem; opacity: 0.9; }
         .label { font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; }
-
-        /* Styles for the animated Sentinel (injected via JS) */
-        .sentinel-sprite {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            pointer-events: none;
-            will-change: transform;
-            filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.6));
-        }
-
-        .sentinel-glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            will-change: left, top;
-            z-index: -1;
-        }
 
         @media (max-width: 768px) {
             .name { font-size: 2.5rem; }
@@ -135,12 +101,12 @@
 </head>
 <body class="fade-in">
 
-    <!-- Container where the Sci-Fi Character will be rendered -->
+    <!-- The Space Background Hook -->
     <div id="animation-container"></div>
 
     <header>
         <h1 class="name">Md. Rafat Uddin Arman</h1>
-        <p class="subtitle">Principal Hub Ecosystem</p>
+        <p class="subtitle">Technical Ecosystem Hub</p>
     </header>
 
     <main class="container">
@@ -169,7 +135,8 @@
         </div>
     </main>
 
-    <!-- Shared Footer Placeholder -->
+    <!-- Global Footer Target -->
     <div id="global-footer"></div>
+
 </body>
 </html>
