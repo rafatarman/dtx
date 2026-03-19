@@ -6,215 +6,130 @@
     <title>Products & Innovations | Md. Rafat Uddin Arman</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
-    <!-- Brain file for Space AI and Shared UI -->
+    <!-- Link to the main global logic file -->
     <script src="main.js" defer></script>
     <style>
-        body {
-            background-color: #000000;
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-        
-        #animation-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .content-layer {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 32px;
-            transition: all 0.4s ease;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 10px 25px;
-            border-radius: 100px;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.15em;
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            margin-bottom: 40px;
-        }
-
+        body { background-color: #000000; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        #animation-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        .content-layer { position: relative; z-index: 10; min-height: 100vh; }
+        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 32px; transition: all 0.4s ease; }
+        .back-btn { display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 10px 25px; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase; transition: all 0.3s ease; margin-bottom: 40px; }
         .back-btn:hover { background: #6366f1; border-color: #6366f1; }
+        .intel-tag { font-family: 'Inter', monospace; color: #6366f1; font-size: 10px; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
 
-        .intel-tag {
-            font-family: 'Inter', monospace; color: #6366f1; font-size: 10px;
-            font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase;
-            margin-bottom: 1rem; display: block;
-        }
+        /* Tabs UI */
+        .tab-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 50px; flex-wrap: wrap; }
+        .tab-trigger { padding: 12px 24px; border-radius: 100px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; transition: all 0.3s; color: #888; }
+        .tab-trigger:hover { background: rgba(255, 255, 255, 0.08); color: white; }
 
-        .calc-input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white; border-radius: 12px; padding: 12px; width: 100%;
-            outline: none; transition: all 0.3s;
-        }
+        /* Calculator Specifics */
+        .calc-input { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 12px; padding: 12px; width: 100%; outline: none; transition: all 0.3s; }
         .calc-input:focus { border-color: #6366f1; box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); }
-        .calc-input:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        .heir-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 15px; border-radius: 16px;
-            display: flex; align-items: center; justify-content: space-between;
-            transition: all 0.3s;
-        }
-
-        .calc-btn {
-            background: #6366f1; color: white; padding: 14px 28px;
-            border-radius: 16px; font-weight: 900; text-transform: uppercase;
-            letter-spacing: 0.1em; transition: all 0.3s; width: 100%;
-        }
-        .calc-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
-
+        .heir-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .calc-btn { background: #6366f1; color: white; padding: 14px 28px; border-radius: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s; width: 100%; }
         .result-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .result-table th, .result-table td { text-align: left; padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .result-table th { color: #6366f1; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.1em; }
-
-        input[type="checkbox"] { width: 18px; height: 18px; accent-color: #6366f1; cursor: pointer; }
+        .result-table th { color: #6366f1; text-transform: uppercase; font-size: 0.7rem; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="p-4 md:p-10">
-
     <div id="animation-container"></div>
 
     <div class="content-layer max-w-7xl mx-auto py-10">
-        <header class="mb-16 text-center md:text-left">
-            <a href="index.html" class="back-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                Return to Hub
-            </a>
+        <header class="mb-12 text-center">
+            <a href="index.html" class="back-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Back to Hub</a>
             <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-4 uppercase italic">Product Lab</h1>
-            <p class="text-gray-400 text-lg md:text-xl max-w-4xl font-light">
-                Engineering tools for complex logic environments.
-            </p>
+            <p class="text-gray-500 max-w-2xl mx-auto uppercase tracking-widest text-[10px] font-black">Strategic Innovations • Engineering Tools • Enterprise Assets</p>
         </header>
 
-        <!-- FARAYEZ CALCULATOR -->
-        <section class="glass-panel p-8 md:p-12 mb-12">
-            <span class="intel-tag">Faraid Architecture</span>
-            <h2 class="text-3xl md:text-4xl font-black mb-8 uppercase tracking-tighter">Property Distribution (Farayez)</h2>
+        <!-- Dynamic Category Tabs -->
+        <div class="tab-container">
+            <button class="tab-trigger active" data-category="all">All Ecosystem</button>
+            <button class="tab-trigger" data-category="innovation">Specialized Tools</button>
+            <button class="tab-trigger" data-category="saas">Enterprise SaaS</button>
+            <button class="tab-trigger" data-category="asset">Strategic Assets</button>
+        </div>
+
+        <div class="product-grid space-y-12">
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                <!-- INPUTS -->
-                <div class="space-y-6">
-                    <div class="glass-panel p-6 bg-white/5">
-                        <h3 class="text-indigo-400 font-bold uppercase text-[10px] mb-4">1. Asset Value</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <input type="number" id="totalLand" class="calc-input" placeholder="Land (Decimal)">
-                            <input type="number" id="totalMoney" class="calc-input" placeholder="Cash (Money)">
+            <!-- CATEGORY: INNOVATION / TOOLS -->
+            <div class="filter-item product-card" data-type="innovation">
+                <section class="glass-panel p-8 md:p-12 mb-12">
+                    <span class="intel-tag">Featured Tool</span>
+                    <h2 class="text-3xl md:text-4xl font-black mb-8 uppercase tracking-tighter italic">Property Distribution (Farayez)</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                        <div class="space-y-6">
+                            <div class="glass-panel p-6 bg-white/5"><h3 class="text-indigo-400 font-bold uppercase text-[10px] mb-4">1. Asset Value</h3><div class="grid grid-cols-2 gap-4"><input type="number" id="totalLand" class="calc-input" placeholder="Land (Decimal)"><input type="number" id="totalMoney" class="calc-input" placeholder="Cash (Money)"></div></div>
+                            <div class="glass-panel p-6 bg-white/5"><h3 class="text-indigo-400 font-bold uppercase text-[10px] mb-4">2. Heirs Configuration</h3><div class="grid grid-cols-1 gap-3">
+                                <div class="heir-card"><div class="flex items-center gap-3"><input type="checkbox" id="checkWife" onchange="updateUI('wife')"><label class="text-xs font-black uppercase">Wife</label></div><input type="number" id="countWife" class="calc-input w-24 text-center" value="1" disabled></div>
+                                <div class="heir-card"><div class="flex items-center gap-3"><input type="checkbox" id="checkSon" onchange="updateUI('son')"><label class="text-xs font-black uppercase">Son(s)</label></div><input type="number" id="countSon" class="calc-input w-24 text-center" value="1" disabled></div>
+                                <div class="heir-card"><div class="flex items-center gap-3"><input type="checkbox" id="checkDaughter" onchange="updateUI('daughter')"><label class="text-xs font-black uppercase">Daughter(s)</label></div><input type="number" id="countDaughter" class="calc-input w-24 text-center" value="1" disabled></div>
+                                <div class="grid grid-cols-2 gap-3"><div class="heir-card"><input type="checkbox" id="checkFather"><label class="text-xs font-black uppercase ml-3">Father</label></div><div class="heir-card"><input type="checkbox" id="checkMother"><label class="text-xs font-black uppercase ml-3">Mother</label></div></div>
+                            </div></div>
+                            <button onclick="runCalculator()" class="calc-btn">Distribute Assets</button>
                         </div>
+                        <div class="space-y-6"><div id="resultsView" class="hidden glass-panel p-6 bg-indigo-500/5 border-indigo-500/20"><h3 class="text-white font-black uppercase text-xs mb-4">Report</h3><div id="tableTarget"></div></div><div class="glass-panel p-6 bg-white/5"><h3 class="text-indigo-400 font-black uppercase text-[10px] mb-4">Methodology</h3><div class="text-[11px] text-gray-400 space-y-3">Distribution based on Sunni Hanafi jurisprudence. Includes automated Aul (proportional reduction) and Radd (residue return) logic.</div></div></div>
                     </div>
+                </section>
+            </div>
 
-                    <div class="glass-panel p-6 bg-white/5">
-                        <h3 class="text-indigo-400 font-bold uppercase text-[10px] mb-4">2. Living Heirs Configuration</h3>
-                        <div class="grid grid-cols-1 gap-3">
-                            <!-- Wife -->
-                            <div class="heir-card">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" id="checkWife" onchange="updateUI('wife')">
-                                    <label for="checkWife" class="text-xs font-black uppercase">Wife</label>
-                                </div>
-                                <input type="number" id="countWife" class="calc-input w-24 text-center" value="1" min="1" max="4" disabled>
-                            </div>
-                            <!-- Husband -->
-                            <div class="heir-card">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" id="checkHusband" onchange="updateUI('husband')">
-                                    <label for="checkHusband" class="text-xs font-black uppercase">Husband</label>
-                                </div>
-                                <input type="number" id="countHusband" class="calc-input w-24 text-center" value="1" max="1" disabled>
-                            </div>
-                            <!-- Son -->
-                            <div class="heir-card">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" id="checkSon" onchange="updateUI('son')">
-                                    <label for="checkSon" class="text-xs font-black uppercase">Son(s)</label>
-                                </div>
-                                <input type="number" id="countSon" class="calc-input w-24 text-center" value="1" min="1" disabled>
-                            </div>
-                            <!-- Daughter -->
-                            <div class="heir-card">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" id="checkDaughter" onchange="updateUI('daughter')">
-                                    <label for="checkDaughter" class="text-xs font-black uppercase">Daughter(s)</label>
-                                </div>
-                                <input type="number" id="countDaughter" class="calc-input w-24 text-center" value="1" min="1" disabled>
-                            </div>
-                            <!-- Parents -->
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="heir-card">
-                                    <input type="checkbox" id="checkFather">
-                                    <label for="checkFather" class="text-xs font-black uppercase">Father</label>
-                                </div>
-                                <div class="heir-card">
-                                    <input type="checkbox" id="checkMother">
-                                    <label for="checkMother" class="text-xs font-black uppercase">Mother</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="runCalculator()" class="calc-btn">Distribute Assets</button>
+            <!-- OTHER PRODUCTS IN GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Obosor -->
+                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="innovation">
+                    <div><span class="intel-tag">Flagship Platform</span><h3 class="text-2xl font-black mb-4 uppercase">Obosor</h3><p class="text-gray-500 text-sm leading-relaxed">Innovation Grant winner (BIG-2019). A high-fidelity book purchase and content reader ecosystem designed for premium reading experiences.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">BIG-2019 Grant</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Inquiry</a></div>
                 </div>
 
-                <!-- RULES & RESULTS -->
-                <div class="space-y-6">
-                    <div id="resultsView" class="hidden glass-panel p-6 bg-indigo-500/5 border-indigo-500/20">
-                        <h3 class="text-white font-black uppercase text-xs mb-4">Calculated Distribution</h3>
-                        <div id="tableTarget"></div>
-                    </div>
+                <!-- Neural Translator -->
+                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="innovation">
+                    <div><span class="intel-tag">Machine Intelligence</span><h3 class="text-2xl font-black mb-4 uppercase">Neural Translator</h3><p class="text-gray-500 text-sm leading-relaxed">High-precision AI translation engine specialized for technical and academic semantic integrity across complex language pairs.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">v2.1 Alpha</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">API Key</a></div>
+                </div>
 
-                    <div class="glass-panel p-6 bg-white/5">
-                        <h3 class="text-indigo-400 font-black uppercase text-[10px] mb-4">Sharia Distribution Rules</h3>
-                        <div class="text-[11px] text-gray-400 space-y-3 leading-relaxed">
-                            <p>• <strong>Wife:</strong> Receives 1/8 if there are children, otherwise 1/4 (shared among up to 4 wives).</p>
-                            <p>• <strong>Husband:</strong> Receives 1/4 if there are children, otherwise 1/2.</p>
-                            <p>• <strong>Parents:</strong> Each receive 1/6 if children exist. Father becomes Residuary if no sons exist.</p>
-                            <p>• <strong>Daughter:</strong> 1/2 if only one, 2/3 if multiple (if no son). If sons exist, they share the residue in a <strong>2:1 ratio</strong>.</p>
-                            <p>• <strong>Aul/Radd:</strong> Automated adjustment of shares if the total exceeds or falls short of the whole property.</p>
-                        </div>
-                    </div>
+                <!-- DevsFIT -->
+                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="saas">
+                    <div><span class="intel-tag">Enterprise SaaS</span><h3 class="text-2xl font-black mb-4 uppercase">DevsFIT</h3><p class="text-gray-500 text-sm leading-relaxed">Unified Gym and Inventory management ecosystem. Features real-time member telemetry, subscription tracking, and unified store management.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Full-Stack</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Details</a></div>
+                </div>
+
+                <!-- TinyTime -->
+                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="saas">
+                    <div><span class="intel-tag">Edu-Automation</span><h3 class="text-2xl font-black mb-4 uppercase">TinyTime</h3><p class="text-gray-500 text-sm leading-relaxed">Automated Routine Generator for universities. Eliminates faculty clashes and optimizes room allocation using custom algorithmic logic.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Proprietary</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Demo</a></div>
+                </div>
+
+                <!-- Trip Planner -->
+                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="saas">
+                    <div><span class="intel-tag">Travel Tech</span><h3 class="text-2xl font-black mb-4 uppercase">Trip Planner AI</h3><p class="text-gray-500 text-sm leading-relaxed">Automated cost-estimation and route generator for global travel itineraries. Integration with flight and booking APIs.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Public Beta</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Access</a></div>
+                </div>
+
+                <!-- DTx Brand Kit -->
+                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="asset">
+                    <div><span class="intel-tag">Strategic Asset</span><h3 class="text-2xl font-black mb-4 uppercase">DTx Brand Kit</h3><p class="text-gray-500 text-sm leading-relaxed">High-fidelity visual identity system for tech startups. Includes logo systems, type hierarchies, and responsive brand foundations.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">$499.00</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Purchase</a></div>
+                </div>
+
+                <!-- Amazon PPC Engine -->
+                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="asset">
+                    <div><span class="intel-tag">E-Commerce Asset</span><h3 class="text-2xl font-black mb-4 uppercase">PPC Engine</h3><p class="text-gray-500 text-sm leading-relaxed">Custom strategy dashboards for Amazon Sellers to monitor ACOS, bid performance, and keyword ranking through data telemetry.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Enterprise</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Inquire</a></div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <div id="global-footer"></div>
     </div>
 
     <script>
+        // Farayez Calculation Logic
         function updateUI(type) {
             const check = document.getElementById('check' + type.charAt(0).toUpperCase() + type.slice(1));
             const input = document.getElementById('count' + type.charAt(0).toUpperCase() + type.slice(1));
             input.disabled = !check.checked;
-            
-            // Exclusive relationship: Husband and Wife cannot both inherit from one deceased person
-            if (type === 'husband' && check.checked) document.getElementById('checkWife').checked = false;
-            if (type === 'wife' && check.checked) document.getElementById('checkHusband').checked = false;
         }
 
         function runCalculator() {
@@ -224,7 +139,6 @@
 
             const heirs = {
                 wife: document.getElementById('checkWife').checked ? parseInt(document.getElementById('countWife').value) : 0,
-                husband: document.getElementById('checkHusband').checked ? 1 : 0,
                 son: document.getElementById('checkSon').checked ? parseInt(document.getElementById('countSon').value) : 0,
                 daughter: document.getElementById('checkDaughter').checked ? parseInt(document.getElementById('countDaughter').value) : 0,
                 father: document.getElementById('checkFather').checked ? 1 : 0,
@@ -235,45 +149,13 @@
             let totalFixed = 0;
             const hasChildren = (heirs.son + heirs.daughter) > 0;
 
-            // 1. Spouses
-            if (heirs.husband) {
-                const s = hasChildren ? 1/4 : 1/2;
-                shares['Husband'] = { p: s, n: 1 };
-                totalFixed += s;
-            } else if (heirs.wife) {
-                const s = hasChildren ? 1/8 : 1/4;
-                shares['Wife'] = { p: s, n: heirs.wife };
-                totalFixed += s;
-            }
+            if (heirs.wife) { const s = hasChildren ? 1/8 : 1/4; shares['Wife'] = { p: s, n: heirs.wife }; totalFixed += s; }
+            if (heirs.mother) { const s = hasChildren ? 1/6 : 1/3; shares['Mother'] = { p: s, n: 1 }; totalFixed += s; }
+            if (heirs.father) { const s = hasChildren ? 1/6 : 0; if (s > 0) { shares['Father'] = { p: s, n: 1 }; totalFixed += s; } }
+            if (heirs.daughter > 0 && heirs.son === 0) { const s = heirs.daughter === 1 ? 1/2 : 2/3; shares['Daughter'] = { p: s, n: heirs.daughter }; totalFixed += s; }
 
-            // 2. Parents
-            if (heirs.mother) {
-                const s = hasChildren ? 1/6 : 1/3;
-                shares['Mother'] = { p: s, n: 1 };
-                totalFixed += s;
-            }
-            if (heirs.father) {
-                const s = hasChildren ? 1/6 : 0;
-                if (s > 0) {
-                    shares['Father'] = { p: s, n: 1 };
-                    totalFixed += s;
-                }
-            }
+            if (totalFixed > 1) { for (let k in shares) shares[k].p /= totalFixed; totalFixed = 1; }
 
-            // 3. Daughters (only if no sons)
-            if (heirs.daughter > 0 && heirs.son === 0) {
-                const s = heirs.daughter === 1 ? 1/2 : 2/3;
-                shares['Daughter'] = { p: s, n: heirs.daughter };
-                totalFixed += s;
-            }
-
-            // 4. Handle Aul (Total > 1)
-            if (totalFixed > 1) {
-                for (let k in shares) shares[k].p /= totalFixed;
-                totalFixed = 1;
-            }
-
-            // 5. Residuaries (Asabah)
             let residue = 1 - totalFixed;
             if (residue > 0) {
                 if (heirs.son > 0) {
@@ -281,40 +163,19 @@
                     const unit = residue / parts;
                     shares['Son'] = { p: unit * 2 * heirs.son, n: heirs.son };
                     if (heirs.daughter > 0) shares['Daughter'] = { p: unit * heirs.daughter, n: heirs.daughter };
-                    residue = 0;
                 } else if (heirs.father) {
                     if (shares['Father']) shares['Father'].p += residue;
                     else shares['Father'] = { p: residue, n: 1 };
-                    residue = 0;
-                } else if (totalFixed < 1) {
-                    // Radd (Return residue to sharers, excluding spouse)
-                    let raddBase = 0;
-                    for (let k in shares) if (k !== 'Wife' && k !== 'Husband') raddBase += shares[k].p;
-                    if (raddBase > 0) {
-                        const spouseP = (shares['Wife']?.p || shares['Husband']?.p || 0);
-                        const factor = (1 - spouseP) / raddBase;
-                        for (let k in shares) if (k !== 'Wife' && k !== 'Husband') shares[k].p *= factor;
-                    }
                 }
             }
 
-            renderResults(shares, land, money);
-        }
-
-        function renderResults(shares, tL, tM) {
             const view = document.getElementById('resultsView');
             const target = document.getElementById('tableTarget');
             view.classList.remove('hidden');
-
             let html = `<table class="result-table"><thead><tr><th>Heir</th><th>%</th><th>Land</th><th>Cash</th></tr></thead><tbody>`;
             for (let k in shares) {
                 const indP = (shares[k].p / shares[k].n);
-                html += `<tr>
-                    <td class="text-[11px] font-bold uppercase">${k} <span class="opacity-30">x${shares[k].n}</span></td>
-                    <td class="text-indigo-400 font-mono text-xs">${(indP * 100).toFixed(2)}%</td>
-                    <td class="text-white font-mono text-xs">${(indP * tL).toFixed(3)}</td>
-                    <td class="text-green-400 font-mono text-xs">${(indP * tM).toLocaleString()}</td>
-                </tr>`;
+                html += `<tr><td class="text-[11px] font-bold uppercase">${k} <span class="opacity-30">x${shares[k].n}</span></td><td class="text-indigo-400 font-mono text-xs">${(indP * 100).toFixed(2)}%</td><td class="text-white font-mono text-xs">${(indP * land).toFixed(3)}</td><td class="text-green-400 font-mono text-xs">${(indP * money).toLocaleString()}</td></tr>`;
             }
             html += `</tbody></table>`;
             target.innerHTML = html;
