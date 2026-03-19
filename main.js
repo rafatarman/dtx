@@ -1,7 +1,7 @@
 /**
  * Md. Rafat Uddin Arman - Professional Ecosystem Shared Logic
- * VERSION: 5.0 - Premium Space "Snow" Edition
- * This file handles global animations and shared components.
+ * VERSION: 5.1 - Premium Space "Snow" + Tab Logic
+ * This file handles global animations, shared components, and utility logic.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,10 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const animContainer = document.getElementById('animation-container');
     if (animContainer) {
         initStarfield(animContainer);
-        // Premium "Snowing Stars" effect
         initSnowEffect(animContainer);
     }
 
+    // Initialize global utilities
+    initTabSystem();
     trackPageEngagement();
 });
 
@@ -45,8 +46,50 @@ function injectGlobalAnimationStyles() {
             opacity: 0.6;
             z-index: 2;
         }
+        /* Global Tab Styling */
+        .tab-trigger.active {
+            background: #6366f1 !important;
+            color: white !important;
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+        .product-card.hidden {
+            display: none;
+        }
     `;
     document.head.appendChild(style);
+}
+
+/**
+ * Global Tab System Utility
+ * Filters elements based on data-category and data-target
+ */
+function initTabSystem() {
+    const triggers = document.querySelectorAll('.tab-trigger');
+    const items = document.querySelectorAll('.filter-item');
+
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const category = trigger.getAttribute('data-category');
+            
+            // Update Active State
+            triggers.forEach(t => t.classList.remove('active'));
+            trigger.classList.add('active');
+
+            // Filter Items
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-type') === category) {
+                    item.classList.remove('hidden');
+                    // Add a tiny animation delay for a "smart" entrance
+                    item.style.animation = 'none';
+                    item.offsetHeight; // trigger reflow
+                    item.style.animation = 'fadeIn 0.4s ease forwards';
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        });
+    });
 }
 
 /**
@@ -66,7 +109,6 @@ function initStarfield(container) {
     window.addEventListener('resize', resize);
     resize();
 
-    // Generate initial star distribution
     for(let i=0; i<150; i++) {
         stars.push({
             x: Math.random() * canvas.width,
@@ -91,7 +133,6 @@ function initStarfield(container) {
 
 /**
  * Premium "Show/Snow" Effect: Falling Cosmic Particles
- * Creates a graceful, professional atmosphere.
  */
 function initSnowEffect(container) {
     const canvas = document.createElement('canvas');
@@ -113,9 +154,8 @@ function initSnowEffect(container) {
     class CosmicSnow {
         constructor() {
             this.reset();
-            this.y = Math.random() * canvas.height; // Start at random Y on first load
+            this.y = Math.random() * canvas.height;
         }
-
         reset() {
             this.x = Math.random() * canvas.width;
             this.y = -20;
@@ -124,18 +164,13 @@ function initSnowEffect(container) {
             this.velX = (Math.random() - 0.5) * 0.3;
             this.opacity = Math.random() * 0.5 + 0.1;
         }
-
         update() {
             this.y += this.speed;
             this.x += this.velX;
-
-            if (this.y > canvas.height) {
-                this.reset();
-            }
+            if (this.y > canvas.height) this.reset();
         }
-
         draw() {
-            ctx.fillStyle = `rgba(99, 102, 241, ${this.opacity})`; // Signature Indigo tint
+            ctx.fillStyle = `rgba(99, 102, 241, ${this.opacity})`;
             ctx.shadowBlur = 10;
             ctx.shadowColor = "rgba(99, 102, 241, 0.5)";
             ctx.beginPath();
@@ -150,30 +185,18 @@ function initSnowEffect(container) {
         if (particles.length === 0) {
             for(let i=0; i<particleCount; i++) particles.push(new CosmicSnow());
         }
-        
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
+        particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animate);
     }
     animate();
 }
 
-/**
- * Navigation Shortcuts (ESC Key to return home)
- */
 function initGlobalShortcuts() {
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            window.location.href = 'index.html';
-        }
+        if (e.key === 'Escape') window.location.href = 'index.html';
     });
 }
 
-/**
- * Shared Component Injection (Footer)
- */
 function injectSharedComponents() {
     const footerTarget = document.getElementById('global-footer');
     if (footerTarget) {
@@ -188,9 +211,6 @@ function injectSharedComponents() {
     }
 }
 
-/**
- * Memory Logic: Tracks link engagement to optimize AI focus (Future-ready)
- */
 function trackPageEngagement() {
     const links = document.querySelectorAll('.service-item');
     links.forEach(link => {
