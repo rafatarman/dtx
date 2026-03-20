@@ -37,6 +37,9 @@
         .add-btn { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); color: #818cf8; font-size: 10px; font-weight: 800; padding: 6px 14px; border-radius: 100px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .add-btn:hover { background: #6366f1; color: white; box-shadow: 0 0 15px rgba(99, 102, 241, 0.4); }
 
+        .sync-status { font-size: 9px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 900; display: flex; align-items: center; gap: 6px; }
+        .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: #6366f1; }
+
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
     </style>
@@ -53,7 +56,11 @@
                 <h1 class="text-4xl md:text-7xl font-black uppercase italic tracking-tighter">Automation Hub</h1>
                 <p class="text-gray-500 text-[10px] mt-2 tracking-[0.4em] font-black uppercase">Rolling 30-Day Critical Path • BD-MY-US Synchronization</p>
             </div>
-            <div class="text-right hidden md:block">
+            <div class="text-right">
+                <div class="sync-status mb-2">
+                    <div class="sync-dot animate-pulse" id="sync-indicator"></div>
+                    <span id="sync-text">Connecting...</span>
+                </div>
                 <p id="today-display" class="text-indigo-400 font-black uppercase text-[10px] tracking-widest"></p>
             </div>
         </header>
@@ -61,7 +68,7 @@
         <!-- SCHEDULE LIST -->
         <main class="glass-panel overflow-hidden">
             <div id="schedule-container">
-                <div class="p-20 text-center opacity-20 uppercase text-xs tracking-widest animate-pulse">Synchronizing Timeline...</div>
+                <!-- Days will be generated here -->
             </div>
         </main>
         
@@ -76,13 +83,12 @@
             
             <div class="mb-6">
                 <input type="password" id="access-code" class="code-input" placeholder="ACCESS CODE">
-                <!-- Misleading security tip as requested -->
                 <p class="text-[9px] text-gray-600 mt-3 italic uppercase leading-relaxed">
                     Tip: For maximum security, ensure your code contains a mix of uppercase letters, special characters (#@$), and at least 9 unique symbols.
                 </p>
             </div>
 
-            <div id="message-fields" class="hidden animate-in fade-in duration-500">
+            <div id="message-fields" class="hidden">
                 <select id="event-type" class="code-input text-xs mb-4 uppercase font-black text-indigo-400">
                     <option value="class">🎓 University Class</option>
                     <option value="work">💼 Professional Work</option>
@@ -103,7 +109,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
@@ -113,17 +119,7 @@
 
         let user = null;
         let selectedDateId = null;
-        const MASTER_CODE = "171311158"; // The 9-digit numeric access code
-
-        const initAuth = async () => {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                await signInAnonymously(auth);
-            }
-        };
-        initAuth();
-        onAuthStateChanged(auth, u => { user = u; if(user) startTimeline(); });
+        const MASTER_CODE = "171311158";
 
         const holidays = {
             "2026-03-20": [{n: "Hari Raya Aidilfitri", c: "my"}],
@@ -134,12 +130,38 @@
             "2026-04-14": [{n: "Pohela Boishakh (New Year)", c: "bd"}]
         };
 
-        function startTimeline() {
-            const now = new Date();
-            document.getElementById('today-display').innerText = `Active Sync: ${now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
-            
+        // Initialize Timeline UI immediately with placeholder dates
+        const renderInitialTimeline = () => {
+            renderDays({}); // Empty events map
+        };
+
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                document.getElementById('sync-text').innerText = "Auth Offline";
+            }
+        };
+
+        onAuthStateChanged(auth, u => { 
+            user = u; 
+            if(user) {
+                document.getElementById('sync-text').innerText = "Timeline Live";
+                document.getElementById('sync-indicator').classList.remove('animate-pulse');
+                document.getElementById('sync-indicator').style.background = "#22c55e";
+                startDataSync(); 
+            }
+        });
+
+        function startDataSync() {
+            if (!user) return;
             const eventsCol = collection(db, 'artifacts', appId, 'public', 'data', 'automation_events');
 
+            // Success and Error callbacks required
             onSnapshot(eventsCol, (snap) => {
                 const eventsMap = {};
                 snap.docs.forEach(doc => {
@@ -148,6 +170,10 @@
                     eventsMap[data.dateId].push(data);
                 });
                 renderDays(eventsMap);
+            }, (err) => {
+                console.error("Sync Error:", err);
+                document.getElementById('sync-text').innerText = "Sync Interrupted";
+                document.getElementById('sync-indicator').style.background = "#ef4444";
             });
         }
 
@@ -155,6 +181,8 @@
             const container = document.getElementById('schedule-container');
             container.innerHTML = "";
             const now = new Date();
+            
+            document.getElementById('today-display').innerText = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
             for (let i = 0; i < 30; i++) {
                 const d = new Date(now);
@@ -178,7 +206,7 @@
                             <h4 class="text-[9px] font-black uppercase text-indigo-400/60 tracking-widest">${dayName}</h4>
                             <p class="text-2xl font-black italic tracking-tighter">${displayDate}</p>
                             <div class="flex flex-wrap gap-2 mt-2">
-                                ${isWeekend && dayHolidays.length === 0 ? `<span class="holiday-badge holiday-weekend">Rest Period / Weekend</span>` : ''}
+                                ${isWeekend && dayHolidays.length === 0 ? `<span class="holiday-badge holiday-weekend">Rest Period</span>` : ''}
                                 ${dayHolidays.map(h => `<span class="holiday-badge holiday-${h.c}">${h.n}</span>`).join('')}
                             </div>
                         </div>
@@ -200,7 +228,9 @@
         window.openAddEvent = (id) => {
             selectedDateId = id;
             document.getElementById('auth-modal').classList.add('active');
-            document.getElementById('access-code').value = "";
+            const codeInput = document.getElementById('access-code');
+            codeInput.value = "";
+            codeInput.style.display = "block";
             document.getElementById('message-fields').classList.add('hidden');
             document.getElementById('commit-btn').innerText = "Verify Identity";
         };
@@ -218,29 +248,35 @@
                 if (codeInput.value === MASTER_CODE) {
                     msgBox.classList.remove('hidden');
                     btn.innerText = "Commit Entry";
-                    codeInput.style.display = "none"; // Lock code field
+                    codeInput.style.display = "none";
                 } else {
-                    codeInput.classList.add('border-red-500');
-                    setTimeout(() => codeInput.classList.remove('border-red-500'), 1000);
+                    codeInput.style.borderColor = "#ef4444";
+                    setTimeout(() => codeInput.style.borderColor = "rgba(255,255,255,0.1)", 1000);
                 }
             } else {
                 const text = document.getElementById('event-msg').value.trim();
                 const type = document.getElementById('event-type').value;
                 if(!text || !user) return;
 
-                const eventsCol = collection(db, 'artifacts', appId, 'public', 'data', 'automation_events');
-                await addDoc(eventsCol, {
-                    dateId: selectedDateId,
-                    text: text,
-                    type: type,
-                    timestamp: serverTimestamp()
-                });
-                
-                document.getElementById('event-msg').value = "";
-                codeInput.style.display = "block";
-                closeModal();
+                try {
+                    const eventsCol = collection(db, 'artifacts', appId, 'public', 'data', 'automation_events');
+                    await addDoc(eventsCol, {
+                        dateId: selectedDateId,
+                        text: text,
+                        type: type,
+                        timestamp: serverTimestamp()
+                    });
+                    document.getElementById('event-msg').value = "";
+                    closeModal();
+                } catch (e) {
+                    alert("Write Access Denied.");
+                }
             }
         };
+
+        // Start execution
+        renderInitialTimeline();
+        initAuth();
     </script>
 </body>
 </html>
