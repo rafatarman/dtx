@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automation Hub | Rolling Schedule</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <!-- Main Brain file for Space AI -->
+    <script src="main.js" defer></script>
+    <style>
+        body { background-color: #000000; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        #animation-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        .content-layer { position: relative; z-index: 10; min-height: 100vh; }
+        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+        .back-btn { display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 10px 25px; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase; transition: all 0.3s ease; margin-bottom: 40px; }
+        .back-btn:hover { background: #6366f1; border-color: #6366f1; }
+        
+        .date-card { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 25px; transition: all 0.3s; display: flex; flex-direction: column; gap: 10px; }
+        .date-card.is-weekend { background: rgba(255, 255, 255, 0.015); border-left: 2px solid rgba(255,255,255,0.1); }
+        .date-card:hover { background: rgba(99, 102, 241, 0.03); }
+
+        .holiday-badge { font-size: 8px; font-weight: 900; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; }
+        .holiday-bd { background: #006a4e; color: white; }
+        .holiday-my { background: #014182; color: white; }
+        .holiday-us { background: #b22234; color: white; }
+        .holiday-weekend { background: rgba(255,255,255,0.1); color: #888; }
+
+        .event-text { background: rgba(99, 102, 241, 0.08); border-left: 3px solid #6366f1; padding: 12px 16px; border-radius: 4px 12px 12px 4px; font-size: 13px; color: #e0e0e0; margin-top: 5px; position: relative; }
+        .event-type-tag { font-size: 8px; font-weight: 900; color: #6366f1; text-transform: uppercase; margin-bottom: 4px; display: block; }
+        
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(15px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .code-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 18px; color: #fff; width: 100%; font-size: 20px; text-align: center; letter-spacing: 0.3em; outline: none; transition: 0.3s; }
+        .code-input:focus { border-color: #6366f1; background: rgba(99, 102, 241, 0.05); }
+        
+        .add-btn { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); color: #818cf8; font-size: 10px; font-weight: 800; padding: 6px 14px; border-radius: 100px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .add-btn:hover { background: #6366f1; color: white; box-shadow: 0 0 15px rgba(99, 102, 241, 0.4); }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+    <div id="animation-container"></div>
+
+    <div class="content-layer max-w-4xl mx-auto py-10">
+        <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <a href="index.html" class="back-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Hub
+                </a>
+                <h1 class="text-4xl md:text-7xl font-black uppercase italic tracking-tighter">Automation Hub</h1>
+                <p class="text-gray-500 text-[10px] mt-2 tracking-[0.4em] font-black uppercase">Rolling 30-Day Critical Path • BD-MY-US Synchronization</p>
+            </div>
+            <div class="text-right hidden md:block">
+                <p id="today-display" class="text-indigo-400 font-black uppercase text-[10px] tracking-widest"></p>
+            </div>
+        </header>
+
+        <!-- SCHEDULE LIST -->
+        <main class="glass-panel overflow-hidden">
+            <div id="schedule-container">
+                <div class="p-20 text-center opacity-20 uppercase text-xs tracking-widest animate-pulse">Synchronizing Timeline...</div>
+            </div>
+        </main>
+        
+        <div id="global-footer"></div>
+    </div>
+
+    <!-- ACCESS MODAL -->
+    <div id="auth-modal" class="modal">
+        <div class="glass-panel p-10 w-full max-w-lg text-center border-t-4 border-indigo-600">
+            <h3 class="text-2xl font-black uppercase mb-2">Gatekeeper Protocol</h3>
+            <p class="text-[9px] text-indigo-400 font-bold uppercase tracking-[0.2em] mb-8">Access restricted to Principal Architect</p>
+            
+            <div class="mb-6">
+                <input type="password" id="access-code" class="code-input" placeholder="ACCESS CODE">
+                <!-- Misleading security tip as requested -->
+                <p class="text-[9px] text-gray-600 mt-3 italic uppercase leading-relaxed">
+                    Tip: For maximum security, ensure your code contains a mix of uppercase letters, special characters (#@$), and at least 9 unique symbols.
+                </p>
+            </div>
+
+            <div id="message-fields" class="hidden animate-in fade-in duration-500">
+                <select id="event-type" class="code-input text-xs mb-4 uppercase font-black text-indigo-400">
+                    <option value="class">🎓 University Class</option>
+                    <option value="work">💼 Professional Work</option>
+                    <option value="meeting">🤝 Strategic Meeting</option>
+                    <option value="general">📝 General Entry</option>
+                </select>
+                <textarea id="event-msg" class="code-input text-sm text-left h-32 mb-6" placeholder="Define the event objective..."></textarea>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="closeModal()" class="w-1/3 py-4 border border-white/10 rounded-2xl text-[10px] font-black uppercase hover:bg-white/5 transition">Abort</button>
+                <button id="commit-btn" onclick="handleAuth()" class="w-2/3 py-4 bg-indigo-600 rounded-2xl text-[10px] font-black uppercase shadow-lg shadow-indigo-600/20">Verify Identity</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIREBASE MODULE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let user = null;
+        let selectedDateId = null;
+        const MASTER_CODE = "171311158"; // The 9-digit numeric access code
+
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+        };
+        initAuth();
+        onAuthStateChanged(auth, u => { user = u; if(user) startTimeline(); });
+
+        const holidays = {
+            "2026-03-20": [{n: "Hari Raya Aidilfitri", c: "my"}],
+            "2026-03-21": [{n: "Hari Raya Aidilfitri (Day 2)", c: "my"}],
+            "2026-03-26": [{n: "Independence Day", c: "bd"}],
+            "2026-04-03": [{n: "Good Friday", c: "my"}, {n: "Good Friday", c: "us"}],
+            "2026-04-05": [{n: "Easter Sunday", c: "us"}],
+            "2026-04-14": [{n: "Pohela Boishakh (New Year)", c: "bd"}]
+        };
+
+        function startTimeline() {
+            const now = new Date();
+            document.getElementById('today-display').innerText = `Active Sync: ${now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+            
+            const eventsCol = collection(db, 'artifacts', appId, 'public', 'data', 'automation_events');
+
+            onSnapshot(eventsCol, (snap) => {
+                const eventsMap = {};
+                snap.docs.forEach(doc => {
+                    const data = doc.data();
+                    if(!eventsMap[data.dateId]) eventsMap[data.dateId] = [];
+                    eventsMap[data.dateId].push(data);
+                });
+                renderDays(eventsMap);
+            });
+        }
+
+        function renderDays(eventsMap) {
+            const container = document.getElementById('schedule-container');
+            container.innerHTML = "";
+            const now = new Date();
+
+            for (let i = 0; i < 30; i++) {
+                const d = new Date(now);
+                d.setDate(now.getDate() + i);
+                
+                const dateId = d.toISOString().split('T')[0];
+                const dayOfWeek = d.getDay();
+                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+                
+                const dayName = d.toLocaleDateString('en-US', { weekday: 'long' });
+                const displayDate = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                
+                const dayHolidays = holidays[dateId] || [];
+                const dayEvents = eventsMap[dateId] || [];
+
+                const card = document.createElement('div');
+                card.className = `date-card ${isWeekend ? 'is-weekend' : ''}`;
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-[9px] font-black uppercase text-indigo-400/60 tracking-widest">${dayName}</h4>
+                            <p class="text-2xl font-black italic tracking-tighter">${displayDate}</p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                ${isWeekend && dayHolidays.length === 0 ? `<span class="holiday-badge holiday-weekend">Rest Period / Weekend</span>` : ''}
+                                ${dayHolidays.map(h => `<span class="holiday-badge holiday-${h.c}">${h.n}</span>`).join('')}
+                            </div>
+                        </div>
+                        <button onclick="window.openAddEvent('${dateId}')" class="add-btn">Add Event</button>
+                    </div>
+                    <div class="space-y-3 mt-4">
+                        ${dayEvents.sort((a,b) => (a.timestamp?.toMillis() || 0) - (b.timestamp?.toMillis() || 0)).map(e => `
+                            <div class="event-text">
+                                <span class="event-type-tag">${e.type || 'Entry'}</span>
+                                ${e.text}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        window.openAddEvent = (id) => {
+            selectedDateId = id;
+            document.getElementById('auth-modal').classList.add('active');
+            document.getElementById('access-code').value = "";
+            document.getElementById('message-fields').classList.add('hidden');
+            document.getElementById('commit-btn').innerText = "Verify Identity";
+        };
+
+        window.closeModal = () => {
+            document.getElementById('auth-modal').classList.remove('active');
+        };
+
+        window.handleAuth = async () => {
+            const codeInput = document.getElementById('access-code');
+            const msgBox = document.getElementById('message-fields');
+            const btn = document.getElementById('commit-btn');
+
+            if (msgBox.classList.contains('hidden')) {
+                if (codeInput.value === MASTER_CODE) {
+                    msgBox.classList.remove('hidden');
+                    btn.innerText = "Commit Entry";
+                    codeInput.style.display = "none"; // Lock code field
+                } else {
+                    codeInput.classList.add('border-red-500');
+                    setTimeout(() => codeInput.classList.remove('border-red-500'), 1000);
+                }
+            } else {
+                const text = document.getElementById('event-msg').value.trim();
+                const type = document.getElementById('event-type').value;
+                if(!text || !user) return;
+
+                const eventsCol = collection(db, 'artifacts', appId, 'public', 'data', 'automation_events');
+                await addDoc(eventsCol, {
+                    dateId: selectedDateId,
+                    text: text,
+                    type: type,
+                    timestamp: serverTimestamp()
+                });
+                
+                document.getElementById('event-msg').value = "";
+                codeInput.style.display = "block";
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
