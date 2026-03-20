@@ -6,7 +6,6 @@
     <title>Products & Innovations | Md. Rafat Uddin Arman</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
-    <!-- Link to the main global logic file -->
     <script src="main.js" defer></script>
     <style>
         body { background-color: #000000; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
@@ -19,32 +18,29 @@
         
         .product-label { font-size: 10px; font-weight: 900; color: #555; text-transform: uppercase; letter-spacing: 0.2em; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; margin-bottom: 15px; display: block; }
 
-        /* Tabs UI */
         .tab-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 50px; flex-wrap: wrap; }
         .tab-trigger { padding: 12px 24px; border-radius: 100px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; transition: all 0.3s; color: #888; }
         .tab-trigger:hover { background: rgba(255, 255, 255, 0.08); color: white; }
 
-        /* Tool Specifics */
         .calc-input { background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; border-radius: 12px; padding: 12px; width: 100%; outline: none; transition: all 0.3s; font-weight: 600; }
         .calc-input:focus { border-color: #6366f1; box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); background: rgba(255, 255, 255, 0.1); }
         .heir-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; }
         .calc-btn { background: #6366f1; color: white; padding: 14px 28px; border-radius: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s; width: 100%; cursor: pointer; border: none; }
-        .calc-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+        .calc-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .result-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .result-table th, .result-table td { text-align: left; padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         .result-table th { color: #6366f1; text-transform: uppercase; font-size: 0.7rem; }
         
-        /* Currency Grid Styles */
         .currency-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-top: 20px; }
         .currency-item { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); padding: 15px; border-radius: 16px; text-align: center; transition: all 0.3s; }
         .currency-item:focus-within { border-color: #6366f1; background: rgba(99, 102, 241, 0.08); }
         .currency-val-input { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #818cf8; font-weight: 900; font-family: monospace; width: 100%; text-align: center; font-size: 1.1rem; outline: none; padding: 8px 0; }
 
-        /* Notepad Specific Styles */
         .note-card { background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.1); border-radius: 16px; padding: 15px; margin-bottom: 10px; position: relative; animation: fadeIn 0.3s ease; }
         .note-delete { position: absolute; top: 10px; right: 10px; opacity: 0.3; cursor: pointer; transition: 0.3s; }
         .note-delete:hover { opacity: 1; color: #ef4444; }
+        .user-id-badge { font-size: 8px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(99, 102, 241, 0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 8px; font-weight: 900; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -56,10 +52,9 @@
         <header class="mb-12 text-center">
             <a href="index.html" class="back-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Back to Hub</a>
             <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-4 uppercase italic">Product Lab</h1>
-            <p class="text-gray-500 max-w-2xl mx-auto uppercase tracking-widest text-[10px] font-black">Strategic Innovations • Engineering Tools • Enterprise Assets</p>
+            <p class="text-gray-500 max-w-2xl mx-auto uppercase tracking-widest text-[10px] font-black">Strategic Innovations • Real-time Cloud Persistent Tools</p>
         </header>
 
-        <!-- Dynamic Category Tabs -->
         <div class="tab-container">
             <button class="tab-trigger active" data-category="all">All Ecosystem</button>
             <button class="tab-trigger" data-category="innovation">Specialized Tools</button>
@@ -68,13 +63,10 @@
         </div>
 
         <div class="product-grid space-y-12">
-            
-            <!-- CATEGORY: SPECIALIZED TOOLS -->
             <div class="filter-item product-card" data-type="innovation">
-                
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
                     
-                    <!-- PRODUCT 01: PROPERTY CALCULATOR -->
+                    <!-- PRODUCT 01 -->
                     <div class="glass-panel p-8">
                         <span class="product-label">Product 01</span>
                         <span class="intel-tag">Sharia Engineering</span>
@@ -92,10 +84,10 @@
                         </div>
                     </div>
 
-                    <!-- PRODUCT 02: CURRENCY NEXUS -->
+                    <!-- PRODUCT 02 -->
                     <div class="glass-panel p-8">
                         <span class="product-label">Product 02</span>
-                        <span class="intel-tag">Real-time Markets</span>
+                        <span class="intel-tag">Global Markets</span>
                         <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter italic">Currency Nexus</h2>
                         <div class="space-y-4">
                             <div class="bg-white/5 p-4 rounded-2xl text-center">
@@ -105,20 +97,20 @@
                             <div id="currencyResults" class="grid grid-cols-2 gap-2">
                                 <div class="col-span-full py-4 text-center opacity-30 text-[10px] uppercase">Syncing...</div>
                             </div>
-                            <p class="text-[8px] text-gray-600 text-center uppercase tracking-widest mt-2">Interactive: Edit any field</p>
                         </div>
                     </div>
 
-                    <!-- PRODUCT 03: SENTINEL NOTES -->
+                    <!-- PRODUCT 03: SENTINEL NOTES (CLOUD UPGRADED) -->
                     <div class="glass-panel p-8">
                         <span class="product-label">Product 03</span>
-                        <span class="intel-tag">Persistence Protocol</span>
+                        <span class="intel-tag">Global Cloud Protocol</span>
                         <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter italic">Sentinel Notes</h2>
                         <div class="space-y-4">
-                            <textarea id="noteInput" class="calc-input h-32 text-sm" placeholder="Draft your thoughts here..."></textarea>
-                            <button onclick="addNote()" class="calc-btn text-xs">Secure Note</button>
+                            <div id="user-display" class="text-[9px] text-indigo-400 font-black uppercase tracking-widest mb-2 opacity-50">Authenticating...</div>
+                            <textarea id="noteInput" class="calc-input h-32 text-sm" placeholder="Everyone can see your notes in real-time..."></textarea>
+                            <button id="addNoteBtn" onclick="addNote()" class="calc-btn text-xs" disabled>Add to Vault</button>
                             <div id="noteCanvas" class="mt-4 max-h-64 overflow-y-auto pr-2">
-                                <!-- Notes will persist here -->
+                                <p class="text-[10px] text-gray-600 text-center uppercase tracking-widest mt-10">Synchronizing Vault...</p>
                             </div>
                         </div>
                     </div>
@@ -126,68 +118,110 @@
                 </div>
             </div>
 
-            <!-- OTHER PRODUCTS GRID -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="innovation">
-                    <div><span class="product-label">Product 04</span><span class="intel-tag">Flagship Platform</span><h3 class="text-2xl font-black mb-4 uppercase">Obosor</h3><p class="text-gray-500 text-sm leading-relaxed">BIG-2019 Grant Winner. High-fidelity content ecosystem.</p></div>
+                    <div><span class="product-label">Product 04</span><span class="intel-tag">Flagship</span><h3 class="text-2xl font-black mb-4 uppercase">Obosor</h3><p class="text-gray-500 text-sm leading-relaxed">Innovation Grant winner (BIG-2019). Premium content ecosystem.</p></div>
                     <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px]">Inquiry</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Details</a></div>
-                </div>
-
-                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="innovation">
-                    <div><span class="product-label">Product 05</span><span class="intel-tag">Machine Intel</span><h3 class="text-2xl font-black mb-4 uppercase">Neural Trans</h3><p class="text-gray-500 text-sm leading-relaxed">High-precision AI translation for academic integrity.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px]">v2.1</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">API Key</a></div>
-                </div>
-
-                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="saas">
-                    <div><span class="product-label">Product 06</span><span class="intel-tag">Enterprise SaaS</span><h3 class="text-2xl font-black mb-4 uppercase">DevsFIT</h3><p class="text-gray-500 text-sm leading-relaxed">Unified Gym and Inventory management ecosystem.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px]">Full-Stack</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Details</a></div>
                 </div>
             </div>
         </div>
-
         <div id="global-footer"></div>
     </div>
 
+    <!-- FIREBASE INTEGRATION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Environment-provided configuration
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let user = null;
+
+        // AUTHENTICATION (RULE 3)
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.error("Auth failed", err);
+            }
+        };
+        initAuth();
+
+        onAuthStateChanged(auth, (u) => {
+            user = u;
+            if (user) {
+                document.getElementById('user-display').innerText = `IDENTIFIED: USER_${user.uid.substring(0, 8)}`;
+                document.getElementById('addNoteBtn').disabled = false;
+                setupRealtimeNotes();
+            }
+        });
+
+        // REAL-TIME FIRESTORE LISTENER (RULE 1 & 2)
+        function setupRealtimeNotes() {
+            const notesCol = collection(db, 'artifacts', appId, 'public', 'data', 'sentinel_notes');
+            
+            onSnapshot(notesCol, (snapshot) => {
+                const noteCanvas = document.getElementById('noteCanvas');
+                noteCanvas.innerHTML = snapshot.empty ? '<p class="text-[10px] text-gray-600 text-center uppercase tracking-widest mt-10">Vault Empty</p>' : '';
+                
+                // Map documents and sort in memory (Rule 2)
+                const notesList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+
+                notesList.forEach((data) => {
+                    const isOwner = user && data.authorId === user.uid;
+                    const card = document.createElement('div');
+                    card.className = 'note-card';
+                    card.innerHTML = `
+                        ${isOwner ? `<svg onclick="deleteNoteGlobal('${data.id}')" class="note-delete" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>` : ''}
+                        <p class="text-xs text-gray-300 leading-relaxed">${data.text}</p>
+                        <span class="user-id-badge">ID: ${data.authorId.substring(0, 6)}</span>
+                    `;
+                    noteCanvas.appendChild(card);
+                });
+            }, (error) => {
+                console.error("Firestore Error:", error);
+            });
+        }
+
+        // GLOBAL EXPOSURE FOR UI ACTIONS
+        window.addNote = async () => {
+            if (!user) return;
+            const input = document.getElementById('noteInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const notesCol = collection(db, 'artifacts', appId, 'public', 'data', 'sentinel_notes');
+            await addDoc(notesCol, {
+                text: text,
+                authorId: user.uid,
+                timestamp: serverTimestamp()
+            });
+            input.value = "";
+        };
+
+        window.deleteNoteGlobal = async (docId) => {
+            if (!user) return;
+            const noteRef = doc(db, 'artifacts', appId, 'public', 'data', 'sentinel_notes', docId);
+            await deleteDoc(noteRef);
+        };
+    </script>
+
     <script>
+        // Currency & Farayez Logic (Same as previous high-fidelity version)
         let exchangeRates = null;
         let currentBdtValue = 1000;
-        let notes = JSON.parse(localStorage.getItem('sentinel_notes') || '[]');
 
-        /**
-         * Product 03: Sentinel Notes Logic
-         */
-        function renderNotes() {
-            const canvas = document.getElementById('noteCanvas');
-            canvas.innerHTML = notes.length === 0 ? '<p class="text-[10px] text-gray-600 text-center uppercase tracking-widest mt-10">Vault Empty</p>' : '';
-            notes.forEach((note, index) => {
-                canvas.innerHTML += `
-                    <div class="note-card">
-                        <svg onclick="deleteNote(${index})" class="note-delete" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                        <p class="text-xs text-gray-300 leading-relaxed">${note}</p>
-                    </div>
-                `;
-            });
-            localStorage.setItem('sentinel_notes', JSON.stringify(notes));
-        }
-
-        window.addNote = function() {
-            const input = document.getElementById('noteInput');
-            if(input.value.trim() === "") return;
-            notes.unshift(input.value.trim());
-            input.value = "";
-            renderNotes();
-        }
-
-        window.deleteNote = function(index) {
-            notes.splice(index, 1);
-            renderNotes();
-        }
-
-        renderNotes();
-
-        /**
-         * Product 02: Currency Logic
-         */
         async function fetchRates() {
             try {
                 const res = await fetch('https://open.er-api.com/v6/latest/BDT');
@@ -229,9 +263,6 @@
             }
         }
 
-        /**
-         * Product 01: Farayez Logic
-         */
         window.updateHeirUI = function(type) {
             const check = document.getElementById('check' + type.charAt(0).toUpperCase() + type.slice(1));
             const input = document.getElementById('count' + type.charAt(0).toUpperCase() + type.slice(1));
@@ -249,7 +280,6 @@
             for (let k in shares) { const indP = (shares[k].p / shares[k].n); html += `<tr><td class="font-bold">${k}</td><td class="text-indigo-400">${(indP * 100).toFixed(1)}%</td></tr>`; }
             html += `</tbody></table>`; target.innerHTML = html;
         }
-
         fetchRates();
     </script>
 </body>
