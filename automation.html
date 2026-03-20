@@ -38,7 +38,10 @@
         .add-btn:hover { background: #6366f1; color: white; box-shadow: 0 0 15px rgba(99, 102, 241, 0.4); }
 
         .sync-status { font-size: 9px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 900; display: flex; align-items: center; gap: 6px; }
-        .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: #6366f1; }
+        .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: #6366f1; transition: background 0.3s; }
+
+        .toast-msg { position: fixed; bottom: 30px; right: 30px; padding: 15px 25px; border-radius: 12px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; z-index: 1000; transform: translateY(100px); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; }
+        .toast-msg.active { transform: translateY(0); opacity: 1; }
 
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
@@ -59,7 +62,7 @@
             <div class="text-right">
                 <div class="sync-status mb-2">
                     <div class="sync-dot animate-pulse" id="sync-indicator"></div>
-                    <span id="sync-text">Connecting...</span>
+                    <span id="sync-text">Synchronizing...</span>
                 </div>
                 <p id="today-display" class="text-indigo-400 font-black uppercase text-[10px] tracking-widest"></p>
             </div>
@@ -68,7 +71,7 @@
         <!-- SCHEDULE LIST -->
         <main class="glass-panel overflow-hidden">
             <div id="schedule-container">
-                <!-- Days will be generated here -->
+                <!-- Days are generated here instantly by renderDays -->
             </div>
         </main>
         
@@ -105,6 +108,8 @@
         </div>
     </div>
 
+    <div id="toast" class="toast-msg"></div>
+
     <!-- FIREBASE MODULE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -130,55 +135,19 @@
             "2026-04-14": [{n: "Pohela Boishakh (New Year)", c: "bd"}]
         };
 
-        // Initialize Timeline UI immediately with placeholder dates
-        const renderInitialTimeline = () => {
-            renderDays({}); // Empty events map
+        // UI Toast Logic
+        window.showToast = (msg, isError = false) => {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.style.background = isError ? "rgba(239, 68, 68, 0.9)" : "rgba(99, 102, 241, 0.9)";
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 3000);
         };
 
-        const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (err) {
-                document.getElementById('sync-text').innerText = "Auth Offline";
-            }
-        };
-
-        onAuthStateChanged(auth, u => { 
-            user = u; 
-            if(user) {
-                document.getElementById('sync-text').innerText = "Timeline Live";
-                document.getElementById('sync-indicator').classList.remove('animate-pulse');
-                document.getElementById('sync-indicator').style.background = "#22c55e";
-                startDataSync(); 
-            }
-        });
-
-        function startDataSync() {
-            if (!user) return;
-            const eventsCol = collection(db, 'artifacts', appId, 'public', 'data', 'automation_events');
-
-            // Success and Error callbacks required
-            onSnapshot(eventsCol, (snap) => {
-                const eventsMap = {};
-                snap.docs.forEach(doc => {
-                    const data = doc.data();
-                    if(!eventsMap[data.dateId]) eventsMap[data.dateId] = [];
-                    eventsMap[data.dateId].push(data);
-                });
-                renderDays(eventsMap);
-            }, (err) => {
-                console.error("Sync Error:", err);
-                document.getElementById('sync-text').innerText = "Sync Interrupted";
-                document.getElementById('sync-indicator').style.background = "#ef4444";
-            });
-        }
-
-        function renderDays(eventsMap) {
+        // RENDER DAYS (This runs immediately to prevent "Empty Page")
+        function renderDays(eventsMap = {}) {
             const container = document.getElementById('schedule-container');
+            if (!container) return;
             container.innerHTML = "";
             const now = new Date();
             
@@ -225,6 +194,49 @@
             }
         }
 
+        // DATABASE SYNC
+        function startDataSync() {
+            if (!user) return;
+            const eventsCol = collection(db, 'artifacts', appId, 'public', 'data', 'automation_events');
+
+            onSnapshot(eventsCol, (snap) => {
+                const eventsMap = {};
+                snap.docs.forEach(doc => {
+                    const data = doc.data();
+                    if(!eventsMap[data.dateId]) eventsMap[data.dateId] = [];
+                    eventsMap[data.dateId].push(data);
+                });
+                renderDays(eventsMap);
+                document.getElementById('sync-text').innerText = "Live Sync Active";
+                document.getElementById('sync-indicator').style.background = "#22c55e";
+                document.getElementById('sync-indicator').classList.remove('animate-pulse');
+            }, (err) => {
+                console.error("Sync Error:", err);
+                document.getElementById('sync-text').innerText = "Sync Failed";
+                document.getElementById('sync-indicator').style.background = "#ef4444";
+            });
+        }
+
+        // AUTHENTICATION (RULE 3)
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.error("Auth init failed", err);
+                document.getElementById('sync-text').innerText = "Auth Error";
+            }
+        };
+
+        onAuthStateChanged(auth, u => { 
+            user = u; 
+            if(user) startDataSync(); 
+        });
+
+        // ACTIONS
         window.openAddEvent = (id) => {
             selectedDateId = id;
             document.getElementById('auth-modal').classList.add('active');
@@ -251,6 +263,7 @@
                     codeInput.style.display = "none";
                 } else {
                     codeInput.style.borderColor = "#ef4444";
+                    showToast("Invalid Access Protocol", true);
                     setTimeout(() => codeInput.style.borderColor = "rgba(255,255,255,0.1)", 1000);
                 }
             } else {
@@ -267,16 +280,19 @@
                         timestamp: serverTimestamp()
                     });
                     document.getElementById('event-msg').value = "";
+                    showToast("Event Committed to Cloud");
                     closeModal();
                 } catch (e) {
-                    alert("Write Access Denied.");
+                    showToast("Write Access Denied", true);
                 }
             }
         };
 
-        // Start execution
-        renderInitialTimeline();
-        initAuth();
+        // BOOT SEQUENCE
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDays(); // Initial UI Draw
+            initAuth();   // Background Auth
+        });
     </script>
 </body>
 </html>
