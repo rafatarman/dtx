@@ -1,26 +1,45 @@
 /**
  * Md. Rafat Uddin Arman - Professional Ecosystem Shared Logic
- * VERSION: 5.3 - Stability Fix & Tab Logic Restore
- * This file handles global animations and shared infrastructure.
+ * VERSION: 5.6 - State-Agnostic Bootstrapper & Sandbox Hardening
+ * This file handles global space animations and core infrastructure.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-    injectGlobalAnimationStyles();
-    initGlobalShortcuts();
-    injectSharedComponents();
-    
-    const animContainer = document.getElementById('animation-container');
-    if (animContainer) {
-        initStarfield(animContainer);
-        initSnowEffect(animContainer);
-    }
+(function() {
+    // Global state guard
+    window._ecosystemInit = window._ecosystemInit || false;
 
-    // Restore Tab System required for internal tool organization
-    initTabSystem();
-});
+    const startEcosystem = () => {
+        if (window._ecosystemInit) return;
+        window._ecosystemInit = true;
+
+        try {
+            injectGlobalAnimationStyles();
+            initGlobalShortcuts();
+            injectSharedComponents();
+            
+            const animContainer = document.getElementById('animation-container');
+            if (animContainer) {
+                initStarfield(animContainer);
+                initSnowEffect(animContainer);
+            }
+
+            // Tab logic for Product Lab
+            initTabSystem();
+        } catch (error) {
+            console.warn("Ecosystem component failed to initialize:", error.message);
+        }
+    };
+
+    // Robust readyState handling
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startEcosystem);
+    } else {
+        startEcosystem();
+    }
+})();
 
 /**
- * Injects required CSS for the global space theme and UI components
+ * Standardizes global space aesthetics
  */
 function injectGlobalAnimationStyles() {
     if (document.getElementById('ecosystem-styles')) return;
@@ -36,7 +55,6 @@ function injectGlobalAnimationStyles() {
             pointer-events: none;
             overflow: hidden;
         }
-        /* Global Tab Styling for Product Lab */
         .tab-trigger.active {
             background: #6366f1 !important;
             color: white !important;
@@ -44,7 +62,6 @@ function injectGlobalAnimationStyles() {
             box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
         }
         .product-card.hidden { display: none; }
-        
         @keyframes fadeIn { 
             from { opacity: 0; transform: translateY(10px); } 
             to { opacity: 1; transform: translateY(0); } 
@@ -54,28 +71,26 @@ function injectGlobalAnimationStyles() {
 }
 
 /**
- * Global Tab System Utility
- * Handles filtering logic for organized product listings
+ * Handles tab-based navigation for Product Lab
  */
 function initTabSystem() {
     const triggers = document.querySelectorAll('.tab-trigger');
     const items = document.querySelectorAll('.filter-item');
-    if (triggers.length === 0) return;
+    if (!triggers || triggers.length === 0) return;
 
     triggers.forEach(trigger => {
         trigger.addEventListener('click', () => {
             const category = trigger.getAttribute('data-category');
-            
-            // Update UI State
+            if (!category) return;
+
             triggers.forEach(t => t.classList.remove('active'));
             trigger.classList.add('active');
 
-            // Filter Content
             items.forEach(item => {
                 if (category === 'all' || item.getAttribute('data-type') === category) {
                     item.classList.remove('hidden');
                     item.style.animation = 'none';
-                    void item.offsetHeight; // trigger reflow for animation restart
+                    void item.offsetHeight; 
                     item.style.animation = 'fadeIn 0.4s ease forwards';
                 } else {
                     item.classList.add('hidden');
@@ -86,9 +101,10 @@ function initTabSystem() {
 }
 
 /**
- * High-Fidelity Deep Space Starfield
+ * Background Starfield Logic
  */
 function initStarfield(container) {
+    if (!container) return;
     const canvas = document.createElement('canvas');
     canvas.style.position = 'absolute';
     canvas.style.top = '0'; canvas.style.left = '0';
@@ -99,24 +115,25 @@ function initStarfield(container) {
     const ctx = canvas.getContext('2d');
     let stars = [];
     
-    function resize() { 
-        canvas.width = window.innerWidth; 
-        canvas.height = window.innerHeight; 
-    }
+    const setupCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
     
-    window.addEventListener('resize', resize);
-    resize();
+    window.addEventListener('resize', setupCanvas);
+    setupCanvas();
 
     for(let i=0; i<150; i++) {
         stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
             size: Math.random() * 1.5,
             opacity: Math.random() * 0.5 + 0.2
         });
     }
 
-    function animate() {
+    const animate = () => {
+        if (!ctx) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         stars.forEach(s => {
             ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
@@ -125,14 +142,15 @@ function initStarfield(container) {
             ctx.fill();
         });
         requestAnimationFrame(animate);
-    }
+    };
     animate();
 }
 
 /**
- * Premium "Cosmic Snow" Particle Effect
+ * Particle "Cosmic Snow" Logic
  */
 function initSnowEffect(container) {
+    if (!container) return;
     const canvas = document.createElement('canvas');
     canvas.style.position = 'absolute';
     canvas.style.top = '0'; canvas.style.left = '0';
@@ -143,35 +161,30 @@ function initSnowEffect(container) {
     const ctx = canvas.getContext('2d');
     let particles = [];
     
-    function resize() { 
-        canvas.width = window.innerWidth; 
-        canvas.height = window.innerHeight; 
-    }
-    
-    window.addEventListener('resize', resize);
-    resize();
+    const setupCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', setupCanvas);
+    setupCanvas();
 
-    class CosmicSnow {
+    class Particle {
         constructor() {
-            this.reset();
-            this.y = Math.random() * canvas.height;
+            this.reset(true);
         }
-
-        reset() {
-            this.x = Math.random() * canvas.width;
-            this.y = -20;
+        reset(randomY = false) {
+            this.x = Math.random() * window.innerWidth;
+            this.y = randomY ? Math.random() * window.innerHeight : -20;
             this.size = Math.random() * 2 + 1;
             this.speed = Math.random() * 0.8 + 0.2;
             this.velX = (Math.random() - 0.5) * 0.3;
             this.opacity = Math.random() * 0.5 + 0.1;
         }
-
         update() {
             this.y += this.speed;
             this.x += this.velX;
-            if (this.y > canvas.height) this.reset();
+            if (this.y > window.innerHeight) this.reset();
         }
-
         draw() {
             ctx.fillStyle = `rgba(99, 102, 241, ${this.opacity})`;
             ctx.shadowBlur = 10;
@@ -183,47 +196,50 @@ function initSnowEffect(container) {
         }
     }
 
-    function animate() {
+    const animate = () => {
+        if (!ctx) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         if (particles.length === 0) {
-            for(let i=0; i<60; i++) particles.push(new CosmicSnow());
+            for(let i=0; i<60; i++) particles.push(new Particle());
         }
-        
         particles.forEach(p => {
             p.update();
             p.draw();
         });
         requestAnimationFrame(animate);
-    }
+    };
     animate();
 }
 
 /**
- * Universal Navigation Shortcuts
+ * Standardized Navigation
  */
 function initGlobalShortcuts() {
     document.addEventListener('keydown', (e) => {
-        const isRoot = window.location.pathname === '/' || window.location.pathname.endsWith('index.html');
-        if (e.key === 'Escape' && !isRoot) {
-            window.location.href = 'index.html';
+        if (e.key === 'Escape') {
+            const path = window.location.pathname;
+            const isIndex = path === '/' || path.endsWith('index.html') || path === '';
+            if (!isIndex) {
+                window.location.href = 'index.html';
+            }
         }
     });
 }
 
 /**
- * Automated Global Footer Injection
+ * Shared Infrastructure Injection
  */
 function injectSharedComponents() {
     const footerTarget = document.getElementById('global-footer');
     if (footerTarget) {
-        const currentYear = new Date().getFullYear();
+        const year = new Date().getFullYear();
         footerTarget.innerHTML = `
             <footer class="mt-20 py-12 border-t border-white/5 text-center relative z-20">
                 <p class="text-[10px] text-gray-500 uppercase tracking-[0.4em] font-black">
-                    &copy; ${currentYear} Md. Rafat Uddin Arman • Principal Engineering Hub
+                    &copy; ${year} Md. Rafat Uddin Arman • Principal Engineering Hub
                 </p>
                 <p class="text-[8px] text-gray-700 uppercase tracking-[0.2em] mt-2">
-                    All Rights Reserved • High-Fidelity Ecosystem v5.3
+                    All Rights Reserved • System Stability v5.6
                 </p>
             </footer>
         `;
