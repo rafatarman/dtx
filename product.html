@@ -17,7 +17,7 @@
         .back-btn:hover { background: #6366f1; border-color: #6366f1; }
         .intel-tag { font-family: 'Inter', monospace; color: #6366f1; font-size: 10px; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
         
-        .product-label { font-size: 10px; font-weight: 900; color: #444; text-transform: uppercase; letter-spacing: 0.2em; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; margin-bottom: 15px; display: block; }
+        .product-label { font-size: 10px; font-weight: 900; color: #555; text-transform: uppercase; letter-spacing: 0.2em; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; margin-bottom: 15px; display: block; }
 
         /* Tabs UI */
         .tab-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 50px; flex-wrap: wrap; }
@@ -25,10 +25,12 @@
         .tab-trigger:hover { background: rgba(255, 255, 255, 0.08); color: white; }
 
         /* Tool Specifics */
-        .calc-input { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 12px; padding: 12px; width: 100%; outline: none; transition: all 0.3s; }
-        .calc-input:focus { border-color: #6366f1; box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); }
+        .calc-input { background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; border-radius: 12px; padding: 12px; width: 100%; outline: none; transition: all 0.3s; font-weight: 600; }
+        .calc-input:focus { border-color: #6366f1; box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); background: rgba(255, 255, 255, 0.1); }
         .heir-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; }
-        .calc-btn { background: #6366f1; color: white; padding: 14px 28px; border-radius: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s; width: 100%; cursor: pointer; }
+        .calc-btn { background: #6366f1; color: white; padding: 14px 28px; border-radius: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s; width: 100%; cursor: pointer; border: none; }
+        .calc-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+
         .result-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .result-table th, .result-table td { text-align: left; padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         .result-table th { color: #6366f1; text-transform: uppercase; font-size: 0.7rem; }
@@ -37,7 +39,12 @@
         .currency-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-top: 20px; }
         .currency-item { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); padding: 15px; border-radius: 16px; text-align: center; transition: all 0.3s; }
         .currency-item:focus-within { border-color: #6366f1; background: rgba(99, 102, 241, 0.08); }
-        .currency-val-input { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; color: #6366f1; font-weight: 900; font-family: monospace; width: 100%; text-align: center; font-size: 1.1rem; outline: none; padding: 5px 0; }
+        .currency-val-input { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #818cf8; font-weight: 900; font-family: monospace; width: 100%; text-align: center; font-size: 1.1rem; outline: none; padding: 8px 0; }
+
+        /* Notepad Specific Styles */
+        .note-card { background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.1); border-radius: 16px; padding: 15px; margin-bottom: 10px; position: relative; animation: fadeIn 0.3s ease; }
+        .note-delete { position: absolute; top: 10px; right: 10px; opacity: 0.3; cursor: pointer; transition: 0.3s; }
+        .note-delete:hover { opacity: 1; color: #ef4444; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -62,92 +69,78 @@
 
         <div class="product-grid space-y-12">
             
-            <!-- CATEGORY: INNOVATION / TOOLS -->
+            <!-- CATEGORY: SPECIALIZED TOOLS -->
             <div class="filter-item product-card" data-type="innovation">
-                <section class="glass-panel p-8 md:p-12 mb-12">
-                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-12">
-                        <!-- PRODUCT 01: PROPERTY CALCULATOR -->
-                        <div>
-                            <span class="product-label">Product 01</span>
-                            <span class="intel-tag">Sharia Engineering</span>
-                            <h2 class="text-3xl md:text-4xl font-black mb-8 uppercase tracking-tighter italic">Property Distribution (Farayez)</h2>
-                            <div class="space-y-6">
-                                <div class="glass-panel p-6 bg-white/5"><h3 class="text-indigo-400 font-bold uppercase text-[10px] mb-4">1. Asset Value</h3><div class="grid grid-cols-2 gap-4"><input type="number" id="totalLand" class="calc-input" placeholder="Land (Decimal)"><input type="number" id="totalMoney" class="calc-input" placeholder="Cash (Money)"></div></div>
-                                <div class="glass-panel p-6 bg-white/5"><h3 class="text-indigo-400 font-bold uppercase text-[10px] mb-4">2. Heirs Configuration</h3><div class="grid grid-cols-1 gap-3">
-                                    <div class="heir-card"><div class="flex items-center gap-3"><input type="checkbox" id="checkWife" onchange="updateHeirUI('wife')"><label class="text-xs font-black uppercase">Wife</label></div><input type="number" id="countWife" class="calc-input w-24 text-center" value="1" disabled></div>
-                                    <div class="heir-card"><div class="flex items-center gap-3"><input type="checkbox" id="checkSon" onchange="updateHeirUI('son')"><label class="text-xs font-black uppercase">Son(s)</label></div><input type="number" id="countSon" class="calc-input w-24 text-center" value="1" disabled></div>
-                                    <div class="heir-card"><div class="flex items-center gap-3"><input type="checkbox" id="checkDaughter" onchange="updateHeirUI('daughter')"><label class="text-xs font-black uppercase">Daughter(s)</label></div><input type="number" id="countDaughter" class="calc-input w-24 text-center" value="1" disabled></div>
-                                    <div class="grid grid-cols-2 gap-3"><div class="heir-card"><input type="checkbox" id="checkFather"><label class="text-xs font-black uppercase ml-3">Father</label></div><div class="heir-card"><input type="checkbox" id="checkMother"><label class="text-xs font-black uppercase ml-3">Mother</label></div></div>
-                                </div></div>
-                                <button onclick="runFarayezCalculator()" class="calc-btn">Distribute Assets</button>
-                                <div id="resultsView" class="hidden mt-6 glass-panel p-6 bg-indigo-500/5 border-indigo-500/20"><h3 class="text-white font-black uppercase text-xs mb-4">Report</h3><div id="tableTarget"></div></div>
+                
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
+                    
+                    <!-- PRODUCT 01: PROPERTY CALCULATOR -->
+                    <div class="glass-panel p-8">
+                        <span class="product-label">Product 01</span>
+                        <span class="intel-tag">Sharia Engineering</span>
+                        <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter italic">Property Distribution</h2>
+                        <div class="space-y-4">
+                            <input type="number" id="totalLand" class="calc-input" placeholder="Land (Decimal)">
+                            <input type="number" id="totalMoney" class="calc-input" placeholder="Cash (Money)">
+                            <div class="grid grid-cols-1 gap-2">
+                                <div class="heir-card py-2 px-3"><div class="flex items-center gap-2"><input type="checkbox" id="checkWife" onchange="updateHeirUI('wife')"><label class="text-[10px] font-black uppercase">Wife</label></div><input type="number" id="countWife" class="calc-input w-16 p-1 text-center text-xs" value="1" disabled></div>
+                                <div class="heir-card py-2 px-3"><div class="flex items-center gap-2"><input type="checkbox" id="checkSon" onchange="updateHeirUI('son')"><label class="text-[10px] font-black uppercase">Son(s)</label></div><input type="number" id="countSon" class="calc-input w-16 p-1 text-center text-xs" value="1" disabled></div>
+                                <div class="heir-card py-2 px-3"><div class="flex items-center gap-2"><input type="checkbox" id="checkDaughter" onchange="updateHeirUI('daughter')"><label class="text-[10px] font-black uppercase">Daughter</label></div><input type="number" id="countDaughter" class="calc-input w-16 p-1 text-center text-xs" value="1" disabled></div>
                             </div>
+                            <button onclick="runFarayezCalculator()" class="calc-btn text-xs">Calculate Shares</button>
+                            <div id="resultsView" class="hidden glass-panel p-4 bg-indigo-500/5 mt-4"><div id="tableTarget"></div></div>
                         </div>
+                    </div>
 
-                        <!-- PRODUCT 02: CURRENCY NEXUS -->
-                        <div class="border-t xl:border-t-0 xl:border-l border-white/5 pt-12 xl:pt-0 xl:pl-12">
-                            <span class="product-label">Product 02</span>
-                            <span class="intel-tag">Global Markets</span>
-                            <h2 class="text-3xl md:text-4xl font-black mb-8 uppercase tracking-tighter italic">Currency Nexus</h2>
-                            <div class="space-y-6">
-                                <div class="glass-panel p-6 bg-white/5">
-                                    <h3 class="text-indigo-400 font-bold uppercase text-[10px] mb-4">Sync Base: BDT (Bangladeshi Taka)</h3>
-                                    <input type="number" id="bdtInput" class="calc-input text-2xl font-black text-center" value="1000" oninput="handleCurrencyInput(this, 'BDT')">
-                                    <p class="text-[9px] text-gray-500 uppercase mt-4 text-center tracking-widest">Real-time data provided by ExchangeRate-API</p>
-                                </div>
+                    <!-- PRODUCT 02: CURRENCY NEXUS -->
+                    <div class="glass-panel p-8">
+                        <span class="product-label">Product 02</span>
+                        <span class="intel-tag">Real-time Markets</span>
+                        <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter italic">Currency Nexus</h2>
+                        <div class="space-y-4">
+                            <div class="bg-white/5 p-4 rounded-2xl text-center">
+                                <label class="text-[9px] uppercase font-bold text-gray-500 mb-2 block">Base Sync: BDT</label>
+                                <input type="number" id="bdtInput" class="calc-input text-xl text-center text-indigo-400" value="1000" oninput="handleCurrencyInput(this, 'BDT')">
+                            </div>
+                            <div id="currencyResults" class="grid grid-cols-2 gap-2">
+                                <div class="col-span-full py-4 text-center opacity-30 text-[10px] uppercase">Syncing...</div>
+                            </div>
+                            <p class="text-[8px] text-gray-600 text-center uppercase tracking-widest mt-2">Interactive: Edit any field</p>
+                        </div>
+                    </div>
 
-                                <div id="currencyResults" class="currency-grid">
-                                    <div class="text-center w-full col-span-full py-10 opacity-30 text-xs">Synchronizing Market Data...</div>
-                                </div>
-
-                                <div class="p-6 glass-panel bg-white/5">
-                                    <h3 class="text-indigo-400 font-bold uppercase text-[10px] mb-4">International Top 10</h3>
-                                    <div id="topTenResults" class="currency-grid">
-                                        <!-- Top 10 will load here -->
-                                    </div>
-                                </div>
+                    <!-- PRODUCT 03: SENTINEL NOTES -->
+                    <div class="glass-panel p-8">
+                        <span class="product-label">Product 03</span>
+                        <span class="intel-tag">Persistence Protocol</span>
+                        <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter italic">Sentinel Notes</h2>
+                        <div class="space-y-4">
+                            <textarea id="noteInput" class="calc-input h-32 text-sm" placeholder="Draft your thoughts here..."></textarea>
+                            <button onclick="addNote()" class="calc-btn text-xs">Secure Note</button>
+                            <div id="noteCanvas" class="mt-4 max-h-64 overflow-y-auto pr-2">
+                                <!-- Notes will persist here -->
                             </div>
                         </div>
                     </div>
-                </section>
+
+                </div>
             </div>
 
-            <!-- PRODUCT GRID (RESTORED) -->
+            <!-- OTHER PRODUCTS GRID -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Product 03: Obosor -->
                 <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="innovation">
-                    <div><span class="product-label">Product 03</span><span class="intel-tag">Flagship Platform</span><h3 class="text-2xl font-black mb-4 uppercase">Obosor</h3><p class="text-gray-500 text-sm leading-relaxed">Innovation Grant winner (BIG-2019). A high-fidelity book purchase and content reader ecosystem designed for premium reading experiences.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Grant Recipient</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Inquiry</a></div>
+                    <div><span class="product-label">Product 04</span><span class="intel-tag">Flagship Platform</span><h3 class="text-2xl font-black mb-4 uppercase">Obosor</h3><p class="text-gray-500 text-sm leading-relaxed">BIG-2019 Grant Winner. High-fidelity content ecosystem.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px]">Inquiry</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Details</a></div>
                 </div>
 
-                <!-- Product 04: Neural Translator -->
                 <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="innovation">
-                    <div><span class="product-label">Product 04</span><span class="intel-tag">Machine Intel</span><h3 class="text-2xl font-black mb-4 uppercase">Neural Translator</h3><p class="text-gray-500 text-sm leading-relaxed">High-precision AI translation engine specialized for technical and academic semantic integrity across complex language pairs.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">v2.1 Alpha</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">API Key</a></div>
+                    <div><span class="product-label">Product 05</span><span class="intel-tag">Machine Intel</span><h3 class="text-2xl font-black mb-4 uppercase">Neural Trans</h3><p class="text-gray-500 text-sm leading-relaxed">High-precision AI translation for academic integrity.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px]">v2.1</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">API Key</a></div>
                 </div>
 
-                <!-- Product 05: DevsFIT -->
                 <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="saas">
-                    <div><span class="product-label">Product 05</span><span class="intel-tag">Enterprise SaaS</span><h3 class="text-2xl font-black mb-4 uppercase">DevsFIT</h3><p class="text-gray-500 text-sm leading-relaxed">Unified Gym and Inventory management ecosystem. Features real-time member telemetry and unified store management.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Full-Stack</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Details</a></div>
-                </div>
-
-                <!-- Product 06: TinyTime -->
-                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="saas">
-                    <div><span class="product-label">Product 06</span><span class="intel-tag">Edu-Automation</span><h3 class="text-2xl font-black mb-4 uppercase">TinyTime</h3><p class="text-gray-500 text-sm leading-relaxed">Automated Routine Generator for universities. Eliminates faculty clashes using algorithmic logic.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Proprietary</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Demo</a></div>
-                </div>
-
-                <!-- Product 07: Trip Planner -->
-                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="saas">
-                    <div><span class="product-label">Product 07</span><span class="intel-tag">Travel Tech</span><h3 class="text-2xl font-black mb-4 uppercase">Trip Planner AI</h3><p class="text-gray-500 text-sm leading-relaxed">Automated cost-estimation and route generator for itineraries. Integration with flight and booking APIs.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Public Beta</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Access</a></div>
-                </div>
-
-                <!-- Product 08: DTx Brand Kit -->
-                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="asset">
-                    <div><span class="product-label">Product 08</span><span class="intel-tag">Strategic Asset</span><h3 class="text-2xl font-black mb-4 uppercase">DTx Brand Kit</h3><p class="text-gray-500 text-sm leading-relaxed">High-fidelity visual identity system for tech startups. Includes logo systems and responsive brand foundations.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">$499.00</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Purchase</a></div>
+                    <div><span class="product-label">Product 06</span><span class="intel-tag">Enterprise SaaS</span><h3 class="text-2xl font-black mb-4 uppercase">DevsFIT</h3><p class="text-gray-500 text-sm leading-relaxed">Unified Gym and Inventory management ecosystem.</p></div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px]">Full-Stack</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Details</a></div>
                 </div>
             </div>
         </div>
@@ -158,87 +151,86 @@
     <script>
         let exchangeRates = null;
         let currentBdtValue = 1000;
+        let notes = JSON.parse(localStorage.getItem('sentinel_notes') || '[]');
 
         /**
-         * Real-time Multi-Directional Currency Logic
+         * Product 03: Sentinel Notes Logic
+         */
+        function renderNotes() {
+            const canvas = document.getElementById('noteCanvas');
+            canvas.innerHTML = notes.length === 0 ? '<p class="text-[10px] text-gray-600 text-center uppercase tracking-widest mt-10">Vault Empty</p>' : '';
+            notes.forEach((note, index) => {
+                canvas.innerHTML += `
+                    <div class="note-card">
+                        <svg onclick="deleteNote(${index})" class="note-delete" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        <p class="text-xs text-gray-300 leading-relaxed">${note}</p>
+                    </div>
+                `;
+            });
+            localStorage.setItem('sentinel_notes', JSON.stringify(notes));
+        }
+
+        window.addNote = function() {
+            const input = document.getElementById('noteInput');
+            if(input.value.trim() === "") return;
+            notes.unshift(input.value.trim());
+            input.value = "";
+            renderNotes();
+        }
+
+        window.deleteNote = function(index) {
+            notes.splice(index, 1);
+            renderNotes();
+        }
+
+        renderNotes();
+
+        /**
+         * Product 02: Currency Logic
          */
         async function fetchRates() {
             try {
-                // Fetching from a reliable open API
                 const res = await fetch('https://open.er-api.com/v6/latest/BDT');
                 const data = await res.json();
                 if(data.result === 'success') {
                     exchangeRates = data.rates;
-                    // Initial render of all fields
                     updateAllFields(null, true); 
                 }
-            } catch (err) {
-                console.error('Failed to fetch rates', err);
-                document.getElementById('currencyResults').innerHTML = '<div class="col-span-full text-center text-red-500 text-[10px] uppercase">Market Sync Offline</div>';
-            }
+            } catch (err) { console.error('Market sync failure'); }
         }
 
         window.handleCurrencyInput = function(el, code) {
             const val = parseFloat(el.value) || 0;
             if(!exchangeRates) return;
-
-            if(code === 'BDT') {
-                currentBdtValue = val;
-            } else {
-                const rateToBdt = exchangeRates[code];
-                currentBdtValue = val / rateToBdt;
-            }
-            
-            if(code !== 'BDT') {
-                document.getElementById('bdtInput').value = currentBdtValue.toFixed(2);
-            }
-
+            if(code === 'BDT') currentBdtValue = val;
+            else currentBdtValue = val / exchangeRates[code];
+            if(code !== 'BDT') document.getElementById('bdtInput').value = currentBdtValue.toFixed(2);
             updateAllFields(code, false);
         }
 
         function updateAllFields(originCode, isFirstLoad) {
             if(!exchangeRates) return;
-
-            const primaryList = { 'USD': 'Dollar', 'CAD': 'CA Dollar', 'MYR': 'Ringgit', 'GBP': 'Pound', 'EUR': 'Euro', 'THB': 'Baht', 'INR': 'Rupee' };
-            const topTenList = { 'SAR': 'Riyal', 'AED': 'Dirham', 'SGD': 'SG Dollar', 'JPY': 'Yen', 'AUD': 'AU Dollar', 'CNY': 'Yuan', 'CHF': 'Franc', 'HKD': 'HK Dollar', 'TRY': 'Lira', 'KWD': 'Dinar' };
-
-            const populate = (list, targetId) => {
-                const target = document.getElementById(targetId);
-                if(isFirstLoad) target.innerHTML = ""; // Clear loader
-
-                for (let code in list) {
-                    if(code === originCode) continue; 
-                    
-                    const rate = exchangeRates[code];
-                    const displayVal = (currentBdtValue * rate).toFixed(2);
-                    
-                    if(isFirstLoad) {
-                        target.innerHTML += `
-                            <div class="currency-item">
-                                <span class="text-[9px] text-gray-500 uppercase font-black">${code}</span>
-                                <input type="number" 
-                                       id="input-${code}" 
-                                       class="currency-val-input" 
-                                       value="${displayVal}" 
-                                       oninput="handleCurrencyInput(this, '${code}')">
-                                <span class="text-[9px] block text-gray-400 mt-1 uppercase">${list[code]}</span>
-                            </div>
-                        `;
-                    } else {
-                        const input = document.getElementById(`input-${code}`);
-                        if(input) input.value = displayVal;
-                    }
+            const primaryList = { 'USD': 'Dollar', 'MYR': 'Ringgit', 'GBP': 'Pound', 'EUR': 'Euro', 'SAR': 'Riyal', 'INR': 'Rupee' };
+            const target = document.getElementById('currencyResults');
+            if(isFirstLoad) target.innerHTML = ""; 
+            for (let code in primaryList) {
+                if(code === originCode) continue; 
+                const displayVal = (currentBdtValue * exchangeRates[code]).toFixed(2);
+                if(isFirstLoad) {
+                    target.innerHTML += `
+                        <div class="currency-item p-2">
+                            <span class="text-[8px] text-gray-500 font-black mb-1 block">${code}</span>
+                            <input type="number" id="input-${code}" class="currency-val-input" value="${displayVal}" oninput="handleCurrencyInput(this, '${code}')">
+                        </div>`;
+                } else {
+                    const input = document.getElementById(`input-${code}`);
+                    if(input) input.value = displayVal;
                 }
-            };
-
-            populate(primaryList, 'currencyResults');
-            populate(topTenList, 'topTenResults');
+            }
         }
 
-        fetchRates();
-
         /**
-         * Farayez Logic
+         * Product 01: Farayez Logic
          */
         window.updateHeirUI = function(type) {
             const check = document.getElementById('check' + type.charAt(0).toUpperCase() + type.slice(1));
@@ -247,53 +239,18 @@
         }
 
         window.runFarayezCalculator = function() {
-            const land = parseFloat(document.getElementById('totalLand').value) || 0;
-            const money = parseFloat(document.getElementById('totalMoney').value) || 0;
-            if (land <= 0 && money <= 0) return;
-
-            const heirs = {
-                wife: document.getElementById('checkWife').checked ? parseInt(document.getElementById('countWife').value) : 0,
-                son: document.getElementById('checkSon').checked ? parseInt(document.getElementById('countSon').value) : 0,
-                daughter: document.getElementById('checkDaughter').checked ? parseInt(document.getElementById('countDaughter').value) : 0,
-                father: document.getElementById('checkFather').checked ? 1 : 0,
-                mother: document.getElementById('checkMother').checked ? 1 : 0
-            };
-
-            const shares = {};
-            let totalFixed = 0;
-            const hasChildren = (heirs.son + heirs.daughter) > 0;
-
+            const heirs = { wife: document.getElementById('checkWife').checked ? parseInt(document.getElementById('countWife').value) : 0, son: document.getElementById('checkSon').checked ? parseInt(document.getElementById('countSon').value) : 0, daughter: document.getElementById('checkDaughter').checked ? parseInt(document.getElementById('countDaughter').value) : 0 };
+            const shares = {}; let totalFixed = 0; const hasChildren = (heirs.son + heirs.daughter) > 0;
             if (heirs.wife) { const s = hasChildren ? 1/8 : 1/4; shares['Wife'] = { p: s, n: heirs.wife }; totalFixed += s; }
-            if (heirs.mother) { const s = hasChildren ? 1/6 : 1/3; shares['Mother'] = { p: s, n: 1 }; totalFixed += s; }
-            if (heirs.father) { const s = hasChildren ? 1/6 : 0; if (s > 0) { shares['Father'] = { p: s, n: 1 }; totalFixed += s; } }
-            if (heirs.daughter > 0 && heirs.son === 0) { const s = heirs.daughter === 1 ? 1/2 : 2/3; shares['Daughter'] = { p: s, n: heirs.daughter }; totalFixed += s; }
-
-            if (totalFixed > 1) { for (let k in shares) shares[k].p /= totalFixed; totalFixed = 1; }
-
             let residue = 1 - totalFixed;
-            if (residue > 0) {
-                if (heirs.son > 0) {
-                    const parts = (heirs.son * 2) + heirs.daughter;
-                    const unit = residue / parts;
-                    shares['Son'] = { p: unit * 2 * heirs.son, n: heirs.son };
-                    if (heirs.daughter > 0) shares['Daughter'] = { p: unit * heirs.daughter, n: heirs.daughter };
-                } else if (heirs.father) {
-                    if (shares['Father']) shares['Father'].p += residue;
-                    else shares['Father'] = { p: residue, n: 1 };
-                }
-            }
-
-            const view = document.getElementById('resultsView');
-            const target = document.getElementById('tableTarget');
-            view.classList.remove('hidden');
-            let html = `<table class="result-table"><thead><tr><th>Heir</th><th>%</th><th>Land</th><th>Cash</th></tr></thead><tbody>`;
-            for (let k in shares) {
-                const indP = (shares[k].p / shares[k].n);
-                html += `<tr><td class="text-[11px] font-bold uppercase">${k} <span class="opacity-30">x${shares[k].n}</span></td><td class="text-indigo-400 font-mono text-xs">${(indP * 100).toFixed(2)}%</td><td class="text-white font-mono text-xs">${(indP * land).toFixed(3)}</td><td class="text-green-400 font-mono text-xs">${(indP * money).toLocaleString()}</td></tr>`;
-            }
-            html += `</tbody></table>`;
-            target.innerHTML = html;
+            if (residue > 0 && heirs.son > 0) { const parts = (heirs.son * 2) + heirs.daughter; const unit = residue / parts; shares['Son'] = { p: unit * 2 * heirs.son, n: heirs.son }; if (heirs.daughter > 0) shares['Daughter'] = { p: unit * heirs.daughter, n: heirs.daughter }; }
+            const view = document.getElementById('resultsView'); const target = document.getElementById('tableTarget');
+            view.classList.remove('hidden'); let html = `<table class="result-table text-[10px]"><tbody>`;
+            for (let k in shares) { const indP = (shares[k].p / shares[k].n); html += `<tr><td class="font-bold">${k}</td><td class="text-indigo-400">${(indP * 100).toFixed(1)}%</td></tr>`; }
+            html += `</tbody></table>`; target.innerHTML = html;
         }
+
+        fetchRates();
     </script>
 </body>
 </html>
