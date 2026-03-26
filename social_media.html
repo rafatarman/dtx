@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safiyya Khanwalli | Luxury Real Estate Concept</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <!-- Integration with the Ecosystem Brain -->
+    <script src="main.js" defer></script>
+    <style>
+        :root {
+            --primary-bg: #fdfcfb;
+            --text-main: #1c1917;
+            --accent-gold: #b45309; /* Deep Warm Amber/Gold */
+            --stone-muted: #78716c;
+        }
+
+        body { 
+            background-color: var(--primary-bg); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            overflow-x: hidden; 
+        }
+
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+        /* Slider Engine */
+        .slider-container {
+            position: relative;
+            height: 80vh;
+            width: 100%;
+            overflow: hidden;
+            background: #111;
+        }
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 8s linear;
+            background-size: cover;
+            background-position: center;
+        }
+        .slide.active { opacity: 1; transform: scale(1.1); }
+        
+        .slider-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, var(--primary-bg) 100%);
+            z-index: 5;
+        }
+
+        /* UI Components */
+        .nav-link { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; color: var(--stone-muted); transition: 0.3s; }
+        .nav-link:hover { color: var(--accent-gold); }
+
+        .property-card { 
+            background: #fff; 
+            border: 1px solid #e7e5e4; 
+            border-radius: 4px; 
+            overflow: hidden; 
+            transition: all 0.4s ease;
+        }
+        .property-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border-color: var(--accent-gold);
+        }
+        .property-img { height: 350px; background-color: #f5f5f4; background-size: cover; background-position: center; transition: 0.6s; }
+        
+        .blog-card {
+            padding: 30px;
+            border-bottom: 1px solid #e7e5e4;
+            transition: 0.3s;
+        }
+        .blog-card:hover { background: #f5f5f4; }
+
+        .gold-btn {
+            background: var(--accent-gold);
+            color: white;
+            padding: 18px 40px;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        .gold-btn:hover { background: #92400e; box-shadow: 0 10px 20px rgba(180, 83, 9, 0.2); }
+
+        .back-hub { position: fixed; bottom: 30px; left: 30px; z-index: 100; background: #000; color: #fff; padding: 10px 20px; border-radius: 100px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; opacity: 0.5; transition: 0.3s; }
+        .back-hub:hover { opacity: 1; transform: scale(1.05); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 1s ease forwards; }
+    </style>
+</head>
+<body>
+
+    <!-- Back to Ecosystem Anchor -->
+    <a href="index.html" class="back-hub">Hub Return</a>
+
+    <div class="content-layer">
+        
+        <!-- HEADER NAVIGATION -->
+        <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 px-8 py-6 flex justify-between items-center">
+            <div class="flex flex-col">
+                <span class="text-2xl font-black uppercase tracking-tighter serif">Safiyya <span class="text-amber-700">Khanwalli</span></span>
+                <span class="text-[8px] text-stone-400 font-bold uppercase tracking-[0.4em]">Strategic Real Estate Advisory</span>
+            </div>
+            <div class="hidden md:flex gap-10">
+                <a href="#about" class="nav-link">The Advisor</a>
+                <a href="#listings" class="nav-link">Portfolios</a>
+                <a href="#blog" class="nav-link">Insights</a>
+                <a href="#" class="nav-link text-amber-700">Contact</a>
+            </div>
+        </nav>
+
+        <!-- HERO SLIDER SECTION -->
+        <section class="slider-container">
+            <div class="slider-overlay"></div>
+            
+            <!-- Slide 1 -->
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6199f7d009?q=80&w=2070&auto=format&fit=crop');"></div>
+            <!-- Slide 2 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1600607687940-c52fb0a2a99b?q=80&w=2070&auto=format&fit=crop');"></div>
+            <!-- Slide 3 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1974&auto=format&fit=crop');"></div>
+
+            <div class="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
+                <span class="text-white text-xs font-black uppercase tracking-[0.6em] mb-4 fade-in">Exclusive Portfolio 2026</span>
+                <h1 class="text-white text-6xl md:text-8xl font-bold mb-8 serif italic drop-shadow-2xl">Refined Living<br>Awaits</h1>
+                <a href="#listings" class="gold-btn">Explore Estates</a>
+            </div>
+        </section>
+
+        <!-- PERSONAL BRAND INTRODUCTION -->
+        <section id="about" class="max-w-4xl mx-auto py-32 px-8 text-center">
+            <span class="text-amber-700 text-[10px] font-black uppercase tracking-widest block mb-6 italic">The Mission</span>
+            <h2 class="text-4xl md:text-5xl font-bold mb-10 serif">Guiding you to a home that mirrors your personal evolution.</h2>
+            <p class="text-stone-500 text-lg leading-relaxed font-light">
+                Safiyya Khanwalli provides more than transaction management. She offers a specialized lens into luxury markets, combining analytical data with an intuitive understanding of architectural soul. Every property is selected to fulfill a higher standard of living.
+            </p>
+        </section>
+
+        <!-- LISTINGS GRID -->
+        <section id="listings" class="bg-stone-50 py-32">
+            <div class="max-w-7xl mx-auto px-8">
+                <div class="flex justify-between items-end mb-16">
+                    <div>
+                        <h2 class="text-4xl font-bold serif">Signature Collections</h2>
+                        <div class="w-20 h-1 bg-amber-700 mt-4"></div>
+                    </div>
+                    <p class="text-stone-400 text-xs font-bold uppercase tracking-widest">Active Inventory: $14.2M</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Property 1 -->
+                    <div class="property-card">
+                        <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071&auto=format&fit=crop');"></div>
+                        <div class="p-10">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-2xl font-bold serif">The Marrow Estate</h3>
+                                <span class="text-amber-800 font-black">$6,200,000</span>
+                            </div>
+                            <p class="text-stone-500 text-sm leading-relaxed mb-8">A sanctuary of glass and cedar nestled in the hills of Bel Air. Uninterrupted views meet cutting-edge smart home automation.</p>
+                            <div class="flex gap-6 text-[9px] font-black uppercase text-stone-400 border-t border-stone-100 pt-6">
+                                <span>8,200 SQFT</span>
+                                <span>6 BEDS</span>
+                                <span>8 BATHS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Property 2 -->
+                    <div class="property-card">
+                        <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?q=80&w=2070&auto=format&fit=crop');"></div>
+                        <div class="p-10">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-2xl font-bold serif">Luxe Urban Penthouse</h3>
+                                <span class="text-amber-800 font-black">$3,850,000</span>
+                            </div>
+                            <p class="text-stone-500 text-sm leading-relaxed mb-8">Redefining high-rise living with a 360-degree skyline terrace. High-fidelity finishes and private elevator access.</p>
+                            <div class="flex gap-6 text-[9px] font-black uppercase text-stone-400 border-t border-stone-100 pt-6">
+                                <span>4,500 SQFT</span>
+                                <span>3 BEDS</span>
+                                <span>4 BATHS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE BLOG (SPIRITUAL & SOCIAL INSIGHTS) -->
+        <section id="blog" class="max-w-5xl mx-auto py-32 px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-bold serif italic mb-4">Lifestyle Intelligence</h2>
+                <p class="text-stone-400 text-[10px] font-black uppercase tracking-[0.4em]">Thoughts on Living, Growth & Connection</p>
+            </div>
+
+            <div class="divide-y divide-stone-100">
+                <!-- Post 1 -->
+                <article class="blog-card flex flex-col md:flex-row gap-10 items-center">
+                    <div class="w-full md:w-1/3 aspect-video bg-stone-100 rounded" style="background-image: url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=2067&auto=format&fit=crop'); background-size: cover;"></div>
+                    <div class="flex-1">
+                        <span class="text-[9px] text-amber-700 font-black uppercase mb-3 block">Perspective • 01</span>
+                        <h3 class="text-2xl font-bold serif mb-4">The Spiritual Geometry of Space</h3>
+                        <p class="text-stone-500 text-sm leading-relaxed">Exploring how natural light and open floor plans influence mental clarity and internal peace. Why your home is the primary canvas of your soul.</p>
+                    </div>
+                </article>
+
+                <!-- Post 2 -->
+                <article class="blog-card flex flex-col md:flex-row gap-10 items-center">
+                    <div class="w-full md:w-1/3 aspect-video bg-stone-100 rounded" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop'); background-size: cover;"></div>
+                    <div class="flex-1">
+                        <span class="text-[9px] text-amber-700 font-black uppercase mb-3 block">Society • 02</span>
+                        <h3 class="text-2xl font-bold serif mb-4">Redefining the Modern Neighborhood</h3>
+                        <p class="text-stone-500 text-sm leading-relaxed">In an age of digital isolation, Safiyya analyzes how architecture can foster genuine human connection and shared social responsibility.</p>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <a href="#" class="text-xs font-black uppercase tracking-widest text-stone-400 hover:text-amber-700 transition">View Full Insights Archive &rarr;</a>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="bg-stone-900 py-32 px-8 text-center text-white">
+            <h2 class="text-5xl font-bold serif italic mb-8">The Journey Begins with a Dialogue.</h2>
+            <p class="text-stone-400 max-w-2xl mx-auto mb-12 text-lg font-light">Available for private consultancy and portfolio management. Experience real estate through the lens of excellence.</p>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#" class="gold-btn">Inquire Privately</a>
+                <a href="https://www.homes.com/real-estate-agents/safiyya-khanwalli/2x9vd6c/" target="_blank" class="border border-white/20 px-10 py-4 font-black uppercase text-xs hover:bg-white/10 transition">Homes.com Profile</a>
+            </div>
+        </section>
+
+        <!-- Footer Targeted for main.js injection -->
+        <div id="global-footer"></div>
+    </div>
+
+    <script>
+        // Hero Slider Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, 5000);
+    </script>
+</body>
+</html>
