@@ -19,12 +19,7 @@
             --text-main: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            
-            /* 16:9 Aspect Ratio Scaling Logic */
-            --vw-size: 95vw;
-            --vh-size: calc(95vh * 16 / 9);
-            --slide-width: min(1280px, var(--vw-size), var(--vh-size));
-            --unit: calc(var(--slide-width) / 100);
+            --unit: calc(min(1280px, 95vw) / 100);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,19 +28,15 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            margin: 0;
+            height: 100vh; width: 100vw;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; margin: 0;
         }
 
         /* --- PRESENTATION WRAPPER --- */
         #presentation-container {
             position: relative;
-            width: var(--slide-width);
+            width: min(1280px, 95vw);
             aspect-ratio: 16 / 9;
             background: var(--surface);
             box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8);
@@ -53,434 +44,390 @@
             overflow: hidden;
         }
 
-        /* Fullscreen handling */
         #presentation-container:fullscreen {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 100vw; height: 100vh; border-radius: 0;
+            display: flex; justify-content: center; align-items: center;
             background: var(--bg-body);
-        }
-        #presentation-container:fullscreen .slide {
-            width: min(100vw, calc(100vh * 16 / 9));
-            height: min(100vh, calc(100vw * 9 / 16));
-            border-radius: 0;
         }
 
         /* --- SLIDE STYLING --- */
         .slide {
-            position: absolute;
-            inset: 0;
-            padding: calc(5 * var(--unit)) calc(7 * var(--unit));
-            display: none;
-            flex-direction: column;
+            position: absolute; inset: 0;
+            padding: calc(4 * var(--unit)) calc(6 * var(--unit));
+            display: none; flex-direction: column;
             background-color: var(--surface);
             z-index: 10;
         }
 
-        .slide.active { display: flex; animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .slide.active { display: flex; animation: slideFade 0.5s ease-out; }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: scale(0.98); }
+        @keyframes slideFade {
+            from { opacity: 0; transform: scale(0.99); }
             to { opacity: 1; transform: scale(1); }
         }
 
         .slide::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            content: ''; position: absolute; inset: 0;
             background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
             background-size: calc(3 * var(--unit)) calc(3 * var(--unit));
-            opacity: 0.15;
-            z-index: 0;
-            pointer-events: none;
+            opacity: 0.15; z-index: 0; pointer-events: none;
         }
 
-        /* --- HEADER & TITLES --- */
-        .header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: calc(3 * var(--unit));
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: calc(1 * var(--unit));
-            position: relative; z-index: 5;
-        }
-
-        .slide-num {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            color: var(--secondary);
-            font-size: calc(1.3 * var(--unit));
-            letter-spacing: 2px;
-        }
-
-        .slide-heading {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: calc(3.2 * var(--unit));
-            font-weight: 700;
-            color: var(--primary);
-            line-height: 1.1;
-        }
-
-        .accent-line { width: calc(8 * var(--unit)); height: 4px; background: var(--secondary); margin: calc(1 * var(--unit)) 0 calc(2 * var(--unit)); border-radius: 10px; }
-        p, li { font-size: calc(1.5 * var(--unit)); line-height: 1.5; color: var(--text-main); position: relative; z-index: 5; }
-
-        /* --- LAYOUTS --- */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: calc(5 * var(--unit)); position: relative; z-index: 5; }
-        
-        .card {
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            padding: calc(2 * var(--unit));
-            border-radius: 12px;
-            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.05);
-        }
-
-        /* --- DEHCMsync ACRONYM SLIDE --- */
-        .acronym-box {
-            display: grid;
-            grid-template-columns: 18% 82%;
-            height: 100%;
-            border: 2px solid var(--primary);
-            border-radius: 15px;
-            overflow: hidden;
-            background: #fff;
-            position: relative; z-index: 5;
-        }
-
-        .acronym-sidebar {
-            background: var(--accent);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 800;
-            font-size: calc(3.5 * var(--unit));
-            padding: calc(1 * var(--unit)) 0;
-        }
-
-        .acronym-content {
-            padding: calc(1 * var(--unit)) calc(3 * var(--unit));
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-        }
-
-        .acro-item {
-            display: grid;
-            grid-template-columns: calc(5 * var(--unit)) 1fr;
-            align-items: center;
-            gap: calc(2 * var(--unit));
-            padding: calc(0.5 * var(--unit)) 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .acro-item:last-child { border-bottom: none; }
-        .acro-item i { font-size: calc(2 * var(--unit)); color: var(--primary); text-align: center; }
-        .acro-item h4 { font-size: calc(1.8 * var(--unit)); font-weight: 700; color: var(--primary); }
-        .acro-item p { font-size: calc(1.3 * var(--unit)); color: var(--text-muted); }
-
-        /* --- RESEARCH MATRIX --- */
-        .academic-table { width: 100%; border-collapse: collapse; font-size: calc(0.85 * var(--unit)); background: white; border: 1px solid #e2e8f0; position: relative; z-index: 5; }
-        .academic-table th { text-align: left; padding: calc(0.6 * var(--unit)); background: var(--primary); color: white; font-weight: 700; text-transform: uppercase; font-size: calc(0.7 * var(--unit)); border: 1px solid #334155; }
-        .academic-table td { padding: calc(0.7 * var(--unit)); border-bottom: 1px solid #e2e8f0; vertical-align: top; line-height: 1.3; border: 1px solid #e2e8f0; }
-        .academic-table tr:nth-child(even) { background-color: #f8fafc; }
-        .td-label { display: block; font-weight: 800; font-size: calc(0.6 * var(--unit)); text-transform: uppercase; margin-bottom: 4px; }
-        .text-red { color: var(--accent); }
-        .text-blue { color: var(--secondary); }
-
-        /* --- CONTROLS --- */
-        .controls {
-            position: absolute;
-            bottom: calc(3 * var(--unit));
-            right: calc(3 * var(--unit));
-            display: flex;
-            gap: 12px;
-            z-index: 100;
-        }
-
-        .nav-btn {
+        /* --- SECTION HEADERS (Interstitial) --- */
+        .section-slide {
             background: var(--primary);
             color: white;
-            border: none;
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            opacity: 0.6;
-            transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
+        .section-slide h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: calc(6 * var(--unit));
+            letter-spacing: 4px;
+            color: white;
+            position: relative;
+        }
+        .section-slide h1::after {
+            content: ''; position: absolute; bottom: -20px; left: 25%; width: 50%; height: 6px; background: var(--secondary);
+        }
+
+        /* --- HEADERS --- */
+        .header-bar {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: calc(2.5 * var(--unit));
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: calc(0.8 * var(--unit));
+            position: relative; z-index: 5;
+        }
+        .slide-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--secondary); font-size: calc(1.3 * var(--unit)); letter-spacing: 2px; }
+        .slide-heading { font-family: 'Space Grotesk', sans-serif; font-size: calc(2.8 * var(--unit)); font-weight: 700; color: var(--primary); line-height: 1.1; }
+
+        .accent-line { width: calc(8 * var(--unit)); height: 4px; background: var(--secondary); margin-bottom: calc(2 * var(--unit)); border-radius: 10px; }
+
+        /* --- LAYOUTS --- */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: calc(4 * var(--unit)); position: relative; z-index: 5; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(2 * var(--unit)); position: relative; z-index: 5; }
+        .card { background: #f8fafc; border: 1px solid var(--border); padding: calc(1.8 * var(--unit)); border-radius: 12px; height: 100%; }
+        
+        /* --- TABLES --- */
+        .academic-table { width: 100%; border-collapse: collapse; font-size: calc(0.85 * var(--unit)); background: white; border: 1px solid #e2e8f0; position: relative; z-index: 5; }
+        .academic-table th { text-align: left; padding: 10px; background: var(--primary); color: white; text-transform: uppercase; font-size: calc(0.7 * var(--unit)); }
+        .academic-table td { padding: 10px; border: 1px solid #e2e8f0; vertical-align: top; line-height: 1.3; }
+        .academic-table tr:nth-child(even) { background: #f8fafc; }
+
+        /* --- DIAGRAMS --- */
+        .diagram-container { position: relative; width: 100%; height: auto; display: flex; align-items: stretch; justify-content: space-between; gap: 20px; padding: 20px 0; z-index: 5; }
+        .dia-node { background: var(--secondary); color: white; padding: 15px; border-radius: 8px; font-weight: 700; text-align: center; flex: 1; font-size: 12px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .dia-node::after { content: '\f061'; font-family: 'Font Awesome 6 Free'; position: absolute; right: -15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 900; font-size: 14px; }
+        .dia-node:last-child::after { display: none; }
+        .dia-node.accent { background: var(--accent); }
+        .dia-node.navy { background: var(--primary); }
+
+        /* --- ACRONYM --- */
+        .acronym-box { display: grid; grid-template-columns: 15% 85%; height: 100%; border: 2px solid var(--primary); border-radius: 12px; overflow: hidden; background: #fff; z-index: 5; position: relative; }
+        .acronym-sidebar { background: var(--accent); color: white; display: flex; flex-direction: column; justify-content: space-around; align-items: center; font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: calc(3 * var(--unit)); padding: 10px 0; }
+        .acronym-content { padding: 10px 30px; display: flex; flex-direction: column; justify-content: space-around; }
+
+        /* --- CONTROLS --- */
+        .controls { position: absolute; bottom: calc(2.5 * var(--unit)); right: calc(3 * var(--unit)); display: flex; gap: 10px; z-index: 100; }
+        .nav-btn { background: var(--primary); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; opacity: 0.6; transition: 0.3s; }
         .nav-btn:hover { opacity: 1; transform: scale(1.1); background: var(--secondary); }
+        .progress-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: rgba(0,0,0,0.1); z-index: 100; }
+        #progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s; }
 
-        .progress-container {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 6px;
-            background: rgba(0,0,0,0.1); z-index: 100;
-        }
-        #progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s ease; }
-
-        /* --- TITLE SLIDE SPECIAL --- */
-        .title-slide { background: var(--primary); color: white; justify-content: center; }
-        .title-slide h1 { font-family: 'Space Grotesk', sans-serif; font-size: calc(4.2 * var(--unit)); line-height: 1.1; margin-bottom: calc(3 * var(--unit)); color: white; }
-        .title-slide .tag { color: var(--secondary); letter-spacing: 4px; font-weight: 700; font-size: calc(1 * var(--unit)); margin-bottom: calc(2 * var(--unit)); display: block; }
+        .citation-box { background: #f1f5f9; padding: 15px; border-radius: 8px; border-left: 4px solid var(--secondary); font-size: 12px; font-style: italic; margin-top: 15px; }
     </style>
 </head>
 <body>
 
     <div id="presentation-container">
         
-        <!-- PAGE 1: TITLE SLIDE -->
-        <div class="slide active title-slide">
-            <div style="max-width: 90%;">
-                <span class="tag">MASTERS BY RESEARCH PROPOSAL DEFENSE</span>
-                <h1>An Enhanced Human-Centered<br>UI/UX Framework for Emergency<br>Health Card Interfaces</h1>
-                <p style="font-size: calc(1.8 * var(--unit)); font-weight: 300; margin-bottom: calc(5 * var(--unit)); color: #94a3b8;">Improving Usability and User Satisfaction in Bangladesh</p>
-                
-                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px;">
-                    <div>
-                        <p style="font-size: 11px; letter-spacing: 2px; color: var(--secondary); margin-bottom: 8px;">RESEARCHER</p>
-                        <p style="font-size: calc(2 * var(--unit)); font-weight: 700; color: white;">MD RAFAT UDDIN ARMAN</p>
-                        <p style="font-size: 14px; opacity: 0.7;">Matric ID: M032510030 | FTMK, UTeM</p>
-                    </div>
-                    <div style="border-left: 2px solid var(--secondary); padding-left: 30px;">
-                        <p style="font-size: 11px; letter-spacing: 2px; color: var(--secondary); margin-bottom: 8px;">SUPERVISION</p>
-                        <p style="font-size: 18px; font-weight: 600; color: white;">Ts. Dr. Che Ku Nuraini (Supervisor)</p>
-                        <p style="font-size: 18px; font-weight: 600; color: white; opacity: 0.8;">Ikmal Faiq Albakri (Co-Supervisor)</p>
-                    </div>
+        <!-- 1. TITLE SLIDE -->
+        <div class="slide active title-slide" style="background: var(--primary); color: white; justify-content: center;">
+            <div style="max-width: 90%; z-index: 5; position: relative;">
+                <span style="color: var(--secondary); letter-spacing: 3px; font-weight: 800; font-size: 14px; display: block; margin-bottom: 20px;">MASTERS BY RESEARCH PROPOSAL DEFENSE</span>
+                <h1 style="font-size: calc(4.2 * var(--unit)); font-family: 'Space Grotesk'; color: white;">An Enhanced Human-Centered UI/UX Framework for Emergency Health Card Interfaces</h1>
+                <p style="font-size: calc(1.8 * var(--unit)); color: #94a3b8; font-weight: 300; margin-top: 10px;">Improving Usability and User Satisfaction in Bangladesh</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 50px;">
+                    <div><p style="font-size: 11px; color: var(--secondary); font-weight: 700;">RESEARCHER</p><p style="font-size: 20px; font-weight: 700;">MD RAFAT UDDIN ARMAN</p><p style="font-size: 13px; opacity: 0.7;">Matric ID: M032510030 | FTMK, UTeM</p></div>
+                    <div style="border-left: 2px solid var(--secondary); padding-left: 30px;"><p style="font-size: 11px; color: var(--secondary); font-weight: 700;">SUPERVISION</p><p style="font-size: 16px; font-weight: 600;">Ts. Dr. Che Ku Nuraini (Supervisor)</p><p style="font-size: 16px; font-weight: 600; opacity: 0.8;">Ikmal Faiq Albakri (Co-Supervisor)</p></div>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 2: WHAT IS DEHCMsync -->
+        <!-- 2. DEHCMsync CONCEPT -->
         <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">02 // CONCEPT</span>
-                <span style="color: var(--text-muted); font-size: 11px;">CORE FRAMEWORK</span>
-            </div>
+            <div class="header-bar"><span class="slide-num">02 // CONCEPT</span><span style="color: var(--text-muted); font-size: 11px;">CORE FRAMEWORK</span></div>
             <div class="acronym-box">
-                <div class="acronym-sidebar">
-                    <span>D</span><span>E</span><span>H</span><span>C</span><span>M</span><span style="font-size: calc(2 * var(--unit));">sync</span>
-                </div>
+                <div class="acronym-sidebar"><span>D</span><span>E</span><span>H</span><span>C</span><span>M</span><span style="font-size: 24px;">sync</span></div>
                 <div class="acronym-content">
-                    <div class="acro-item">
-                        <i class="fa-solid fa-microchip"></i>
-                        <div><h4>Digital</h4><p>Seamless electronic integration of portable health identities.</p></div>
-                    </div>
-                    <div class="acro-item">
-                        <i class="fa-solid fa-truck-medical"></i>
-                        <div><h4>Emergency</h4><p>Optimized for high-pressure trauma and critical care response.</p></div>
-                    </div>
-                    <div class="acro-item">
-                        <i class="fa-solid fa-heart-pulse"></i>
-                        <div><h4>Healthcare</h4><p>Precision focus on life-critical metadata (blood group, allergies).</p></div>
-                    </div>
-                    <div class="acro-item">
-                        <i class="fa-solid fa-network-wired"></i>
-                        <div><h4>Coordination</h4><p>Bridging family caregivers, first responders, and hospitals.</p></div>
-                    </div>
-                    <div class="acro-item">
-                        <i class="fa-solid fa-layer-group"></i>
-                        <div><h4>Model</h4><p>A validated architectural UI/UX framework for clinical equity.</p></div>
-                    </div>
-                    <div class="acro-item">
-                        <i class="fa-solid fa-rotate"></i>
-                        <div><h4>Synchronized</h4><p>Multi-user system ensuring real-time data accuracy across all nodes.</p></div>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                        <div><h4>Digital</h4><p style="font-size: 12px;">Electronic healthcare ecosystem integration.</p></div>
+                        <div><h4>Emergency</h4><p style="font-size: 12px;">Optimized for life-critical trauma response.</p></div>
+                        <div><h4>Healthcare</h4><p style="font-size: 12px;">Data-driven diagnostic metadata (comorbidities).</p></div>
+                        <div><h4>Coordination</h4><p style="font-size: 12px;">Multi-stakeholder (Paramedic-Hospital-Caregiver) link.</p></div>
+                        <div><h4>Model</h4><p style="font-size: 12px;">The validated architectural UI blueprint.</p></div>
+                        <div><h4>Synchronized</h4><p style="font-size: 12px;">Real-time multi-user data availability.</p></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 3: DIGITAL EMERGENCY HEALTH DEFINITION -->
+        <!-- 3. DIGITAL EMERGENCY HEALTH DEFINITION -->
         <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">03 // DEFINITION</span>
-                <span style="color: var(--text-muted); font-size: 11px;">TERMINOLOGY</span>
-            </div>
+            <div class="header-bar"><span class="slide-num">03 // DEFINITION</span><span style="color: var(--text-muted); font-size: 11px;">TERMINOLOGY</span></div>
             <h2 class="slide-heading">Digital Emergency Health</h2>
             <div class="accent-line"></div>
             <div class="grid-2">
                 <div class="card" style="border-left: 5px solid var(--accent);">
-                    <p style="font-weight: 600; margin-bottom: 15px; color: var(--primary);">Definition:</p>
-                    <p>The application of <strong>Information and Communication Technologies (ICT)</strong> to provide immediate medical assistance, diagnostic accuracy, and care coordination during acute health crises or accidents.</p>
-                    
-                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border);">
-                        <p style="font-size: 12px; font-weight: 700; color: var(--secondary); text-transform: uppercase;">APA Citation Reference:</p>
-                        <p style="font-size: 13px; font-style: italic; margin-top: 5px;">World Health Organization. (2020). <i>Global strategy on digital health 2020-2025</i>. World Health Organization. https://www.who.int/publications/i/item/9789240010598</p>
-                    </div>
+                    <p style="font-weight: 700;">Academic Definition:</p>
+                    <p>The application of ICT to provide immediate medical assistance and care coordination during acute health crises.</p>
+                    <div class="citation-box">World Health Organization. (2020). <i>Global strategy on digital health 2020-2025</i>. Geneva: WHO.</div>
                 </div>
                 <div class="card">
-                    <h4 style="margin-bottom: 15px;">Academic Explanation:</h4>
-                    <p style="font-size: 14px;">Digital Emergency Health serves as the vital bridge between <strong>static medical records</strong> and <strong>dynamic trauma response</strong>. It emphasizes the "Glanceability" of data, ensuring that first responders can act upon validated patient histories within the "Golden Hour," thereby reducing the risk of medical errors caused by information asymmetry.</p>
+                    <h4>Why it Matters:</h4>
+                    <p style="font-size: 14px;">It bridges the "Administrative Void" in pre-hospital care. It focuses on <strong>Data Glanceability</strong>—ensuring a responder understands patient critical risks in under 5 seconds.</p>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 4: INTRODUCTION -->
+        <!-- 4. SECTION: INTRODUCTION -->
+        <div class="slide section-slide">
+            <h1>INTRODUCTION</h1>
+            <p style="margin-top: 40px; color: #94a3b8; letter-spacing: 1px;">Background, Problems, Objectives & Questions</p>
+        </div>
+
+        <!-- 5. BACKGROUND -->
         <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">04 // CH 1</span>
-                <span style="color: var(--secondary); font-weight: 700;">INTRODUCTION</span>
-            </div>
-            <h2 class="slide-heading">The Digital Health Shift</h2>
+            <div class="header-bar"><span class="slide-num">04 // CH 1</span><span style="color: var(--secondary); font-weight: 700;">BACKGROUND</span></div>
+            <h2 class="slide-heading">The Global Digital Healthcare Shift</h2>
             <div class="accent-line"></div>
             <div class="grid-2">
                 <div class="card">
-                    <p style="font-weight: 600; margin-bottom: 20px; color: var(--primary);">Universal Health Coverage (UHC) is increasingly dependent on digital infrastructure.</p>
-                    <p>Bangladesh has 98% NID penetration, yet emergency healthcare remains paper-reliant. Backend systems are robust, but the **Adoption Void** persists due to a neglected human-interface layer.</p>
+                    <p>Universal Health Coverage (UHC) is now reliant on digital infrastructure. While Bangladesh has 98% NID penetration, emergency medical history remains <strong>fragmented and analog</strong>.</p>
                 </div>
-                <div style="background: var(--primary); border-radius: 12px; display: grid; place-items: center; text-align: center; color: white;">
-                    <i class="fa-solid fa-server" style="font-size: calc(6 * var(--unit)); color: var(--secondary); margin-bottom: 20px;"></i>
-                    <p style="font-family: 'Space Grotesk'; font-weight: 700; font-size: 22px;">Systemic Failure</p>
-                    <p style="font-size: 14px; opacity: 0.8; padding: 0 40px;">Sophisticated backend systems fail when the "Human Interface" is ignored in life-critical moments.</p>
+                <div class="card" style="background: var(--primary); color: white; text-align: center;">
+                    <i class="fa-solid fa-server" style="font-size: 50px; color: var(--secondary); margin-bottom: 15px;"></i>
+                    <h4>The Implementation Gap</h4>
+                    <p style="font-size: 13px; opacity: 0.8;">Technical backend capability vs. Real-world human usability in crisis.</p>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 5: THE 4 GAPS -->
+        <!-- 6. SECTION: PROBLEM STATEMENT -->
+        <div class="slide section-slide">
+            <h1 style="color: var(--accent);">PROBLEM STATEMENT</h1>
+            <p style="margin-top: 40px; color: #94a3b8;">Systemic Bottlenecks & The 4 Core Gaps</p>
+        </div>
+
+        <!-- 7. PROBLEM OVERVIEW -->
         <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">05 // THE PROBLEM</span>
-                <span style="color: var(--accent); font-weight: 700;">4 SYSTEMIC GAPS</span>
-            </div>
-            <h2 class="slide-heading">Core Research Challenges</h2>
+            <div class="header-bar"><span class="slide-num">05 // RP</span><span style="color: var(--accent); font-weight: 700;">PROBLEM STATEMENT</span></div>
+            <h2 class="slide-heading">The Socio-Technical Adoption Crisis</h2>
             <div class="accent-line" style="background: var(--accent);"></div>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: calc(2 * var(--unit));">
-                <div class="card" style="border-top: 4px solid var(--accent);">
-                    <h4 style="font-weight: 800; color: var(--accent); margin-bottom: 10px;">1. Time Crisis</h4>
-                    <p style="font-size: 14px;">Manual data verification causes 48% of delays during the "Golden Hour".</p>
-                </div>
-                <div class="card">
-                    <h4 style="font-weight: 800; color: var(--primary); margin-bottom: 10px;">2. Trust Deficit</h4>
-                    <p style="font-size: 14px;">53.3% of surveyed users fear data breaches; 43.3% worry about comorbidity misuse.</p>
-                </div>
-                <div class="card" style="border-top: 4px solid var(--accent);">
-                    <h4 style="font-weight: 800; color: var(--accent); margin-bottom: 10px;">3. Intimidation Gap</h4>
-                    <p style="font-size: 14px;">Complex UIs designed for tech-natives create paralysis for elderly users (59+).</p>
-                </div>
-                <div class="card">
-                    <h4 style="font-weight: 800; color: var(--primary); margin-bottom: 10px;">4. Clarity Gap</h4>
-                    <p style="font-size: 14px;">Existing digital records lack medical "glanceability" required in trauma zones.</p>
-                </div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                <div class="card" style="border-top: 4px solid var(--accent);"><strong>Time Crisis</strong><p style="font-size: 11px;">Manual data checks account for 48% of delays.</p></div>
+                <div class="card"><strong>Trust Deficit</strong><p style="font-size: 11px;">53.3% fear surveillance misuse of data.</p></div>
+                <div class="card" style="border-top: 4px solid var(--accent);"><strong>Intimidation</strong><p style="font-size: 11px;">UI complexity creates tech-anxiety for seniors.</p></div>
+                <div class="card"><strong>Clarity Gap</strong><p style="font-size: 11px;">Records lack rapid glanceability for medics.</p></div>
             </div>
         </div>
 
-        <!-- PAGE 6: RESEARCH MATRIX -->
+        <!-- 8. RESEARCH OBJECTIVES -->
         <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">06 // ALIGNMENT</span>
-                <span style="color: var(--secondary); font-weight: 700;">RESEARCH MATRIX</span>
-            </div>
-            <h2 class="slide-heading" style="font-size: calc(2.4 * var(--unit));">Summary Research Matrix</h2>
+            <div class="header-bar"><span class="slide-num">06 // MISSION</span><span style="color: var(--secondary); font-weight: 700;">OBJECTIVES</span></div>
+            <h2 class="slide-heading">Research Objectives (RO)</h2>
             <div class="accent-line"></div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 20px;">
+                <li style="display: flex; gap: 20px;"><div style="color: var(--secondary); font-weight: 900;">RO1</div><p>To identify user needs and HCD requirements for emergency health cards in Bangladesh.</p></li>
+                <li style="display: flex; gap: 20px;"><div style="color: var(--secondary); font-weight: 900;">RO2</div><p>To develop a validated Human-Centered UI/UX framework (DEHCMsync) bridging trust and intimidation gaps.</p></li>
+                <li style="display: flex; gap: 20px;"><div style="color: var(--secondary); font-weight: 900;">RO3</div><p>To evaluate the impact of this framework on user satisfaction and clinical retrieval efficiency.</p></li>
+            </ul>
+        </div>
+
+        <!-- 9. RESEARCH QUESTIONS -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">07 // INQUIRY</span><span style="color: var(--secondary); font-weight: 700;">QUESTIONS</span></div>
+            <h2 class="slide-heading">Research Questions (RQ)</h2>
+            <div class="accent-line"></div>
+            <div class="card" style="margin-bottom: 15px;"><strong>RQ1: Requirements</strong><p style="font-size: 14px;">What specific HCD design requirements are essential to minimize data retrieval time in emergencies?</p></div>
+            <div class="card" style="margin-bottom: 15px;"><strong>RQ2: Integration</strong><p style="font-size: 14px;">How can accessibility principles and cultural trust markers be effectively integrated into a cohesive framework?</p></div>
+            <div class="card"><strong>RQ3: Improvement</strong><p style="font-size: 14px;">To what extent does the proposed framework improve usability metrics for non-tech-savvy users?</p></div>
+        </div>
+
+        <!-- 10. SECTION: LITERATURE REVIEW -->
+        <div class="slide section-slide">
+            <h1>LITERATURE REVIEW</h1>
+            <p style="margin-top: 40px; color: #94a3b8;">Comparative Analysis & Theoretical Foundations</p>
+        </div>
+
+        <!-- 11. PREVIOUS RESEARCH TABLE -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">08 // LIT</span><span style="color: var(--secondary); font-weight: 700;">COMPARATIVE STUDY</span></div>
             <table class="academic-table">
                 <thead>
-                    <tr>
-                        <th width="16%">Problem</th>
-                        <th width="16%">Objectives (RO)</th>
-                        <th width="16%">Questions (RQ)</th>
-                        <th width="16%">Methodology</th>
-                        <th width="16%">Literature</th>
-                        <th width="20%">Contribution</th>
-                    </tr>
+                    <tr><th>Study Focus</th><th>Population</th><th>Barrier</th><th>Difference/Gap addressed</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><span class="td-label text-red">1. Time Crisis</span>Inability to access vital history during the "Golden Hour".</td>
-                        <td><span class="td-label text-blue">RO1: Identify</span>Identify specific bottlenecks and critical paramedic data points.</td>
-                        <td><span class="td-label text-blue">RQ1: Specs</span>What specific HCD requirements minimize data retrieval time?</td>
-                        <td><b>Phase 1: Discovery</b><br>Contextual inquiry to map patient journey.</td>
-                        <td><b>Smart Cards</b><br>QR/NFC for offline portability.</td>
-                        <td><b>Practical</b><br>Reducing the "3rd Delay" in response.</td>
-                    </tr>
-                    <tr>
-                        <td><span class="td-label text-red">2. Trust Deficit</span>Public fear regarding surveillance preventing adoption.</td>
-                        <td><span class="td-label text-blue">RO2: Develop</span>Develop a UI framework with "Transparent Security" cues.</td>
-                        <td><span class="td-label text-blue">RQ2: Integration</span>How can cultural trust markers be effectively integrated into cohesive UI?</td>
-                        <td><b>Phase 2: Design</b><br>Figma high-fidelity prototyping (Trust focus).</td>
-                        <td><b>Transparency</b><br>Applying "Trust Transfer Theory".</td>
-                        <td><b>Theoretical</b><br>Novel "Trust-Centered UI Framework".</td>
-                    </tr>
-                    <tr>
-                        <td><span class="td-label text-red">3. Intimidation</span>Complex interfaces create cognitive barriers for elderly.</td>
-                        <td><span class="td-label text-blue">RO3: Evaluate</span>Evaluate framework effectiveness in load reduction & satisfaction.</td>
-                        <td><span class="td-label text-blue">RQ3: Metrics</span>To what extent does HCD improve usability metrics?</td>
-                        <td><b>Phase 3: Validation</b><br>Usability Testing (Thinking Aloud).</td>
-                        <td><b>HCD & UTAUT</b><br>ISO 9241-210 & Effort Expectancy.</td>
-                        <td><b>Social Impact</b><br>Digital Equity for vulnerable groups.</td>
-                    </tr>
+                    <tr><td>EHR Portability (2023)</td><td>Urban Patients</td><td>Fragmentation</td><td>Passive NFC/QR Bridge for rural access.</td></tr>
+                    <tr><td>Trust in Health (2024)</td><td>General Citizens</td><td>Surveillance Fear</td><td>"Transparent Security" visual framework.</td></tr>
+                    <tr><td>Elderly UX (2022)</td><td>Seniors (60+)</td><td>Cognitive Load</td><td>Age-friendly Heuristics + HCD Iteration.</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- PAGE 7: METHODOLOGY -->
+        <!-- 12. THEORETICAL DIAGRAM -->
         <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">07 // CH 3</span>
-                <span style="color: var(--secondary); font-weight: 700;">METHODOLOGY</span>
-            </div>
-            <h2 class="slide-heading">Human-Centered Design Cycle</h2>
+            <div class="header-bar"><span class="slide-num">09 // THEORY</span><span style="color: var(--secondary); font-weight: 700;">DIAGRAM</span></div>
+            <h2 class="slide-heading">Theoretical Framework</h2>
             <div class="accent-line"></div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; flex-grow: 1;">
-                <div class="card" style="border-top: 5px solid var(--primary); text-align: center;">
-                    <div style="font-size: 30px; font-weight: 800; color: var(--primary); margin-bottom: 15px;">01</div>
-                    <h4 style="margin-bottom: 10px;">Analysis</h4>
-                    <p style="font-size: 13px; color: var(--text-muted);">**Listen & Learn:** Identify friction points and distrust sources via semi-structured interviews (N=101).</p>
-                </div>
-                <div class="card" style="border-top: 5px solid var(--secondary); text-align: center;">
-                    <div style="font-size: 30px; font-weight: 800; color: var(--secondary); margin-bottom: 15px;">02</div>
-                    <h4 style="margin-bottom: 10px;">Design</h4>
-                    <p style="font-size: 13px; color: var(--text-muted);">**Prototype:** Develop high-fidelity UI/UX with age-friendly cues and "Transparent Security" anchors.</p>
-                </div>
-                <div class="card" style="border-top: 5px solid var(--accent); text-align: center;">
-                    <div style="font-size: 30px; font-weight: 800; color: var(--accent); margin-bottom: 15px;">03</div>
-                    <h4 style="margin-bottom: 10px;">Evaluation</h4>
-                    <p style="font-size: 13px; color: var(--text-muted);">**Deploy & Test:** Validate effectiveness through task-based "Thinking Aloud" sessions.</p>
-                </div>
+            <div class="diagram-container">
+                <div class="dia-node navy">UTAUT2<br>(Effort Expectancy)</div>
+                <div class="dia-node">Trust Transfer Theory<br>(Clinician to Tool)</div>
+                <div class="dia-node accent">DEHCMsync<br>UI Framework</div>
             </div>
-            <div class="card" style="margin-top: 20px; border-left: 6px solid var(--primary); text-align: center; padding: 15px;">
-                <p style="font-size: 14px;">**Final Deliverable:** A validated UI/UX framework proven to save seconds and improve trust among stakeholders.</p>
+            <p style="font-size: 12px; text-align: center; margin-top: 20px; color: var(--text-muted);">Integrating Technology Acceptance with Human Trust Foundations.</p>
+        </div>
+
+        <!-- 13. SECTION: METHODOLOGY -->
+        <div class="slide section-slide">
+            <h1>METHODOLOGY</h1>
+            <p style="margin-top: 40px; color: #94a3b8;">Research Process, Surveys & Validation</p>
+        </div>
+
+        <!-- 14. PRELIMINARY SURVEY -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">10 // PHASE 0</span><span style="color: var(--secondary); font-weight: 700;">STARTING POINT</span></div>
+            <h2 class="slide-heading">Preliminary User Survey</h2>
+            <div class="accent-line"></div>
+            <div class="grid-2">
+                <div class="card"><strong>Sample Size:</strong><p>N=101 Participants across mixed demographics in Bangladesh.</p></div>
+                <div class="card"><strong>Method:</strong><p>Mixed-method surveys to identify baseline trust and tech-readiness.</p></div>
             </div>
         </div>
 
-        <!-- PAGE 8: THANK YOU -->
+        <!-- 15. PRELIMINARY FINDINGS -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">11 // FINDINGS</span><span style="color: var(--accent); font-weight: 700;">SURVEY RESULTS</span></div>
+            <div class="grid-3" style="gap: 15px;">
+                <div class="card" style="text-align: center;"><h2 style="color: var(--accent);">53.3%</h2><p style="font-size: 11px;">Fear surveillance misuse.</p></div>
+                <div class="card" style="text-align: center;"><h2 style="color: var(--secondary);">48%</h2><p style="font-size: 11px;">Note paperwork delays as lethal.</p></div>
+                <div class="card" style="text-align: center;"><h2 style="color: var(--primary);">65%</h2><p style="font-size: 11px;">Struggle with current medical icons.</p></div>
+            </div>
+            <p style="margin-top: 20px; font-weight: 700;">Conclusion: Users want the tech but mistrust the "Administrative Interface".</p>
+        </div>
+
+        <!-- 16. RESEARCH APPROACH -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">12 // CH 3</span><span style="color: var(--secondary); font-weight: 700;">APPROACH</span></div>
+            <h2 class="slide-heading">Research Approach & Design</h2>
+            <div class="accent-line"></div>
+            <div class="card" style="border-left: 6px solid var(--secondary);">
+                <p>Guided by <strong>ISO 9241-210 (Human-Centered Design)</strong>. The approach is iterative, centering on the Context of Use (Distress) and the cognitive decline of seniors.</p>
+            </div>
+        </div>
+
+        <!-- 17. METHODOLOGY FRAMEWORK DIAGRAM -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">13 // HCD</span><span style="color: var(--secondary); font-weight: 700;">PROCESS CYCLE</span></div>
+            <div class="diagram-container">
+                <div class="dia-node navy">1. Analysis<br>(Inquiry)</div>
+                <div class="dia-node accent">2. Design<br>(Figma Prototyping)</div>
+                <div class="dia-node">3. Evaluation<br>(Validation)</div>
+            </div>
+            <p style="text-align: center; font-size: 14px;">Iterative Lifecycle mapping back to lethal bottlenecks.</p>
+        </div>
+
+        <!-- 18. RESEARCH CONCEPTUAL FRAMEWORK -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">14 // FRAMEWORK</span><span style="color: var(--secondary); font-weight: 700;">LOGIC</span></div>
+            <h2 class="slide-heading">Research Conceptual Framework</h2>
+            <div class="accent-line"></div>
+            <div class="card" style="display: flex; flex-direction: column; align-items: center; justify-content: space-around;">
+                <div style="background: #eef2ff; padding: 10px; width: 100%; border-radius: 8px; text-align: center;"><strong>INPUT:</strong> HCD Heuristics + Trust Theory + Senior Heuristics</div>
+                <i class="fa-solid fa-arrow-down" style="margin: 5px;"></i>
+                <div style="background: #e0e7ff; padding: 10px; width: 100%; border-radius: 8px; text-align: center;"><strong>PROCESS:</strong> DEHCMsync Multi-user Sync logic</div>
+                <i class="fa-solid fa-arrow-down" style="margin: 5px;"></i>
+                <div style="background: #c7d2fe; padding: 10px; width: 100%; border-radius: 8px; text-align: center;"><strong>OUTPUT:</strong> Validated UI Model + Reduced Retrieval Time</div>
+            </div>
+        </div>
+
+        <!-- 19. CONCEPTUAL DESIGN DIAGRAM -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">15 // DESIGN</span><span style="color: var(--secondary); font-weight: 700;">LAYERED STRUCTURE</span></div>
+            <div class="grid-2">
+                <div class="card" style="text-align: center; background: var(--secondary); color: white;"><strong>User Layer</strong><p style="font-size: 11px;">Patient/Caregiver Input</p></div>
+                <div class="card" style="text-align: center; background: var(--primary); color: white;"><strong>Outcome Layer</strong><p style="font-size: 11px;">Medic Visual Triage</p></div>
+                <div class="card" style="grid-column: span 2; border: 2px dashed var(--accent); text-align: center;"><strong>Sync Engine (NFC/QR Bridge)</strong></div>
+            </div>
+        </div>
+
+        <!-- 20. ANALYZE PROCESS -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">16 // ANALYSIS</span><span style="color: var(--secondary); font-weight: 700;">METHOD</span></div>
+            <h2 class="slide-heading">How Data is Analyzed</h2>
+            <div class="accent-line"></div>
+            <div class="grid-2">
+                <div class="card"><strong>Qualitative:</strong><p>Thematic analysis of interview transcripts to identify cognitive friction points.</p></div>
+                <div class="card"><strong>Quantitative:</strong><p>SUS Score analysis & Error-rate benchmarking from usability test sessions.</p></div>
+            </div>
+        </div>
+
+        <!-- 21. MODEL VALIDATION -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">17 // VALIDATION</span><span style="color: var(--secondary); font-weight: 700;">PROTOCOL</span></div>
+            <h2 class="slide-heading">Validating the Proposed Model</h2>
+            <div class="accent-line"></div>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 12px;"><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 10px;"></i> <strong>Concurrent Thinking Aloud:</strong> Observing seniors as they navigate to detect cognitive load.</li>
+                <li style="margin-bottom: 12px;"><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 10px;"></i> <strong>Task-Based Retrieval:</strong> Paramedic speed testing (Target &lt; 30s).</li>
+                <li style="margin-bottom: 12px;"><i class="fa-solid fa-check-circle" style="color: var(--secondary); margin-right: 10px;"></i> <strong>Expert Review:</strong> Evaluation by UTeM ICT faculty and clinical practitioners.</li>
+            </ul>
+        </div>
+
+        <!-- 22. STRATEGIC MATRIX -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">18 // SUMMARY</span><span style="color: var(--secondary); font-weight: 700;">ALIGNMENT MATRIX</span></div>
+            <table class="academic-table" style="font-size: 10px;">
+                <thead>
+                    <tr><th>Problem</th><th>RO</th><th>RQ</th><th>Method</th><th>Literature</th><th>Contribution</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Time Crisis</td><td>RO1: Identify</td><td>RQ1: Needs</td><td>Interviews</td><td>Smart Cards</td><td>Response Speed</td></tr>
+                    <tr><td>Trust Deficit</td><td>RO2: Develop</td><td>RQ2: Trust</td><td>Figma</td><td>Trust Transfer</td><td>Novel Model</td></tr>
+                    <tr><td>Intimidation</td><td>RO3: Evaluate</td><td>RQ3: Metric</td><td>User Test</td><td>HCD & UTAUT</td><td>Equity</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 23. THANK YOU -->
         <div class="slide" style="justify-content: center; text-align: center;">
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <i class="fa-regular fa-circle-check" style="font-size: 80px; color: var(--secondary); margin-bottom: 25px;"></i>
-                <h1 style="font-size: 70px; color: var(--primary); margin-bottom: 10px;">Thank You</h1>
-                <p style="font-size: 22px; color: var(--text-muted); font-weight: 600;">Questions & Discussion</p>
-                
-                <div style="margin-top: 50px; padding: 30px; border-top: 1px solid #e2e8f0; width: 60%;">
-                    <p style="font-size: 18px; color: var(--primary);"><strong>MD RAFAT UDDIN ARMAN</strong></p>
-                    <p style="font-size: 14px;">M032510030 | arman.rafat@gmail.com</p>
-                    <p style="font-size: 12px; margin-top: 5px;">Faculty of ICT (FTMK), UTeM</p>
-                </div>
+            <i class="fa-regular fa-circle-check" style="font-size: 80px; color: var(--secondary); margin-bottom: 25px;"></i>
+            <h1 style="font-size: 70px; color: var(--primary); margin-bottom: 10px;">Thank You</h1>
+            <p style="font-size: 20px; color: var(--text-muted);">Questions & Discussion</p>
+            <div style="margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 20px; width: 60%; margin: 0 auto;">
+                <p style="font-weight: 700;">MD RAFAT UDDIN ARMAN | arman.rafat@gmail.com</p>
+                <p style="font-size: 12px; margin-top: 5px;">Faculty of ICT (FTMK), UTeM</p>
             </div>
         </div>
 
         <!-- NAVIGATION CONTROLS -->
         <div class="controls">
-            <button class="nav-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen (F)"><i class="fa-solid fa-expand" id="fs-icon"></i></button>
-            <button class="nav-btn" onclick="prevSlide()" title="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="nav-btn" onclick="nextSlide()" title="Next"><i class="fa-solid fa-chevron-right"></i></button>
+            <button class="nav-btn" onclick="toggleFullscreen()" title="Fullscreen (F)"><i class="fa-solid fa-expand" id="fs-icon"></i></button>
+            <button class="nav-btn" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-btn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
 
         <!-- PROGRESS BAR -->
-        <div class="progress-container">
-            <div id="progress-fill"></div>
-        </div>
-
+        <div class="progress-container"><div id="progress-fill"></div></div>
     </div>
 
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const progressFill = document.getElementById('progress-fill');
-        const presentation = document.getElementById('presentation-container');
+        const wrapper = document.getElementById('presentation-container');
         const fsIcon = document.getElementById('fs-icon');
 
         function updateSlide() {
@@ -491,47 +438,24 @@
             progressFill.style.width = progress + '%';
         }
 
-        function nextSlide() {
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                updateSlide();
-            }
-        }
-
-        function prevSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlide();
-            }
-        }
+        function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; updateSlide(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
 
         function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                presentation.requestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
+            if (!document.fullscreenElement) { wrapper.requestFullscreen().catch(err => console.error(err)); }
+            else { document.exitFullscreen(); }
         }
 
-        // Fullscreen icon toggle
         document.addEventListener('fullscreenchange', () => {
-            if (document.fullscreenElement) {
-                fsIcon.className = 'fa-solid fa-compress';
-            } else {
-                fsIcon.className = 'fa-solid fa-expand';
-            }
+            fsIcon.className = document.fullscreenElement ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
         });
 
-        // Keyboard Support
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
             if (e.key === 'ArrowLeft') prevSlide();
             if (e.key === 'f' || e.key === 'F') toggleFullscreen();
         });
 
-        // Init
         updateSlide();
     </script>
 </body>
