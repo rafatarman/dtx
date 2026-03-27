@@ -88,6 +88,25 @@
             z-index: 0;
         }
 
+        /* --- SECTION SLIDES --- */
+        .section-slide {
+            background: var(--primary);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .section-slide h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: calc(7 * var(--unit));
+            letter-spacing: 4px;
+            color: white;
+            position: relative;
+        }
+        .section-slide h1::after {
+            content: ''; position: absolute; bottom: -15px; left: 25%; width: 50%; height: 6px; background: var(--secondary);
+        }
+
         /* --- TYPOGRAPHY --- */
         .header-bar {
             display: flex;
@@ -218,11 +237,6 @@
         }
         #progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s ease; }
 
-        /* Section Slides */
-        .section-slide { background: var(--primary); color: white; justify-content: center; align-items: center; text-align: center; }
-        .section-slide h1 { font-family: 'Space Grotesk', sans-serif; font-size: calc(7 * var(--unit)); letter-spacing: 4px; color: white; position: relative; }
-        .section-slide h1::after { content: ''; position: absolute; bottom: -15px; left: 25%; width: 50%; height: 6px; background: var(--secondary); }
-
         /* InfoGraphic Pillars */
         .pill-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: auto; }
         .pill { border-top: 5px solid var(--secondary); background: #f8fafc; padding: 15px; text-align: center; border-radius: 8px; }
@@ -318,8 +332,8 @@
         </div>
 
         <!-- 4: INTERSTITIAL INTRODUCTION -->
-        <div class="slide section-slide">
-            <h1>CHAPTER 1:<br>INTRODUCTION</h1>
+        <div class="slide section-slide" style="background: white;">
+            <h1 style="color: var(--primary);">INTRODUCTION</h1>
         </div>
 
         <!-- 5: BACKGROUND -->
@@ -334,7 +348,7 @@
                 </div>
                 <div class="card" style="border-left: 5px solid var(--accent);">
                     <p style="font-weight: 700; color: var(--accent);">Historical Blindness:</p>
-                    <p>Absence of a <b>digital health dataset</b> means responders cannot recall any medical history, leading to lethal errors in acute care.</p>
+                    <p>Absence of a <b>digital health dataset</b> means responders cannot recall any medical history of that patient, leading to lethal errors in acute care.</p>
                 </div>
             </div>
             <div class="card" style="background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 30px;">
@@ -346,7 +360,7 @@
             </div>
         </div>
 
-        <!-- 6: PROBLEM STATEMENT (NORMAL PAGE) -->
+        <!-- 6: PROBLEM STATEMENT -->
         <div class="slide">
             <div class="header-bar">
                 <span class="slide-num">06 // PROBLEM</span>
@@ -372,7 +386,9 @@
 
         <!-- 7: GAP ANALYSIS -->
         <div class="slide">
-            <div class="header-bar"><span class="slide-num">07 // RP</span><span style="color: var(--accent); font-weight: 700;">GAP ANALYSIS</span></div>
+            <div class="header-bar">
+                <span class="slide-num">07 // RP</span><span style="color: var(--accent); font-weight: 700;">GAP ANALYSIS</span>
+            </div>
             <div class="vertical-gap-list">
                 <div class="gap-item">
                     <div class="gap-icon"><i class="fa-solid fa-hourglass-half"></i></div>
@@ -393,14 +409,56 @@
             </div>
         </div>
 
-        <!-- 8: INTERSTITIAL LIT -->
-        <div class="slide section-slide">
-            <h1>CHAPTER 2:<br>LITERATURE REVIEW</h1>
+        <!-- 8: RESEARCH OBJECTIVES -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">08 // MISSION</span><span style="color: var(--secondary); font-weight: 700;">OBJECTIVES</span></div>
+            <h2 class="slide-heading">Research Objectives (RO)</h2>
+            <div class="accent-line"></div>
+            <div style="display: flex; flex-direction: column; gap: calc(3 * var(--unit)); flex-grow: 1; justify-content: center;">
+                <div class="card" style="border-left: 10px solid var(--secondary); display: flex; align-items: center; gap: 30px; padding: calc(3 * var(--unit));">
+                    <h2 style="font-size: calc(3 * var(--unit)); color: var(--secondary);">RO1</h2>
+                    <p style="font-size: calc(2 * var(--unit)); color: var(--primary); font-weight: 600;">Identify user needs and HCD requirements for emergency health cards in Bangladesh.</p>
+                </div>
+                <div class="card" style="border-left: 10px solid var(--secondary); display: flex; align-items: center; gap: 30px; padding: calc(3 * var(--unit));">
+                    <h2 style="font-size: calc(3 * var(--unit)); color: var(--secondary);">RO2</h2>
+                    <p style="font-size: calc(2 * var(--unit)); color: var(--primary); font-weight: 600;">Develop a validated Human-Centered UI/UX framework (DEHCMsync) bridging trust and intimidation gaps.</p>
+                </div>
+                <div class="card" style="border-left: 10px solid var(--secondary); display: flex; align-items: center; gap: 30px; padding: calc(3 * var(--unit));">
+                    <h2 style="font-size: calc(3 * var(--unit)); color: var(--secondary);">RO3</h2>
+                    <p style="font-size: calc(2 * var(--unit)); color: var(--primary); font-weight: 600;">Evaluate the impact of this framework on user satisfaction and clinical retrieval efficiency.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- 9: LIT MATRIX (EXPANDED) -->
+        <!-- 9: RESEARCH QUESTIONS -->
         <div class="slide">
-            <div class="header-bar"><span class="slide-num">09 // LIT</span><span style="color: var(--secondary); font-weight: 700;">PREVIOUS RESEARCH</span></div>
+            <div class="header-bar"><span class="slide-num">09 // INQUIRY</span><span style="color: var(--secondary); font-weight: 700;">QUESTIONS</span></div>
+            <h2 class="slide-heading">Research Questions (RQ)</h2>
+            <div class="accent-line"></div>
+            <div style="display: grid; grid-template-columns: 1fr; gap: calc(2 * var(--unit)); flex-grow: 1; justify-content: center;">
+                <div class="card" style="border-top: 6px solid var(--primary); padding: calc(2.5 * var(--unit));">
+                    <h4 style="color: var(--secondary); margin-bottom: 10px;">RQ1: Requirements</h4>
+                    <p style="font-size: calc(1.8 * var(--unit)); color: var(--primary);">What specific human-centered design requirements are essential to minimize data retrieval time in emergencies?</p>
+                </div>
+                <div class="card" style="border-top: 6px solid var(--primary); padding: calc(2.5 * var(--unit));">
+                    <h4 style="color: var(--secondary); margin-bottom: 10px;">RQ2: Integration</h4>
+                    <p style="font-size: calc(1.8 * var(--unit)); color: var(--primary);">How can accessibility principles and cultural trust markers be effectively integrated into a cohesive framework?</p>
+                </div>
+                <div class="card" style="border-top: 6px solid var(--primary); padding: calc(2.5 * var(--unit));">
+                    <h4 style="color: var(--secondary); margin-bottom: 10px;">RQ3: Improvement</h4>
+                    <p style="font-size: calc(1.8 * var(--unit)); color: var(--primary);">To what extent does the proposed framework improve usability metrics (efficiency, errors) for non-tech-savvy users?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10: INTERSTITIAL LIT -->
+        <div class="slide section-slide" style="background: white;">
+            <h1 style="color: var(--primary);">LITERATURE REVIEW</h1>
+        </div>
+
+        <!-- 11: LIT MATRIX -->
+        <div class="slide">
+            <div class="header-bar"><span class="slide-num">11 // LIT</span><span style="color: var(--secondary); font-weight: 700;">PREVIOUS RESEARCH</span></div>
             <table class="academic-table" style="font-size: calc(1.1 * var(--unit));">
                 <thead>
                     <tr><th>Author/Year</th><th>Population</th><th>Barrier Identified</th><th>Gap Addressed by DEHCMsync</th></tr>
@@ -419,14 +477,14 @@
             </table>
         </div>
 
-        <!-- 10: INTERSTITIAL METHODOLOGY -->
-        <div class="slide section-slide">
-            <h1>CHAPTER 3:<br>METHODOLOGY</h1>
+        <!-- 12: INTERSTITIAL METHODOLOGY -->
+        <div class="slide section-slide" style="background: white;">
+            <h1 style="color: var(--primary);">METHODOLOGY</h1>
         </div>
 
-        <!-- 11: PRELIMINARY DATA (N=120) -->
+        <!-- 13: PRELIMINARY DATA -->
         <div class="slide">
-            <div class="header-bar"><span class="slide-num">11 // START</span><span style="color: var(--secondary); font-weight: 700;">PRELIMINARY SURVEY</span></div>
+            <div class="header-bar"><span class="slide-num">13 // START</span><span style="color: var(--secondary); font-weight: 700;">PRELIMINARY SURVEY</span></div>
             <div class="grid-2" style="margin-bottom: 20px;">
                 <div class="card">
                     <h4>Survey Overview (N=120)</h4>
@@ -451,9 +509,9 @@
             </div>
         </div>
 
-        <!-- 12: RESEARCH APPROACH -->
+        <!-- 14: RESEARCH APPROACH -->
         <div class="slide">
-            <div class="header-bar"><span class="slide-num">12 // CH 3</span><span style="color: var(--secondary); font-weight: 700;">APPROACH</span></div>
+            <div class="header-bar"><span class="slide-num">14 // CH 3</span><span style="color: var(--secondary); font-weight: 700;">APPROACH</span></div>
             <h2 class="slide-heading">Research Approach: The HCD Path</h2>
             <div class="accent-line"></div>
             <div class="grid-2">
@@ -495,9 +553,9 @@
             </div>
         </div>
 
-        <!-- 13: ANALYSIS METHODS -->
+        <!-- 15: ANALYSIS METHODS -->
         <div class="slide">
-            <div class="header-bar"><span class="slide-num">13 // ANALYSIS</span><span style="color: var(--secondary); font-weight: 700;">TECHNIQUES</span></div>
+            <div class="header-bar"><span class="slide-num">15 // ANALYSIS</span><span style="color: var(--secondary); font-weight: 700;">TECHNIQUES</span></div>
             <h2 class="slide-heading">Data Triangulation & Analysis</h2>
             <div class="accent-line"></div>
             <div class="grid-2">
@@ -525,9 +583,9 @@
             </div>
         </div>
 
-        <!-- 14: SUMMARY MATRIX (FULL PAGE EXPANDED) -->
+        <!-- 16: SUMMARY MATRIX -->
         <div class="slide">
-            <div class="header-bar"><span class="slide-num">14 // SUMMARY</span><span style="color: var(--secondary); font-weight: 700;">ALIGNMENT MATRIX</span></div>
+            <div class="header-bar"><span class="slide-num">16 // SUMMARY</span><span style="color: var(--secondary); font-weight: 700;">ALIGNMENT MATRIX</span></div>
             <h2 class="slide-heading" style="font-size: calc(2.4 * var(--unit));">Table 1.2: Strategic Research Summary</h2>
             <table class="academic-table" style="font-size: calc(0.9 * var(--unit));">
                 <thead>
@@ -562,7 +620,7 @@
             </table>
         </div>
 
-        <!-- 15: THANK YOU -->
+        <!-- 17: THANK YOU -->
         <div class="slide" style="justify-content: center; text-align: center;">
             <i class="fa-regular fa-circle-check" style="font-size: calc(8 * var(--unit)); color: var(--secondary); margin-bottom: 25px;"></i>
             <h1 style="font-size: calc(6 * var(--unit)); color: var(--primary);">Thank You</h1>
