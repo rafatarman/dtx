@@ -11,13 +11,14 @@
     
     <style>
         :root {
-            --primary: #0f172a;      /* Deep Navy */
-            --secondary: #3b82f6;    /* Trust Blue */
-            --accent: #dc2626;       /* Emergency Red */
-            --bg-body: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --primary-bg: #020617;   /* Ultra dark navy */
+            --accent-blue: #3b82f6;  /* Chromatic Blue */
+            --accent-red: #ef4444;   /* Chromatic Red */
+            --accent-teal: #2dd4bf;  /* Chromatic Teal */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-pure: #ffffff;
+            --text-dim: #94a3b8;
             
             /* STRICT FONT CONSTRAINTS (16px - 30px) */
             --f-xl: 30px;    
@@ -31,8 +32,8 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--primary);
-            color: var(--text-main);
+            background-color: var(--primary-bg);
+            color: var(--text-pure);
             height: 100vh;
             width: 100vw;
             overflow: hidden;
@@ -42,27 +43,31 @@
             touch-action: none; 
         }
 
+        /* --- CHROMATIC BACKGROUND --- */
         #viewport {
             position: relative;
             width: 100vw;
             height: 100vh;
-            background: var(--bg-body);
+            background: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(239, 68, 68, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(45, 212, 191, 0.1) 0px, transparent 50%),
+                var(--primary-bg);
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        /* --- MORPH ANIMATION ENGINE --- */
+        /* --- PAGE ARCHITECTURE (VERTICAL FILL) --- */
         .page-view {
             position: absolute;
             inset: 0;
             padding: 50px 8%;
             display: none;
             flex-direction: column;
-            background-color: var(--bg-body);
             z-index: 10;
-            justify-content: space-between;
-            transition: opacity 0.8s ease;
+            justify-content: space-between; 
+            background: transparent;
         }
 
         .page-view.active {
@@ -71,128 +76,136 @@
         }
 
         @keyframes morphEnter {
-            0% { opacity: 0; transform: scale(0.95) translateY(30px); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+            0% { opacity: 0; transform: scale(1.05); filter: blur(15px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
         }
 
-        /* Staggered Content Animation */
+        /* Staggered Item Animations */
         .page-view.active .morph-item {
-            animation: itemSlideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            animation: itemFade 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             opacity: 0;
         }
-
-        @keyframes itemSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes itemFade {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .delay-1 { animation-delay: 0.15s; }
+        .delay-2 { animation-delay: 0.3s; }
+        .delay-3 { animation-delay: 0.45s; }
 
-        .delay-1 { animation-delay: 0.2s !important; }
-        .delay-2 { animation-delay: 0.3s !important; }
-        .delay-3 { animation-delay: 0.4s !important; }
-
-        /* --- TYPOGRAPHY --- */
-        h1 { font-family: 'Space Grotesk'; font-size: var(--f-xl); font-weight: 800; color: white; line-height: 1.1; }
-        .page-title { font-family: 'Space Grotesk'; font-size: var(--f-lg); font-weight: 800; color: var(--primary); margin-bottom: 5px; text-transform: uppercase; }
-        h4 { font-family: 'Space Grotesk'; font-size: var(--f-md); font-weight: 700; color: var(--primary); margin-bottom: 8px; }
-        
-        p, li { font-size: var(--f-base); line-height: 1.6; color: var(--text-main); }
-        .chapter-tag { color: var(--secondary); font-weight: 800; font-size: var(--f-sm); letter-spacing: 3px; margin-bottom: 5px; display: block; text-transform: uppercase; }
-        .accent-line { width: 100px; height: 6px; background: var(--secondary); border-radius: 10px; margin: 10px 0; flex-shrink: 0; }
-
-        /* --- LAYOUTS --- */
-        .content-body { flex-grow: 1; display: flex; flex-direction: column; justify-content: space-around; gap: 20px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        
-        .card { 
-            background: #f8fafc; 
-            border: 1px solid var(--border); 
-            padding: 30px; 
-            border-radius: 24px; 
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        /* --- SMART GLASS COMPONENTS --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             justify-content: center;
             height: 100%;
+            position: relative;
+            overflow: hidden;
         }
-        .card.accent-red { border-left: 12px solid var(--accent); }
-        .card.accent-blue { border-left: 12px solid var(--secondary); }
         
-        /* Visibility fix for dark backgrounds */
-        .card.dark { background: var(--primary); color: white; border: none; }
-        .card.dark h5, .card.dark p, .card.dark h4, .card.dark li { color: #ffffff !important; }
-        .card.dark .chapter-tag { color: var(--secondary) !important; }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
 
-        /* --- DEHCMsync MOOC STYLE --- */
+        .card-red { border-left: 4px solid var(--accent-red); }
+        .card-blue { border-left: 4px solid var(--accent-blue); }
+        .card-teal { border-left: 4px solid var(--accent-teal); }
+
+        /* --- TYPOGRAPHY --- */
+        h1 { font-family: 'Space Grotesk'; font-size: var(--f-xl); font-weight: 800; color: white; line-height: 1.1; }
+        .page-title { font-family: 'Space Grotesk'; font-size: var(--f-lg); font-weight: 800; color: white; margin-bottom: 5px; text-transform: uppercase; }
+        h4 { font-family: 'Space Grotesk'; font-size: var(--f-md); font-weight: 700; color: var(--accent-blue); margin-bottom: 8px; }
+        
+        p, li { font-size: var(--f-base); line-height: 1.6; color: var(--text-pure); }
+        .chapter-tag { color: var(--accent-teal); font-weight: 800; font-size: var(--f-sm); letter-spacing: 3px; display: block; text-transform: uppercase; margin-bottom: 10px; }
+        .accent-line { width: 100px; height: 4px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal)); border-radius: 10px; margin: 15px 0; }
+
+        /* --- LAYOUT UTILITIES --- */
+        .content-body { flex-grow: 1; display: flex; flex-direction: column; justify-content: space-around; gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: stretch; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+
+        /* --- MOOC ACRONYM RECREATION --- */
         .mooc-box {
             display: grid;
-            grid-template-columns: 180px 1fr;
-            border: 4px solid var(--primary);
+            grid-template-columns: 160px 1fr;
+            border: 1px solid var(--glass-border);
             border-radius: 24px;
             overflow: hidden;
             height: 65vh;
-            background: white;
+            background: rgba(0,0,0,0.2);
         }
         .mooc-sidebar {
-            background: var(--accent);
+            background: rgba(239, 68, 68, 0.8);
             color: white;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
             font-family: 'Space Grotesk';
-            font-weight: 800;
+            font-weight: 900;
             font-size: 30px;
-            border-right: 4px solid var(--primary);
         }
         .mooc-content { padding: 20px 40px; display: flex; flex-direction: column; justify-content: space-around; }
-        .mooc-row { display: grid; grid-template-columns: 50px 1fr; align-items: center; gap: 25px; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .mooc-row:last-child { border-bottom: none; }
-        .mooc-row i { font-size: 24px; color: var(--primary); text-align: center; }
+        .mooc-row { display: grid; grid-template-columns: 50px 1fr; align-items: center; gap: 25px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .mooc-row i { color: var(--accent-teal); font-size: 24px; text-align: center; }
 
         /* --- ACADEMIC TABLES --- */
-        .academic-table { width: 100%; border-collapse: collapse; font-size: 16px; background: white; border: 1px solid #e2e8f0; margin-top: 10px; }
-        .academic-table th { text-align: left; padding: 18px; background: var(--primary); color: white; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
-        .academic-table td { padding: 15px 20px; border: 1px solid #e2e8f0; vertical-align: top; line-height: 1.4; color: var(--text-main); }
-        .academic-table tr:nth-child(even) { background-color: #f8fafc; }
+        .academic-table { width: 100%; border-collapse: collapse; font-size: 16px; background: rgba(255,255,255,0.02); border-radius: 12px; overflow: hidden; }
+        .academic-table th { text-align: left; padding: 18px; background: rgba(15, 23, 42, 0.8); color: var(--accent-teal); text-transform: uppercase; font-size: 14px; border-bottom: 1px solid var(--glass-border); }
+        .academic-table td { padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; line-height: 1.4; color: white; }
+        .academic-table tr:hover { background: rgba(255,255,255,0.05); }
 
         /* --- STATS --- */
-        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; flex-grow: 1; }
-        .stat-card { text-align: center; padding: 25px; background: white; border-radius: 20px; border-bottom: 6px solid var(--secondary); box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: center; }
-        .stat-card i { font-size: 30px; color: var(--primary); margin-bottom: 10px; display: block; }
-        .stat-card h2 { font-size: 28px; color: var(--accent); font-family: 'Space Grotesk'; margin-bottom: 5px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
+        .stat-card { text-align: center; padding: 25px; background: var(--glass-bg); border-radius: 24px; border: 1px solid var(--glass-border); border-bottom: 6px solid var(--accent-blue); display: flex; flex-direction: column; justify-content: center; }
+        .stat-card i { font-size: 30px; color: var(--accent-teal); margin-bottom: 10px; }
+        .stat-card h2 { font-size: 28px; color: var(--accent-red); font-family: 'Space Grotesk'; }
 
-        /* --- CONTROLS --- */
-        .ui-controls { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 12px; z-index: 1000; }
-        .btn-round { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; opacity: 0.9; transition: 0.3s; font-size: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        .btn-round:hover { transform: scale(1.1) translateY(-5px); background: var(--secondary); opacity: 1; }
+        /* --- NAVIGATION --- */
+        .ui-controls { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 15px; z-index: 1000; }
+        .btn-round { background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); color: white; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .btn-round:hover { background: var(--accent-blue); transform: scale(1.1) translateY(-5px); border-color: transparent; }
 
-        .progress-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 8px; background: rgba(0,0,0,0.1); z-index: 100; }
-        #fill { height: 100%; background: var(--secondary); width: 0%; transition: 0.4s; }
+        .progress-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 6px; background: rgba(255,255,255,0.05); z-index: 100; }
+        #fill { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal)); width: 0%; transition: 0.4s; }
 
-        .citation { color: var(--secondary); font-weight: 700; font-style: italic; font-size: 16px; }
+        .citation { color: var(--accent-teal); font-weight: 700; font-style: italic; font-size: 16px; }
     </style>
 </head>
 <body>
 
     <div id="viewport">
         
-        <!-- 01: TITLE -->
-        <div class="page-view active" style="background: var(--primary); text-align: center;">
-            <div class="content-body" style="max-width: 1100px; margin: 0 auto; justify-content: center;">
-                <span class="chapter-tag morph-item" style="color: var(--secondary); margin-bottom: 20px;">Master's Thesis Proposal // 2026 Submission</span>
-                <h1 class="morph-item delay-1" style="font-size: 30px; margin-bottom: 15px;">An Enhanced Human-Centered UI/UX Framework for Emergency Health Card Interfaces</h1>
-                <p class="morph-item delay-2" style="color: #94a3b8; font-size: 22px; font-weight: 300;">Improving Usability and User Satisfaction in Bangladesh</p>
-                <div class="morph-item delay-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 10vh; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 40px; text-align: left;">
-                    <div>
+        <!-- 01: TITLE SLIDE -->
+        <div class="page-view active" style="text-align: center;">
+            <div class="content-body" style="max-width: 1000px; margin: 0 auto;">
+                <div class="morph-item">
+                    <span class="chapter-tag">Faculty of ICT (FTMK) // UTeM</span>
+                    <h1 style="font-size: 30px; margin-bottom: 20px; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">An Enhanced Human-Centered UI/UX Framework for Emergency Health Card Interfaces</h1>
+                    <p style="color: var(--text-dim); font-size: 22px; font-weight: 300;">Resolving the Socio-Technical Adoption Crisis in Bangladesh</p>
+                </div>
+                
+                <div class="morph-item delay-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 10vh; border-top: 1px solid var(--glass-border); padding-top: 40px; text-align: left;">
+                    <div class="glass-card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
                         <span class="chapter-tag">Researcher</span>
-                        <p style="color: white !important; font-weight: 800; font-size: 26px;">MD RAFAT UDDIN ARMAN</p>
-                        <p style="color: #94a3b8 !important; font-size: 16px;">Matric: M032510030 | FTMK, UTeM</p>
+                        <p style="font-weight: 800; font-size: 26px; color: white;">MD RAFAT UDDIN ARMAN</p>
+                        <p style="color: var(--text-dim); font-size: 16px;">Matric: M032510030 | arman.rafat@gmail.com</p>
                     </div>
-                    <div style="border-left: 2px solid var(--secondary); padding-left: 40px;">
+                    <div class="glass-card" style="background: transparent; border: none; box-shadow: none; padding: 0; border-left: 2px solid var(--accent-blue); padding-left: 40px;">
                         <span class="chapter-tag">Supervision</span>
-                        <p style="color: white !important; font-size: 18px; font-weight: 600;">Ts. Dr. Che Ku Nuraini (Supervisor)</p>
-                        <p style="color: white !important; font-size: 18px; font-weight: 600; opacity: 0.8;">Ikmal Faiq Albakri (Co-Supervisor)</p>
+                        <p style="font-size: 18px; font-weight: 600; color: white;">Ts. Dr. Che Ku Nuraini (Supervisor)</p>
+                        <p style="font-size: 18px; font-weight: 600; opacity: 0.7; color: white;">Ikmal Faiq Albakri (Co-Supervisor)</p>
                     </div>
                 </div>
             </div>
@@ -200,40 +213,44 @@
 
         <!-- 02: INDEX -->
         <div class="page-view">
-            <span class="chapter-tag morph-item">Chapter Structure</span>
+            <span class="chapter-tag morph-item">Project Map</span>
             <h2 class="page-title morph-item delay-1">Presentation Index</h2>
-            <div class="accent-line morph-item delay-2"></div>
-            <div class="index-grid morph-item delay-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; flex-grow: 1; align-items: center;">
-                <div class="card accent-blue" onclick="goToPage(4)"><h4>01. Introduction</h4><p style="font-size: 16px;">Conceptual Core & Framework Definition</p></div>
-                <div class="card accent-blue" onclick="goToPage(8)"><h4>02. Problem Framework</h4><p style="font-size: 16px;">Analog Bottlenecks & NID Binding Logic</p></div>
-                <div class="card accent-blue" onclick="goToPage(11)"><h4>03. Literature Review</h4><p style="font-size: 16px;">Theory Models & Literature Matrix</p></div>
-                <div class="card accent-blue" onclick="goToPage(14)"><h4>04. Methodology</h4><p style="font-size: 16px;">Survey Data & Iterative Phases</p></div>
-                <div class="card accent-blue" onclick="goToPage(17)"><h4>05. Research Summary</h4><p style="font-size: 16px;">Final Alignment & Strategic Contribution</p></div>
-                <div class="card dark" onclick="goToPage(18)"><h4>Q&A</h4><p style="font-size: 16px; color: white !important;">Discussion & Defense Conclusion</p></div>
+            <div class="accent-line morph-item delay-1"></div>
+            <div class="content-body morph-item delay-2">
+                <div class="index-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                    <div class="glass-card card-blue" onclick="goToPage(4)"><h4>01. Introduction</h4><p style="font-size: 16px;">DEHCMsync Framework & Digital Context</p></div>
+                    <div class="glass-card card-blue" onclick="goToPage(6)"><h4>02. Analog Crisis</h4><p style="font-size: 16px;">Analog Bottlenecks & NID Logic</p></div>
+                    <div class="glass-card card-red" onclick="goToPage(8)"><h4>03. Gap Analysis</h4><p style="font-size: 16px;">Socio-Technical Gaps & Objectives</p></div>
+                    <div class="glass-card card-teal" onclick="goToPage(11)"><h4>04. Literature</h4><p style="font-size: 16px;">Matrix & Foundational Models</p></div>
+                    <div class="glass-card card-teal" onclick="goToPage(14)"><h4>05. Methodology</h4><p style="font-size: 16px;">Survey Results (N=120) & HCD Phases</p></div>
+                    <div class="glass-card card-blue" onclick="goToPage(17)"><h4>06. Alignment</h4><p style="font-size: 16px;">Research Summary & Contribution</p></div>
+                </div>
             </div>
         </div>
 
-        <!-- 03: INTERSTITIAL -->
-        <div class="page-view" style="background: var(--primary); text-align: center;">
-            <span class="chapter-tag morph-item" style="color: white;">Foundations</span>
-            <h1 class="morph-item delay-1" style="font-size: 30px; letter-spacing: 10px;">01 INTRODUCTION</h1>
-            <div class="accent-line morph-item delay-2" style="margin: 30px auto; width: 150px;"></div>
+        <!-- 03: INTERSTITIAL INTRODUCTION -->
+        <div class="page-view" style="text-align: center; justify-content: center;">
+            <div class="morph-item">
+                <span class="chapter-tag">Chapter 1</span>
+                <h1 style="font-size: 30px; letter-spacing: 12px;">INTRODUCTION</h1>
+                <div class="accent-line" style="margin: 30px auto; width: 200px;"></div>
+            </div>
         </div>
 
-        <!-- 04: CONCEPT -->
+        <!-- 04: DEHCMsync FRAMEWORK -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 1 // Framework</span>
-            <h2 class="page-title morph-item delay-1">DEHCMsync Core Concept</h2>
+            <h2 class="page-title morph-item delay-1">Conceptual Core: DEHCMsync</h2>
             <div class="content-body morph-item delay-2">
                 <div class="mooc-box">
                     <div class="mooc-sidebar"><span>D</span><span>E</span><span>H</span><span>C</span><span>M</span><span style="font-size: 16px;">sync</span></div>
                     <div class="mooc-content">
-                        <div class="mooc-row"><i class="fa-solid fa-microchip"></i><div><h4>Digital</h4><p>Seamless electronic integration of portable health identities.</p></div></div>
+                        <div class="mooc-row"><i class="fa-solid fa-microchip"></i><div><h4>Digital</h4><p>Seamless electronic integration of health identities.</p></div></div>
                         <div class="mooc-row"><i class="fa-solid fa-truck-medical"></i><div><h4>Emergency</h4><p>Optimized for high-pressure trauma response.</p></div></div>
-                        <div class="mooc-row"><i class="fa-solid fa-heart-pulse"></i><div><h4>Healthcare</h4><p>Focus on life-critical metadata (blood type, allergies).</p></div></div>
-                        <div class="mooc-row"><i class="fa-solid fa-network-wired"></i><div><h4>Coordination</h4><p>Bridging family caregivers and hospitals.</p></div></div>
-                        <div class="mooc-row"><i class="fa-solid fa-layer-group"></i><div><h4>Model</h4><p>Validated architectural UI/UX blueprint for digital equity.</p></div></div>
-                        <div class="mooc-row" style="border: none;"><i class="fa-solid fa-rotate"></i><div><h4>Synchronized</h4><p>Real-time data consistency across all stakeholders.</p></div></div>
+                        <div class="mooc-row"><i class="fa-solid fa-heart-pulse"></i><div><h4>Healthcare</h4><p>Focus on life-critical metadata (blood group, allergies).</p></div></div>
+                        <div class="mooc-row"><i class="fa-solid fa-network-wired"></i><div><h4>Coordination</h4><p>Bridging family caregivers and first responders.</p></div></div>
+                        <div class="mooc-row"><i class="fa-solid fa-layer-group"></i><div><h4>Model</h4><p>Validated architectural UI/UX blueprint.</p></div></div>
+                        <div class="mooc-row" style="border: none;"><i class="fa-solid fa-rotate"></i><div><h4>Synchronized</h4><p>Real-time consistency across fragmented hospital nodes.</p></div></div>
                     </div>
                 </div>
             </div>
@@ -243,17 +260,16 @@
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 1 // Context</span>
             <h2 class="page-title morph-item delay-1">Digital Emergency Health</h2>
-            <div class="accent-line morph-item delay-2"></div>
-            <div class="content-body morph-item delay-3">
+            <div class="accent-line morph-item delay-1"></div>
+            <div class="content-body morph-item delay-2">
                 <div class="grid-2" style="height: 40vh;">
-                    <div class="card accent-blue"><h4>Clinical Definition</h4><p>Application of ICT to provide immediate assistance and care coordination during acute crises.</p></div>
-                    <div class="card accent-blue"><h4>Strategic Bridge</h4><p>Focusing on <b>Glanceability</b> in under 5 seconds to reduce information asymmetry during triage.</p></div>
+                    <div class="glass-card card-blue"><h4>Clinical Meaning</h4><p>The application of ICT to provide immediate medical assistance and care coordination during acute health crises.</p></div>
+                    <div class="glass-card card-blue"><h4>The Glanceability Bridge</h4><p>Information signaled in <b>under 5 seconds</b> to solve the "Recall Void" during paramedics' triage.</p></div>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
-                    <div class="card dark" style="text-align: center; padding: 25px;"><h4>Response</h4></div>
-                    <div class="card dark" style="text-align: center; padding: 25px;"><h4>Triage</h4></div>
-                    <div class="card dark" style="text-align: center; padding: 25px;"><h4>Data</h4></div>
-                    <div class="card dark" style="text-align: center; padding: 25px;"><h4>Action</h4></div>
+                <div class="grid-3" style="margin-top: 20px;">
+                    <div class="glass-card" style="text-align: center; background: rgba(59, 130, 246, 0.1);"><h4>Response</h4></div>
+                    <div class="glass-card" style="text-align: center; background: rgba(45, 212, 191, 0.1);"><h4>Data</h4></div>
+                    <div class="glass-card" style="text-align: center; background: rgba(239, 68, 68, 0.1);"><h4>Action</h4></div>
                 </div>
             </div>
         </div>
@@ -261,16 +277,16 @@
         <!-- 06: ANALOG CRISIS -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 1 // Crisis</span>
-            <h2 class="page-title morph-item delay-1" style="color: var(--accent);">Analog Bottlenecks</h2>
-            <div class="accent-line morph-item delay-2" style="background: var(--accent);"></div>
-            <div class="content-body morph-item delay-3">
+            <h2 class="page-title morph-item delay-1" style="color: var(--accent-red);">Analog Bottlenecks</h2>
+            <div class="accent-line morph-item delay-1" style="background: var(--accent-red);"></div>
+            <div class="content-body morph-item delay-2">
                 <div class="grid-3" style="flex-grow: 1; height: 60vh;">
-                    <div class="card accent-red"><h4>Paper-Based</h4><p>Records Damaged or Missing.</p></div>
-                    <div class="card accent-red"><h4>Data Blindness</h4><p>Inability to find patient history.</p></div>
-                    <div class="card accent-red"><h4>Data Loss</h4><p>Fragmented history vanishing.</p></div>
-                    <div class="card accent-red"><h4>Wrong Treatment</h4><p>Lethal allergy errors.</p></div>
-                    <div class="card accent-red"><h4>Manual Entry</h4><p>Wasting the Golden Hour window.</p></div>
-                    <div class="card dark" style="border: 2px dashed var(--accent);"><i class="fa-solid fa-hourglass-end" style="color: var(--accent);"></i><h4 style="color: white !important;">Time Crisis</h4><p style="color: white !important;">Time is Life in emergencies.</p></div>
+                    <div class="glass-card card-red"><h4>Paper-Based</h4><p>Records fragile, damaged, or lost.</p></div>
+                    <div class="glass-card card-red"><h4>Retrieval failure</h4><p>No history for unconscious patients.</p></div>
+                    <div class="glass-card card-red"><h4>Data Loss</h4><p>History vanishes between hospitals.</p></div>
+                    <div class="glass-card card-red"><h4>Wrong Treatment</h4><p>Lethal errors due to data blindness.</p></div>
+                    <div class="glass-card card-red"><h4>Manual Entry</h4><p>Wasting the Golden Hour window.</p></div>
+                    <div class="glass-card card-teal" style="border: 2px dashed var(--accent-teal);"><i class="fa-solid fa-hourglass-end" style="color: var(--accent-teal);"></i><h4 style="color: var(--accent-teal);">Time is Life</h4><p>Analog entry kills triage speed.</p></div>
                 </div>
             </div>
         </div>
@@ -279,15 +295,15 @@
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 1 // Background</span>
             <h2 class="page-title morph-item delay-1">The NID Binding Solution</h2>
-            <div class="accent-line morph-item delay-2"></div>
-            <div class="content-body morph-item delay-3">
+            <div class="accent-line morph-item delay-1"></div>
+            <div class="content-body morph-item delay-2">
                 <div class="grid-2" style="height: 35vh;">
-                    <div class="card accent-blue"><h4>Foundation</h4><p>Bangladesh has <b>98% NID penetration</b>, establishing a ready-made verification anchor <span class="citation">(Ahmed et al., 2026)</span>.</p></div>
-                    <div class="card accent-blue"><h4>Dataset Void</h4><p>Despite NID, there is no synchronized digital health history for acute care scenarios.</p></div>
+                    <div class="glass-card card-blue"><h4>98% Penetration</h4><p>Bangladesh infrastructure provides a massive ready-made verification anchor <span class="citation">(Ahmed et al., 2026)</span>.</p></div>
+                    <div class="glass-card card-blue"><h4>The Dataset Void</h4><p>Despite NID, there is no synchronized digital health history for acute care scenarios.</p></div>
                 </div>
-                <div class="card dark" style="padding: 40px; border-left: 15px solid var(--secondary); height: 25vh;">
-                    <h4 style="color: var(--secondary) !important;">Binding Logic</h4>
-                    <p style="font-weight: 700; font-size: 22px; color: white !important;">By binding NID as verification, responders can detect patients in <b>seconds</b> and improvise treatment based on history recall <span class="citation">(Islam et al., 2024)</span>.</p>
+                <div class="glass-card card-teal" style="padding: 40px; border-left: 15px solid var(--accent-teal); height: 25vh;">
+                    <h4 style="color: var(--accent-teal);">Active Intelligence Logic</h4>
+                    <p style="font-weight: 700; font-size: 22px; color: white;">By binding NID as verification, responders can detect patients in <b>seconds</b> and improvise treatment based on historical recall <span class="citation">(Islam et al., 2024)</span>.</p>
                 </div>
             </div>
         </div>
@@ -295,45 +311,49 @@
         <!-- 08: GAP ANALYSIS -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 1 // RP</span>
-            <h2 class="page-title morph-item delay-1" style="color: var(--accent);">The Socio-Technical Crisis</h2>
-            <div class="accent-line morph-item delay-2" style="background: var(--accent);"></div>
-            <div class="content-body morph-item delay-3" style="justify-content: space-around;">
-                <div class="card accent-red" style="padding: 20px 40px; flex-direction: row; align-items: center; gap: 30px;">
-                    <i class="fa-solid fa-hourglass-half" style="font-size: 30px; color: var(--accent);"></i>
-                    <div><h4>1. Time Crisis</h4><p>48% avoidable delays due to manual verification protocols.</p></div>
-                </div>
-                <div class="card accent-blue" style="padding: 20px 40px; flex-direction: row; align-items: center; gap: 30px;">
-                    <i class="fa-solid fa-shield-halved" style="font-size: 30px; color: var(--secondary);"></i>
-                    <div><h4>2. Trust Deficit</h4><p>53.3% fear surveillance misuse of health data.</p></div>
-                </div>
-                <div class="card accent-red" style="padding: 20px 40px; flex-direction: row; align-items: center; gap: 30px;">
-                    <i class="fa-solid fa-brain" style="font-size: 30px; color: var(--accent);"></i>
-                    <div><h4>3. Intimidation Gap</h4><p>Complex UIs exclude the elderly (59+) from digital schemes.</p></div>
-                </div>
-                <div class="card accent-blue" style="padding: 20px 40px; flex-direction: row; align-items: center; gap: 30px;">
-                    <i class="fa-solid fa-eye" style="font-size: 30px; color: var(--secondary);"></i>
-                    <div><h4>4. Clarity Gap</h4><p>Unstructured data hinders medical glanceability during triage.</p></div>
+            <h2 class="page-title morph-item delay-1" style="color: var(--accent-red);">The Socio-Technical Crisis</h2>
+            <div class="accent-line morph-item delay-1" style="background: var(--accent-red);"></div>
+            <div class="content-body morph-item delay-2">
+                <div style="display: flex; flex-direction: column; gap: 20px; flex-grow: 1;">
+                    <div class="glass-card card-red" style="flex-direction: row; align-items: center; gap: 30px;">
+                        <i class="fa-solid fa-hourglass-half" style="font-size: 30px; color: var(--accent-red);"></i>
+                        <div><h4>1. Time Crisis</h4><p>48% avoidable delays due to manual verification protocols.</p></div>
+                    </div>
+                    <div class="glass-card card-blue" style="flex-direction: row; align-items: center; gap: 30px;">
+                        <i class="fa-solid fa-shield-halved" style="font-size: 30px; color: var(--accent-blue);"></i>
+                        <div><h4>2. Trust Deficit</h4><p>53.3% fear surveillance misuse of personal health data.</p></div>
+                    </div>
+                    <div class="glass-card card-red" style="flex-direction: row; align-items: center; gap: 30px;">
+                        <i class="fa-solid fa-brain" style="font-size: 30px; color: var(--accent-red);"></i>
+                        <div><h4>3. Intimidation Gap</h4><p>Complex UIs exclude the elderly (59+) from digital schemes.</p></div>
+                    </div>
+                    <div class="glass-card card-blue" style="flex-direction: row; align-items: center; gap: 30px;">
+                        <i class="fa-solid fa-eye" style="font-size: 30px; color: var(--accent-blue);"></i>
+                        <div><h4>4. Clarity Gap</h4><p>Unstructured data hinders medical glanceability during triage.</p></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 09: OBJECTIVES -->
         <div class="page-view">
-            <span class="chapter-tag morph-item">Chapter 1 // Mission</span>
+            <span class="chapter-tag morph-item">Chapter 1 // Objectives</span>
             <h2 class="page-title morph-item delay-1">Research Objectives (RO)</h2>
-            <div class="accent-line morph-item delay-2"></div>
-            <div class="content-body morph-item delay-3" style="justify-content: space-between;">
-                <div class="card accent-blue" style="flex-direction: row; align-items: center; gap: 40px; padding: 40px; height: 22vh;">
-                    <h2 style="font-size: 30px; color: var(--secondary); min-width: 80px;">RO1</h2>
-                    <p style="font-weight: 700; margin: 0; font-size: 20px;">Identify user needs and HCD requirements for EHC in Bangladesh.</p>
-                </div>
-                <div class="card accent-blue" style="flex-direction: row; align-items: center; gap: 40px; padding: 40px; height: 22vh;">
-                    <h2 style="font-size: 30px; color: var(--secondary); min-width: 80px;">RO2</h2>
-                    <p style="font-weight: 700; margin: 0; font-size: 20px;">Develop a validated Human-Centered UI/UX framework (DEHCMsync).</p>
-                </div>
-                <div class="card accent-blue" style="flex-direction: row; align-items: center; gap: 40px; padding: 40px; height: 22vh;">
-                    <h2 style="font-size: 30px; color: var(--secondary); min-width: 80px;">RO3</h2>
-                    <p style="font-weight: 700; margin: 0; font-size: 20px;">Evaluate framework impact on user satisfaction and retrieval speed benchmarks.</p>
+            <div class="accent-line morph-item delay-1"></div>
+            <div class="content-body morph-item delay-2">
+                <div style="display: flex; flex-direction: column; gap: 25px; flex-grow: 1;">
+                    <div class="glass-card card-teal" style="flex-direction: row; align-items: center; gap: 40px; padding: 40px; flex: 1;">
+                        <h2 style="font-size: 30px; color: var(--accent-teal); min-width: 80px;">RO1</h2>
+                        <p style="font-weight: 700; font-size: 20px; color: white;">Identify user needs and HCD requirements for EHC in Bangladesh.</p>
+                    </div>
+                    <div class="glass-card card-teal" style="flex-direction: row; align-items: center; gap: 40px; padding: 40px; flex: 1;">
+                        <h2 style="font-size: 30px; color: var(--accent-teal); min-width: 80px;">RO2</h2>
+                        <p style="font-weight: 700; font-size: 20px; color: white;">Develop a validated Human-Centered UI/UX framework (DEHCMsync).</p>
+                    </div>
+                    <div class="glass-card card-teal" style="flex-direction: row; align-items: center; gap: 40px; padding: 40px; flex: 1;">
+                        <h2 style="font-size: 30px; color: var(--accent-teal); min-width: 80px;">RO3</h2>
+                        <p style="font-weight: 700; font-size: 20px; color: white;">Evaluate impact on user satisfaction and retrieval speed benchmarks.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -342,32 +362,30 @@
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 1 // Inquiry</span>
             <h2 class="page-title morph-item delay-1">Research Questions (RQ)</h2>
-            <div class="accent-line morph-item delay-2"></div>
-            <div class="content-body morph-item delay-3">
+            <div class="accent-line morph-item delay-1"></div>
+            <div class="content-body morph-item delay-2">
                 <div class="grid-3" style="height: 60vh;">
-                    <div class="card dark"><h4>RQ1: Specs</h4><p style="color: white !important;">What HCD design requirements minimize retrieval time in emergencies?</p></div>
-                    <div class="card dark"><h4>RQ2: Trust</h4><p style="color: white !important;">How can cultural trust markers be effectively integrated into UI?</p></div>
-                    <div class="card dark"><h4>RQ3: Metric</h4><p style="color: white !important;">Does the framework improve metrics for non-tech-savvy users?</p></div>
+                    <div class="glass-card card-blue"><h4>RQ1: Specs</h4><p style="color: white;">What HCD design requirements minimize retrieval time in emergencies?</p></div>
+                    <div class="glass-card card-blue"><h4>RQ2: Trust</h4><p style="color: white;">How can cultural trust markers be effectively integrated into UI?</p></div>
+                    <div class="glass-card card-blue"><h4>RQ3: Metric</h4><p style="color: white;">Does the framework improve metrics for non-tech-savvy users?</p></div>
                 </div>
             </div>
         </div>
 
         <!-- 11: LIT MATRIX -->
         <div class="page-view">
-            <span class="chapter-tag morph-item">Chapter 2 // Literature</span>
-            <h2 class="page-title morph-item delay-1">Literature Matrix</h2>
-            <div class="content-body morph-item delay-2" style="justify-content: flex-start;">
+            <span class="chapter-tag morph-item">Chapter 2 // Literature Matrix</span>
+            <h2 class="page-title morph-item delay-1">Comparative Literature</h2>
+            <div class="content-body morph-item delay-2">
                 <table class="academic-table">
                     <thead><tr><th>Author/Year</th><th>Focus</th><th>Barrier</th><th>Gap addressed</th></tr></thead>
                     <tbody>
                         <tr><td>Ahmed (2026)</td><td>LMIC Health</td><td>Infra Silos</td><td>Synchronized multi-user data.</td></tr>
                         <tr><td>Biswas (2022)</td><td>Elderly App</td><td>Manual</td><td>Passive NFC/QR Triggers.</td></tr>
-                        <tr><td>Islam (2024)</td><td>Trust Study</td><td>Surveillance</td><td>Transparent Security UI cues.</td></tr>
+                        <tr><td>Islam (2024)</td><td>Trust Study</td><td>Surveillance</td><td>Transparent Security cues.</td></tr>
                         <tr><td>Arslan (2025)</td><td>Triage Tools</td><td>Overload</td><td>Visual Triage Dashboard.</td></tr>
-                        <tr><td>Amouzadeh (2025)</td><td>Senior UX</td><td>Cognition</td><td>Age-friendly HCD heuristics.</td></tr>
-                        <tr><td>Sun (2025)</td><td>Frameworks</td><td>Fragmentation</td><td>Unified UI coordination.</td></tr>
                         <tr><td>Palas (2022)</td><td>mHealth</td><td>Effort</td><td>UTAUT2 UI Optimization.</td></tr>
-                        <tr><td>Hasan (2024)</td><td>Rural Access</td><td>Connectivity</td><td>Offline Portability logic.</td></tr>
+                        <tr><td>Hasan (2024)</td><td>Rural Access</td><td>Connectivity</td><td>Offline Portability.</td></tr>
                         <tr><td>Hoque (2017)</td><td>LMIC Citizens</td><td>Literacy</td><td>Inclusive Design Scaling.</td></tr>
                     </tbody>
                 </table>
@@ -376,25 +394,25 @@
 
         <!-- 12: SURVEY DATA -->
         <div class="page-view">
-            <span class="chapter-tag morph-item">Chapter 3 // Baseline</span>
-            <h2 class="page-title morph-item delay-1">Survey Data Insights</h2>
+            <span class="chapter-tag morph-item">Chapter 3 // Survey (N=120)</span>
+            <h2 class="page-title morph-item delay-1">Baseline Data Insights</h2>
             <div class="content-body morph-item delay-2">
                 <div class="stat-grid">
                     <div class="stat-card"><i class="fa-solid fa-user-shield"></i><h2>53.3%</h2><p>Fear Surveillance</p></div>
                     <div class="stat-card"><i class="fa-solid fa-clock"></i><h2>48%</h2><p>Verification Delay</p></div>
                     <div class="stat-card"><i class="fa-solid fa-circle-question"></i><h2>65%</h2><p>Confused Icons</p></div>
-                    <div class="stat-card"><i class="fa-solid fa-database"></i><h2>51.7%</h2><p>Lack Medical History</p></div>
-                    <div class="stat-card"><i class="fa-solid fa-wifi"></i><h2>32%</h2><p>NFC Awareness</p></div>
-                    <div class="stat-card"><i class="fa-solid fa-check-to-slot"></i><h2>78%</h2><p>Willing to Adopt</p></div>
+                    <div class="stat-card"><i class="fa-solid fa-database"></i><h2>51.7%</h2><p>Lack History</p></div>
+                    <div class="stat-card"><i class="fa-solid fa-wifi"></i><h2>32%</h2><p>Aware of NFC</p></div>
+                    <div class="stat-card"><i class="fa-solid fa-check-to-slot"></i><h2>78%</h2><p>Ready to Adopt</p></div>
                 </div>
             </div>
         </div>
 
         <!-- 13: SUMMARY MATRIX -->
         <div class="page-view">
-            <span class="chapter-tag morph-item">Conclusion // Alignment</span>
-            <h2 class="page-title morph-item delay-1">Alignment Summary</h2>
-            <div class="content-body morph-item delay-2" style="justify-content: flex-start;">
+            <span class="chapter-tag morph-item">Final Alignment // Summary</span>
+            <h2 class="page-title morph-item delay-1">Strategic Research Summary</h2>
+            <div class="content-body morph-item delay-2">
                 <table class="academic-table" style="font-size: 15px;">
                     <thead>
                         <tr>
@@ -407,53 +425,53 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><b>1. Time Crisis</b><br>Golden Hour Delays.</td>
+                            <td><b>Time Crisis</b><br>Golden Hour delays.</td>
                             <td>Identify bottlenecks in triage workflow.</td>
                             <td>Contextual Inquiry & Interviews.</td>
                             <td>Phase 1 Discovery</td>
-                            <td class="table-contrib">Practical: Reduced Clinical Delays.</td>
+                            <td><b>Practical Impact</b></td>
                         </tr>
                         <tr>
-                            <td><b>2. Trust Deficit</b><br>Surveillance Fear.</td>
-                            <td>Develop "Transparent Security" UI framework.</td>
+                            <td><b>Trust Deficit</b><br>Surveillance fear.</td>
+                            <td>Develop "Transparent Security" UI.</td>
                             <td>Design Science Prototyping.</td>
                             <td>Trust Transfer</td>
-                            <td class="table-contrib">Theoretical: Trust UI Model for LMICs.</td>
+                            <td><b>Theoretical Impact</b></td>
                         </tr>
                         <tr>
-                            <td><b>3. Intimidation</b><br>Elderly technophobia.</td>
-                            <td>Evaluate load & user satisfaction metrics.</td>
+                            <td><b>Intimidation</b><br>Elderly technophobia.</td>
+                            <td>Evaluate load & user satisfaction.</td>
                             <td>Usability Testing (N=120).</td>
                             <td>UTAUT2 & HCD</td>
-                            <td class="table-contrib">Social: Inclusive Digital Equity.</td>
+                            <td><b>Social Equity</b></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="card morph-item delay-3" style="margin-top: 25px; padding: 25px; background: #f1f5f9; height: auto; border: 1px dashed var(--secondary);">
-                    <p style="font-size: 17px; font-weight: 600; margin: 0; color: var(--primary) !important;">
-                        <i class="fa-solid fa-circle-info" style="color: var(--secondary); margin-right: 10px;"></i>
-                        Strategic Summary: This matrix ensures every identified bottleneck directly informs a design intervention, which is then validated through empirical testing to achieve Clinical Cohesion in Bangladesh.
+                <div class="glass-card card-blue morph-item delay-3" style="margin-top: 20px; padding: 25px; height: auto;">
+                    <p style="font-size: 17px; font-weight: 600; margin: 0; color: white;">
+                        <i class="fa-solid fa-circle-info" style="color: var(--accent-teal); margin-right: 10px;"></i>
+                        Summary: Every medical bottleneck informs a design intervention, which is validated through testing to achieve Clinical Cohesion in Bangladesh.
                     </p>
                 </div>
             </div>
         </div>
 
         <!-- 14: THANK YOU -->
-        <div class="page-view" style="background: var(--primary); text-align: center;">
-            <div class="content-body" style="align-items: center;">
-                <i class="fa-regular fa-circle-check morph-item" style="font-size: 80px; color: var(--secondary); margin-bottom: 20px;"></i>
-                <h1 class="morph-item delay-1" style="color: white !important; font-size: 30px;">Thank You</h1>
-                <p class="morph-item delay-2" style="color: #94a3b8; font-size: 22px; margin-bottom: 50px;">Questions & Discussion</p>
-                <div class="morph-item delay-3" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; width: 60%; margin: 0 auto;">
-                    <p style="color: white !important; font-weight: 700; font-size: 24px;">MD RAFAT UDDIN ARMAN</p>
-                    <p style="font-size: 18px; color: #94a3b8 !important;">arman.rafat@gmail.com | FTMK, UTeM</p>
+        <div class="page-view" style="text-align: center;">
+            <div class="content-body morph-item" style="align-items: center;">
+                <i class="fa-regular fa-circle-check" style="font-size: 80px; color: var(--accent-teal); margin-bottom: 20px;"></i>
+                <h1 style="color: white; font-size: 30px; letter-spacing: 5px;">THANK YOU</h1>
+                <p style="color: var(--text-dim); font-size: 22px; margin-bottom: 50px;">Questions & Discussion</p>
+                <div style="border-top: 1px solid var(--glass-border); padding-top: 30px; width: 60%; margin: 0 auto;">
+                    <p style="color: white; font-weight: 700; font-size: 24px;">MD RAFAT UDDIN ARMAN</p>
+                    <p style="font-size: 18px; color: var(--text-dim);">arman.rafat@gmail.com | FTMK, UTeM</p>
                 </div>
             </div>
         </div>
 
-        <!-- NAVIGATION -->
+        <!-- CONTROLS -->
         <div class="ui-controls">
-            <button class="btn-round" onclick="toggleFullscreen()" title="Fullscreen (F)"><i class="fa-solid fa-expand" id="fsIcon"></i></button>
+            <button class="btn-round" onclick="toggleFullscreen()" title="Fullscreen (F)"><i class="fa-solid fa-expand"></i></button>
             <button class="btn-round" onclick="prev()" title="Prev"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="btn-round" onclick="next()" title="Next"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
@@ -464,12 +482,9 @@
         let current = 0;
         const pages = document.querySelectorAll('.page-view');
         const fill = document.getElementById('fill');
-        const fsBtn = document.getElementById('fsIcon');
 
         function update() {
-            pages.forEach((p, i) => {
-                p.classList.toggle('active', i === current);
-            });
+            pages.forEach((p, i) => p.classList.toggle('active', i === current));
             fill.style.width = ((current + 1) / pages.length) * 100 + '%';
         }
 
@@ -481,10 +496,6 @@
             if (!document.fullscreenElement) { document.documentElement.requestFullscreen(); }
             else { document.exitFullscreen(); }
         }
-
-        document.addEventListener('fullscreenchange', () => {
-            fsBtn.className = document.fullscreenElement ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
-        });
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') next();
