@@ -552,6 +552,7 @@
     <!-- NAV CONTROLS -->
     <div class="nav-dock">
         <button class="nav-btn" onclick="prev()"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="nav-btn" id="fsBtn" onclick="toggleFullscreen()"><i class="fa-solid fa-expand"></i></button>
         <button class="nav-btn" onclick="next()"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
@@ -569,9 +570,32 @@
         function prev() { if (current > 0) { current--; update(); } }
         function goTo(n) { current = n - 1; update(); }
 
+        function toggleFullscreen() {
+            const fsBtn = document.getElementById('fsBtn');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            const fsBtn = document.getElementById('fsBtn');
+            if (document.fullscreenElement) {
+                fsBtn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+            } else {
+                fsBtn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+            }
+        });
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') next();
             if (e.key === 'ArrowLeft') prev();
+            if (e.key.toLowerCase() === 'f') toggleFullscreen();
         });
 
         update();
