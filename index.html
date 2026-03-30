@@ -3,679 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EHC Research Proposal Presentation | MD RAFAT UDDIN ARMAN</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+    <title>Md. Rafat Uddin Arman | Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <script src="main.js" defer></script>
     <style>
-        :root {
-            --primary: #0f172a;      /* Deep Navy */
-            --secondary: #1d4ed8;    /* Professional Blue */
-            --accent: #dc2626;       /* Emergency Red */
-            --bg-body: #020617;
-            --surface: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            
-            /* DYNAMIC SCALING LOGIC - FIXED ASPECT RATIO */
-            --slide-width: min(100vw, calc(100vh * 16 / 9));
-            --slide-height: calc(var(--slide-width) * 9 / 16);
-            --unit: calc(var(--slide-width) / 100);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            margin: 0;
-        }
-
-        /* --- PRESENTATION WRAPPER --- */
-        #presentation-container {
-            position: relative;
-            width: var(--slide-width);
-            height: var(--slide-height);
-            background: var(--surface);
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8);
-            overflow: hidden;
-        }
-
-        #presentation-container:fullscreen {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: var(--bg-body);
-        }
-
-        /* --- SLIDE STYLING --- */
-        .slide {
-            position: absolute;
-            inset: 0;
-            padding: calc(4 * var(--unit)) calc(6 * var(--unit));
-            display: none;
-            flex-direction: column;
-            background-color: var(--surface);
-            z-index: 10;
-        }
-
-        .slide.active { display: flex; animation: slideIn 0.5s ease-out; }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .slide::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
-            background-size: calc(3 * var(--unit)) calc(3 * var(--unit));
-            opacity: 0.15;
-            z-index: 0;
-        }
-
-        /* --- SECTION SLIDES --- */
-        .section-slide {
-            background: var(--primary);
-            color: white;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        .section-slide h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: calc(7 * var(--unit));
-            letter-spacing: 4px;
-            color: white;
-            position: relative;
-        }
-        .section-slide h1::after {
-            content: ''; position: absolute; bottom: -15px; left: 25%; width: 50%; height: 6px; background: var(--secondary);
-        }
-
-        /* --- TYPOGRAPHY --- */
-        .header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: calc(2 * var(--unit));
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: calc(0.8 * var(--unit));
-            position: relative; z-index: 5;
-        }
-
-        .slide-num {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            color: var(--secondary);
-            font-size: calc(1.5 * var(--unit));
-            letter-spacing: 2px;
-        }
-
-        .slide-heading {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: calc(3.2 * var(--unit));
-            font-weight: 700;
-            color: var(--primary);
-            line-height: 1.1;
-        }
-
-        .accent-line { width: calc(8 * var(--unit)); height: 4px; background: var(--secondary); margin: calc(1 * var(--unit)) 0 calc(2 * var(--unit)); border-radius: 10px; }
-        p, li { font-size: calc(1.6 * var(--unit)); line-height: 1.5; color: var(--text-main); position: relative; z-index: 5; }
-
-        /* --- COMPONENTS --- */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: calc(4 * var(--unit)); position: relative; z-index: 5; }
-        
-        .card {
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            padding: calc(2 * var(--unit));
-            border-radius: 12px;
-            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.05);
-        }
-
-        /* Acronym breakdown */
-        .acronym-box {
-            display: grid;
-            grid-template-columns: 18% 82%;
-            height: 100%;
-            border: 2px solid var(--primary);
-            border-radius: 15px;
-            overflow: hidden;
-            background: #fff;
-            position: relative; z-index: 5;
-        }
-
-        .acronym-sidebar {
-            background: var(--accent);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 800;
-            font-size: calc(3.5 * var(--unit));
-            padding: calc(1 * var(--unit)) 0;
-        }
-
-        .acronym-content {
-            padding: calc(1 * var(--unit)) calc(3 * var(--unit));
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-        }
-
-        .acro-item {
-            display: grid;
-            grid-template-columns: calc(5 * var(--unit)) 1fr;
-            align-items: center;
-            gap: calc(2 * var(--unit));
-            padding: calc(0.5 * var(--unit)) 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .acro-item:last-child { border-bottom: none; }
-        .acro-item i { font-size: calc(2.2 * var(--unit)); color: var(--primary); text-align: center; }
-        .acro-item h4 { font-size: calc(1.8 * var(--unit)); font-weight: 700; color: var(--primary); }
-        .acro-item p { font-size: calc(1.3 * var(--unit)); color: var(--text-muted); }
-
-        /* Tables */
-        .academic-table { width: 100%; border-collapse: collapse; font-size: calc(0.85 * var(--unit)); background: white; border: 1px solid #e2e8f0; position: relative; z-index: 5; }
-        .academic-table th { text-align: left; padding: calc(0.6 * var(--unit)); background: var(--primary); color: white; font-weight: 700; text-transform: uppercase; font-size: calc(0.7 * var(--unit)); border: 1px solid #334155; }
-        .academic-table td { padding: calc(1.2 * var(--unit)); border-bottom: 1px solid #e2e8f0; vertical-align: top; line-height: 1.6; border: 1px solid #e2e8f0; }
-        .academic-table tr:nth-child(even) { background-color: #f8fafc; }
-
-        /* Diagram Nodes */
-        .diagram-row { display: flex; justify-content: space-between; align-items: stretch; gap: calc(2 * var(--unit)); margin: calc(2 * var(--unit)) 0; z-index: 5; position: relative;}
-        .node { background: var(--secondary); color: white; padding: calc(1.5 * var(--unit)); border-radius: 8px; flex: 1; text-align: center; font-weight: 700; font-size: calc(1.3 * var(--unit)); display: flex; align-items: center; justify-content: center; }
-        .node.accent { background: var(--accent); }
-        .node.navy { background: var(--primary); }
-
-        /* Navigation Controls */
-        .controls {
-            position: absolute;
-            bottom: calc(4 * var(--unit));
-            right: calc(4 * var(--unit));
-            display: flex;
-            gap: 12px;
-            z-index: 100;
-        }
-
-        .nav-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: calc(4.5 * var(--unit)); height: calc(4.5 * var(--unit));
-            border-radius: 50%;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            opacity: 0.7;
-            transition: 0.3s;
-            font-size: calc(1.5 * var(--unit));
-        }
-        .nav-btn:hover { opacity: 1; transform: scale(1.1); background: var(--secondary); }
-
-        .progress-container {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 8px;
-            background: rgba(0,0,0,0.1); z-index: 100;
-        }
-        #progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s ease; }
-
-        /* InfoGraphic Pillars */
-        .pill-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: auto; }
-        .pill { border-top: 5px solid var(--secondary); background: #f8fafc; padding: 15px; text-align: center; border-radius: 8px; }
-        .pill i { font-size: 24px; color: var(--secondary); margin-bottom: 10px; }
-        .pill h5 { font-size: 14px; color: var(--primary); text-transform: uppercase; font-weight: 800; }
-
-        /* Vertical Gap list for RP slide */
-        .vertical-gap-list { display: flex; flex-direction: column; gap: calc(1.5 * var(--unit)); flex-grow: 1; justify-content: center;}
-        .gap-item { display: grid; grid-template-columns: calc(10 * var(--unit)) 1fr; align-items: center; gap: 30px; padding: calc(1.5 * var(--unit)); border-left: 8px solid var(--accent); background: #fdf2f2; border-radius: 8px;}
-        .gap-item.blue { border-left-color: var(--secondary); background: #f0f7ff; }
-        .gap-icon { font-size: calc(3 * var(--unit)); color: var(--accent); text-align: center; }
-        .gap-item.blue .gap-icon { color: var(--secondary); }
-        .gap-desc h4 { font-size: calc(1.8 * var(--unit)); color: var(--primary); margin-bottom: 5px; }
-        .gap-desc p { font-size: calc(1.4 * var(--unit)); margin: 0; }
-        
-        .stat-icon { font-size: 24px; margin-bottom: 10px; display: block; color: var(--primary); }
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        #animation-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        .content-layer { position: relative; z-index: 10; min-height: 100vh; }
+        .fade-in { animation: fadeIn 1s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        header { padding: 100px 20px 60px 20px; text-align: center; }
+        .name { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; letter-spacing: -0.05em; text-transform: uppercase; line-height: 1; text-shadow: 0 0 40px rgba(99, 102, 241, 0.4); margin-bottom: 10px; }
+        .subtitle { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.6em; text-transform: uppercase; color: #6366f1; opacity: 0.9; margin-top: 10px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 20px 20px; }
+        .listing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+        .service-item { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.07); padding: 28px; border-radius: 20px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit; }
+        .service-item:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.1); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); }
+        .icon { font-size: 1.4rem; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        .label { font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
+        .visitor-footer { text-align: center; margin-top: 60px; padding-bottom: 20px; }
+        .visitor-counter { display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 5px 12px; border-radius: 100px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: #444; }
+        .counter-num { color: #666; font-family: monospace; }
+        .pulse-dot { width: 4px; height: 4px; background: #6366f1; border-radius: 50%; opacity: 0.5; }
+        @media (max-width: 768px) { header { padding-top: 80px; } }
     </style>
 </head>
 <body>
 
-    <div id="presentation-container">
-        
-        <!-- 1: TITLE -->
-        <div class="slide active" style="background: var(--primary); color: white; justify-content: center;">
-            <div style="max-width: 90%; z-index: 5; position: relative;">
-                <span style="color: var(--secondary); letter-spacing: 4px; font-weight: 800; font-size: calc(1.4 * var(--unit)); display: block; margin-bottom: 20px;">MASTERS BY RESEARCH PROPOSAL DEFENSE</span>
-                <h1 style="font-size: calc(4.5 * var(--unit)); color: white;">An Enhanced Human-Centered UI/UX Framework for Emergency Health Card Interfaces</h1>
-                <p style="font-size: calc(2 * var(--unit)); color: #94a3b8; font-weight: 300; margin-top: 10px;">Improving Usability and User Satisfaction in Bangladesh</p>
-                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; margin-top: 60px;">
-                    <div>
-                        <p style="font-size: calc(1 * var(--unit)); color: var(--secondary); font-weight: 700; text-transform: uppercase;">RESEARCHER</p>
-                        <p style="font-size: calc(2.4 * var(--unit)); font-weight: 700; color: white;">MD RAFAT UDDIN ARMAN</p>
-                        <p style="font-size: calc(1.4 * var(--unit)); opacity: 0.7;">Matric ID: M032510030 | FTMK, UTeM</p>
-                    </div>
-                    <div style="border-left: 2px solid var(--secondary); padding-left: 30px;">
-                        <p style="font-size: calc(1 * var(--unit)); color: var(--secondary); font-weight: 700; text-transform: uppercase;">SUPERVISION</p>
-                        <p style="font-size: calc(1.8 * var(--unit)); font-weight: 600; color: white;">Ts. Dr. Che Ku Nuraini (Supervisor)</p>
-                        <p style="font-size: calc(1.8 * var(--unit)); font-weight: 600; color: white; opacity: 0.8;">Ikmal Faiq Albakri (Co-Supervisor)</p>
-                    </div>
-                </div>
+    <div id="animation-container"></div>
+
+    <div class="content-layer fade-in">
+        <header>
+            <h1 class="name">Md. Rafat Uddin Arman</h1>
+            <p class="subtitle">Principal Engineering Hub</p>
+        </header>
+
+        <main class="container">
+            <div class="listing-grid">
+                <a href="portfolio.html" class="service-item"><span class="icon">⭐</span><span class="label">My Portfolio</span></a>
+                <!-- Link to the Blog Page -->
+                <a href="blog.html" class="service-item"><span class="icon">✍️</span><span class="label">The Archive</span></a>
+                
+                <a href="dtx_agency.html" class="service-item"><span class="icon">🏢</span><span class="label">DTx Design Agency</span></a>
+                <a href="global_connect.html" class="service-item"><span class="icon">🌍</span><span class="label">DTx Global Connect</span></a>
+                <a href="research.html" class="service-item"><span class="icon">🔬</span><span class="label">Research Portfolio</span></a>
+                <a href="amazon_va.html" class="service-item"><span class="icon">📦</span><span class="label">Amazon VA Services</span></a>
+                <a href="about.html" class="service-item"><span class="icon">👨‍💻</span><span class="label">About Me</span></a>
+                <a href="web_engineering.html" class="service-item"><span class="icon">💻</span><span class="label">Web Engineering</span></a>
+                <a href="ux_design.html" class="service-item"><span class="icon">🎨</span><span class="label">UX Strategy & HCI</span></a>
+                <a href="robotics.html" class="service-item"><span class="icon">🤖</span><span class="label">Robotics Lab</span></a>
+                <a href="ai_translation.html" class="service-item"><span class="icon">🌐</span><span class="label">AI Translation</span></a>
+                <a href="marketing.html" class="service-item"><span class="icon">📈</span><span class="label">Digital Marketing</span></a>
+                <a href="branding.html" class="service-item"><span class="icon">🖋️</span><span class="label">Visual Branding</span></a>
+                <a href="security.html" class="service-item"><span class="icon">🔐</span><span class="label">Cyber Security</span></a>
+                <a href="web3.html" class="service-item"><span class="icon">⛓️</span><span class="label">Web3 & Tech</span></a>
+                <a href="apps.html" class="service-item"><span class="icon">📱</span><span class="label">App Development</span></a>
+                <a href="data_analytics.html" class="service-item"><span class="icon">📊</span><span class="label">Data Analytics</span></a>
+                <a href="automation.html" class="service-item"><span class="icon">⚙️</span><span class="label">Automation Hub</span></a>
+                <a href="social_media.html" class="service-item"><span class="icon">💬</span><span class="label">Social Media Ops</span></a>
+                <a href="contact.html" class="service-item"><span class="icon">📇</span><span class="label">Global Contact</span></a>
+                <a href="product.html" class="service-item"><span class="icon">🚀</span><span class="label">Product Lab</span></a>
+            </div>
+        </main>
+
+        <div class="visitor-footer">
+            <div class="visitor-counter">
+                <div class="pulse-dot"></div>
+                System Load: <span id="v-count" class="counter-num">100,000</span>
             </div>
         </div>
 
-        <!-- 2: CONCEPT -->
-        <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">02 // CONCEPT</span>
-                <span style="color: var(--text-muted); font-size: 11px;">CORE FRAMEWORK</span>
-            </div>
-            <div class="acronym-box">
-                <div class="acronym-sidebar">
-                    <span>D</span><span>E</span><span>H</span><span>C</span><span>M</span><span style="font-size: calc(2.5 * var(--unit));">sync</span>
-                </div>
-                <div class="acronym-content">
-                    <div class="acro-item"><i class="fa-solid fa-microchip"></i><div><h4>Digital</h4><p>Seamless electronic integration of portable health identities.</p></div></div>
-                    <div class="acro-item"><i class="fa-solid fa-truck-medical"></i><div><h4>Emergency</h4><p>Optimized for high-pressure trauma and critical care response.</p></div></div>
-                    <div class="acro-item"><i class="fa-solid fa-heart-pulse"></i><div><h4>Healthcare</h4><p>Precision focus on life-critical metadata (blood group, allergies).</p></div></div>
-                    <div class="acro-item"><i class="fa-solid fa-network-wired"></i><div><h4>Coordination</h4><p>Bridging family caregivers, responders, and hospitals.</p></div></div>
-                    <div class="acro-item"><i class="fa-solid fa-layer-group"></i><div><h4>Model</h4><p>A validated architectural UI/UX blueprint for clinical equity.</p></div></div>
-                    <div class="acro-item"><i class="fa-solid fa-rotate"></i><div><h4>Synchronized</h4><p>Multi-user system ensuring real-time data accuracy across nodes.</p></div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3: DEFINITION -->
-        <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">03 // DEFINITION</span>
-                <span style="color: var(--text-muted); font-size: 11px;">TERMINOLOGY</span>
-            </div>
-            <h2 class="slide-heading">Digital Emergency Health</h2>
-            <div class="accent-line"></div>
-            <div class="grid-2" style="margin-bottom: 25px;">
-                <div class="card" style="border-left: 5px solid var(--accent);">
-                    <p style="font-weight: 700;">Academic Definition:</p>
-                    <p>The application of ICT to provide immediate medical assistance and care coordination during acute health crises or accidents.</p>
-                    <div style="background: #f1f5f9; padding: 10px; border-radius: 8px; border-left: 4px solid var(--secondary); font-size: 11px; font-style: italic; margin-top: 15px;">
-                        World Health Organization. (2020). <i>Global strategy on digital health 2020-2025</i>.
-                    </div>
-                </div>
-                <div class="card">
-                    <h4>Clinical Bridge:</h4>
-                    <p style="font-size: calc(1.3 * var(--unit));">Shifting from reactive records to proactive data availability, emphasizing <b>Glanceability</b> in under 5 seconds.</p>
-                </div>
-            </div>
-            <!-- Infograph bottom -->
-            <div class="pill-grid">
-                <div class="pill"><i class="fa-solid fa-phone-volume"></i><h5>Response</h5></div>
-                <div class="pill"><i class="fa-solid fa-stethoscope"></i><h5>Triage</h5></div>
-                <div class="pill"><i class="fa-solid fa-database"></i><h5>Data</h5></div>
-                <div class="pill"><i class="fa-solid fa-kit-medical"></i><h5>Action</h5></div>
-            </div>
-        </div>
-
-        <!-- 4: INTERSTITIAL INTRODUCTION -->
-        <div class="slide section-slide" style="background: white;">
-            <h1 style="color: var(--primary);">INTRODUCTION</h1>
-        </div>
-
-        <!-- 5: BACKGROUND -->
-        <div class="slide">
-            <div class="header-bar"><span class="slide-num">05 // CH 1</span><span style="color: var(--secondary); font-weight: 700;">BACKGROUND</span></div>
-            <h2 class="slide-heading">Global Paradigm vs. Local Reality</h2>
-            <div class="accent-line"></div>
-            <div class="grid-2">
-                <div class="card" style="border-left: 5px solid var(--secondary);">
-                    <p style="font-weight: 700;">Systemic Foundation:</p>
-                    <p>Digital technologies are foundational for Universal Health Coverage (UHC). Bangladesh has 98% NID penetration, yet emergency care remains paper-reliant.</p>
-                </div>
-                <div class="card" style="border-left: 5px solid var(--accent);">
-                    <p style="font-weight: 700; color: var(--accent);">Historical Blindness:</p>
-                    <p>Absence of a <b>digital health dataset</b> means responders cannot recall any medical history of that patient, leading to lethal errors in acute care.</p>
-                </div>
-            </div>
-            <div class="card" style="background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 30px;">
-                <i class="fa-solid fa-bridge-circle-xmark" style="font-size: 50px; color: var(--accent);"></i>
-                <div>
-                    <h4 style="color: var(--secondary);">The Adoption Void</h4>
-                    <p style="font-size: 14px; opacity: 0.8; margin: 0; color: white;">Sophisticated backend ecosystems fail when the "Human Interface" is ignored.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 6: PROBLEM STATEMENT -->
-        <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">06 // PROBLEM</span>
-                <span style="color: var(--accent); font-weight: 700;">STATEMENT</span>
-            </div>
-            <h2 class="slide-heading">Problem Overview</h2>
-            <div class="accent-line" style="background: var(--accent);"></div>
-            <div class="card" style="border-left: 8px solid var(--accent); margin-bottom: 25px;">
-                <p style="font-size: 22px; font-weight: 600; color: var(--primary);">Bridging the Socio-Technical Divide</p>
-                <p>Despite significant technical infrastructure in Bangladesh, emergency healthcare faces a <strong>critical failure at the human interaction layer</strong>. This results in information blindness during the "Golden Hour," directly increasing mortality rates and excluding vulnerable elderly populations who struggle with existing complex digital interfaces.</p>
-            </div>
-            <div class="grid-2">
-                <div class="card">
-                    <h4 style="color: var(--accent); margin-bottom: 10px;">Primary Concern</h4>
-                    <p style="font-size: 14px;">The disconnect between high-end backend data systems and the chaotic, high-pressure reality of a trauma responder at the point of care.</p>
-                </div>
-                <div class="card">
-                    <h4 style="color: var(--secondary); margin-bottom: 10px;">User Impact</h4>
-                    <p style="font-size: 14px;">59+ demographic faces interaction paralysis due to UI clutter, leading to total abandonment of life-saving digital tools.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 7: GAP ANALYSIS -->
-        <div class="slide">
-            <div class="header-bar">
-                <span class="slide-num">07 // RP</span><span style="color: var(--accent); font-weight: 700;">GAP ANALYSIS</span>
-            </div>
-            <div class="vertical-gap-list">
-                <div class="gap-item">
-                    <div class="gap-icon"><i class="fa-solid fa-hourglass-half"></i></div>
-                    <div class="gap-desc"><h4>1. Time Crisis (Emergency Gap)</h4><p>Information blindness during the "Golden Hour" results in 48% of avoidable clinical delays due to manual verification.</p></div>
-                </div>
-                <div class="gap-item blue">
-                    <div class="gap-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div class="gap-desc"><h4>2. Trust Deficit (Privacy Gap)</h4><p>Deep surveillance anxieties prevent 53.3% of users from enrolling in digital portals without visual security cues.</p></div>
-                </div>
-                <div class="gap-item">
-                    <div class="gap-icon"><i class="fa-solid fa-brain"></i></div>
-                    <div class="gap-desc"><h4>3. Intimidation Gap (Usability)</h4><p>Complex, technocentric UIs create navigation paralysis for elderly users (59+) and low-literate demographic groups.</p></div>
-                </div>
-                <div class="gap-item blue">
-                    <div class="gap-icon"><i class="fa-solid fa-eye"></i></div>
-                    <div class="gap-desc"><h4>4. Clarity Gap (Visualization)</h4><p>Unstructured data dumps lack medical glanceability, preventing paramedics from understanding patient risks in seconds.</p></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 8: RESEARCH OBJECTIVES -->
-        <div class="slide">
-            <div class="header-bar"><span class="slide-num">08 // MISSION</span><span style="color: var(--secondary); font-weight: 700;">OBJECTIVES</span></div>
-            <h2 class="slide-heading">Research Objectives (RO)</h2>
-            <div class="accent-line"></div>
-            <div style="display: flex; flex-direction: column; gap: calc(3 * var(--unit)); flex-grow: 1; justify-content: center;">
-                <div class="card" style="border-left: 10px solid var(--secondary); display: flex; align-items: center; gap: 30px; padding: calc(3 * var(--unit));">
-                    <h2 style="font-size: calc(3 * var(--unit)); color: var(--secondary);">RO1</h2>
-                    <p style="font-size: calc(2 * var(--unit)); color: var(--primary); font-weight: 600;">Identify user needs and HCD requirements for emergency health cards in Bangladesh.</p>
-                </div>
-                <div class="card" style="border-left: 10px solid var(--secondary); display: flex; align-items: center; gap: 30px; padding: calc(3 * var(--unit));">
-                    <h2 style="font-size: calc(3 * var(--unit)); color: var(--secondary);">RO2</h2>
-                    <p style="font-size: calc(2 * var(--unit)); color: var(--primary); font-weight: 600;">Develop a validated Human-Centered UI/UX framework (DEHCMsync) bridging trust and intimidation gaps.</p>
-                </div>
-                <div class="card" style="border-left: 10px solid var(--secondary); display: flex; align-items: center; gap: 30px; padding: calc(3 * var(--unit));">
-                    <h2 style="font-size: calc(3 * var(--unit)); color: var(--secondary);">RO3</h2>
-                    <p style="font-size: calc(2 * var(--unit)); color: var(--primary); font-weight: 600;">Evaluate the impact of this framework on user satisfaction and clinical retrieval efficiency.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 9: RESEARCH QUESTIONS -->
-        <div class="slide">
-            <div class="header-bar"><span class="slide-num">09 // INQUIRY</span><span style="color: var(--secondary); font-weight: 700;">QUESTIONS</span></div>
-            <h2 class="slide-heading">Research Questions (RQ)</h2>
-            <div class="accent-line"></div>
-            <div style="display: grid; grid-template-columns: 1fr; gap: calc(2 * var(--unit)); flex-grow: 1; justify-content: center;">
-                <div class="card" style="border-top: 6px solid var(--primary); padding: calc(2.5 * var(--unit));">
-                    <h4 style="color: var(--secondary); margin-bottom: 10px;">RQ1: Requirements</h4>
-                    <p style="font-size: calc(1.8 * var(--unit)); color: var(--primary);">What specific human-centered design requirements are essential to minimize data retrieval time in emergencies?</p>
-                </div>
-                <div class="card" style="border-top: 6px solid var(--primary); padding: calc(2.5 * var(--unit));">
-                    <h4 style="color: var(--secondary); margin-bottom: 10px;">RQ2: Integration</h4>
-                    <p style="font-size: calc(1.8 * var(--unit)); color: var(--primary);">How can accessibility principles and cultural trust markers be effectively integrated into a cohesive framework?</p>
-                </div>
-                <div class="card" style="border-top: 6px solid var(--primary); padding: calc(2.5 * var(--unit));">
-                    <h4 style="color: var(--secondary); margin-bottom: 10px;">RQ3: Improvement</h4>
-                    <p style="font-size: calc(1.8 * var(--unit)); color: var(--primary);">To what extent does the proposed framework improve usability metrics (efficiency, errors) for non-tech-savvy users?</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 10: INTERSTITIAL LIT -->
-        <div class="slide section-slide" style="background: white;">
-            <h1 style="color: var(--primary);">LITERATURE REVIEW</h1>
-        </div>
-
-        <!-- 11: LIT MATRIX -->
-        <div class="slide">
-            <div class="header-bar"><span class="slide-num">11 // LIT</span><span style="color: var(--secondary); font-weight: 700;">PREVIOUS RESEARCH</span></div>
-            <table class="academic-table" style="font-size: calc(1.1 * var(--unit));">
-                <thead>
-                    <tr><th>Author/Year</th><th>Population</th><th>Barrier Identified</th><th>Gap Addressed by DEHCMsync</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Ahmed et al. (2026)</td><td>Bangladesh General</td><td>Infrastructure Silos</td><td>Synchronized multi-user portable history.</td></tr>
-                    <tr><td>Biswas et al. (2022)</td><td>Elderly Patients</td><td>Manual Processes</td><td>Passive NFC/QR Triggers for assistance.</td></tr>
-                    <tr><td>Hasan et al. (2024)</td><td>Rural Demographics</td><td>Low Connectivity</td><td>Offline portability & local encryption.</td></tr>
-                    <tr><td>Islam et al. (2024)</td><td>South Asian Citizens</td><td>Surveillance Fear</td><td>Transparent Security UI cues & consent.</td></tr>
-                    <tr><td>Arslan et al. (2025)</td><td>Medical Clinicians</td><td>Information Overload</td><td>Visual Triage & High-glanceability Dashboard.</td></tr>
-                    <tr><td>Amouzadeh (2025)</td><td>Senior Citizens</td><td>Cognitive Decline</td><td>Age-friendly HCD interaction heuristics.</td></tr>
-                    <tr><td>Palas et al. (2022)</td><td>mHealth Adoption</td><td>Effort Expectancy</td><td>UTAUT2 UI Optimization for Ease-of-use.</td></tr>
-                    <tr><td>Sun (2025)</td><td>Developing Nations</td><td>Fragmentation</td><td>Unified UI Framework for cross-sync data.</td></tr>
-                    <tr><td>Hoque (2017)</td><td>LMIC Population</td><td>Digital Literacy</td><td>Inclusive Design & Cognitive Load Reduction.</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- 12: INTERSTITIAL METHODOLOGY -->
-        <div class="slide section-slide" style="background: white;">
-            <h1 style="color: var(--primary);">METHODOLOGY</h1>
-        </div>
-
-        <!-- 13: PRELIMINARY DATA -->
-        <div class="slide">
-            <div class="header-bar"><span class="slide-num">13 // START</span><span style="color: var(--secondary); font-weight: 700;">PRELIMINARY SURVEY</span></div>
-            <div class="grid-2" style="margin-bottom: 20px;">
-                <div class="card">
-                    <h4>Survey Overview (N=120)</h4>
-                    <p style="font-size: 14px; margin-top: 10px;">A baseline inquiry conducted to map current emergency readiness and tech-trust in Bangladesh.</p>
-                </div>
-                <div class="card">
-                    <h4>Baseline Readiness</h4>
-                    <ul style="font-size: 13px; padding-left: 20px;">
-                        <li><strong>92.5%</strong> possess smartphones (Readiness high).</li>
-                        <li><strong>98.2%</strong> have valid NID cards (Anchor available).</li>
-                        <li><strong>82%</strong> face chronic comorbidity risks.</li>
-                    </ul>
-                </div>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; flex-grow: 1;">
-                <div class="card" style="text-align: center;"><i class="fa-solid fa-user-shield stat-icon"></i><h2 style="color: var(--accent);">53.3%</h2><p style="font-size: 12px;">Fear surveillance misuse.</p></div>
-                <div class="card" style="text-align: center;"><i class="fa-solid fa-file-medical stat-icon"></i><h2 style="color: var(--secondary);">48%</h2><p style="font-size: 12px;">Paperwork lethal delay.</p></div>
-                <div class="card" style="text-align: center;"><i class="fa-solid fa-circle-question stat-icon"></i><h2 style="color: var(--primary);">65%</h2><p style="font-size: 12px;">Confused by medical icons.</p></div>
-                <div class="card" style="text-align: center;"><i class="fa-solid fa-database stat-icon"></i><h2 style="color: var(--accent);">51.7%</h2><p style="font-size: 12px;">Lack medical history.</p></div>
-                <div class="card" style="text-align: center;"><i class="fa-solid fa-wifi stat-icon"></i><h2 style="color: var(--secondary);">32%</h2><p style="font-size: 12px;">Aware of NFC tech.</p></div>
-                <div class="card" style="text-align: center;"><i class="fa-solid fa-check-to-slot stat-icon"></i><h2 style="color: var(--primary);">78%</h2><p style="font-size: 12px;">Willing to adopt EHC.</p></div>
-            </div>
-        </div>
-
-        <!-- 14: RESEARCH APPROACH -->
-        <div class="slide">
-            <div class="header-bar"><span class="slide-num">14 // CH 3</span><span style="color: var(--secondary); font-weight: 700;">APPROACH</span></div>
-            <h2 class="slide-heading">Research Approach: The HCD Path</h2>
-            <div class="accent-line"></div>
-            <div class="grid-2">
-                <div class="card" style="border-left: 6px solid var(--secondary);">
-                    <h4>ISO 9241-210 Standards</h4>
-                    <p style="font-size: 14px;">Study follows an <b>Iterative Design Life Cycle</b> focusing on the context of use. It balances medical urgency with physiological elderly decline.</p>
-                </div>
-                <div class="card">
-                    <h4>Multi-Phase Framework</h4>
-                    <p style="font-size: 14px;">Combines <b>Thematic Inquiry</b> (Qualitative) and <b>Heuristic Prototyping</b> with final <b>Empirical Validation</b> (Quantitative).</p>
-                </div>
-            </div>
-            <!-- Steps on Phase 1, 2, 3 -->
-            <div style="display: flex; gap: 20px; margin-top: 30px; flex-grow: 1; align-items: stretch;">
-                <div class="card" style="flex: 1; border-top: 5px solid var(--primary);">
-                    <h5 style="font-weight: 800; color: var(--primary); margin-bottom: 10px;">Phase 1: Discovery</h5>
-                    <ul style="font-size: 11px; padding-left: 15px;">
-                        <li>User Interviews</li>
-                        <li>Friction Mapping</li>
-                        <li>Contextual Inquiry</li>
-                    </ul>
-                </div>
-                <div class="card" style="flex: 1; border-top: 5px solid var(--secondary);">
-                    <h5 style="font-weight: 800; color: var(--secondary); margin-bottom: 10px;">Phase 2: Prototyping</h5>
-                    <ul style="font-size: 11px; padding-left: 15px;">
-                        <li>UI Visualization</li>
-                        <li>DEHCMsync Logic</li>
-                        <li>Trust Anchor Design</li>
-                    </ul>
-                </div>
-                <div class="card" style="flex: 1; border-top: 5px solid var(--accent);">
-                    <h5 style="font-weight: 800; color: var(--accent); margin-bottom: 10px;">Phase 3: Validation</h5>
-                    <ul style="font-size: 11px; padding-left: 15px;">
-                        <li>Thinking Aloud</li>
-                        <li>SUS Benchmarking</li>
-                        <li>Expert Review</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- 15: ANALYSIS METHODS -->
-        <div class="slide">
-            <div class="header-bar"><span class="slide-num">15 // ANALYSIS</span><span style="color: var(--secondary); font-weight: 700;">TECHNIQUES</span></div>
-            <h2 class="slide-heading">Data Triangulation & Analysis</h2>
-            <div class="accent-line"></div>
-            <div class="grid-2">
-                <div class="card" style="border-top: 5px solid var(--primary);">
-                    <i class="fa-solid fa-magnifying-glass-chart" style="font-size: 32px; color: var(--primary); margin-bottom: 15px;"></i>
-                    <h4>Qualitative: Thematic Coding</h4>
-                    <ul style="font-size: 13px; margin-top: 10px; padding-left: 20px;">
-                        <li>Transcription of interviews (N=20).</li>
-                        <li>NVivo deductive coding for <b>Cognitive Load</b>.</li>
-                        <li>Identification of <b>Surveillance Barriers</b>.</li>
-                    </ul>
-                </div>
-                <div class="card" style="border-top: 5px solid var(--secondary);">
-                    <i class="fa-solid fa-chart-line" style="font-size: 32px; color: var(--secondary); margin-bottom: 15px;"></i>
-                    <h4>Quantitative: Empirical Metrics</h4>
-                    <ul style="font-size: 13px; margin-top: 10px; padding-left: 20px;">
-                        <li><b>SUS (System Usability Scale)</b> scoring.</li>
-                        <li>Comparative Error-Rate benchmarking.</li>
-                        <li>Paramedic Time-on-Task (Target < 30s).</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card" style="margin-top: 25px; text-align: center; border: 2px dashed var(--secondary);">
-                <p style="font-size: 12px; margin: 0;"><i class="fa-solid fa-code-branch"></i> Cross-validation ensures that the resulting framework is both statistically significant and humanly inclusive.</p>
-            </div>
-        </div>
-
-        <!-- 16: SUMMARY MATRIX -->
-        <div class="slide">
-            <div class="header-bar"><span class="slide-num">16 // SUMMARY</span><span style="color: var(--secondary); font-weight: 700;">ALIGNMENT MATRIX</span></div>
-            <h2 class="slide-heading" style="font-size: calc(2.4 * var(--unit));">Table 1.2: Strategic Research Summary</h2>
-            <table class="academic-table" style="font-size: calc(0.9 * var(--unit));">
-                <thead>
-                    <tr><th width="14%">Problem</th><th width="18%">Objective (RO)</th><th width="18%">Question (RQ)</th><th width="15%">Methodology</th><th width="15%">Lit Analysis</th><th width="20%">Contribution</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><b>1. Time Crisis</b><br>Information blindness in "Golden Hour" causes lethal medical errors.</td>
-                        <td>Identify specific workflow bottlenecks and critical data points required by paramedics for rapid triage.</td>
-                        <td>What specific human-centered design requirements are essential to minimize retrieval time in emergencies?</td>
-                        <td><b>Phase 1:</b><br>Interviews & Inquiry.</td>
-                        <td><b>Smart Cards:</b><br>QR/NFC feasibility.</td>
-                        <td><b>Practical:</b><br>Reducing the "3rd Delay" in acute care.</td>
-                    </tr>
-                    <tr>
-                        <td><b>2. Trust Deficit</b><br>Fear of surveillance preventing adoption of digital health identifiers.</td>
-                        <td>Develop a UI framework integrating "Transparent Security" visual cues to communicate encryption.</td>
-                        <td>How can accessibility principles and cultural trust markers be effectively integrated into a cohesive UI?</td>
-                        <td><b>Phase 2:</b><br>Figma Prototyping.</td>
-                        <td><b>Transparency:</b><br>Trust Transfer Theory.</td>
-                        <td><b>Theoretical:</b><br>Novel Trust-Centered UI Model for LMICs.</td>
-                    </tr>
-                    <tr>
-                        <td><b>3. Intimidation</b><br>Technocentric UIs create cognitive barriers for elderly users (59+).</td>
-                        <td>Evaluate framework effectiveness in reducing cognitive load & satisfaction among seniors.</td>
-                        <td>To what extent does the framework improve usability metrics (efficiency/errors) for non-tech users?</td>
-                        <td><b>Phase 3:</b><br>Thinking Aloud test.</td>
-                        <td><b>HCD & UTAUT:</b><br>Effort Expectancy.</td>
-                        <td><b>Social Impact:</b><br>Promoting Digital Equity for vulnerable groups.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- 17: THANK YOU -->
-        <div class="slide" style="justify-content: center; text-align: center;">
-            <i class="fa-regular fa-circle-check" style="font-size: calc(8 * var(--unit)); color: var(--secondary); margin-bottom: 25px;"></i>
-            <h1 style="font-size: calc(6 * var(--unit)); color: var(--primary);">Thank You</h1>
-            <p style="font-size: 24px; color: var(--text-muted); font-weight: 600;">Questions & Discussion</p>
-            <div style="margin-top: 50px; padding: 30px; border-top: 1px solid #e2e8f0; width: 60%; margin: 0 auto;">
-                <p style="font-weight: 700; color: var(--primary);">MD RAFAT UDDIN ARMAN | arman.rafat@gmail.com</p>
-                <p style="font-size: 12px; margin-top: 5px;">Faculty of ICT (FTMK), UTeM</p>
-            </div>
-        </div>
-
-        <!-- NAVIGATION CONTROLS -->
-        <div class="controls">
-            <button class="nav-btn" onclick="toggleFullscreen()" title="Fullscreen (F)"><i class="fa-solid fa-expand" id="fs-icon"></i></button>
-            <button class="nav-btn" onclick="prevSlide()" title="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="nav-btn" onclick="nextSlide()" title="Next"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-
-        <!-- PROGRESS BAR -->
-        <div class="progress-container"><div id="progress-fill"></div></div>
+        <div id="global-footer"></div>
     </div>
 
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const progressFill = document.getElementById('progress-fill');
-        const wrapper = document.getElementById('presentation-container');
-        const fsIcon = document.getElementById('fs-icon');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        function updateSlide() {
-            slides.forEach((slide, index) => {
-                slide.classList.toggle('active', index === currentSlide);
-            });
-            const progress = ((currentSlide + 1) / slides.length) * 100;
-            progressFill.style.width = progress + '%';
-        }
+        const initVisitorSync = async () => {
+            try {
+                // Defensive config parsing
+                const firebaseConfig = typeof __firebase_config === 'string' ? JSON.parse(__firebase_config) : __firebase_config;
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                const db = getFirestore(app);
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-        function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; updateSlide(); } }
-        function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
 
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) { wrapper.requestFullscreen().catch(err => console.error(err)); }
-            else { document.exitFullscreen(); }
-        }
+                if (!auth.currentUser) return;
 
-        document.addEventListener('fullscreenchange', () => {
-            fsIcon.className = document.fullscreenElement ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
-        });
+                const statsDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'site_stats', 'global');
+                await setDoc(statsDocRef, { visitCount: increment(1) }, { merge: true });
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
-            if (e.key === 'ArrowLeft') prevSlide();
-            if (e.key === 'f' || e.key === 'F') toggleFullscreen();
-        });
+                onSnapshot(statsDocRef, (snap) => {
+                    if (snap.exists()) {
+                        const rawCount = snap.data().visitCount || 0;
+                        const displayCount = 100000 + rawCount;
+                        document.getElementById('v-count').innerText = displayCount.toLocaleString();
+                    }
+                }, (err) => console.warn("Visitor counter sync offline."));
 
-        updateSlide();
+            } catch (err) {
+                console.error("Firebase init skipped - Environment variables missing.");
+            }
+        };
+
+        initVisitorSync();
     </script>
 </body>
 </html>
