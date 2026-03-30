@@ -75,10 +75,13 @@
         /* --- PAGE ARCHITECTURE --- */
         .page-view {
             position: absolute; inset: 0;
-            padding: 60px 8%;
-            display: none; flex-direction: column;
-            justify-content: space-between; 
+            padding: 40px 8%; /* Reduced top/bottom padding */
+            display: none; 
+            flex-direction: column;
+            justify-content: center; /* Center content vertically to reduce awkward gaps */
+            align-items: flex-start;
             overflow-y: auto;
+            gap: 30px; /* Consistent spacing between title and content */
         }
 
         .page-view.active {
@@ -96,9 +99,10 @@
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            padding: 30px;
-            border-radius: 24px;
+            padding: 24px;
+            border-radius: 20px;
             transition: all 0.3s ease;
+            width: 100%;
         }
         .glass-card:hover {
             background: rgba(255, 255, 255, 0.08);
@@ -109,18 +113,18 @@
         .highlight-blue { border-left: 4px solid var(--accent-blue); background: var(--glass-accent); }
 
         /* --- TYPOGRAPHY --- */
-        h1 { font-family: 'Space Grotesk'; font-size: var(--f-xl); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 20px; }
-        .page-title { font-family: 'Space Grotesk'; font-size: var(--f-lg); font-weight: 800; color: var(--accent-blue); margin-bottom: 10px; text-transform: uppercase; }
+        h1 { font-family: 'Space Grotesk'; font-size: var(--f-xl); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0; }
+        .page-title { font-family: 'Space Grotesk'; font-size: var(--f-lg); font-weight: 800; color: var(--accent-blue); margin-bottom: 0; text-transform: uppercase; }
         h4 { font-family: 'Space Grotesk'; font-size: var(--f-md); font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px; }
         
         p, li { font-size: var(--f-base); line-height: 1.6; color: var(--text-secondary); }
         b, strong { color: var(--text-primary); }
 
-        .chapter-tag { color: var(--accent-blue); font-weight: 800; font-size: 12px; letter-spacing: 4px; display: block; text-transform: uppercase; margin-bottom: 12px; }
+        .chapter-tag { color: var(--accent-blue); font-weight: 800; font-size: 12px; letter-spacing: 4px; display: block; text-transform: uppercase; margin-bottom: 8px; }
 
         /* --- LAYOUT UTILITIES --- */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
 
         /* --- SYNC BOX (GLASS STYLE) --- */
         .sync-box {
@@ -129,6 +133,7 @@
             border-radius: 24px;
             overflow: hidden;
             border: 1px solid var(--glass-border);
+            width: 100%;
         }
         .sync-sidebar {
             background: var(--accent-blue);
@@ -136,14 +141,14 @@
             display: flex; flex-direction: column; justify-content: space-around;
             align-items: center; font-family: 'Space Grotesk'; font-weight: 900; font-size: 24px;
         }
-        .sync-content { padding: 30px; background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 12px; }
+        .sync-content { padding: 24px; background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 12px; }
         .sync-row { display: grid; grid-template-columns: 30px 1fr; align-items: center; gap: 15px; padding-bottom: 8px; border-bottom: 1px solid var(--glass-border); }
         .sync-row i { color: var(--accent-blue); font-size: 18px; }
 
         /* --- TABLES --- */
         .glass-table { width: 100%; border-collapse: collapse; font-size: 14px; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); }
-        .glass-table th { text-align: left; padding: 18px; background: rgba(255,255,255,0.05); color: var(--text-primary); text-transform: uppercase; font-size: 12px; border-bottom: 1px solid var(--glass-border); }
-        .glass-table td { padding: 12px 18px; border-bottom: 1px solid var(--glass-border); color: var(--text-secondary); }
+        .glass-table th { text-align: left; padding: 16px; background: rgba(255,255,255,0.05); color: var(--text-primary); text-transform: uppercase; font-size: 12px; border-bottom: 1px solid var(--glass-border); }
+        .glass-table td { padding: 12px 16px; border-bottom: 1px solid var(--glass-border); color: var(--text-secondary); }
         .glass-table tr:hover { background: rgba(255,255,255,0.02); }
 
         /* --- NAVIGATION --- */
@@ -181,13 +186,13 @@
         <div class="progress-bar"><div id="fill"></div></div>
         
         <!-- 01: COVER -->
-        <div class="page-view active" style="text-align: center; justify-content: center;">
-            <div style="max-width: 900px; margin: 0 auto;">
+        <div class="page-view active" style="text-align: center; align-items: center;">
+            <div style="max-width: 900px;">
                 <span class="chapter-tag">M032510030 // Proposal Defense</span>
                 <h1>An Enhanced Human-Centered <br><span style="color: var(--accent-blue)">UI/UX Framework</span> for Emergency Health Card Interfaces</h1>
-                <p style="font-size: 20px; margin-top: 15px;">Empowering Digital Health Inclusion in Bangladesh</p>
+                <p style="font-size: 20px; margin-top: 15px; color: var(--text-secondary)">Empowering Digital Health Inclusion in Bangladesh</p>
                 
-                <div class="grid-2" style="margin-top: 50px; text-align: left;">
+                <div class="grid-2" style="margin-top: 40px; text-align: left;">
                     <div class="glass-card">
                         <span class="chapter-tag">Researcher</span>
                         <p style="font-weight: 800; font-size: 24px; color: var(--text-primary);">MD RAFAT UDDIN ARMAN</p>
@@ -208,7 +213,7 @@
                 <span class="chapter-tag">Navigation</span>
                 <h2 class="page-title">Project Roadmap</h2>
             </div>
-            <div class="grid-3" style="margin-top: 30px;">
+            <div class="grid-3">
                 <div class="glass-card highlight-blue" onclick="goToPage(4)"><h4>01. Introduction</h4><p>DEHCMsync Framework</p></div>
                 <div class="glass-card" onclick="goToPage(6)"><h4>02. Crisis</h4><p>Analog Bottlenecks</p></div>
                 <div class="glass-card highlight-blue" onclick="goToPage(8)"><h4>03. Problem</h4><p>Socio-Technical Gaps</p></div>
@@ -219,10 +224,10 @@
         </div>
 
         <!-- 03: INTERSTITIAL -->
-        <div class="page-view" style="text-align: center; justify-content: center;">
-            <div class="glass-card" style="padding: 60px; display: inline-block;">
+        <div class="page-view" style="text-align: center; align-items: center;">
+            <div class="glass-card" style="padding: 60px; display: inline-block; width: auto;">
                 <span class="chapter-tag">Phase 01</span>
-                <h1 style="letter-spacing: 8px; margin: 0;">INTRODUCTION</h1>
+                <h1 style="letter-spacing: 8px;">INTRODUCTION</h1>
             </div>
         </div>
 
@@ -246,8 +251,10 @@
 
         <!-- 05: TERMINOLOGY -->
         <div class="page-view">
-            <span class="chapter-tag">Retrieval Bridge</span>
-            <h2 class="page-title">Information Concepts</h2>
+            <div>
+                <span class="chapter-tag">Retrieval Bridge</span>
+                <h2 class="page-title">Information Concepts</h2>
+            </div>
             <div class="grid-2">
                 <div class="glass-card highlight-blue">
                     <h4>Glanceability Metric</h4>
@@ -258,7 +265,7 @@
                     <p>The application of ICT to provide immediate medical assistance and care coordination during acute health crises.</p>
                 </div>
             </div>
-            <div class="grid-3" style="margin-top: 20px; text-align: center;">
+            <div class="grid-3" style="text-align: center;">
                 <div class="glass-card" style="padding: 15px;"><b>Response Activation</b></div>
                 <div class="glass-card" style="padding: 15px;"><b>Data Sync</b></div>
                 <div class="glass-card" style="padding: 15px;"><b>Life Action</b></div>
@@ -268,7 +275,7 @@
         <!-- 06: ANALOG CRISIS -->
         <div class="page-view">
             <h2 class="page-title">Analog Bottlenecks</h2>
-            <div class="grid-3" style="margin-top: 20px;">
+            <div class="grid-3">
                 <div class="glass-card"><h4>Paper-Based</h4><p>Records fragile or lost during distress.</p></div>
                 <div class="glass-card"><h4>Retrieval failure</h4><p>No medical history access when patients are unconscious.</p></div>
                 <div class="glass-card"><h4>Data Fragmentation</h4><p>History vanishes between fragmented providers.</p></div>
@@ -292,7 +299,7 @@
                     <p>Despite NID coverage, there is no synchronized digital health history for acute clinical care scenarios.</p>
                 </div>
             </div>
-            <div class="glass-card highlight-blue" style="margin-top: 25px;">
+            <div class="glass-card highlight-blue">
                 <h4 style="color: var(--text-primary)">Active Intelligence Logic</h4>
                 <p style="font-size: 22px; font-weight: 700; color: var(--text-primary);">Binding NID as verification allows responders to detect patients in <b>seconds</b> and retrieve history instantly.</p>
             </div>
@@ -300,22 +307,24 @@
 
         <!-- 08: PROBLEM GAPS -->
         <div class="page-view">
-            <span class="chapter-tag">Critical Gaps</span>
-            <h2 class="page-title">Socio-Technical Crisis</h2>
-            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-                <div class="glass-card" style="display: flex; align-items: center; gap: 20px; padding: 20px;">
+            <div>
+                <span class="chapter-tag">Critical Gaps</span>
+                <h2 class="page-title">Socio-Technical Crisis</h2>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                <div class="glass-card" style="display: flex; align-items: center; gap: 20px; padding: 18px;">
                     <i class="fa-solid fa-hourglass" style="font-size: 24px; color: var(--accent-blue)"></i>
                     <p><b>1. Time Crisis:</b> Manual verification waste (5-10 mins) during clinical intake.</p>
                 </div>
-                <div class="glass-card" style="display: flex; align-items: center; gap: 20px; padding: 20px;">
+                <div class="glass-card" style="display: flex; align-items: center; gap: 20px; padding: 18px;">
                     <i class="fa-solid fa-shield-halved" style="font-size: 24px; color: var(--accent-cyan)"></i>
                     <p><b>2. Trust Deficit:</b> Fear of data exploitation; needs "Transparent Security" UI anchors.</p>
                 </div>
-                <div class="glass-card" style="display: flex; align-items: center; gap: 20px; padding: 20px;">
+                <div class="glass-card" style="display: flex; align-items: center; gap: 20px; padding: 18px;">
                     <i class="fa-solid fa-brain" style="font-size: 24px; color: var(--accent-blue)"></i>
                     <p><b>3. Intimidation Gap:</b> Navigation paralysis for seniors (59+) leads to exclusion.</p>
                 </div>
-                <div class="glass-card" style="display: flex; align-items: center; gap: 20px; padding: 20px;">
+                <div class="glass-card" style="display: flex; align-items: center; gap: 20px; padding: 18px;">
                     <i class="fa-solid fa-eye" style="font-size: 24px; color: var(--accent-cyan)"></i>
                     <p><b>4. Clarity Gap:</b> Physicians struggle with unstructured data dumps during triage.</p>
                 </div>
@@ -325,7 +334,7 @@
         <!-- 09: OBJECTIVES -->
         <div class="page-view">
             <h2 class="page-title">Research Objectives (RO)</h2>
-            <div class="grid-3" style="margin-top: 30px;">
+            <div class="grid-3">
                 <div class="glass-card highlight-blue" style="text-align: center;">
                     <h1 style="color: var(--accent-blue)">RO1</h1>
                     <p>Identify user needs and HCD requirements for Bangladesh.</p>
@@ -344,7 +353,7 @@
         <!-- 10: QUESTIONS -->
         <div class="page-view">
             <h2 class="page-title">Research Questions (RQ)</h2>
-            <div class="grid-3" style="margin-top: 30px;">
+            <div class="grid-3">
                 <div class="glass-card"><h4>RQ1: Design</h4><p>What HCD requirements minimize retrieval time in emergencies?</p></div>
                 <div class="glass-card"><h4>RQ2: Trust</h4><p>How can cultural trust markers be integrated into the EHC UI?</p></div>
                 <div class="glass-card"><h4>RQ3: Usability</h4><p>Does the framework improve usage for non-tech-savvy citizens?</p></div>
@@ -352,10 +361,10 @@
         </div>
 
         <!-- 11: INTERSTITIAL -->
-        <div class="page-view" style="text-align: center; justify-content: center;">
-            <div class="glass-card" style="padding: 60px;">
+        <div class="page-view" style="text-align: center; align-items: center;">
+            <div class="glass-card" style="padding: 60px; width: auto;">
                 <span class="chapter-tag">Phase 02</span>
-                <h1 style="letter-spacing: 8px; margin: 0;">LITERATURE REVIEW</h1>
+                <h1 style="letter-spacing: 8px;">LITERATURE REVIEW</h1>
             </div>
         </div>
 
@@ -414,10 +423,10 @@
         </div>
 
         <!-- 16: INTERSTITIAL -->
-        <div class="page-view" style="text-align: center; justify-content: center;">
-            <div class="glass-card" style="padding: 60px;">
+        <div class="page-view" style="text-align: center; align-items: center;">
+            <div class="glass-card" style="padding: 60px; width: auto;">
                 <span class="chapter-tag">Phase 03</span>
-                <h1 style="letter-spacing: 8px; margin: 0;">METHODOLOGY</h1>
+                <h1 style="letter-spacing: 8px;">METHODOLOGY</h1>
             </div>
         </div>
 
@@ -440,7 +449,7 @@
         <!-- 18: RESEARCH DESIGN -->
         <div class="page-view">
             <h2 class="page-title">HCD Lifecycle Design</h2>
-            <div class="grid-3" style="margin-top: 30px;">
+            <div class="grid-3">
                 <div class="glass-card highlight-blue"><h4>1. Discovery</h4><p>Interviews (N=20) and Friction Mapping of triage journeys.</p></div>
                 <div class="glass-card highlight-blue"><h4>2. Prototyping</h4><p>High-fidelity FIGMA simulations with Trust-Transfer cues.</p></div>
                 <div class="glass-card highlight-blue"><h4>3. Validation</h4><p>SUS metrics, expert clinical review, and speed benchmarks.</p></div>
@@ -470,11 +479,11 @@
         </div>
 
         <!-- 21: THANK YOU -->
-        <div class="page-view" style="text-align: center; justify-content: center;">
-            <div style="max-width: 600px; margin: 0 auto;">
+        <div class="page-view" style="text-align: center; align-items: center;">
+            <div style="max-width: 600px;">
                 <h1 style="font-size: 70px; letter-spacing: -2px; color: var(--accent-blue);">DHANYABAD</h1>
                 <p style="font-size: 24px; font-weight: 800; color: var(--text-primary);">Questions & Discussion Welcome</p>
-                <div style="margin-top: 50px; border-top: 1px solid var(--glass-border); padding-top: 30px;">
+                <div style="margin-top: 40px; border-top: 1px solid var(--glass-border); padding-top: 30px;">
                     <p style="font-weight: 800; color: var(--text-primary);">MD RAFAT UDDIN ARMAN</p>
                     <p style="opacity: 0.6;">armandigital@utem.edu.bd • FTMK</p>
                 </div>
