@@ -15,7 +15,7 @@
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.12);
-            --glass-accent: rgba(37, 99, 235, 0.2); /* Blue accent */
+            --glass-accent: rgba(37, 99, 235, 0.2); 
             
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
@@ -75,13 +75,13 @@
         /* --- PAGE ARCHITECTURE --- */
         .page-view {
             position: absolute; inset: 0;
-            padding: 40px 8%; /* Reduced top/bottom padding */
+            padding: 40px 8%; 
             display: none; 
             flex-direction: column;
-            justify-content: center; /* Center content vertically to reduce awkward gaps */
+            justify-content: center; 
             align-items: flex-start;
             overflow-y: auto;
-            gap: 30px; /* Consistent spacing between title and content */
+            gap: 25px; 
         }
 
         .page-view.active {
@@ -115,18 +115,65 @@
         /* --- TYPOGRAPHY --- */
         h1 { font-family: 'Space Grotesk'; font-size: var(--f-xl); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0; }
         .page-title { font-family: 'Space Grotesk'; font-size: var(--f-lg); font-weight: 800; color: var(--accent-blue); margin-bottom: 0; text-transform: uppercase; }
-        h4 { font-family: 'Space Grotesk'; font-size: var(--f-md); font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px; }
+        h4 { font-family: 'Space Grotesk'; font-size: 18px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 4px; }
         
-        p, li { font-size: var(--f-base); line-height: 1.6; color: var(--text-secondary); }
+        p, li { font-size: 15px; line-height: 1.5; color: var(--text-secondary); }
         b, strong { color: var(--text-primary); }
 
         .chapter-tag { color: var(--accent-blue); font-weight: 800; font-size: 12px; letter-spacing: 4px; display: block; text-transform: uppercase; margin-bottom: 8px; }
 
-        /* --- LAYOUT UTILITIES --- */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
+        /* --- HCD METHODOLOGY CSS FIX --- */
+        .method-flow {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1100px;
+        }
+        .phase-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 18px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.2s ease;
+        }
+        .phase-box:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: var(--accent-blue);
+        }
+        .phase-num {
+            background: var(--accent-blue);
+            color: #fff;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: grid; place-items: center;
+            font-weight: 800; flex-shrink: 0;
+            font-size: 12px;
+            margin-top: 2px;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+        }
+        .phase-content h4 { font-size: 16px; margin-bottom: 2px; color: var(--text-primary); }
+        .phase-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0 12px; }
+        .phase-list li { font-size: 12px; color: var(--text-secondary); opacity: 0.9; }
+        .phase-list li::before { content: '• '; color: var(--accent-cyan); font-weight: bold; }
+        
+        .phase-loop-text { 
+            font-size: 10px; 
+            margin-top: 4px; 
+            color: var(--accent-cyan); 
+            font-weight: 600; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        /* --- SYNC BOX (GLASS STYLE) --- */
+        /* --- LAYOUT UTILITIES --- */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; }
+
+        /* --- SYNC BOX --- */
         .sync-box {
             display: grid;
             grid-template-columns: 100px 1fr;
@@ -141,25 +188,24 @@
             display: flex; flex-direction: column; justify-content: space-around;
             align-items: center; font-family: 'Space Grotesk'; font-weight: 900; font-size: 24px;
         }
-        .sync-content { padding: 24px; background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 12px; }
-        .sync-row { display: grid; grid-template-columns: 30px 1fr; align-items: center; gap: 15px; padding-bottom: 8px; border-bottom: 1px solid var(--glass-border); }
-        .sync-row i { color: var(--accent-blue); font-size: 18px; }
+        .sync-content { padding: 20px; background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 8px; }
+        .sync-row { display: grid; grid-template-columns: 30px 1fr; align-items: center; gap: 15px; padding-bottom: 5px; border-bottom: 1px solid var(--glass-border); }
+        .sync-row i { color: var(--accent-blue); font-size: 16px; }
 
         /* --- TABLES --- */
-        .glass-table { width: 100%; border-collapse: collapse; font-size: 14px; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); }
-        .glass-table th { text-align: left; padding: 16px; background: rgba(255,255,255,0.05); color: var(--text-primary); text-transform: uppercase; font-size: 12px; border-bottom: 1px solid var(--glass-border); }
-        .glass-table td { padding: 12px 16px; border-bottom: 1px solid var(--glass-border); color: var(--text-secondary); }
-        .glass-table tr:hover { background: rgba(255,255,255,0.02); }
+        .glass-table { width: 100%; border-collapse: collapse; font-size: 13px; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); }
+        .glass-table th { text-align: left; padding: 14px; background: rgba(255,255,255,0.05); color: var(--text-primary); text-transform: uppercase; font-size: 11px; border-bottom: 1px solid var(--glass-border); }
+        .glass-table td { padding: 10px 14px; border-bottom: 1px solid var(--glass-border); color: var(--text-secondary); }
 
         /* --- NAVIGATION --- */
-        .ui-controls { position: fixed; bottom: 40px; right: 60px; display: flex; gap: 15px; z-index: 1000; }
+        .ui-controls { position: fixed; bottom: 30px; right: 50px; display: flex; gap: 12px; z-index: 1000; }
         .btn-glass { 
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             color: var(--text-primary); 
-            width: 55px; height: 55px; 
-            border-radius: 16px; 
+            width: 50px; height: 50px; 
+            border-radius: 14px; 
             cursor: pointer; 
             display: grid; place-items: center; 
             transition: 0.3s ease;
@@ -169,9 +215,8 @@
         .progress-bar { position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: rgba(255,255,255,0.05); z-index: 100; }
         #fill { height: 100%; background: var(--accent-blue); width: 0%; transition: 0.4s; box-shadow: 0 0 15px var(--accent-blue); }
 
-        .citation { color: var(--accent-cyan); font-weight: 700; font-size: 13px; display: block; margin-top: 4px; }
+        .citation { color: var(--accent-cyan); font-weight: 700; font-size: 12px; display: block; margin-top: 2px; }
         
-        /* Custom scrollbar for glass */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
@@ -192,7 +237,7 @@
                 <h1>An Enhanced Human-Centered <br><span style="color: var(--accent-blue)">UI/UX Framework</span> for Emergency Health Card Interfaces</h1>
                 <p style="font-size: 20px; margin-top: 15px; color: var(--text-secondary)">Empowering Digital Health Inclusion in Bangladesh</p>
                 
-                <div class="grid-2" style="margin-top: 40px; text-align: left;">
+                <div class="grid-2" style="margin-top: 35px; text-align: left;">
                     <div class="glass-card">
                         <span class="chapter-tag">Researcher</span>
                         <p style="font-weight: 800; font-size: 24px; color: var(--text-primary);">MD RAFAT UDDIN ARMAN</p>
@@ -219,7 +264,7 @@
                 <div class="glass-card highlight-blue" onclick="goToPage(8)"><h4>03. Problem</h4><p>Socio-Technical Gaps</p></div>
                 <div class="glass-card" onclick="goToPage(12)"><h4>04. Literature</h4><p>9-Citation Matrix</p></div>
                 <div class="glass-card highlight-blue" onclick="goToPage(17)"><h4>05. Method</h4><p>HCD Lifecycle</p></div>
-                <div class="glass-card" onclick="goToPage(20)"><h4>06. Summary</h4><p>Strategic Alignment</p></div>
+                <div class="glass-card" onclick="goToPage(21)"><h4>06. Summary</h4><p>Strategic Alignment</p></div>
             </div>
         </div>
 
@@ -446,17 +491,7 @@
             </div>
         </div>
 
-        <!-- 18: RESEARCH DESIGN -->
-        <div class="page-view">
-            <h2 class="page-title">HCD Lifecycle Design</h2>
-            <div class="grid-3">
-                <div class="glass-card highlight-blue"><h4>1. Discovery</h4><p>Interviews (N=20) and Friction Mapping of triage journeys.</p></div>
-                <div class="glass-card highlight-blue"><h4>2. Prototyping</h4><p>High-fidelity FIGMA simulations with Trust-Transfer cues.</p></div>
-                <div class="glass-card highlight-blue"><h4>3. Validation</h4><p>SUS metrics, expert clinical review, and speed benchmarks.</p></div>
-            </div>
-        </div>
-
-               <!-- 18: NEW HCD FRAMEWORK (REPLACING GENERIC DESIGN) -->
+        <!-- 18: NEW HCD FRAMEWORK SECTION (FIXED CSS) -->
         <div class="page-view">
             <div>
                 <span class="chapter-tag">Chapter 3 // Methodology</span>
@@ -465,7 +500,7 @@
             <div class="method-flow">
                 <div class="phase-box">
                     <div class="phase-num">1</div>
-                    <div>
+                    <div class="phase-content">
                         <h4>Understanding</h4>
                         <ul class="phase-list">
                             <li>User Interviews</li>
@@ -476,7 +511,7 @@
                 </div>
                 <div class="phase-box">
                     <div class="phase-num">2</div>
-                    <div>
+                    <div class="phase-content">
                         <h4>Defining</h4>
                         <ul class="phase-list">
                             <li>Requirements Spec</li>
@@ -487,45 +522,45 @@
                 </div>
                 <div class="phase-box">
                     <div class="phase-num">3</div>
-                    <div>
-                        <h4>Simulation Design</h4>
+                    <div class="phase-content">
+                        <h4>Simulations</h4>
                         <ul class="phase-list">
                             <li>Flowcharting</li>
-                            <li>Simulation Tools</li>
-                            <li>Process Modeling</li>
+                            <li>Sim Tools</li>
+                            <li>Modeling</li>
                         </ul>
                     </div>
                 </div>
                 <div class="phase-box">
                     <div class="phase-num">4</div>
-                    <div>
+                    <div class="phase-content">
                         <h4>Prototyping</h4>
                         <ul class="phase-list">
                             <li>Wireframes</li>
                             <li>Hi-Fi Mockups</li>
-                            <li>Interactive Prototype</li>
+                            <li>Interactivity</li>
                         </ul>
                     </div>
                 </div>
                 <div class="phase-box" style="background: rgba(6, 182, 212, 0.1); border-color: var(--accent-cyan);">
                     <div class="phase-num" style="background: var(--accent-cyan);">5</div>
-                    <div>
+                    <div class="phase-content">
                         <h4>Evaluation</h4>
                         <ul class="phase-list">
                             <li>Usability Testing</li>
-                            <li>Heuristic Evaluation</li>
+                            <li>Expert Validation</li>
                             <li>Focus Groups</li>
                         </ul>
-                        <p style="font-size: 11px; margin-top: 5px; color: var(--accent-cyan);">If Fail: Loop to Phase 2</p>
+                        <p class="phase-loop-text">If Fail: Loop to Phase 2</p>
                     </div>
                 </div>
                 <div class="phase-box">
                     <div class="phase-num">6</div>
-                    <div>
+                    <div class="phase-content">
                         <h4>Implementation</h4>
                         <ul class="phase-list">
                             <li>Initial Problem ID</li>
-                            <li>Emergencies Clarified</li>
+                            <li>Emergency Clarity</li>
                             <li>Feedback Loops</li>
                         </ul>
                     </div>
@@ -578,11 +613,11 @@
     <script>
         let current = 0;
         const slides = document.querySelectorAll('.page-view');
-        const fill = document.getElementById('fill');
+        const fill = document.getElementById('progressFill');
 
         function update() {
             slides.forEach((s, i) => s.classList.toggle('active', i === current));
-            fill.style.width = ((current + 1) / slides.length) * 100 + '%';
+            if (fill) fill.style.width = ((current + 1) / slides.length) * 100 + '%';
         }
 
         function next() { if (current < slides.length - 1) { current++; update(); } }
