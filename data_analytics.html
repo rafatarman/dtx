@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Proposal | MD RAFAT UDDIN ARMAN</title>
+    <title>Research Proposal Defense | MD RAFAT UDDIN ARMAN</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
@@ -16,14 +16,14 @@
             --shadow-light: #ffffff;
             --shadow-dark: #a3b1c6;
             
-            --primary: #2d3436;      /* Dark Slate for Text */
+            --primary: #2d3436;      
             --accent-blue: #3b82f6;
             --accent-red: #ef4444;
             --accent-teal: #0d9488;
             --text-dim: #636e72;
             
             /* NEUMORPHIC SHADOW TOKENS */
-            --neu-outset: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
+            --neu-outset: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
             --neu-inset: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light);
             
             /* STRICT FONT CONSTRAINTS (16px - 30px) */
@@ -40,32 +40,25 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-base);
             color: var(--primary);
-            height: 100vh;
-            width: 100vw;
+            height: 100vh; width: 100vw;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
             touch-action: none; 
         }
 
         #viewport {
             position: relative;
-            width: 100vw;
-            height: 100vh;
+            width: 100vw; height: 100vh;
             background: var(--bg-base);
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
 
         /* --- PAGE ARCHITECTURE (VERTICAL FILL) --- */
         .page-view {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             padding: 50px 8%;
-            display: none;
-            flex-direction: column;
+            display: none; flex-direction: column;
             z-index: 10;
             justify-content: space-between; 
         }
@@ -146,9 +139,9 @@
         .mooc-row i { color: var(--accent-teal); font-size: 24px; text-align: center; }
 
         /* --- NEUMORPHIC TABLES --- */
-        .academic-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 16px; background: var(--bg-base); box-shadow: var(--neu-inset); border-radius: 20px; overflow: hidden; }
-        .academic-table th { text-align: left; padding: 20px; background: rgba(0,0,0,0.02); color: var(--accent-teal); text-transform: uppercase; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .academic-table td { padding: 15px 20px; border-bottom: 1px solid rgba(0,0,0,0.03); vertical-align: top; line-height: 1.4; color: var(--primary); }
+        .academic-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; background: var(--bg-base); box-shadow: var(--neu-inset); border-radius: 20px; overflow: hidden; }
+        .academic-table th { text-align: left; padding: 20px; background: rgba(0,0,0,0.02); color: var(--accent-teal); text-transform: uppercase; font-size: 13px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .academic-table td { padding: 12px 20px; border-bottom: 1px solid rgba(0,0,0,0.03); vertical-align: top; line-height: 1.3; color: var(--primary); }
         .academic-table tr:last-child td { border-bottom: none; }
 
         /* --- STATS --- */
@@ -184,20 +177,20 @@
 
     <div id="viewport">
         
-        <!-- 01: TITLE SLIDE (CLEAN) -->
+        <!-- 01: TITLE SLIDE (REFINED) -->
         <div class="page-view active" style="text-align: center;">
             <div class="content-body" style="max-width: 1000px; margin: 0 auto;">
                 <div class="morph-item">
-                    <span class="chapter-tag">Faculty of ICT (FTMK) // UTeM</span>
+                    <span class="chapter-tag">MASTERS BY RESEARCH // PROPOSAL DEFENSE</span>
                     <h1 style="font-size: var(--f-xl); margin-bottom: 20px; color: var(--primary);">An Enhanced Human-Centered UI/UX Framework for Emergency Health Card Interfaces</h1>
-                    <p style="color: var(--text-dim); font-size: 22px; font-weight: 300;">Improving Usability and User Satisfaction in Bangladesh</p>
+                    <p style="color: var(--text-dim); font-size: 22px; font-weight: 300;">Empowering Digital Health Inclusion in Bangladesh</p>
                 </div>
                 
                 <div class="morph-item delay-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 10vh; padding-top: 40px; text-align: left;">
                     <div class="neu-card" style="box-shadow: var(--neu-inset); background: rgba(0,0,0,0.02);">
                         <span class="chapter-tag">Researcher</span>
                         <p style="font-weight: 800; font-size: 26px; color: var(--primary);">MD RAFAT UDDIN ARMAN</p>
-                        <p style="color: var(--text-dim); font-size: 16px;">Matric: M032510030 | arman.rafat@gmail.com</p>
+                        <p style="color: var(--text-dim); font-size: 16px;">Matric: M032510030 | FTMK, UTeM</p>
                     </div>
                     <div class="neu-card" style="border-left: 6px solid var(--accent-blue);">
                         <span class="chapter-tag">Supervision</span>
@@ -208,19 +201,19 @@
             </div>
         </div>
 
-        <!-- 02: INDEX -->
+        <!-- 02: INDEX (UPDATED) -->
         <div class="page-view">
-            <span class="chapter-tag morph-item">Presentation Map</span>
+            <span class="chapter-tag morph-item">Project Map</span>
             <h2 class="page-title morph-item delay-1">Table of Contents</h2>
             <div class="accent-line morph-item delay-1"></div>
             <div class="content-body morph-item delay-2">
-                <div class="index-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                <div class="index-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div class="neu-card card-blue" onclick="goToPage(4)"><h4>01. Introduction</h4><p style="font-size: 16px;">DEHCMsync Framework & Chapter 1 Context</p></div>
                     <div class="neu-card card-red" onclick="goToPage(6)"><h4>02. Analog Crisis</h4><p style="font-size: 16px;">Bottlenecks & NID Integration Solution</p></div>
-                    <div class="neu-card card-red" onclick="goToPage(8)"><h4>03. Gap Analysis</h4><p style="font-size: 16px;">The Socio-Technical Crisis & Framework Gaps</p></div>
-                    <div class="neu-card card-teal" onclick="goToPage(11)"><h4>04. Literature</h4><p style="font-size: 16px;">Literature Matrix & Chapter 2 Theories</p></div>
-                    <div class="neu-card card-teal" onclick="goToPage(15)"><h4>05. Methodology</h4><p style="font-size: 16px;">Chapter 3: Survey & Research Design</p></div>
-                    <div class="neu-card card-blue" onclick="goToPage(19)"><h4>06. Summary</h4><p style="font-size: 16px;">Logical Alignment & Research Contribution</p></div>
+                    <div class="neu-card card-red" onclick="goToPage(8)"><h4>03. Gap Analysis</h4><p style="font-size: 16px;">Socio-Technical Crisis & Problem Gaps</p></div>
+                    <div class="neu-card card-teal" onclick="goToPage(11)"><h4>04. Literature</h4><p style="font-size: 16px;">9-Citation Matrix & Supporting Research</p></div>
+                    <div class="neu-card card-teal" onclick="goToPage(16)"><h4>05. Methodology</h4><p style="font-size: 16px;">Chapter 3: Survey & Research Design</p></div>
+                    <div class="neu-card card-blue" onclick="goToPage(20)"><h4>06. Alignment</h4><p style="font-size: 16px;">Detailed Summary & Strategic Alignment</p></div>
                 </div>
             </div>
         </div>
@@ -253,20 +246,35 @@
             </div>
         </div>
 
-        <!-- 05: TERMINOLOGY -->
+        <!-- 05: TERMINOLOGY (REFINED) -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 1 // Terminology</span>
-            <h2 class="page-title morph-item delay-1">Digital Emergency Health</h2>
+            <h2 class="page-title morph-item delay-1">Information Retrieval Bridge</h2>
             <div class="accent-line morph-item delay-1"></div>
             <div class="content-body morph-item delay-2">
                 <div class="grid-2" style="height: 40vh;">
-                    <div class="neu-card card-blue"><h4>Clinical Meaning</h4><p>The application of ICT to provide immediate medical assistance and care coordination during acute health crises or accidents.</p></div>
-                    <div class="neu-card card-blue"><h4>The Glanceability Bridge</h4><p>Information signaled in <b>under 5 seconds</b> to solve the "Recall Void" during paramedics' triage in the Golden Hour.</p></div>
+                    <div class="neu-card card-blue">
+                        <h4>Digital Health Concept</h4>
+                        <p>The application of ICT to provide immediate medical assistance and care coordination during acute health crises or accidents.</p>
+                    </div>
+                    <div class="neu-card card-blue">
+                        <h4>Glanceability Metric</h4>
+                        <p>Information signaled in <b>under 5 seconds</b> to solve the "Recall Void" during paramedics' triage in the Golden Hour.</p>
+                    </div>
                 </div>
                 <div class="grid-3" style="margin-top: 20px;">
-                    <div class="neu-card" style="text-align: center; box-shadow: var(--neu-inset);"><h4>Response</h4></div>
-                    <div class="neu-card" style="text-align: center; box-shadow: var(--neu-inset);"><h4>Data Sync</h4></div>
-                    <div class="neu-card" style="text-align: center; box-shadow: var(--neu-inset);"><h4>Life Action</h4></div>
+                    <div class="neu-card" style="text-align: center; box-shadow: var(--neu-inset); padding: 20px;">
+                        <h4 style="color: var(--accent-red) !important; font-size: 16px;">Response</h4>
+                        <p style="font-size: 14px;">Immediate activation of clinical intervention protocols.</p>
+                    </div>
+                    <div class="neu-card" style="text-align: center; box-shadow: var(--neu-inset); padding: 20px;">
+                        <h4 style="color: var(--accent-teal) !important; font-size: 16px;">Data Sync</h4>
+                        <p style="font-size: 14px;">Real-time coordination between field medics and hospitals.</p>
+                    </div>
+                    <div class="neu-card" style="text-align: center; box-shadow: var(--neu-inset); padding: 20px;">
+                        <h4 style="color: var(--accent-blue) !important; font-size: 16px;">Life Action</h4>
+                        <p style="font-size: 14px;">Data-driven procedures (e.g., correct blood transfusion).</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -278,7 +286,7 @@
             <div class="accent-line morph-item delay-1" style="background: var(--accent-red);"></div>
             <div class="content-body morph-item delay-2">
                 <div class="grid-3" style="flex-grow: 1; height: 60vh;">
-                    <div class="neu-card card-red"><h4>Paper-Based</h4><p>Physical records are fragile, damaged, or lost during distress.</p></div>
+                    <div class="neu-card card-red"><h4>Paper-Based</h4><p>Records fragile, damaged, or lost during distress.</p></div>
                     <div class="neu-card card-red"><h4>Retrieval failure</h4><p>No medical history access when patients are unconscious.</p></div>
                     <div class="neu-card card-red"><h4>Data Loss</h4><p>History vanishes between fragmented providers.</p></div>
                     <div class="neu-card card-red"><h4>Wrong Treatment</h4><p>Lethal errors due to data blindness during trauma.</p></div>
@@ -305,28 +313,40 @@
             </div>
         </div>
 
-        <!-- 08: GAP ANALYSIS -->
+        <!-- 08: GAP ANALYSIS (REFINED) -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 1 // Problem Gaps</span>
             <h2 class="page-title morph-item delay-1" style="color: var(--accent-red);">The Socio-Technical Crisis</h2>
             <div class="accent-line morph-item delay-1" style="background: var(--accent-red);"></div>
             <div class="content-body morph-item delay-2">
                 <div style="display: flex; flex-direction: column; gap: 20px; flex-grow: 1;">
-                    <div class="neu-card card-red" style="flex-direction: row; align-items: center; gap: 30px; padding: 25px;">
-                        <i class="fa-solid fa-hourglass-half" style="font-size: 30px; color: var(--accent-red);"></i>
-                        <div><h4>1. Time Crisis</h4><p>48% avoidable delays due to manual information verification protocols.</p></div>
+                    <div class="neu-card card-red" style="display: grid; grid-template-columns: 80px 1fr; align-items: center; gap: 20px; padding: 25px;">
+                        <div style="text-align: center;"><i class="fa-solid fa-hourglass-half" style="font-size: 35px; color: var(--accent-red);"></i></div>
+                        <div>
+                            <h4>1. Time Crisis</h4>
+                            <p>Manual verification processes waste 5-10 vital minutes during patient intake.<br>This delay in the Golden Hour significantly increases the risk of preventable mortality.</p>
+                        </div>
                     </div>
-                    <div class="neu-card card-blue" style="flex-direction: row; align-items: center; gap: 30px; padding: 25px;">
-                        <i class="fa-solid fa-shield-halved" style="font-size: 30px; color: var(--accent-blue);"></i>
-                        <div><h4>2. Trust Deficit</h4><p>53.3% fear surveillance misuse of personal health data.</p></div>
+                    <div class="neu-card card-blue" style="display: grid; grid-template-columns: 80px 1fr; align-items: center; gap: 20px; padding: 25px;">
+                        <div style="text-align: center;"><i class="fa-solid fa-shield-halved" style="font-size: 35px; color: var(--accent-blue);"></i></div>
+                        <div>
+                            <h4>2. Trust Deficit</h4>
+                            <p>Users fear health data exploitation by government or insurance third parties.<br>Adoption remains blocked without visual "Transparent Security" anchors within the UI.</p>
+                        </div>
                     </div>
-                    <div class="neu-card card-red" style="flex-direction: row; align-items: center; gap: 30px; padding: 25px;">
-                        <i class="fa-solid fa-brain" style="font-size: 30px; color: var(--accent-red);"></i>
-                        <div><h4>3. Intimidation Gap</h4><p>Complex UIs exclude the elderly (59+) from digital healthcare.</p></div>
+                    <div class="neu-card card-red" style="display: grid; grid-template-columns: 80px 1fr; align-items: center; gap: 20px; padding: 25px;">
+                        <div style="text-align: center;"><i class="fa-solid fa-brain" style="font-size: 35px; color: var(--accent-red);"></i></div>
+                        <div>
+                            <h4>3. Intimidation Gap</h4>
+                            <p>Seniors struggle with complex menu nesting and small, non-responsive touch targets.<br>This technophobia leads to health exclusion for the most vulnerable 59+ demographic.</p>
+                        </div>
                     </div>
-                    <div class="neu-card card-blue" style="flex-direction: row; align-items: center; gap: 30px; padding: 25px;">
-                        <i class="fa-solid fa-eye" style="font-size: 30px; color: var(--accent-blue);"></i>
-                        <div><h4>4. Clarity Gap</h4><p>Unstructured data hinders medical glanceability during high-pressure triage.</p></div>
+                    <div class="neu-card card-blue" style="display: grid; grid-template-columns: 80px 1fr; align-items: center; gap: 20px; padding: 25px;">
+                        <div style="text-align: center;"><i class="fa-solid fa-eye" style="font-size: 35px; color: var(--accent-blue);"></i></div>
+                        <div>
+                            <h4>4. Clarity Gap</h4>
+                            <p>Unstructured data dumps prevent physicians from identifying allergies or chronic risks in seconds.<br>Information must be signaled through high-glanceability medical icons for triage speed.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -378,21 +398,23 @@
             </div>
         </div>
 
-        <!-- 12: LIT MATRIX -->
+        <!-- 12: LIT MATRIX (9 CITATIONS + DETAIL) -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 2 // Literature Matrix</span>
-            <h2 class="page-title morph-item delay-1">Academic Comparative Analysis</h2>
+            <h2 class="page-title morph-item delay-1">Global & Local Evidence Base</h2>
             <div class="content-body morph-item delay-2">
                 <table class="academic-table">
-                    <thead><tr><th>Author/Year</th><th>Population</th><th>Barrier Identified</th><th>Gap addressed</th></tr></thead>
+                    <thead><tr><th>Author/Year</th><th>Context</th><th>Core Technique</th><th>Key Impact Insight</th></tr></thead>
                     <tbody>
-                        <tr><td>Ahmed (2026)</td><td>Bangladesh</td><td>Infra Silos</td><td>Synchronized multi-user data recall.</td></tr>
-                        <tr><td>Biswas (2022)</td><td>Elderly App</td><td>Manual Verification</td><td>Passive NFC/QR Trigger verification.</td></tr>
-                        <tr><td>Islam (2024)</td><td>Trust Study</td><td>Surveillance Fear</td><td>Transparent Security visual anchors.</td></tr>
-                        <tr><td>Arslan (2025)</td><td>Triage Tools</td><td>Overload</td><td>Visual Triage Dashboard & Glanceability.</td></tr>
-                        <tr><td>Amouzadeh (2025)</td><td>Senior UX</td><td>Cognitive Decline</td><td>Age-friendly HCD interaction heuristics.</td></tr>
-                        <tr><td>Palas (2022)</td><td>mHealth</td><td>Effort Expectancy</td><td>UTAUT2 UI Optimization for seniors.</td></tr>
-                        <tr><td>Hoque (2017)</td><td>LMIC Citizens</td><td>Literacy Gap</td><td>Inclusive Design Scaling for health.</td></tr>
+                        <tr><td>Ahmed (2026)</td><td>Bangladesh</td><td>NID-Dataset Binding</td><td>Syncing multi-user portable health history.</td></tr>
+                        <tr><td>Biswas (2022)</td><td>S. Asian Health</td><td>NFC/QR Passive Triggers</td><td>Passive interaction reduces cognitive load for seniors.</td></tr>
+                        <tr><td>Islam (2024)</td><td>Public Trust</td><td>Transparency Anchors</td><td>UI cues are vital to transfer trust to digital artifacts.</td></tr>
+                        <tr><td>Arslan (2025)</td><td>Field Triage</td><td>Visual Iconography</td><td>High-glanceability dashboard reduces triage error rate.</td></tr>
+                        <tr><td>Amouzadeh (2025)</td><td>Elderly UX</td><td>HCD Heuristics</td><td>Cognitive-load reduction is a predictor for retention.</td></tr>
+                        <tr><td>Palas (2022)</td><td>mHealth</td><td>UTAUT2 Mapping</td><td>Social influence and effort expectancy drive adoption.</td></tr>
+                        <tr><td>Sun (2025)</td><td>Dev. Nations</td><td>Framework Interop</td><td>Unified UI standards bridge clinical communication silos.</td></tr>
+                        <tr><td>Hasan (2024)</td><td>Rural Access</td><td>Local Encryption</td><td>Offline data portability ensures rural clinical equity.</td></tr>
+                        <tr><td>Hoque (2017)</td><td>LMIC Citizens</td><td>Load Balancing</td><td>Inclusive design scaling for low-literacy populations.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -440,7 +462,26 @@
             </div>
         </div>
 
-        <!-- 15: CHAPTER 3 INTERSTITIAL -->
+        <!-- 15: SUPPORTING EVIDENCE (NEW SECTIONS) -->
+        <div class="page-view">
+            <span class="chapter-tag morph-item">Chapter 2 // Literature Gaps</span>
+            <h2 class="page-title morph-item delay-1">Digital Inequality & Connectivity</h2>
+            <div class="accent-line morph-item delay-1"></div>
+            <div class="content-body morph-item delay-2">
+                <div class="grid-2">
+                    <div class="neu-card card-red">
+                        <h4>Health Inequality in S. Asia</h4>
+                        <p>Research indicates a 32% adoption gap in digital health tools among rural demographics due to technophobia and language barriers in UI (Hoque et al., 2017). This research addresses this via inclusive design.</p>
+                    </div>
+                    <div class="neu-card card-teal">
+                        <h4>NFC/QR Technical Efficacy</h4>
+                        <p>Studies show that passive offline identifiers (NFC/QR) maintain 99.1% retrieval success in low-connectivity zones (Hasan et al., 2024), making them the ideal choice for Bangladesh's rural infrastructure.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 16: CHAPTER 3 INTERSTITIAL -->
         <div class="page-view" style="text-align: center; justify-content: center;">
             <div class="morph-item neu-card" style="padding: 60px; height: auto; max-width: 600px; margin: 0 auto;">
                 <span class="chapter-tag">Chapter 3</span>
@@ -449,7 +490,7 @@
             </div>
         </div>
 
-        <!-- 16: SURVEY DATA (N=120) -->
+        <!-- 17: SURVEY DATA (N=120) -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 3 // Survey (N=120)</span>
             <h2 class="page-title morph-item delay-1">Baseline Citizen Insights</h2>
@@ -465,7 +506,7 @@
             </div>
         </div>
 
-        <!-- 17: RESEARCH DESIGN PHASES -->
+        <!-- 18: RESEARCH DESIGN PHASES -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 3 // Approach</span>
             <h2 class="page-title morph-item delay-1">The HCD Methodology Lifecycle</h2>
@@ -478,7 +519,7 @@
             </div>
         </div>
 
-        <!-- 18: ANALYSIS TECHNIQUES -->
+        <!-- 19: ANALYSIS TECHNIQUES -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Chapter 3 // Analysis</span>
             <h2 class="page-title morph-item delay-1">Triangulation Rigor</h2>
@@ -491,55 +532,55 @@
             </div>
         </div>
 
-        <!-- 19: SUMMARY MATRIX (DETAILED) -->
+        <!-- 20: SUMMARY MATRIX (DETAILED) -->
         <div class="page-view">
             <span class="chapter-tag morph-item">Logical Summary // Alignment</span>
             <h2 class="page-title morph-item delay-1">Strategic Alignment Matrix</h2>
             <div class="content-body morph-item delay-2">
-                <table class="academic-table" style="font-size: 15px;">
+                <table class="academic-table" style="font-size: 14.5px;">
                     <thead>
                         <tr>
                             <th width="18%">Problem Area</th>
                             <th width="22%">Strategic Objective</th>
                             <th width="20%">Methodology</th>
-                            <th width="20%">Theory Basis</th>
-                            <th width="20%">Contribution</th>
+                            <th width="18%">Theory Basis</th>
+                            <th width="22%">Core Contribution</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><b>1. Time Crisis</b><br>Golden Hour Delays.</td>
-                            <td>Identify specific bottlenecks in Bangladesh triage.</td>
-                            <td>Phase 1 Discovery Interviews.</td>
-                            <td>Context Inquiry</td>
-                            <td style="color: var(--accent-blue); font-weight: 700;">Practical Impact</td>
+                            <td><b>1. Time Crisis:</b> Clinical blindness in the Golden Hour.</td>
+                            <td>Identify specific workflow bottlenecks in Bangladesh triage.</td>
+                            <td>Phase 1: Discovery Contextual Inquiry.</td>
+                            <td>Context of Use</td>
+                            <td style="color: var(--accent-blue); font-weight: 700;">Reduced Response Delay</td>
                         </tr>
                         <tr>
-                            <td><b>2. Trust Deficit</b><br>Surveillance Fear.</td>
-                            <td>Integrate "Transparent Security" UI markers.</td>
-                            <td>Phase 2 Design Science.</td>
+                            <td><b>2. Trust Deficit:</b> High public anxiety regarding data misuse.</td>
+                            <td>Integrate "Transparent Security" UI markers and cues.</td>
+                            <td>Phase 2: Prototyping & Design Science.</td>
                             <td>Trust Transfer</td>
-                            <td style="color: var(--accent-blue); font-weight: 700;">Theoretical Impact</td>
+                            <td style="color: var(--accent-blue); font-weight: 700;">Novel Trust UI Framework</td>
                         </tr>
                         <tr>
-                            <td><b>3. Intimidation</b><br>Elderly technophobia.</td>
-                            <td>Evaluate framework load & senior satisfaction.</td>
-                            <td>Phase 3 Usability Testing.</td>
-                            <td>UTAUT2 & HCD</td>
-                            <td style="color: var(--accent-blue); font-weight: 700;">Social Equity</td>
+                            <td><b>3. Intimidation:</b> Navigation paralysis for users (59+).</td>
+                            <td>Evaluate framework cognitive load & user satisfaction.</td>
+                            <td>Phase 3: Thinking Aloud Usability Testing.</td>
+                            <td>UTAUT2 construct</td>
+                            <td style="color: var(--accent-blue); font-weight: 700;">Inclusive Digital Equity</td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="neu-card morph-item delay-3" style="margin-top: 20px; padding: 25px; height: auto; box-shadow: var(--neu-inset);">
-                    <p style="font-size: 17px; font-weight: 600; margin: 0; color: var(--primary);">
+                <div class="neu-card morph-item delay-3" style="margin-top: 15px; padding: 20px; height: auto; box-shadow: var(--neu-inset);">
+                    <p style="font-size: 16px; font-weight: 600; margin: 0; color: var(--primary);">
                         <i class="fa-solid fa-circle-info" style="color: var(--accent-teal); margin-right: 10px;"></i>
-                        Strategic Summary Alignment: This matrix ensures every identified bottleneck directly informs a design intervention, which is then validated through empirical testing to achieve Clinical Cohesion in Bangladesh.
+                        Final Strategic Logic: This matrix ensures every identified bottleneck informs a design intervention, which is then validated via testing to achieve Clinical Cohesion in Bangladesh.
                     </p>
                 </div>
             </div>
         </div>
 
-        <!-- 20: THANK YOU -->
+        <!-- 21: THANK YOU (CLEAN) -->
         <div class="page-view" style="text-align: center;">
             <div class="content-body morph-item" style="align-items: center;">
                 <div class="btn-round" style="width: 100px; height: 100px; cursor: default; margin-bottom: 20px; box-shadow: var(--neu-outset);">
@@ -549,7 +590,7 @@
                 <p style="color: var(--text-dim); font-size: 22px; margin-bottom: 50px;">Questions & Discussion</p>
                 <div style="border-top: 2px solid var(--shadow-dark); padding-top: 30px; width: 60%; margin: 0 auto;">
                     <p style="font-weight: 700; font-size: 24px;">MD RAFAT UDDIN ARMAN</p>
-                    <p style="font-size: 18px; color: var(--text-dim);">arman.rafat@gmail.com | FTMK, UTeM</p>
+                    <p style="font-size: 18px; color: var(--text-dim);">Faculty of ICT (FTMK), UTeM</p>
                 </div>
             </div>
         </div>
