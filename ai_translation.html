@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Translation Lab | Data Entry & Reporting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <!-- Link to the main global logic file -->
+    <script src="main.js" defer></script>
+    <style>
+        body { background-color: #000000; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        #animation-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        .content-layer { position: relative; z-index: 10; min-height: 100vh; }
+        
+        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+        
+        .back-btn { display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 10px 25px; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase; transition: all 0.3s ease; margin-bottom: 40px; }
+        .back-btn:hover { background: #6366f1; border-color: #6366f1; }
+
+        .input-field { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px 16px; color: #fff; width: 100%; outline: none; transition: 0.3s; font-size: 14px; }
+        .input-field:focus { border-color: #6366f1; background: rgba(99, 102, 241, 0.05); }
+
+        .form-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #6366f1; margin-bottom: 8px; display: block; }
+
+        .status-pill { font-size: 9px; font-weight: 800; padding: 4px 12px; border-radius: 100px; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s; text-transform: uppercase; }
+        .status-pill:hover { background: rgba(255, 255, 255, 0.1); }
+        .status-pill.active { background: #6366f1; border-color: #6366f1; color: #fff; }
+
+        .record-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; transition: 0.3s; margin-bottom: 12px; }
+        .record-card:hover { border-color: rgba(99, 102, 241, 0.3); }
+
+        .check-group { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+        .check-group input { accent-color: #6366f1; width: 16px; height: 16px; }
+
+        .btn-submit { background: #6366f1; color: #fff; width: 100%; padding: 15px; border-radius: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-download { display: inline-flex; align-items: center; gap: 6px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: #4ade80; font-size: 9px; font-weight: 900; padding: 6px 14px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; }
+        .btn-download:hover { background: #22c55e; color: #fff; }
+        .btn-download:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .sync-status { font-size: 9px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 900; display: flex; align-items: center; gap: 6px; }
+        .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: #6366f1; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div id="animation-container"></div>
+
+    <div class="content-layer max-w-6xl mx-auto py-10">
+        <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <a href="index.html" class="back-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Hub
+                </a>
+                <h1 class="text-4xl md:text-7xl font-black uppercase italic tracking-tighter">Translation Lab</h1>
+                <p class="text-gray-500 text-[10px] mt-2 tracking-[0.4em] font-black uppercase">Interpreter Metrics • AI Quality Assurance • Session Logging</p>
+            </div>
+            <div class="text-right">
+                <div class="sync-status mb-2">
+                    <div class="sync-dot animate-pulse" id="sync-indicator"></div>
+                    <span id="sync-text">Authenticating...</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- ENTRY FORM -->
+            <aside class="lg:col-span-5">
+                <div class="glass-panel p-8 sticky top-10">
+                    <h3 class="text-xl font-black uppercase mb-8 border-b border-white/5 pb-4">Session Log</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="form-label">Client / Entity</label>
+                            <input type="text" id="clientInput" class="input-field" placeholder="e.g. United Healthcare">
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">Practitioner Name</label>
+                            <input type="text" id="nameInput" class="input-field" placeholder="Enter Name">
+                        </div>
+
+                        <div>
+                            <label class="form-label">Name Format</label>
+                            <div class="flex flex-wrap gap-2" id="nameFormatOptions">
+                                <button class="status-pill active" data-val="Full Name">Full Name</button>
+                                <button class="status-pill" data-val="First & Last Name">First & Last</button>
+                                <button class="status-pill" data-val="First Name Only">First Name Only</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Service Language</label>
+                            <input type="text" id="langInput" class="input-field" placeholder="e.g. Spanish, Bengali">
+                        </div>
+
+                        <div class="flex flex-wrap gap-6 pt-2">
+                            <label class="check-group">
+                                <input type="checkbox" id="nameCheck">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Name Check</span>
+                            </label>
+                            <label class="check-group">
+                                <input type="checkbox" id="clientCheck">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Client Check</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Session Disposition</label>
+                            <div class="flex flex-wrap gap-2" id="statusOptions">
+                                <button class="status-pill active" data-val="Successful Session">Success</button>
+                                <button class="status-pill" data-val="No service provided">No Service</button>
+                                <button class="status-pill" data-val="No interpreter available">No Interpreter</button>
+                                <button class="status-pill" data-val="Test call">Test Call</button>
+                                <button class="status-pill" data-val="Failure to connect">Conn. Failure</button>
+                            </div>
+                        </div>
+
+                        <button id="submitBtn" onclick="commitRecord()" class="btn-submit mt-4" disabled>Commit to Cloud</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- RECORDS LIST -->
+            <main class="lg:col-span-7">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-4">
+                        <h3 class="text-sm font-black uppercase tracking-widest text-indigo-400">Activity Ledger</h3>
+                        <button id="downloadBtn" onclick="window.exportToExcel()" class="btn-download" disabled>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Export Excel
+                        </button>
+                    </div>
+                    <span id="recordCount" class="text-[10px] text-gray-600 font-bold uppercase">0 Records</span>
+                </div>
+                
+                <div id="recordsContainer" class="space-y-4">
+                    <div class="p-20 text-center opacity-20 uppercase text-xs tracking-widest">Initializing Ledger...</div>
+                </div>
+            </main>
+        </div>
+
+        <div id="global-footer"></div>
+    </div>
+
+    <!-- CLOUD CORE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = typeof __firebase_config === 'string' ? JSON.parse(__firebase_config) : __firebase_config;
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let user = null;
+        let activeStatus = "Successful Session";
+        let activeNameFormat = "Full Name";
+        let currentRecords = [];
+
+        // Auth Logic
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+        };
+        initAuth();
+
+        onAuthStateChanged(auth, u => {
+            user = u;
+            if (user) {
+                document.getElementById('sync-text').innerText = "Live Sync Active";
+                document.getElementById('sync-indicator').style.backgroundColor = "#22c55e";
+                document.getElementById('submitBtn').disabled = false;
+                startListening();
+            }
+        });
+
+        // Toggle logic for Naming Format Options
+        document.querySelectorAll('#nameFormatOptions .status-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#nameFormatOptions .status-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeNameFormat = btn.getAttribute('data-val');
+            });
+        });
+
+        // Toggle logic for Status Options
+        document.querySelectorAll('#statusOptions .status-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#statusOptions .status-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeStatus = btn.getAttribute('data-val');
+            });
+        });
+
+        function startListening() {
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'translation_logs');
+            onSnapshot(colRef, (snapshot) => {
+                const container = document.getElementById('recordsContainer');
+                container.innerHTML = snapshot.empty ? '<div class="glass-panel p-20 text-center opacity-30 text-xs uppercase tracking-widest">No Sessions Logged</div>' : '';
+                
+                document.getElementById('recordCount').innerText = `${snapshot.size} Records Found`;
+                document.getElementById('downloadBtn').disabled = snapshot.empty;
+
+                currentRecords = snapshot.docs.map(d => ({ id: d.id, ...d.data() }))
+                    .sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+
+                currentRecords.forEach(data => {
+                    const card = document.createElement('div');
+                    card.className = 'record-card';
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="text-[9px] text-indigo-400 font-black uppercase tracking-widest block mb-1">${data.client || 'Unknown Client'}</span>
+                                <h4 class="text-lg font-bold">${data.name || 'Anonymous'}</h4>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <p class="text-xs text-gray-500 uppercase font-black">${data.language || 'N/A'}</p>
+                                    <span class="text-[8px] text-gray-600 bg-white/5 px-2 py-0.5 rounded border border-white/5 uppercase font-bold">${data.nameFormat || 'Format N/A'}</span>
+                                </div>
+                            </div>
+                            <button onclick="window.deleteLog('${data.id}')" class="text-gray-700 hover:text-red-500 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <span class="px-3 py-1 bg-white/5 rounded-lg text-[9px] font-black uppercase ${data.status === 'Successful Session' ? 'text-green-400' : 'text-amber-400'}">${data.status}</span>
+                            ${data.nameCheck ? '<span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-[8px] font-black uppercase rounded border border-indigo-500/20">Name Verified</span>' : ''}
+                            ${data.clientCheck ? '<span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-[8px] font-black uppercase rounded border border-indigo-500/20">Client Verified</span>' : ''}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }, (err) => console.error("Sync Failure", err));
+        }
+
+        window.commitRecord = async () => {
+            if (!user) return;
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+
+            const payload = {
+                client: document.getElementById('clientInput').value.trim(),
+                name: document.getElementById('nameInput').value.trim(),
+                nameFormat: activeNameFormat,
+                language: document.getElementById('langInput').value.trim(),
+                nameCheck: document.getElementById('nameCheck').checked,
+                clientCheck: document.getElementById('clientCheck').checked,
+                status: activeStatus,
+                timestamp: serverTimestamp()
+            };
+
+            try {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'translation_logs');
+                await addDoc(colRef, payload);
+                
+                // Reset Form
+                document.getElementById('clientInput').value = "";
+                document.getElementById('nameInput').value = "";
+                document.getElementById('langInput').value = "";
+                document.getElementById('nameCheck').checked = false;
+                document.getElementById('clientCheck').checked = false;
+                // Revert pills to default
+                document.querySelectorAll('#nameFormatOptions .status-pill').forEach(b => b.classList.remove('active'));
+                document.querySelector('[data-val="Full Name"]').classList.add('active');
+                activeNameFormat = "Full Name";
+            } catch (e) {
+                console.error("Write Denied", e);
+            } finally {
+                btn.disabled = false;
+            }
+        };
+
+        window.deleteLog = async (docId) => {
+            if (!user) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'translation_logs', docId));
+            } catch (e) {
+                console.error("Delete Denied", e);
+            }
+        };
+
+        // EXCEL EXPORT ENGINE
+        window.exportToExcel = () => {
+            if (currentRecords.length === 0) return;
+
+            // Generate Headers
+            const headers = ["Timestamp", "Client", "Practitioner Name", "Name Format", "Language", "Name Verified", "Client Verified", "Status"];
+            
+            // Map Data
+            const rows = currentRecords.map(data => [
+                data.timestamp ? new Date(data.timestamp.toMillis()).toLocaleString() : "Pending",
+                `"${(data.client || "N/A").replace(/"/g, '""')}"`,
+                `"${(data.name || "Anonymous").replace(/"/g, '""')}"`,
+                `"${data.nameFormat || "N/A"}"`,
+                `"${(data.language || "N/A").replace(/"/g, '""')}"`,
+                data.nameCheck ? "YES" : "NO",
+                data.clientCheck ? "YES" : "NO",
+                `"${data.status}"`
+            ]);
+
+            // Create CSV Content
+            const csvContent = [
+                headers.join(","),
+                ...rows.map(r => r.join(","))
+            ].join("\n");
+
+            // Trigger Download
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            const fileName = `Translation_Lab_Export_${new Date().toISOString().split('T')[0]}.csv`;
+            
+            link.setAttribute("href", url);
+            link.setAttribute("download", fileName);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+    </script>
+</body>
+</html>
