@@ -89,9 +89,9 @@
                         </div>
                         
                         <div>
-                            <label class="form-label">Client Name</label>
-                            <input type="text" id="clientInput" list="clientList" class="input-field" placeholder="Search client...">
-                            <datalist id="clientList"></datalist>
+                            <label class="form-label">Requestor Name</label>
+                            <input type="text" id="requestorInput" list="requestorList" class="input-field" placeholder="Search requestor...">
+                            <datalist id="requestorList"></datalist>
                         </div>
 
                         <div>
@@ -167,21 +167,21 @@
                 const text = e.target.result;
                 const rows = text.split(/\r?\n/);
                 const accounts = new Set();
-                const clients = new Set();
+                const requestors = new Set();
 
                 rows.forEach((row, i) => {
                     if (i === 0 || !row.trim()) return;
                     const cols = row.split(',').map(c => c.replace(/"/g, '').trim());
                     if (cols[0]) accounts.add(cols[0]);
-                    if (cols[1]) clients.add(cols[1]);
+                    if (cols[1]) requestors.add(cols[1]);
                 });
 
                 updateDatalist('accountList', Array.from(accounts));
-                updateDatalist('clientList', Array.from(clients));
+                updateDatalist('requestorList', Array.from(requestors));
 
                 const info = document.getElementById('import-info');
                 info.classList.remove('hidden');
-                info.innerText = `Intelligence Pre-loaded: ${accounts.size} Accounts / ${clients.size} Clients`;
+                info.innerText = `Intelligence Pre-loaded: ${accounts.size} Accounts / ${requestors.size} Requestors`;
             };
             reader.readAsText(file);
         }
@@ -233,7 +233,7 @@
                             <span class="text-[9px] font-black uppercase text-indigo-400 tracking-tighter">${entry.account}</span>
                             <span class="text-[7px] bg-white/5 px-1.5 py-0.5 rounded text-gray-500 font-bold uppercase tracking-widest">${entry.language}</span>
                         </div>
-                        <h4 class="text-sm font-bold tracking-tight text-white/90">${entry.client}</h4>
+                        <h4 class="text-sm font-bold tracking-tight text-white/90">${entry.requestor}</h4>
                         <div class="flex items-center gap-2 mt-1.5">
                              <span class="text-[8px] font-black uppercase ${colorClass}">${entry.status}</span>
                              <span class="text-[7px] text-gray-700 font-bold">${new Date(entry.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
@@ -249,20 +249,20 @@
 
         window.addEntry = () => {
             const acc = document.getElementById('accountInput').value.trim();
-            const cli = document.getElementById('clientInput').value.trim();
+            const req = document.getElementById('requestorInput').value.trim();
             const lan = document.getElementById('langInput').value.trim() || "Unspecified";
 
-            if(!acc || !cli) return;
+            if(!acc || !req) return;
 
             sessionData.push({
                 id: Math.random().toString(36).substr(2, 9),
-                account: acc, client: cli, language: lan,
+                account: acc, requestor: req, language: lan,
                 status: currentStatus,
                 time: new Date().toISOString()
             });
 
             document.getElementById('accountInput').value = "";
-            document.getElementById('clientInput').value = "";
+            document.getElementById('requestorInput').value = "";
             document.getElementById('langInput').value = "";
             renderLedger();
         };
@@ -274,11 +274,11 @@
 
         window.exportData = () => {
             if (sessionData.length === 0) return;
-            const headers = ["Timestamp", "Account Name", "Client Name", "Language", "Status"];
+            const headers = ["Timestamp", "Account Name", "Requestor Name", "Language", "Status"];
             const rows = sessionData.map(d => [
                 new Date(d.time).toLocaleString(),
                 `"${d.account.replace(/"/g, '""')}"`,
-                `"${d.client.replace(/"/g, '""')}"`,
+                `"${d.requestor.replace(/"/g, '""')}"`,
                 `"${d.language.replace(/"/g, '""')}"`,
                 `"${d.status}"`
             ]);
