@@ -12,126 +12,122 @@
         #animation-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
         .content-layer { position: relative; z-index: 10; min-height: 100vh; }
         
-        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
-        .back-btn { display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 10px 25px; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase; transition: all 0.3s ease; margin-bottom: 40px; }
+        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 6px 16px; border-radius: 100px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-decoration: none; text-transform: uppercase; transition: all 0.3s ease; }
         .back-btn:hover { background: #6366f1; border-color: #6366f1; }
 
-        .input-field { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px 16px; color: #fff; width: 100%; outline: none; transition: 0.3s; font-size: 14px; }
+        .input-field { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; color: #fff; width: 100%; outline: none; transition: 0.3s; font-size: 13px; }
         .input-field:focus { border-color: #6366f1; background: rgba(99, 102, 241, 0.05); }
 
-        .form-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #6366f1; margin-bottom: 8px; display: block; }
+        .form-label { font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: #6366f1; margin-bottom: 4px; display: block; }
 
-        .status-pill { font-size: 9px; font-weight: 800; padding: 8px 16px; border-radius: 12px; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s; text-transform: uppercase; color: #666; background: rgba(255,255,255,0.02); flex: 1; text-align: center; }
+        .status-pill { font-size: 8px; font-weight: 800; padding: 6px 10px; border-radius: 8px; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s; text-transform: uppercase; color: #555; background: rgba(255,255,255,0.02); flex: 1; text-align: center; }
         .status-pill:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
-        .status-pill.active { background: #6366f1; border-color: #6366f1; color: #fff; box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
+        .status-pill.active { background: #6366f1; border-color: #6366f1; color: #fff; box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); }
 
-        .record-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; transition: 0.3s; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .record-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 12px 16px; transition: 0.3s; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .record-card:hover { border-color: rgba(99, 102, 241, 0.3); background: rgba(255, 255, 255, 0.03); }
 
-        .btn-submit { background: #6366f1; color: #fff; width: 100%; padding: 15px; border-radius: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s; margin-top: 20px; }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
+        .btn-submit { background: #6366f1; color: #fff; width: 100%; padding: 12px; border-radius: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; margin-top: 10px; font-size: 12px; }
+        .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3); }
 
-        .btn-download { display: inline-flex; align-items: center; gap: 6px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: #4ade80; font-size: 9px; font-weight: 900; padding: 8px 16px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; }
+        .btn-download { display: inline-flex; align-items: center; gap: 4px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: #4ade80; font-size: 8px; font-weight: 900; padding: 6px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; }
         .btn-download:hover { background: #22c55e; color: #fff; }
         
-        .import-box { border: 2px dashed rgba(99, 102, 241, 0.2); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; background: rgba(99, 102, 241, 0.02); }
-        .import-box:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.05); }
+        .import-box { border: 1px dashed rgba(99, 102, 241, 0.2); border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; transition: 0.3s; background: rgba(99, 102, 241, 0.01); }
+        .import-box:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.03); }
 
-        .sync-status { font-size: 9px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 900; display: flex; align-items: center; gap: 6px; }
-        .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+        .sync-status { font-size: 8px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; display: flex; align-items: center; gap: 4px; }
+        .sync-dot { width: 5px; height: 5px; border-radius: 50%; background: #22c55e; }
 
-        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="px-4 md:px-8 py-4">
 
     <div id="animation-container"></div>
 
-    <div class="content-layer max-w-6xl mx-auto py-10">
-        <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
+    <div class="content-layer max-w-6xl mx-auto">
+        <header class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-6">
                 <a href="index.html" class="back-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Hub
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Hub
                 </a>
-                <h1 class="text-4xl md:text-7xl font-black uppercase italic tracking-tighter">Translation Lab</h1>
-                <p class="text-gray-500 text-[10px] mt-2 tracking-[0.4em] font-black uppercase italic">Session Intelligence & Suggestion Engine</p>
-            </div>
-            <div class="text-right">
-                <div class="sync-status mb-2">
-                    <div class="sync-dot"></div>
-                    <span id="load-status">Engine Online</span>
+                <div>
+                    <h1 class="text-2xl md:text-4xl font-black uppercase italic tracking-tighter">Translation Lab</h1>
+                    <p class="text-gray-500 text-[8px] tracking-[0.3em] font-black uppercase">Rapid Session Entry • Intelligence Engine</p>
                 </div>
+            </div>
+            <div class="sync-status">
+                <div class="sync-dot"></div>
+                <span id="load-status">System Active</span>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <!-- LEFT: INPUT & IMPORT -->
-            <aside class="lg:col-span-5 space-y-6">
-                <!-- DATA IMPORT -->
-                <div class="glass-panel p-6">
-                    <h3 class="text-[10px] font-black uppercase mb-4 text-indigo-400 tracking-widest">Database Pre-load</h3>
+            <aside class="lg:col-span-4 space-y-4">
+                <!-- COMPACT IMPORT -->
+                <div class="glass-panel p-4">
                     <div class="import-box" onclick="document.getElementById('csv-file').click()">
                         <input type="file" id="csv-file" class="hidden" accept=".csv" onchange="handleImport(this)">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-2 text-indigo-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Import OTP_Call_Log_Full.csv</p>
+                        <p class="text-[8px] font-black text-gray-500 uppercase tracking-widest">
+                            <span class="text-indigo-400">Import Database</span> (OTP_Call_Log_Full.csv)
+                        </p>
                     </div>
-                    <div id="import-info" class="hidden mt-4 p-3 bg-indigo-500/5 rounded-lg border border-indigo-500/10 text-[9px] font-black uppercase text-indigo-400 text-center"></div>
+                    <div id="import-info" class="hidden mt-2 text-[8px] font-black uppercase text-green-400 tracking-wider text-center"></div>
                 </div>
 
-                <!-- MAIN FORM -->
-                <div class="glass-panel p-8 sticky top-10">
-                    <h3 class="text-xl font-black uppercase mb-8 border-b border-white/5 pb-4 italic">Quick Entry</h3>
-                    
-                    <div class="space-y-5">
+                <!-- COMPACT FORM -->
+                <div class="glass-panel p-6">
+                    <div class="space-y-4">
                         <div>
-                            <label class="form-label">Client</label>
-                            <input type="text" id="clientInput" list="clientList" class="input-field" placeholder="Search entity...">
-                            <datalist id="clientList"></datalist>
+                            <label class="form-label">Account Name</label>
+                            <input type="text" id="accountInput" list="accountList" class="input-field" placeholder="Search account...">
+                            <datalist id="accountList"></datalist>
                         </div>
                         
                         <div>
-                            <label class="form-label">Practitioner Name</label>
-                            <input type="text" id="nameInput" list="nameList" class="input-field" placeholder="Search practitioner...">
-                            <datalist id="nameList"></datalist>
+                            <label class="form-label">Client Name</label>
+                            <input type="text" id="clientInput" list="clientList" class="input-field" placeholder="Search client...">
+                            <datalist id="clientList"></datalist>
                         </div>
 
                         <div>
                             <label class="form-label">Language</label>
-                            <input type="text" id="langInput" list="languageList" class="input-field" placeholder="Search 400+ languages...">
+                            <input type="text" id="langInput" list="languageList" class="input-field" placeholder="Select global language...">
                             <datalist id="languageList"></datalist>
                         </div>
 
                         <div>
                             <label class="form-label">Disposition</label>
-                            <div class="flex flex-wrap gap-2" id="statusOptions">
+                            <div class="grid grid-cols-3 gap-1.5" id="statusOptions">
                                 <button class="status-pill active" onclick="setStatus(this, 'Success')">Success</button>
-                                <button class="status-pill" onclick="setStatus(this, 'No Service')">No Service</button>
-                                <button class="status-pill" onclick="setStatus(this, 'No Interpreter')">No Interp.</button>
-                                <button class="status-pill" onclick="setStatus(this, 'Test Call')">Test Call</button>
-                                <button class="status-pill" onclick="setStatus(this, 'Conn. Failure')">Failure</button>
+                                <button class="status-pill" onclick="setStatus(this, 'No Service')">No Srv.</button>
+                                <button class="status-pill" onclick="setStatus(this, 'No Interpreter')">No Intp.</button>
+                                <button class="status-pill" onclick="setStatus(this, 'Test Call')">Test</button>
+                                <button class="status-pill" onclick="setStatus(this, 'Conn. Failure')">Fail</button>
                             </div>
                         </div>
 
-                        <button id="submitBtn" onclick="addEntry()" class="btn-submit">Add to Session Ledger</button>
+                        <button id="submitBtn" onclick="addEntry()" class="btn-submit">Add Record</button>
                     </div>
                 </div>
             </aside>
 
             <!-- RIGHT: LEDGER -->
-            <main class="lg:col-span-7">
-                <div class="flex justify-between items-center mb-6 px-2">
+            <main class="lg:col-span-8">
+                <div class="flex justify-between items-center mb-4 px-2">
                     <div class="flex items-center gap-4">
-                        <h3 class="text-sm font-black uppercase tracking-widest text-indigo-400">Session Ledger</h3>
-                        <button id="downloadBtn" onclick="exportData()" class="btn-download" disabled>
-                            Export Excel
-                        </button>
+                        <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400">Session Ledger</h3>
+                        <button id="downloadBtn" onclick="exportData()" class="btn-download" disabled>Export CSV</button>
                     </div>
-                    <span id="recordCount" class="text-[10px] text-gray-600 font-bold uppercase">0 Entries</span>
+                    <span id="recordCount" class="text-[9px] text-gray-600 font-bold uppercase tracking-widest">0 Entries</span>
                 </div>
                 
-                <div id="recordsContainer" class="space-y-3">
-                    <div class="glass-panel p-20 text-center opacity-20 text-xs uppercase tracking-widest">No Active Session Data</div>
+                <div id="recordsContainer" class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
+                    <div class="glass-panel p-16 text-center opacity-20 text-[10px] uppercase tracking-widest">No session data available</div>
                 </div>
             </main>
         </div>
@@ -144,18 +140,15 @@
         let sessionData = [];
         let currentStatus = "Success";
 
-        // 400+ Language Database (Pre-loaded)
         const globalLanguages = [
-            "Afar", "Abkhazian", "Acoli", "Adyghe", "Afrikaans", "Akan", "Albanian", "Altai", "Amharic", "Arabic (Modern Standard)", "Arabic (Egyptian)", "Arabic (Gulf)", "Arabic (Levantine)", "Arabic (Maghrebi)", "Arabic (Sudanese)", "Aragonese", "Armenian", "Assamese", "Avaric", "Avestan", "Aymara", "Azerbaijani",
-            "Bambara", "Bashkir", "Basque", "Belarusian", "Bengali (Bangladesh)", "Bengali (Indian)", "Bhojpuri", "Bihari", "Bislama", "Bosnian", "Breton", "Buginese", "Bulgarian", "Burmese", "Buryat", "Cantonese", "Catalan", "Cebuano", "Chamorro", "Chechen", "Chichewa", "Chinese (Simplified)", "Chinese (Traditional)", "Chinese (Hakka)", "Chinese (Min Nan)", "Chinese (Wu)", "Chuvash", "Cornish", "Corsican", "Cree", "Croatian", "Czech", 
-            "Danish", "Dargwa", "Dari", "Divehi", "Dogri", "Dutch", "Dzongkha", "English (US)", "English (UK)", "English (Australian)", "English (Canadian)", "Esperanto", "Estonian", "Ewe", "Faroese", "Fijian", "Filipino (Tagalog)", "Finnish", "French (Standard)", "French (Canadian)", "Frisian", "Fula", "Ga", "Galician", "Ganda", "Georgian", "German", "Greek", "Greenlandic", "Guarani", "Gujarati", 
-            "Haitian Creole", "Hausa", "Hawaiian", "Hebrew", "Herero", "Hindi", "Hiligaynon", "Hiri Motu", "Hmong", "Hungarian", "Icelandic", "Igbo", "Ilocano", "Indonesian", "Interlingua", "Inuktitut", "Inupiak", "Irish", "Italian", "Japanese", "Javanese", "Kabyle", "Kalaallisut", "Kalmyk", "Kannada", "Kanuri", "Kashmiri", "Kazakh", "Khasi", "Khmer", "Kikuyu", "Kinyarwanda", "Kirundi", "Komi", "Kongo", "Konkani", "Korean", "Kurdish (Kurmanji)", "Kurdish (Sorani)", "Kyrgyz", 
-            "Lao", "Latin", "Latvian", "Laz", "Lezgi", "Lingala", "Lithuanian", "Luba-Katanga", "Luganda", "Luxembourgish", "Macedonian", "Madurese", "Magahi", "Maithili", "Malagasy", "Malay", "Malayalam", "Maltese", "Manchu", "Manipuri", "Manx", "Maori", "Marathi", "Mari", "Marshallese", "Marwari", "Mazanderani", "Mende", "Minangkabau", "Mizo", "Mongolian", "Montenegrin", "Mossi", "Nahuatl", "Nama", "Navajo", "Nepali", "Newari", "Nigerian Pidgin", "Norwegian (Bokmål)", "Norwegian (Nynorsk)", 
-            "Occitan", "Odia", "Ojibwa", "Oromo", "Ossetian", "Pali", "Pangasinan", "Panjabi (Gurmukhi)", "Panjabi (Shahmukhi)", "Papiamento", "Pashto", "Persian (Farsi)", "Polish", "Portuguese (Brazil)", "Portuguese (Portugal)", "Quechua", "Rajasthani", "Rohingya", "Romanian", "Romansh", "Russian", "Rusyn", "Samoan", "Sango", "Sanskrit", "Santali", "Sardinian", "Scots Gaelic", "Serbian", "Serbo-Croatian", "Sesotho", "Setswana", "Shan", "Shona", "Sichuan Yi", "Sicilian", "Sindhi", "Sinhala", "Slovak", "Slovenian", "Somali", "Spanish (Latin America)", "Spanish (Spain)", "Spanish (US)", "Sundanese", "Swahili", "Swati", "Swedish", "Sylheti", 
-            "Tajik", "Tamasheq", "Tamil", "Tatar", "Telugu", "Tetum", "Thai", "Tibetan", "Tigrinya", "Tiv", "Tonga", "Tsonga", "Tswana", "Tulu", "Turkish", "Turkmen", "Tuvans", "Twi", "Udmurt", "Ukrainian", "Urdu", "Uyghur", "Uzbek", "Venda", "Vietnamese", "Volapük", "Walloon", "Waray", "Welsh", "Wolof", "Xhosa", "Yakut", "Yiddish", "Yoruba", "Zaza", "Zhuang", "Zulu"
+            "Afar", "Abkhazian", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Armenian", "Assamese", "Azerbaijani",
+            "Bambara", "Bashkir", "Basque", "Belarusian", "Bengali (BD)", "Bengali (IN)", "Bosnian", "Bulgarian", "Burmese", "Cantonese", "Catalan", "Chinese (Simp)", "Chinese (Trad)", "Croatian", "Czech", 
+            "Danish", "Dari", "Dutch", "English (US)", "English (UK)", "Esperanto", "Estonian", "Filipino", "Finnish", "French", "Georgian", "German", "Greek", "Gujarati", 
+            "Haitian Creole", "Hausa", "Hebrew", "Hindi", "Hmong", "Hungarian", "Icelandic", "Igbo", "Indonesian", "Irish", "Italian", "Japanese", "Javanese", "Kannada", "Kazakh", "Khmer", "Korean", "Kurdish", "Kyrgyz", 
+            "Lao", "Latin", "Latvian", "Lithuanian", "Macedonian", "Malay", "Malayalam", "Maltese", "Maori", "Marathi", "Mongolian", "Nepali", "Norwegian", "Odia", "Pashto", "Persian", "Polish", "Portuguese", "Punjabi", "Rohingya", "Romanian", "Russian", "Samoan", "Sanskrit", "Serbian", "Shona", "Sindhi", "Sinhala", "Slovak", "Slovenian", "Somali", "Spanish", "Swahili", "Swedish", "Sylheti", 
+            "Tajik", "Tamil", "Tatar", "Telugu", "Thai", "Tibetan", "Turkish", "Turkmen", "Ukrainian", "Urdu", "Uyghur", "Uzbek", "Vietnamese", "Welsh", "Xhosa", "Yiddish", "Yoruba", "Zulu"
         ];
 
-        // Populate Datalist: Languages
         document.addEventListener('DOMContentLoaded', () => {
             const list = document.getElementById('languageList');
             globalLanguages.sort().forEach(l => {
@@ -165,7 +158,6 @@
             });
         });
 
-        // ACTION: Import CSV to pre-load suggestions
         function handleImport(input) {
             const file = input.files[0];
             if (!file) return;
@@ -174,23 +166,22 @@
             reader.onload = (e) => {
                 const text = e.target.result;
                 const rows = text.split(/\r?\n/);
+                const accounts = new Set();
                 const clients = new Set();
-                const names = new Set();
 
-                // Heuristic Parsing: Assume first few columns contain the entity data
                 rows.forEach((row, i) => {
                     if (i === 0 || !row.trim()) return;
                     const cols = row.split(',').map(c => c.replace(/"/g, '').trim());
-                    if (cols[0]) clients.add(cols[0]); // Best guess for Client
-                    if (cols[1]) names.add(cols[1]);   // Best guess for Name
+                    if (cols[0]) accounts.add(cols[0]);
+                    if (cols[1]) clients.add(cols[1]);
                 });
 
+                updateDatalist('accountList', Array.from(accounts));
                 updateDatalist('clientList', Array.from(clients));
-                updateDatalist('nameList', Array.from(names));
 
                 const info = document.getElementById('import-info');
                 info.classList.remove('hidden');
-                info.innerText = `Suggestions Pre-loaded: ${clients.size} Clients / ${names.size} Names`;
+                info.innerText = `Intelligence Pre-loaded: ${accounts.size} Accounts / ${clients.size} Clients`;
             };
             reader.readAsText(file);
         }
@@ -217,7 +208,7 @@
             const dlBtn = document.getElementById('downloadBtn');
 
             if (sessionData.length === 0) {
-                container.innerHTML = '<div class="glass-panel p-20 text-center opacity-20 text-xs uppercase tracking-widest">No active session data</div>';
+                container.innerHTML = '<div class="glass-panel p-16 text-center opacity-20 text-[10px] uppercase tracking-widest">No session data available</div>';
                 countLabel.innerText = "0 Entries";
                 dlBtn.disabled = true;
                 return;
@@ -237,19 +228,19 @@
                 if(['No Service', 'Test Call'].includes(entry.status)) colorClass = "text-amber-400";
 
                 card.innerHTML = `
-                    <div>
-                        <div class="flex items-center gap-3 mb-1">
-                            <span class="text-[10px] font-black uppercase text-indigo-400">${entry.client}</span>
-                            <span class="text-[8px] bg-white/5 px-2 py-0.5 rounded text-gray-500 font-bold uppercase">${entry.language}</span>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-[9px] font-black uppercase text-indigo-400 tracking-tighter">${entry.account}</span>
+                            <span class="text-[7px] bg-white/5 px-1.5 py-0.5 rounded text-gray-500 font-bold uppercase tracking-widest">${entry.language}</span>
                         </div>
-                        <h4 class="text-lg font-bold">${entry.name}</h4>
-                        <div class="flex items-center gap-2 mt-2">
-                             <span class="text-[9px] font-black uppercase ${colorClass}">${entry.status}</span>
-                             <span class="text-[8px] text-gray-700 font-bold">${new Date(entry.time).toLocaleTimeString()}</span>
+                        <h4 class="text-sm font-bold tracking-tight text-white/90">${entry.client}</h4>
+                        <div class="flex items-center gap-2 mt-1.5">
+                             <span class="text-[8px] font-black uppercase ${colorClass}">${entry.status}</span>
+                             <span class="text-[7px] text-gray-700 font-bold">${new Date(entry.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                         </div>
                     </div>
-                    <button onclick="removeEntry('${entry.id}')" class="p-2 text-gray-800 hover:text-red-500 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    <button onclick="removeEntry('${entry.id}')" class="p-1.5 text-gray-800 hover:text-red-500 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
                 `;
                 container.appendChild(card);
@@ -257,21 +248,21 @@
         }
 
         window.addEntry = () => {
-            const c = document.getElementById('clientInput').value.trim();
-            const n = document.getElementById('nameInput').value.trim();
-            const l = document.getElementById('langInput').value.trim() || "Unspecified";
+            const acc = document.getElementById('accountInput').value.trim();
+            const cli = document.getElementById('clientInput').value.trim();
+            const lan = document.getElementById('langInput').value.trim() || "Unspecified";
 
-            if(!c || !n) return;
+            if(!acc || !cli) return;
 
             sessionData.push({
                 id: Math.random().toString(36).substr(2, 9),
-                client: c, name: n, language: l,
+                account: acc, client: cli, language: lan,
                 status: currentStatus,
                 time: new Date().toISOString()
             });
 
+            document.getElementById('accountInput').value = "";
             document.getElementById('clientInput').value = "";
-            document.getElementById('nameInput').value = "";
             document.getElementById('langInput').value = "";
             renderLedger();
         };
@@ -283,11 +274,11 @@
 
         window.exportData = () => {
             if (sessionData.length === 0) return;
-            const headers = ["Timestamp", "Client", "Practitioner Name", "Language", "Disposition"];
+            const headers = ["Timestamp", "Account Name", "Client Name", "Language", "Status"];
             const rows = sessionData.map(d => [
                 new Date(d.time).toLocaleString(),
+                `"${d.account.replace(/"/g, '""')}"`,
                 `"${d.client.replace(/"/g, '""')}"`,
-                `"${d.name.replace(/"/g, '""')}"`,
                 `"${d.language.replace(/"/g, '""')}"`,
                 `"${d.status}"`
             ]);
