@@ -43,7 +43,6 @@
         ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
         
-        /* Highlighting suggestions */
         datalist { background: #111; color: white; }
     </style>
 </head>
@@ -159,10 +158,28 @@
         });
 
         /**
-         * Robust CSV Parser for mapping:
-         * Column A -> Account Name
-         * Column B -> Requestor Name
+         * Robust CSV Parser
+         * Correctly handles commas inside quotes, empty values, and trims whitespace.
          */
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim());
+            return result;
+        }
+
         function handleImport(input) {
             const file = input.files[0];
             if (!file) return;
@@ -174,19 +191,20 @@
                 
                 const accounts = new Set();
                 const requestors = new Set();
+                let processedRows = 0;
 
                 allRows.forEach((row, i) => {
                     if (i === 0) return; // Skip Header
                     
-                    // Regex to handle quoted CSV fields correctly
-                    const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                    const cols = parseCSVLine(row);
                     
-                    if (cols) {
-                        const cleanA = cols[0]?.replace(/"/g, '').trim();
-                        const cleanB = cols[1]?.replace(/"/g, '').trim();
+                    if (cols.length > 0) {
+                        const accountVal = cols[0];
+                        const requestorVal = cols[1];
                         
-                        if (cleanA) accounts.add(cleanA);
-                        if (cleanB) requestors.add(cleanB);
+                        if (accountVal) accounts.add(accountVal);
+                        if (requestorVal) requestors.add(requestorVal);
+                        processedRows++;
                     }
                 });
 
@@ -195,7 +213,9 @@
 
                 const info = document.getElementById('import-info');
                 info.classList.remove('hidden');
-                info.innerHTML = `DATABASE LOADED: ${allRows.length - 1} records processed<br>${accounts.size} Accounts • ${requestors.size} Requestors available`;
+                info.innerHTML = `DATABASE LOADED: ${processedRows} total entries<br>${accounts.size} Unique Accounts • ${requestors.size} Unique Requestors`;
+                
+                document.getElementById('load-status').innerText = "Intelligence Synchronized";
             };
             reader.readAsText(file);
         }
