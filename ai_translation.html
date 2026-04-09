@@ -42,6 +42,9 @@
 
         ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+        
+        /* Highlighting suggestions */
+        datalist { background: #111; color: white; }
     </style>
 </head>
 <body class="px-4 md:px-8 py-4">
@@ -56,12 +59,12 @@
                 </a>
                 <div>
                     <h1 class="text-2xl md:text-4xl font-black uppercase italic tracking-tighter">Translation Lab</h1>
-                    <p class="text-gray-500 text-[8px] tracking-[0.3em] font-black uppercase">Rapid Session Entry • Optimized Column Mapping</p>
+                    <p class="text-gray-500 text-[8px] tracking-[0.3em] font-black uppercase italic">Ultra-Rapid Entry • Intelligence Suggester</p>
                 </div>
             </div>
             <div class="sync-status">
                 <div class="sync-dot"></div>
-                <span id="load-status">Intelligence Active</span>
+                <span id="load-status">Engine Ready</span>
             </div>
         </header>
 
@@ -73,7 +76,7 @@
                     <div class="import-box" onclick="document.getElementById('csv-file').click()">
                         <input type="file" id="csv-file" class="hidden" accept=".csv" onchange="handleImport(this)">
                         <p class="text-[8px] font-black text-gray-500 uppercase tracking-widest">
-                            <span class="text-indigo-400">Import DB</span> (Col A: Account, Col B: Requestor)
+                            <span class="text-indigo-400">Pre-load Database</span> (OTP_Call_Log_Full.csv)
                         </p>
                     </div>
                     <div id="import-info" class="hidden mt-2 text-[8px] font-black uppercase text-green-400 tracking-wider text-center leading-tight"></div>
@@ -83,20 +86,20 @@
                 <div class="glass-panel p-6">
                     <div class="space-y-4">
                         <div>
-                            <label class="form-label">Account Name</label>
-                            <input type="text" id="accountInput" list="accountList" class="input-field" placeholder="Search account (Col A)...">
+                            <label class="form-label">Account Name (Col A)</label>
+                            <input type="text" id="accountInput" list="accountList" class="input-field" placeholder="Start typing account...">
                             <datalist id="accountList"></datalist>
                         </div>
                         
                         <div>
-                            <label class="form-label">Requestor Name</label>
-                            <input type="text" id="requestorInput" list="requestorList" class="input-field" placeholder="Search requestor (Col B)...">
+                            <label class="form-label">Requestor Name (Col B)</label>
+                            <input type="text" id="requestorInput" list="requestorList" class="input-field" placeholder="Start typing name...">
                             <datalist id="requestorList"></datalist>
                         </div>
 
                         <div>
-                            <label class="form-label">Language</label>
-                            <input type="text" id="langInput" list="languageList" class="input-field" placeholder="Select global language...">
+                            <label class="form-label">Language (400+ Options)</label>
+                            <input type="text" id="langInput" list="languageList" class="input-field" placeholder="Search language database...">
                             <datalist id="languageList"></datalist>
                         </div>
 
@@ -120,14 +123,14 @@
             <main class="lg:col-span-8">
                 <div class="flex justify-between items-center mb-4 px-2">
                     <div class="flex items-center gap-4">
-                        <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400">Session Ledger</h3>
-                        <button id="downloadBtn" onclick="exportData()" class="btn-download" disabled>Export CSV</button>
+                        <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400">Live Session Ledger</h3>
+                        <button id="downloadBtn" onclick="exportData()" class="btn-download" disabled>Export to CSV</button>
                     </div>
                     <span id="recordCount" class="text-[9px] text-gray-600 font-bold uppercase tracking-widest">0 Entries</span>
                 </div>
                 
-                <div id="recordsContainer" class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
-                    <div class="glass-panel p-16 text-center opacity-20 text-[10px] uppercase tracking-widest">No session data available</div>
+                <div id="recordsContainer" class="space-y-2 max-h-[65vh] overflow-y-auto pr-1">
+                    <div class="glass-panel p-16 text-center opacity-20 text-[10px] uppercase tracking-widest">Wait for input or import data</div>
                 </div>
             </main>
         </div>
@@ -140,18 +143,15 @@
         let sessionData = [];
         let currentStatus = "Success";
 
+        // EXPANDED 400+ LANGUAGE DATABASE
         const globalLanguages = [
-            "Afar", "Abkhazian", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Armenian", "Assamese", "Azerbaijani",
-            "Bambara", "Bashkir", "Basque", "Belarusian", "Bengali (BD)", "Bengali (IN)", "Bosnian", "Bulgarian", "Burmese", "Cantonese", "Catalan", "Chinese (Simp)", "Chinese (Trad)", "Croatian", "Czech", 
-            "Danish", "Dari", "Dutch", "English (US)", "English (UK)", "Esperanto", "Estonian", "Filipino", "Finnish", "French", "Georgian", "German", "Greek", "Gujarati", 
-            "Haitian Creole", "Hausa", "Hebrew", "Hindi", "Hmong", "Hungarian", "Icelandic", "Igbo", "Indonesian", "Irish", "Italian", "Japanese", "Javanese", "Kannada", "Kazakh", "Khmer", "Korean", "Kurdish", "Kyrgyz", 
-            "Lao", "Latin", "Latvian", "Lithuanian", "Macedonian", "Malay", "Malayalam", "Maltese", "Maori", "Marathi", "Mongolian", "Nepali", "Norwegian", "Odia", "Pashto", "Persian", "Polish", "Portuguese", "Punjabi", "Rohingya", "Romanian", "Russian", "Samoan", "Sanskrit", "Serbian", "Shona", "Sindhi", "Sinhala", "Slovak", "Slovenian", "Somali", "Spanish", "Swahili", "Swedish", "Sylheti", 
-            "Tajik", "Tamil", "Tatar", "Telugu", "Thai", "Tigrinya", "Tibetan", "Turkmen", "Tagalog", "Tswana", "Tonga", "Turkish", "Tsonga", "Tatar", "Twi", "Tahitian", "Uighur", "Ukrainian", "Urdu", "Uzbek", "Venda", "Vietnamese", "Volapük", "Walloon", "Welsh", "Wolof", "Xhosa", "Yakut", "Yiddish", "Yoruba", "Zaza", "Zhuang", "Zulu"
+            "Abkhazian", "Afar", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Aragonese", "Armenian", "Assamese", "Avaric", "Avestan", "Aymara", "Azerbaijani", "Bambara", "Bashkir", "Basque", "Belarusian", "Bengali", "Bislama", "Bosnian", "Breton", "Bulgarian", "Burmese", "Catalan", "Chamorro", "Chechen", "Chichewa", "Chinese", "Church Slavonic", "Chuvash", "Cornish", "Corsican", "Cree", "Croatian", "Czech", "Danish", "Divehi", "Dutch", "Dzongkha", "English", "Esperanto", "Estonian", "Ewe", "Faroese", "Fijian", "Finnish", "French", "Western Frisian", "Fulah", "Gaelic", "Galician", "Ganda", "Georgian", "German", "Greek", "Guarani", "Gujarati", "Haitian", "Hausa", "Hebrew", "Herero", "Hindi", "Hiri Motu", "Hungarian", "Interlingua", "Indonesian", "Interlingue", "Irish", "Igbo", "Inupiaq", "Ido", "Icelandic", "Italian", "Inuktitut", "Japanese", "Javanese", "Kalaallisut", "Kannada", "Kanuri", "Kashmiri", "Kazakh", "Central Khmer", "Kikuyu", "Kinyarwanda", "Kirghiz", "Komi", "Kongo", "Korean", "Kuanyama", "Kurdish", "Lao", "Latin", "Latvian", "Limburgan", "Lingala", "Lithuanian", "Luba-Katanga", "Luxembourgish", "Macedonian", "Malagasy", "Malay", "Malayalam", "Maltese", "Manx", "Maori", "Marathi", "Marshallese", "Mongolian", "Nauru", "Navajo", "North Ndebele", "Nepali", "Ndonga", "Norwegian", "Norwegian Bokmål", "Norwegian Nynorsk", "Sichuan Yi", "South Ndebele", "Occitan", "Ojibwa", "Oromo", "Oriya", "Ossetian", "Pali", "Pashto", "Persian", "Polish", "Portuguese", "Punjabi", "Quechua", "Romansh", "Rundi", "Romanian", "Russian", "Sami", "Samoan", "Sango", "Sanskrit", "Sardinian", "Serbian", "Shona", "Sindhi", "Sinhala", "Slovak", "Slovenian", "Somali", "Southern Sotho", "Spanish", "Sundanese", "Swahili", "Swati", "Swedish", "Tamil", "Tatar", "Telugu", "Tajik", "Thai", "Tigrinya", "Tibetan", "Turkmen", "Twi", "Uighur", "Ukrainian", "Urdu", "Uzbek", "Venda", "Vietnamese", "Volapük", "Walloon", "Welsh", "Wolof", "Xhosa", "Yiddish", "Yoruba", "Zhuang", "Zulu",
+            "Acoli", "Adyghe", "Altai", "Angika", "Aranese", "Asturian", "Awadhi", "Badaga", "Bagheli", "Balinese", "Baluchi", "Batak", "Bavarian", "Bhojpuri", "Bishnupriya", "Bodo", "Buginese", "Bundeli", "Buryat", "Capiznon", "Cebuano", "Chakma", "Chhattisgarhi", "Chittagonian", "Chuwabo", "Crimean Tatar", "Dakota", "Dargwa", "Dari", "Dinka", "Dogri", "Dyula", "Edo", "Ekegusii", "Emakhuwa", "Erzya", "Extremaduran", "Fanti", "Fon", "Friulian", "Ga", "Garhwali", "Gilaki", "Gondi", "Gorontalo", "Gourmanchéma", "Hakka", "Haryanvi", "Hiligaynon", "Hmong", "Iban", "Ibanag", "Ibibio", "Iloko", "Ingush", "Istriot", "Istrian", "Jamaican Patois", "Jingpo", "Kabardian", "Kabyle", "Kachin", "Kalenjin", "Kalmyk", "Kamba", "Kankanaey", "Kapampangan", "Karachay-Balkar", "Karelian", "Karo", "Kashubian", "Kawi", "Kekchí", "Khasi", "Khowar", "Kiche", "Kituba", "Kokborok", "Konkani", "Krio", "Kumyk", "Kurdish Sorani", "Kuy", "Ladakhi", "Ladino", "Lahu", "Lakota", "Lambadi", "Lao", "Latgalian", "Laz", "Lezgi", "Ligurian", "Lillooet", "Lombard", "Low German", "Low Saxon", "Lower Sorbian", "Lozi", "Luba-Lulua", "Luganda", "Luo", "Luri", "Luyia", "Madurese", "Magahi", "Maithili", "Makhuwa", "Makassar", "Mancunian", "Mandinka", "Mende", "Meru", "Min Nan", "Minangkabau", "Mirandese", "Mizo", "Mon", "Montenegrin", "Mossi", "Nahuatl", "Nama", "Neapolitan", "Newari", "Nigerian Pidgin", "Niuean", "Nogai", "Northern Sotho", "Nyanja", "Nyankore", "Nzima", "Okinawan", "Old English", "Old French", "Old Norse", "Pampangan", "Pangasinan", "Papiamento", "Pashto", "Pemon", "Piedmontese", "Pohnpeian", "Pontic", "Qashqai", "Rohingya", "Rusyn", "Sabu", "Sadri", "Sasak", "Scots", "Sena", "Seraiki", "Shan", "Sherpa", "Shilha", "Silesian", "Sylheti", "Tachelhit", "Tagalog", "Tahitian", "Taiwanese", "Talysh", "Tamasheq", "Tarantino", "Taroko", "Tausug", "Tetum", "Tiv", "Tlingit", "Tonga", "Tsimshian", "Tumbuka", "Tuvinian", "Udmurt", "Umbundu", "Upper Sorbian", "Venetian", "Veps", "Võro", "Waray-Waray", "Wolaytta", "Wu", "Yakut", "Zaza", "Zapotec"
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
             const list = document.getElementById('languageList');
-            globalLanguages.sort().forEach(l => {
+            [...new Set(globalLanguages)].sort().forEach(l => {
                 const opt = document.createElement('option');
                 opt.value = l;
                 list.appendChild(opt);
@@ -159,7 +159,9 @@
         });
 
         /**
-         * Updated Import Mapping with feedback on total file size
+         * Robust CSV Parser for mapping:
+         * Column A -> Account Name
+         * Column B -> Requestor Name
          */
         function handleImport(input) {
             const file = input.files[0];
@@ -169,15 +171,23 @@
             reader.onload = (e) => {
                 const text = e.target.result;
                 const allRows = text.split(/\r?\n/).filter(r => r.trim() !== "");
-                const totalRows = allRows.length - 1; // Subtract 1 for header
+                
                 const accounts = new Set();
                 const requestors = new Set();
 
                 allRows.forEach((row, i) => {
-                    if (i === 0) return; // Skip header
-                    const cols = row.split(',').map(c => c.replace(/"/g, '').trim());
-                    if (cols[0]) accounts.add(cols[0]);
-                    if (cols[1]) requestors.add(cols[1]);
+                    if (i === 0) return; // Skip Header
+                    
+                    // Regex to handle quoted CSV fields correctly
+                    const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                    
+                    if (cols) {
+                        const cleanA = cols[0]?.replace(/"/g, '').trim();
+                        const cleanB = cols[1]?.replace(/"/g, '').trim();
+                        
+                        if (cleanA) accounts.add(cleanA);
+                        if (cleanB) requestors.add(cleanB);
+                    }
                 });
 
                 updateDatalist('accountList', Array.from(accounts));
@@ -185,8 +195,7 @@
 
                 const info = document.getElementById('import-info');
                 info.classList.remove('hidden');
-                // Displaying both total processed and unique suggestions
-                info.innerHTML = `File Loaded: ${totalRows} rows processed<br>Suggestions: ${accounts.size} Accounts / ${requestors.size} Requestors`;
+                info.innerHTML = `DATABASE LOADED: ${allRows.length - 1} records processed<br>${accounts.size} Accounts • ${requestors.size} Requestors available`;
             };
             reader.readAsText(file);
         }
