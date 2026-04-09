@@ -56,7 +56,7 @@
                 </a>
                 <div>
                     <h1 class="text-2xl md:text-4xl font-black uppercase italic tracking-tighter">Translation Lab</h1>
-                    <p class="text-gray-500 text-[8px] tracking-[0.3em] font-black uppercase">Rapid Session Entry • Intelligence Engine</p>
+                    <p class="text-gray-500 text-[8px] tracking-[0.3em] font-black uppercase">Rapid Session Entry • Optimized Column Mapping</p>
                 </div>
             </div>
             <div class="sync-status">
@@ -73,7 +73,7 @@
                     <div class="import-box" onclick="document.getElementById('csv-file').click()">
                         <input type="file" id="csv-file" class="hidden" accept=".csv" onchange="handleImport(this)">
                         <p class="text-[8px] font-black text-gray-500 uppercase tracking-widest">
-                            <span class="text-indigo-400">Import DB</span> (Column B: Account, Column C: Requestor)
+                            <span class="text-indigo-400">Import DB</span> (Col A: Account, Col B: Requestor)
                         </p>
                     </div>
                     <div id="import-info" class="hidden mt-2 text-[8px] font-black uppercase text-green-400 tracking-wider text-center"></div>
@@ -84,13 +84,13 @@
                     <div class="space-y-4">
                         <div>
                             <label class="form-label">Account Name</label>
-                            <input type="text" id="accountInput" list="accountList" class="input-field" placeholder="Search account (Col B)...">
+                            <input type="text" id="accountInput" list="accountList" class="input-field" placeholder="Search account (Col A)...">
                             <datalist id="accountList"></datalist>
                         </div>
                         
                         <div>
                             <label class="form-label">Requestor Name</label>
-                            <input type="text" id="requestorInput" list="requestorList" class="input-field" placeholder="Search requestor (Col C)...">
+                            <input type="text" id="requestorInput" list="requestorList" class="input-field" placeholder="Search requestor (Col B)...">
                             <datalist id="requestorList"></datalist>
                         </div>
 
@@ -159,9 +159,9 @@
         });
 
         /**
-         * Updated Import Mapping
-         * Column B (Index 1) -> Account Name
-         * Column C (Index 2) -> Requestor Name
+         * Updated Import Mapping:
+         * Column A (Index 0) -> Account Name
+         * Column B (Index 1) -> Requestor Name
          */
         function handleImport(input) {
             const file = input.files[0];
@@ -177,14 +177,13 @@
                 rows.forEach((row, i) => {
                     if (i === 0 || !row.trim()) return; // Skip header
                     
-                    // Simple split logic, handles basic CSV
                     const cols = row.split(',').map(c => c.replace(/"/g, '').trim());
                     
-                    // Column B mapping (Index 1)
-                    if (cols[1]) accounts.add(cols[1]);
+                    // Column A mapping (Index 0)
+                    if (cols[0]) accounts.add(cols[0]);
                     
-                    // Column C mapping (Index 2)
-                    if (cols[2]) requestors.add(cols[2]);
+                    // Column B mapping (Index 1)
+                    if (cols[1]) requestors.add(cols[1]);
                 });
 
                 updateDatalist('accountList', Array.from(accounts));
@@ -285,13 +284,14 @@
 
         window.exportData = () => {
             if (sessionData.length === 0) return;
-            const headers = ["Timestamp", "Account Name", "Requestor Name", "Language", "Status"];
+            // Columns: A: Account, B: Requestor, C: Language, D: Status, E: Timestamp
+            const headers = ["Account Name", "Requestor Name", "Language", "Status", "Timestamp"];
             const rows = sessionData.map(d => [
-                new Date(d.time).toLocaleString(),
                 `"${d.account.replace(/"/g, '""')}"`,
                 `"${d.requestor.replace(/"/g, '""')}"`,
                 `"${d.language.replace(/"/g, '""')}"`,
-                `"${d.status}"`
+                `"${d.status}"`,
+                new Date(d.time).toLocaleString()
             ]);
             const csv = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
