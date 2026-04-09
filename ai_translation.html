@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Translation Lab | Intelligence Hub</title>
+    <title>AI Translation Lab | Unified Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
     <script src="main.js" defer></script>
@@ -12,30 +12,29 @@
         #animation-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
         .content-layer { position: relative; z-index: 10; min-height: 100vh; }
         
-        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
-        .back-btn { display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 6px 16px; border-radius: 100px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-decoration: none; text-transform: uppercase; transition: all 0.3s ease; }
+        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; }
+        .back-btn { display: inline-flex; align-items: center; gap: 4px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 4px 12px; border-radius: 100px; font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-decoration: none; text-transform: uppercase; transition: all 0.3s ease; }
         .back-btn:hover { background: #6366f1; border-color: #6366f1; }
 
-        .input-field { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; color: #fff; width: 100%; outline: none; transition: 0.3s; font-size: 13px; }
+        .input-field { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 6px; padding: 8px 12px; color: #fff; width: 100%; outline: none; transition: 0.3s; font-size: 12px; }
         .input-field:focus { border-color: #6366f1; background: rgba(99, 102, 241, 0.05); }
 
-        .form-label { font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: #6366f1; margin-bottom: 4px; display: block; }
+        .form-label { font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: #6366f1; margin-bottom: 4px; display: block; }
 
-        .status-pill { font-size: 8px; font-weight: 800; padding: 6px 10px; border-radius: 8px; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s; text-transform: uppercase; color: #555; background: rgba(255,255,255,0.02); flex: 1; text-align: center; }
-        .status-pill:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
-        .status-pill.active { background: #6366f1; border-color: #6366f1; color: #fff; box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); }
+        .status-pill { font-size: 8px; font-weight: 800; padding: 6px 8px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.2s; text-transform: uppercase; color: #444; background: rgba(255,255,255,0.01); flex: 1; text-align: center; }
+        .status-pill:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+        .status-pill.active { background: #6366f1; border-color: #6366f1; color: #fff; box-shadow: 0 0 8px rgba(99, 102, 241, 0.3); }
 
-        .record-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 12px 16px; transition: 0.3s; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .record-card:hover { border-color: rgba(99, 102, 241, 0.3); background: rgba(255, 255, 255, 0.03); }
+        /* Compact Record List Styling */
+        .ledger-row { display: grid; grid-template-columns: 2fr 1.5fr 1fr 40px; align-items: center; padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; font-size: 11px; }
+        .ledger-row:hover { background: rgba(255,255,255,0.02); }
+        .ledger-header { font-weight: 900; text-transform: uppercase; color: #6366f1; font-size: 8px; letter-spacing: 0.1em; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px; margin-bottom: 4px; }
 
-        .btn-submit { background: #6366f1; color: #fff; width: 100%; padding: 12px; border-radius: 100px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; margin-top: 10px; font-size: 12px; }
-        .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3); }
+        .btn-submit { background: #6366f1; color: #fff; width: 100%; padding: 12px; border-radius: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; margin-top: 10px; font-size: 11px; }
+        .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
 
-        .btn-download { display: inline-flex; align-items: center; gap: 4px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: #4ade80; font-size: 8px; font-weight: 900; padding: 6px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; }
+        .btn-download { display: inline-flex; align-items: center; gap: 4px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: #4ade80; font-size: 8px; font-weight: 900; padding: 4px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; }
         .btn-download:hover { background: #22c55e; color: #fff; }
-        
-        .import-box { border: 1px dashed rgba(99, 102, 241, 0.2); border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; transition: 0.3s; background: rgba(99, 102, 241, 0.01); }
-        .import-box:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.03); }
 
         .sync-status { font-size: 8px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; display: flex; align-items: center; gap: 4px; }
         .sync-dot { width: 5px; height: 5px; border-radius: 50%; background: #22c55e; }
@@ -46,19 +45,19 @@
         datalist { background: #111; color: white; }
     </style>
 </head>
-<body class="px-4 md:px-8 py-4">
+<body class="px-4 md:px-6 py-4">
 
     <div id="animation-container"></div>
 
-    <div class="content-layer max-w-6xl mx-auto">
-        <header class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-6">
+    <div class="content-layer max-w-[1400px] mx-auto">
+        <header class="mb-4 flex flex-col md:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-4">
                 <a href="index.html" class="back-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Hub
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Hub
                 </a>
                 <div>
-                    <h1 class="text-2xl md:text-4xl font-black uppercase italic tracking-tighter">Translation Lab</h1>
-                    <p class="text-gray-500 text-[8px] tracking-[0.3em] font-black uppercase italic">Rapid Session Entry • Linked Data Intelligence</p>
+                    <h1 class="text-xl md:text-2xl font-black uppercase italic tracking-tighter text-indigo-400">Translation Lab</h1>
+                    <p class="text-gray-600 text-[7px] tracking-[0.3em] font-black uppercase">Rapid Session Logging • High Density v3.0</p>
                 </div>
             </div>
             <div class="sync-status">
@@ -67,69 +66,66 @@
             </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <!-- LEFT: INPUT & IMPORT -->
-            <aside class="lg:col-span-4 space-y-4">
-                <!-- COMPACT IMPORT -->
-                <div class="glass-panel p-4">
-                    <div class="import-box" onclick="document.getElementById('csv-file').click()">
-                        <input type="file" id="csv-file" class="hidden" accept=".csv" onchange="handleImport(this)">
-                        <p class="text-[8px] font-black text-gray-500 uppercase tracking-widest">
-                            <span class="text-indigo-400">Sync OTP Database</span> (Linked Account & Requestor)
-                        </p>
-                    </div>
-                    <div id="import-info" class="hidden mt-2 text-[8px] font-black uppercase text-green-400 tracking-wider text-center leading-tight"></div>
-                </div>
-
-                <!-- COMPACT FORM -->
-                <div class="glass-panel p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <!-- LEFT: INPUT FORM -->
+            <aside class="lg:col-span-3">
+                <div class="glass-panel p-6 sticky top-4">
+                    <h3 class="text-[10px] font-black uppercase mb-6 text-indigo-400 tracking-widest border-b border-white/5 pb-2">New Entry</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="form-label">Account Name (Col A)</label>
-                            <input type="text" id="accountInput" list="accountList" class="input-field" placeholder="Search account..." oninput="linkRequestors()">
-                            <datalist id="accountList"></datalist>
-                        </div>
-                        
-                        <div>
-                            <label class="form-label">Requestor Name (Col B)</label>
-                            <input type="text" id="requestorInput" list="requestorList" class="input-field" placeholder="Search requestor...">
-                            <datalist id="requestorList"></datalist>
+                            <label class="form-label">Requestor Name</label>
+                            <input type="text" id="requestorInput" class="input-field" placeholder="Enter Full Name...">
                         </div>
 
                         <div>
-                            <label class="form-label">Language (Global Index)</label>
-                            <input type="text" id="langInput" list="languageList" class="input-field" placeholder="Select language...">
+                            <label class="form-label">Language</label>
+                            <input type="text" id="langInput" list="languageList" class="input-field" placeholder="Select Language...">
                             <datalist id="languageList"></datalist>
                         </div>
 
                         <div>
                             <label class="form-label">Disposition</label>
-                            <div class="grid grid-cols-3 gap-1.5" id="statusOptions">
+                            <div class="grid grid-cols-2 gap-1.5" id="statusOptions">
                                 <button class="status-pill active" onclick="setStatus(this, 'Success')">Success</button>
-                                <button class="status-pill" onclick="setStatus(this, 'No Service')">No Srv.</button>
-                                <button class="status-pill" onclick="setStatus(this, 'No Interpreter')">No Intp.</button>
-                                <button class="status-pill" onclick="setStatus(this, 'Test Call')">Test</button>
-                                <button class="status-pill" onclick="setStatus(this, 'Conn. Failure')">Fail</button>
+                                <button class="status-pill" onclick="setStatus(this, 'No Srv.')">No Srv.</button>
+                                <button class="status-pill" onclick="setStatus(this, 'No Intp.')">No Intp.</button>
+                                <button class="status-pill" onclick="setStatus(this, 'Test')">Test</button>
+                                <button class="status-pill col-span-2" onclick="setStatus(this, 'Fail')">Connection Failure</button>
                             </div>
                         </div>
 
-                        <button id="submitBtn" onclick="addEntry()" class="btn-submit">Add Record</button>
+                        <button id="submitBtn" onclick="addEntry()" class="btn-submit">Add to Session</button>
                     </div>
                 </div>
             </aside>
 
-            <!-- RIGHT: LEDGER -->
-            <main class="lg:col-span-8">
-                <div class="flex justify-between items-center mb-4 px-2">
-                    <div class="flex items-center gap-4">
-                        <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400">Live Session Ledger</h3>
-                        <button id="downloadBtn" onclick="exportData()" class="btn-download" disabled>Export CSV</button>
+            <!-- RIGHT: COMPACT LEDGER -->
+            <main class="lg:col-span-9">
+                <div class="glass-panel h-[82vh] flex flex-col">
+                    <!-- HEADER -->
+                    <div class="p-3 border-b border-white/5 flex justify-between items-center bg-white/5 rounded-t-16">
+                        <div class="flex items-center gap-4">
+                            <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400">Live Session Ledger</h3>
+                            <button id="downloadBtn" onclick="exportData()" class="btn-download" disabled>Export CSV</button>
+                        </div>
+                        <!-- STATS SUMMARY -->
+                        <div id="recordCount" class="text-[8px] text-gray-500 font-black uppercase tracking-widest text-right leading-relaxed">
+                            SESSION READY
+                        </div>
                     </div>
-                    <span id="recordCount" class="text-[9px] text-gray-600 font-bold uppercase tracking-widest">0 Entries</span>
-                </div>
-                
-                <div id="recordsContainer" class="space-y-2 max-h-[68vh] overflow-y-auto pr-1">
-                    <div class="glass-panel p-16 text-center opacity-20 text-[10px] uppercase tracking-widest">Awaiting local input or database sync</div>
+
+                    <!-- DATA TABLE HEADERS -->
+                    <div class="ledger-row ledger-header px-4">
+                        <span>Requestor Name</span>
+                        <span>Language</span>
+                        <span>Disposition</span>
+                        <span class="text-right">Action</span>
+                    </div>
+
+                    <!-- DATA SCROLL AREA -->
+                    <div id="recordsContainer" class="flex-1 overflow-y-auto pr-1">
+                        <div class="p-20 text-center opacity-10 text-[10px] uppercase tracking-widest font-black">Awaiting entry...</div>
+                    </div>
                 </div>
             </main>
         </div>
@@ -141,14 +137,9 @@
     <script>
         let sessionData = [];
         let currentStatus = "Success";
-        
-        // Relational Database Object: { "Account": Set(Requestors) }
-        let databaseMap = {};
-        let allRequestorsGlobal = new Set();
 
         const globalLanguages = [
-            "Abkhazian", "Afar", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Aragonese", "Armenian", "Assamese", "Avaric", "Avestan", "Aymara", "Azerbaijani", "Bambara", "Bashkir", "Basque", "Belarusian", "Bengali", "Bislama", "Bosnian", "Breton", "Bulgarian", "Burmese", "Catalan", "Chamorro", "Chechen", "Chichewa", "Chinese", "Church Slavonic", "Chuvash", "Cornish", "Corsican", "Cree", "Croatian", "Czech", "Danish", "Divehi", "Dutch", "Dzongkha", "English", "Esperanto", "Estonian", "Ewe", "Faroese", "Fijian", "Finnish", "French", "Western Frisian", "Fulah", "Gaelic", "Galician", "Ganda", "Georgian", "German", "Greek", "Guarani", "Gujarati", "Haitian", "Hausa", "Hebrew", "Herero", "Hindi", "Hiri Motu", "Hungarian", "Interlingua", "Indonesian", "Interlingue", "Irish", "Igbo", "Inupiaq", "Ido", "Icelandic", "Italian", "Inuktitut", "Japanese", "Javanese", "Kalaallisut", "Kannada", "Kanuri", "Kashmiri", "Kazakh", "Central Khmer", "Kikuyu", "Kinyarwanda", "Kirghiz", "Komi", "Kongo", "Korean", "Kuanyama", "Kurdish", "Lao", "Latin", "Latvian", "Limburgan", "Lingala", "Lithuanian", "Luba-Katanga", "Luxembourgish", "Macedonian", "Malagasy", "Malay", "Malayalam", "Maltese", "Manx", "Maori", "Marathi", "Marshallese", "Mongolian", "Nauru", "Navajo", "North Ndebele", "Nepali", "Ndonga", "Norwegian", "Norwegian Bokmål", "Norwegian Nynorsk", "Sichuan Yi", "South Ndebele", "Occitan", "Ojibwa", "Oromo", "Oriya", "Ossetian", "Pali", "Pashto", "Persian", "Polish", "Portuguese", "Punjabi", "Quechua", "Romansh", "Rundi", "Romanian", "Russian", "Sami", "Samoan", "Sango", "Sanskrit", "Sardinian", "Serbian", "Shona", "Sindhi", "Sinhala", "Slovak", "Slovenian", "Somali", "Southern Sotho", "Spanish", "Sundanese", "Swahili", "Swati", "Swedish", "Tamil", "Tatar", "Telugu", "Tajik", "Thai", "Tigrinya", "Tibetan", "Turkmen", "Twi", "Uighur", "Ukrainian", "Urdu", "Uzbek", "Venda", "Vietnamese", "Volapük", "Walloon", "Welsh", "Wolof", "Xhosa", "Yiddish", "Yoruba", "Zhuang", "Zulu",
-            "Acoli", "Adyghe", "Altai", "Angika", "Aranese", "Asturian", "Awadhi", "Badaga", "Bagheli", "Balinese", "Baluchi", "Batak", "Bavarian", "Bhojpuri", "Bishnupriya", "Bodo", "Buginese", "Bundeli", "Buryat", "Capiznon", "Cebuano", "Chakma", "Chhattisgarhi", "Chittagonian", "Chuwabo", "Crimean Tatar", "Dakota", "Dargwa", "Dari", "Dinka", "Dogri", "Dyula", "Edo", "Ekegusii", "Emakhuwa", "Erzya", "Extremaduran", "Fanti", "Fon", "Friulian", "Ga", "Garhwali", "Gilaki", "Gondi", "Gorontalo", "Gourmanchéma", "Hakka", "Haryanvi", "Hiligaynon", "Hmong", "Iban", "Ibanag", "Ibibio", "Iloko", "Ingush", "Istriot", "Istrian", "Jamaican Patois", "Jingpo", "Kabardian", "Kabyle", "Kachin", "Kalenjin", "Kalmyk", "Kamba", "Kankanaey", "Kapampangan", "Karachay-Balkar", "Karelian", "Karo", "Kashubian", "Kawi", "Kekchí", "Khasi", "Khowar", "Kiche", "Kituba", "Kokborok", "Konkani", "Krio", "Kumyk", "Kurdish Sorani", "Kuy", "Ladakhi", "Ladino", "Lahu", "Lakota", "Lambadi", "Lao", "Latgalian", "Laz", "Lezgi", "Ligurian", "Lillooet", "Lombard", "Low German", "Low Saxon", "Lower Sorbian", "Lozi", "Luba-Lulua", "Luganda", "Luo", "Luri", "Luyia", "Madurese", "Magahi", "Maithili", "Makhuwa", "Makassar", "Mancunian", "Mandinka", "Mende", "Meru", "Min Nan", "Minangkabau", "Mirandese", "Mizo", "Mon", "Montenegrin", "Mossi", "Nahuatl", "Nama", "Neapolitan", "Newari", "Nigerian Pidgin", "Niuean", "Nogai", "Northern Sotho", "Nyanja", "Nyankore", "Nzima", "Okinawan", "Old English", "Old French", "Old Norse", "Pampangan", "Pangasinan", "Papiamento", "Pashto", "Pemon", "Piedmontese", "Pohnpeian", "Pontic", "Qashqai", "Rohingya", "Rusyn", "Sabu", "Sadri", "Sasak", "Scots", "Sena", "Seraiki", "Shan", "Sherpa", "Shilha", "Silesian", "Sylheti", "Tachelhit", "Tagalog", "Tahitian", "Taiwanese", "Talysh", "Tamasheq", "Tarantino", "Taroko", "Tausug", "Tetum", "Tiv", "Tlingit", "Tonga", "Tsimshian", "Tumbuka", "Tuvinian", "Udmurt", "Umbundu", "Upper Sorbian", "Venetian", "Veps", "Võro", "Waray-Waray", "Wolaytta", "Wu", "Yakut", "Zaza", "Zapotec"
+            "Abkhazian", "Afar", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Aragonese", "Armenian", "Assamese", "Avaric", "Avestan", "Aymara", "Azerbaijani", "Bambara", "Bashkir", "Basque", "Belarusian", "Bengali", "Bislama", "Bosnian", "Breton", "Bulgarian", "Burmese", "Catalan", "Chamorro", "Chechen", "Chichewa", "Chinese", "Croatian", "Czech", "Danish", "Divehi", "Dutch", "Dzongkha", "English", "Esperanto", "Estonian", "Ewe", "Faroese", "Fijian", "Finnish", "French", "Gaelic", "Galician", "Ganda", "Georgian", "German", "Greek", "Guarani", "Gujarati", "Haitian", "Hausa", "Hebrew", "Hindi", "Hmong", "Hungarian", "Icelandic", "Igbo", "Indonesian", "Irish", "Italian", "Japanese", "Javanese", "Kannada", "Kazakh", "Khmer", "Korean", "Kurdish", "Kyrgyz", "Lao", "Latin", "Latvian", "Lithuanian", "Macedonian", "Malay", "Malayalam", "Maltese", "Maori", "Marathi", "Mongolian", "Nepali", "Norwegian", "Oriya", "Pashto", "Persian", "Polish", "Portuguese", "Punjabi", "Quechua", "Romanian", "Russian", "Samoan", "Sanskrit", "Serbian", "Shona", "Sindhi", "Sinhala", "Slovak", "Slovenian", "Somali", "Spanish", "Swahili", "Swedish", "Tamil", "Telugu", "Thai", "Tibetan", "Turkish", "Turkmen", "Ukrainian", "Urdu", "Uzbek", "Vietnamese", "Welsh", "Xhosa", "Yiddish", "Yoruba", "Zulu"
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -159,105 +150,6 @@
                 list.appendChild(opt);
             });
         });
-
-        /**
-         * Enhanced CSV Parser
-         * Detects separator (comma/semicolon) and handles quoted content
-         */
-        function parseCSV(text) {
-            // Remove UTF-8 BOM if present
-            const cleanText = text.replace(/^\uFEFF/, '');
-            const lines = cleanText.split(/\r?\n/).filter(line => line.trim() !== "");
-            if (lines.length === 0) return [];
-
-            // Detect separator (heuristic: check first line)
-            const firstLine = lines[0];
-            const separator = firstLine.includes(';') ? ';' : ',';
-
-            return lines.map(line => {
-                const result = [];
-                let current = '';
-                let inQuotes = false;
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    if (char === '"') {
-                        inQuotes = !inQuotes;
-                    } else if (char === separator && !inQuotes) {
-                        result.push(current.trim());
-                        current = '';
-                    } else {
-                        current += char;
-                    }
-                }
-                result.push(current.trim());
-                return result;
-            });
-        }
-
-        function handleImport(input) {
-            const file = input.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const rows = parseCSV(e.target.result);
-                
-                databaseMap = {};
-                allRequestorsGlobal = new Set();
-                let processedCount = 0;
-
-                rows.forEach((cols, i) => {
-                    if (i === 0) return; // Skip Header
-                    
-                    const accountVal = cols[0];
-                    const requestorVal = cols[1];
-                    
-                    if (accountVal) {
-                        if (!databaseMap[accountVal]) databaseMap[accountVal] = new Set();
-                        if (requestorVal) {
-                            databaseMap[accountVal].add(requestorVal);
-                            allRequestorsGlobal.add(requestorVal);
-                        }
-                        processedCount++;
-                    }
-                });
-
-                // Update Initial Suggestions
-                updateDatalist('accountList', Object.keys(databaseMap));
-                updateDatalist('requestorList', Array.from(allRequestorsGlobal));
-
-                const info = document.getElementById('import-info');
-                info.classList.remove('hidden');
-                info.innerHTML = `DATABASE SYNCED: ${processedCount} Rows Processed<br>${Object.keys(databaseMap).length} Accounts • ${allRequestorsGlobal.size} Requestors Active`;
-                
-                document.getElementById('load-status').innerText = "Intelligence Synchronized";
-            };
-            reader.readAsText(file);
-        }
-
-        /**
-         * Linked Intelligence: Filters requestors based on selected account
-         */
-        window.linkRequestors = () => {
-            const accVal = document.getElementById('accountInput').value.trim();
-            if (databaseMap[accVal]) {
-                // If known account, show only its requestors
-                updateDatalist('requestorList', Array.from(databaseMap[accVal]));
-            } else if (accVal === "") {
-                // If empty, show all available requestors
-                updateDatalist('requestorList', Array.from(allRequestorsGlobal));
-            }
-        };
-
-        function updateDatalist(id, data) {
-            const list = document.getElementById(id);
-            list.innerHTML = "";
-            data.sort().forEach(val => {
-                const opt = document.createElement('option');
-                opt.value = val;
-                list.appendChild(opt);
-            });
-        }
 
         window.setStatus = (btn, val) => {
             document.querySelectorAll('#statusOptions .status-pill').forEach(b => b.classList.remove('active'));
@@ -271,71 +163,74 @@
             const dlBtn = document.getElementById('downloadBtn');
 
             if (sessionData.length === 0) {
-                container.innerHTML = '<div class="glass-panel p-16 text-center opacity-20 text-[10px] uppercase tracking-widest">Awaiting local input or database sync</div>';
-                countLabel.innerText = "0 Entries";
+                container.innerHTML = '<div class="p-20 text-center opacity-10 text-[10px] uppercase tracking-widest font-black">Awaiting entry...</div>';
+                countLabel.innerHTML = "SESSION READY";
                 dlBtn.disabled = true;
                 return;
             }
 
             dlBtn.disabled = false;
-            countLabel.innerText = `${sessionData.length} Entries Logged`;
+            
+            // Stats Calculation
+            const stats = { success: 0, nsp: 0, nia: 0, test: 0, fail: 0 };
+            sessionData.forEach(e => {
+                if(e.status === 'Success') stats.success++;
+                else if(e.status === 'No Srv.') stats.nsp++;
+                else if(e.status === 'No Intp.') stats.nia++;
+                else if(e.status === 'Test') stats.test++;
+                else if(e.status === 'Fail') stats.fail++;
+            });
+
+            countLabel.innerHTML = `
+                <span class="text-green-400">${stats.success} SUCCESS</span>; 
+                <span class="text-amber-400">${stats.nsp} NSP</span>, 
+                <span class="text-amber-400">${stats.nia} NIA</span>, 
+                <span class="text-blue-400">${stats.test} TEST</span>, 
+                <span class="text-red-400">${stats.fail} FAIL</span>
+            `;
+
             container.innerHTML = "";
 
             sessionData.slice().reverse().forEach(entry => {
-                const card = document.createElement('div');
-                card.className = 'record-card';
+                const row = document.createElement('div');
+                row.className = 'ledger-row px-4';
                 
                 let colorClass = "text-gray-400";
                 if(entry.status === 'Success') colorClass = "text-green-400";
-                if(['Conn. Failure', 'No Interpreter'].includes(entry.status)) colorClass = "text-red-400";
-                if(['No Service', 'Test Call'].includes(entry.status)) colorClass = "text-amber-400";
+                if(['Fail', 'No Intp.'].includes(entry.status)) colorClass = "text-red-400";
+                if(['No Srv.', 'Test'].includes(entry.status)) colorClass = "text-amber-400";
 
-                card.innerHTML = `
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="text-[9px] font-black uppercase text-indigo-400 tracking-tighter">${entry.account}</span>
-                            <span class="text-[7px] bg-white/5 px-1.5 py-0.5 rounded text-gray-500 font-bold uppercase tracking-widest">${entry.language}</span>
-                        </div>
-                        <h4 class="text-sm font-bold tracking-tight text-white/90">${entry.requestor}</h4>
-                        <div class="flex items-center gap-2 mt-1.5">
-                             <span class="text-[8px] font-black uppercase ${colorClass}">${entry.status}</span>
-                             <span class="text-[7px] text-gray-700 font-bold">${new Date(entry.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                        </div>
+                row.innerHTML = `
+                    <span class="font-bold text-white/90 truncate pr-2">${entry.requestor}</span>
+                    <span class="text-indigo-300 font-medium truncate pr-2">${entry.language}</span>
+                    <span class="font-black uppercase text-[9px] ${colorClass}">${entry.status}</span>
+                    <div class="text-right">
+                        <button onclick="removeEntry('${entry.id}')" class="text-gray-800 hover:text-red-500 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        </button>
                     </div>
-                    <button onclick="removeEntry('${entry.id}')" class="p-1.5 text-gray-800 hover:text-red-500 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                    </button>
                 `;
-                container.appendChild(card);
+                container.appendChild(row);
             });
         }
 
         window.addEntry = () => {
-            const accInput = document.getElementById('accountInput');
             const reqInput = document.getElementById('requestorInput');
             const lanInput = document.getElementById('langInput');
-
-            const acc = accInput.value.trim();
             const req = reqInput.value.trim();
-            const lan = lanInput.value.trim() || "Unspecified";
+            const lan = lanInput.value.trim() || "N/A";
 
-            if(!acc || !req) return;
+            if(!req) return;
 
             sessionData.push({
                 id: Math.random().toString(36).substr(2, 9),
-                account: acc, requestor: req, language: lan,
+                requestor: req, language: lan,
                 status: currentStatus,
                 time: new Date().toISOString()
             });
 
-            // Clear Input
-            accInput.value = "";
             reqInput.value = "";
             lanInput.value = "";
-            
-            // Reset requestor suggestions to full list after clear
-            updateDatalist('requestorList', Array.from(allRequestorsGlobal));
-            
             renderLedger();
         };
 
@@ -346,16 +241,15 @@
 
         window.exportData = () => {
             if (sessionData.length === 0) return;
-            const headers = ["Account Name", "Requestor Name", "Language", "Status", "Timestamp"];
+            const headers = ["Requestor Name", "Language", "Status", "Timestamp"];
             const rows = sessionData.map(d => [
-                `"${d.account.replace(/"/g, '""')}"`,
                 `"${d.requestor.replace(/"/g, '""')}"`,
                 `"${d.language.replace(/"/g, '""')}"`,
                 `"${d.status}"`,
                 new Date(d.time).toLocaleString()
             ]);
-            const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const csv = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             link.download = `Translation_Log_${new Date().toISOString().split('T')[0]}.csv`;
