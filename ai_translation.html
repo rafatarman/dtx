@@ -76,7 +76,7 @@
                             <span class="text-indigo-400">Import DB</span> (Col A: Account, Col B: Requestor)
                         </p>
                     </div>
-                    <div id="import-info" class="hidden mt-2 text-[8px] font-black uppercase text-green-400 tracking-wider text-center"></div>
+                    <div id="import-info" class="hidden mt-2 text-[8px] font-black uppercase text-green-400 tracking-wider text-center leading-tight"></div>
                 </div>
 
                 <!-- COMPACT FORM -->
@@ -146,7 +146,7 @@
             "Danish", "Dari", "Dutch", "English (US)", "English (UK)", "Esperanto", "Estonian", "Filipino", "Finnish", "French", "Georgian", "German", "Greek", "Gujarati", 
             "Haitian Creole", "Hausa", "Hebrew", "Hindi", "Hmong", "Hungarian", "Icelandic", "Igbo", "Indonesian", "Irish", "Italian", "Japanese", "Javanese", "Kannada", "Kazakh", "Khmer", "Korean", "Kurdish", "Kyrgyz", 
             "Lao", "Latin", "Latvian", "Lithuanian", "Macedonian", "Malay", "Malayalam", "Maltese", "Maori", "Marathi", "Mongolian", "Nepali", "Norwegian", "Odia", "Pashto", "Persian", "Polish", "Portuguese", "Punjabi", "Rohingya", "Romanian", "Russian", "Samoan", "Sanskrit", "Serbian", "Shona", "Sindhi", "Sinhala", "Slovak", "Slovenian", "Somali", "Spanish", "Swahili", "Swedish", "Sylheti", 
-            "Tajik", "Tamil", "Tatar", "Telugu", "Thai", "Tibetan", "Turkish", "Turkmen", "Ukrainian", "Urdu", "Uyghur", "Uzbek", "Vietnamese", "Welsh", "Xhosa", "Yiddish", "Yoruba", "Zulu"
+            "Tajik", "Tamil", "Tatar", "Telugu", "Thai", "Tigrinya", "Tibetan", "Turkmen", "Tagalog", "Tswana", "Tonga", "Turkish", "Tsonga", "Tatar", "Twi", "Tahitian", "Uighur", "Ukrainian", "Urdu", "Uzbek", "Venda", "Vietnamese", "Volapük", "Walloon", "Welsh", "Wolof", "Xhosa", "Yakut", "Yiddish", "Yoruba", "Zaza", "Zhuang", "Zulu"
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -159,9 +159,7 @@
         });
 
         /**
-         * Updated Import Mapping:
-         * Column A (Index 0) -> Account Name
-         * Column B (Index 1) -> Requestor Name
+         * Updated Import Mapping with feedback on total file size
          */
         function handleImport(input) {
             const file = input.files[0];
@@ -170,19 +168,15 @@
             const reader = new FileReader();
             reader.onload = (e) => {
                 const text = e.target.result;
-                const rows = text.split(/\r?\n/);
+                const allRows = text.split(/\r?\n/).filter(r => r.trim() !== "");
+                const totalRows = allRows.length - 1; // Subtract 1 for header
                 const accounts = new Set();
                 const requestors = new Set();
 
-                rows.forEach((row, i) => {
-                    if (i === 0 || !row.trim()) return; // Skip header
-                    
+                allRows.forEach((row, i) => {
+                    if (i === 0) return; // Skip header
                     const cols = row.split(',').map(c => c.replace(/"/g, '').trim());
-                    
-                    // Column A mapping (Index 0)
                     if (cols[0]) accounts.add(cols[0]);
-                    
-                    // Column B mapping (Index 1)
                     if (cols[1]) requestors.add(cols[1]);
                 });
 
@@ -191,7 +185,8 @@
 
                 const info = document.getElementById('import-info');
                 info.classList.remove('hidden');
-                info.innerText = `Pre-loaded: ${accounts.size} Accounts / ${requestors.size} Requestors`;
+                // Displaying both total processed and unique suggestions
+                info.innerHTML = `File Loaded: ${totalRows} rows processed<br>Suggestions: ${accounts.size} Accounts / ${requestors.size} Requestors`;
             };
             reader.readAsText(file);
         }
@@ -284,7 +279,6 @@
 
         window.exportData = () => {
             if (sessionData.length === 0) return;
-            // Columns: A: Account, B: Requestor, C: Language, D: Status, E: Timestamp
             const headers = ["Account Name", "Requestor Name", "Language", "Status", "Timestamp"];
             const rows = sessionData.map(d => [
                 `"${d.account.replace(/"/g, '""')}"`,
