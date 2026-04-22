@@ -36,10 +36,10 @@
         .currency-item:focus-within { border-color: #6366f1; background: rgba(99, 102, 241, 0.1); }
         .currency-val-input { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; color: #818cf8; font-weight: 900; font-family: monospace; width: 100%; text-align: center; font-size: 1rem; outline: none; padding: 6px 0; }
 
-        /* Notepad Specific Styles */
-        .note-card { background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.1); border-radius: 16px; padding: 15px; margin-bottom: 10px; position: relative; animation: fadeIn 0.3s ease; }
-        .note-delete { position: absolute; top: 10px; right: 10px; opacity: 0.3; cursor: pointer; transition: 0.3s; color: #ef4444; }
-        .note-delete:hover { opacity: 1; transform: scale(1.1); }
+        /* Cloud Items */
+        .cloud-card { background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.1); border-radius: 16px; padding: 15px; margin-bottom: 10px; position: relative; animation: fadeIn 0.3s ease; }
+        .item-delete { position: absolute; top: 10px; right: 10px; opacity: 0.3; cursor: pointer; transition: 0.3s; color: #ef4444; }
+        .item-delete:hover { opacity: 1; transform: scale(1.1); }
         .user-id-badge { font-size: 8px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(99, 102, 241, 0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 8px; font-weight: 900; }
         .error-shield { color: #ef4444; border-color: #ef4444; background: rgba(239, 68, 68, 0.05); padding: 10px; border-radius: 12px; font-size: 10px; margin-top: 10px; }
 
@@ -53,21 +53,20 @@
         <header class="mb-12 text-center">
             <a href="index.html" class="back-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Back to Hub</a>
             <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-4 uppercase italic">Product Lab</h1>
-            <p class="text-gray-500 max-w-2xl mx-auto uppercase tracking-widest text-[10px] font-black">Strategic Innovations • Fixed & Real-time Cloud Persistent Tools</p>
+            <p class="text-gray-500 max-w-2xl mx-auto uppercase tracking-widest text-[10px] font-black">Strategic Innovations • Persistent Cloud Utility Ecosystem</p>
         </header>
 
         <div class="tab-container">
             <button class="tab-trigger active" data-category="all">All Ecosystem</button>
-            <button class="tab-trigger" data-category="innovation">Specialized Tools</button>
-            <button class="tab-trigger" data-category="saas">Enterprise SaaS</button>
-            <button class="tab-trigger" data-category="asset">Strategic Assets</button>
+            <button class="tab-trigger" data-category="innovation">Core Tools</button>
+            <button class="tab-trigger" data-category="cloud">Cloud Vaults</button>
         </div>
 
         <div class="product-grid space-y-12">
             <div class="filter-item product-card" data-type="innovation">
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
                     
-                    <!-- PRODUCT 01 -->
+                    <!-- PRODUCT 01: FARAYEZ -->
                     <div class="glass-panel p-8">
                         <span class="product-label">Product 01</span>
                         <span class="intel-tag">Sharia Engineering</span>
@@ -85,7 +84,7 @@
                         </div>
                     </div>
 
-                    <!-- PRODUCT 02 -->
+                    <!-- PRODUCT 02: CURRENCY -->
                     <div class="glass-panel p-8">
                         <span class="product-label">Product 02</span>
                         <span class="intel-tag">Currency Nexus</span>
@@ -106,18 +105,18 @@
                         </div>
                     </div>
 
-                    <!-- PRODUCT 03: SENTINEL NOTES -->
-                    <div class="glass-panel p-8">
+                    <!-- PRODUCT 03: LINK SAVER -->
+                    <div class="glass-panel p-8" data-type="cloud">
                         <span class="product-label">Product 03</span>
-                        <span class="intel-tag">Global Cloud Vault</span>
-                        <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter italic">Sentinel Notes</h2>
+                        <span class="intel-tag">Neural Link Vault</span>
+                        <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter italic">Global Bookmarks</h2>
                         <div class="space-y-4">
-                            <div id="user-display" class="text-[9px] text-indigo-400 font-black uppercase tracking-widest mb-2 opacity-50">Authenticating...</div>
-                            <textarea id="noteInput" class="calc-input h-32 text-sm" placeholder="Everyone can see notes in real-time..."></textarea>
-                            <button id="addNoteBtn" onclick="addNote()" class="calc-btn text-xs" disabled>Commit to Vault</button>
-                            <div id="note-error-box" class="hidden error-shield"></div>
-                            <div id="noteCanvas" class="mt-4 max-h-80 overflow-y-auto pr-2">
-                                <p class="text-[10px] text-gray-600 text-center uppercase tracking-widest mt-10">Initializing Connection...</p>
+                            <div id="link-user-display" class="text-[9px] text-indigo-400 font-black uppercase tracking-widest mb-2 opacity-50">Authenticating...</div>
+                            <input type="text" id="linkTitle" class="calc-input text-sm mb-2" placeholder="Resource Title">
+                            <input type="url" id="linkUrl" class="calc-input text-sm" placeholder="https://resource-url.com">
+                            <button id="addLinkBtn" onclick="addLink()" class="calc-btn text-xs" disabled>Save to Cloud</button>
+                            <div id="linkCanvas" class="mt-4 max-h-80 overflow-y-auto pr-2">
+                                <p class="text-[10px] text-gray-600 text-center uppercase tracking-widest mt-10">Connecting to Vault...</p>
                             </div>
                         </div>
                     </div>
@@ -126,21 +125,42 @@
             </div>
 
             <!-- OTHER PRODUCTS GRID -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="innovation">
-                    <div><span class="product-label">Product 04</span><span class="intel-tag">Flagship</span><h3 class="text-2xl font-black mb-4 uppercase">Obosor</h3><p class="text-gray-500 text-sm leading-relaxed">Innovation Grant winner (BIG-2019). Premium content ecosystem.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px]">Inquiry</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Details</a></div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- PRODUCT 04: SENTINEL PAD -->
+                <div class="filter-item product-card glass-panel p-8" data-type="cloud">
+                    <span class="product-label">Product 04</span>
+                    <span class="intel-tag">Sentinel Notepad</span>
+                    <h3 class="text-2xl font-black mb-6 uppercase italic">Quick Cloud Notes</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <textarea id="noteInput" class="calc-input h-48 text-sm" placeholder="Write thoughts here..."></textarea>
+                            <button id="addNoteBtn" onclick="addNote()" class="calc-btn text-xs" disabled>Commit Note</button>
+                        </div>
+                        <div id="noteCanvas" class="max-h-64 overflow-y-auto pr-2">
+                            <p class="text-[10px] text-gray-600 text-center uppercase tracking-widest mt-10">Initializing Notes...</p>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- PROJECT 05: PLACEHOLDER -->
                 <div class="filter-item product-card glass-panel p-8 flex flex-col justify-between" data-type="innovation">
-                    <div><span class="product-label">Product 05</span><span class="intel-tag">Machine Intel</span><h3 class="text-2xl font-black mb-4 uppercase">Neural Trans</h3><p class="text-gray-500 text-sm leading-relaxed">High-precision AI translation for academic integrity.</p></div>
-                    <div class="border-t border-white/5 pt-6 flex justify-between items-center"><span class="text-indigo-400 font-bold uppercase text-[10px]">v2.1</span><a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">API Key</a></div>
+                    <div>
+                        <span class="product-label">Product 05</span>
+                        <span class="intel-tag">Machine Intel</span>
+                        <h3 class="text-2xl font-black mb-4 uppercase">Neural Trans</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">High-precision AI translation for academic integrity and clinical documentation.</p>
+                    </div>
+                    <div class="border-t border-white/5 pt-6 flex justify-between items-center">
+                        <span class="text-indigo-400 font-bold uppercase text-[10px]">v2.1 Stable</span>
+                        <a href="https://wa.me/60135847289" class="text-xs font-black uppercase tracking-widest bg-white/5 p-2 px-4 rounded-lg hover:bg-indigo-500 transition">Request API</a>
+                    </div>
                 </div>
             </div>
         </div>
         <div id="global-footer"></div>
     </div>
 
-    <!-- FIREBASE MODULE (Product 03 Fixes) -->
+    <!-- FIREBASE MODULE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -162,7 +182,7 @@
                     await signInAnonymously(auth);
                 }
             } catch (err) {
-                showError("Vault Identity Failed. Refresh Page.");
+                console.error("Auth Failure");
             }
         };
         initAuth();
@@ -170,42 +190,33 @@
         onAuthStateChanged(auth, (u) => {
             user = u;
             if (user) {
-                document.getElementById('user-display').innerText = `IDENTIFIED: USER_${user.uid.substring(0, 6)}`;
+                document.getElementById('link-user-display').innerText = `SECURE IDENTITY: ${user.uid.substring(0, 8)}`;
                 document.getElementById('addNoteBtn').disabled = false;
+                document.getElementById('addLinkBtn').disabled = false;
                 setupRealtimeNotes();
+                setupRealtimeLinks();
             }
         });
 
-        function showError(msg) {
-            const box = document.getElementById('note-error-box');
-            box.innerText = msg;
-            box.classList.remove('hidden');
-            setTimeout(() => box.classList.add('hidden'), 5000);
-        }
-
+        // NOTEPAD LOGIC
         function setupRealtimeNotes() {
             const notesCol = collection(db, 'artifacts', appId, 'public', 'data', 'sentinel_notes');
-            
             onSnapshot(notesCol, (snapshot) => {
                 const noteCanvas = document.getElementById('noteCanvas');
-                noteCanvas.innerHTML = snapshot.empty ? '<p class="text-[10px] text-gray-600 text-center uppercase tracking-widest mt-10">Vault Empty</p>' : '';
-                
-                const notesList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+                noteCanvas.innerHTML = snapshot.empty ? '<p class="text-[10px] text-gray-700 text-center uppercase tracking-widest mt-10">Pad Empty</p>' : '';
+                const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
                     .sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
-
-                notesList.forEach((data) => {
+                list.forEach((data) => {
                     const isOwner = user && data.authorId === user.uid;
                     const card = document.createElement('div');
-                    card.className = 'note-card';
+                    card.className = 'cloud-card';
                     card.innerHTML = `
-                        ${isOwner ? `<svg onclick="window.deleteNoteGlobal('${data.id}')" class="note-delete" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>` : ''}
+                        ${isOwner ? `<svg onclick="window.deleteItem('sentinel_notes', '${data.id}')" class="item-delete" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>` : ''}
                         <p class="text-xs text-gray-300 leading-relaxed">${data.text}</p>
-                        <span class="user-id-badge">ID: ${data.authorId.substring(0, 4)}</span>
+                        <span class="user-id-badge">${data.authorId.substring(0, 4)}</span>
                     `;
                     noteCanvas.appendChild(card);
                 });
-            }, (error) => {
-                showError("Cloud Sync Interrupted.");
             });
         }
 
@@ -213,32 +224,59 @@
             const input = document.getElementById('noteInput');
             const text = input.value.trim();
             if (!text || !user) return;
-
             try {
-                const notesCol = collection(db, 'artifacts', appId, 'public', 'data', 'sentinel_notes');
-                await addDoc(notesCol, {
-                    text: text,
-                    authorId: user.uid,
-                    timestamp: serverTimestamp()
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sentinel_notes'), {
+                    text: text, authorId: user.uid, timestamp: serverTimestamp()
                 });
                 input.value = "";
-            } catch (e) {
-                showError("Write Access Denied.");
-            }
+            } catch (e) { console.error(e); }
         };
 
-        window.deleteNoteGlobal = async (docId) => {
+        // LINK SAVER LOGIC
+        function setupRealtimeLinks() {
+            const linksCol = collection(db, 'artifacts', appId, 'public', 'data', 'neural_links');
+            onSnapshot(linksCol, (snapshot) => {
+                const linkCanvas = document.getElementById('linkCanvas');
+                linkCanvas.innerHTML = snapshot.empty ? '<p class="text-[10px] text-gray-700 text-center uppercase tracking-widest mt-10">Vault Empty</p>' : '';
+                const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                list.forEach((data) => {
+                    const isOwner = user && data.authorId === user.uid;
+                    const card = document.createElement('div');
+                    card.className = 'cloud-card';
+                    card.innerHTML = `
+                        ${isOwner ? `<svg onclick="window.deleteItem('neural_links', '${data.id}')" class="item-delete" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>` : ''}
+                        <h4 class="text-xs font-bold text-indigo-400 mb-1 truncate">${data.title}</h4>
+                        <a href="${data.url}" target="_blank" class="text-[10px] text-gray-500 hover:text-white truncate block underline decoration-indigo-500/30">${data.url}</a>
+                    `;
+                    linkCanvas.appendChild(card);
+                });
+            });
+        }
+
+        window.addLink = async () => {
+            const titleInput = document.getElementById('linkTitle');
+            const urlInput = document.getElementById('linkUrl');
+            const title = titleInput.value.trim();
+            const url = urlInput.value.trim();
+            if (!url || !title || !user) return;
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'neural_links'), {
+                    title, url, authorId: user.uid, timestamp: serverTimestamp()
+                });
+                titleInput.value = ""; urlInput.value = "";
+            } catch (e) { console.error(e); }
+        };
+
+        window.deleteItem = async (colName, docId) => {
             if (!user) return;
             try {
-                const noteRef = doc(db, 'artifacts', appId, 'public', 'data', 'sentinel_notes', docId);
-                await deleteDoc(noteRef);
-            } catch (e) {
-                showError("Delete Denied: Source mismatch.");
-            }
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', colName, docId));
+            } catch (e) { console.error("Access Denied"); }
         };
     </script>
 
-    <!-- CURRENCY & FARAYEZ SCRIPT (Product 02 Fixes) -->
+    <!-- CALC SCRIPT (Keep existing 01 & 02) -->
     <script>
         let exchangeRates = null;
         let currentBdtValue = 1000;
@@ -259,42 +297,29 @@
         window.handleCurrencyInput = function(el, code) {
             const val = parseFloat(el.value) || 0;
             if(!exchangeRates) return;
-
             if(code === 'BDT') currentBdtValue = val;
             else currentBdtValue = val / exchangeRates[code];
-
-            if(code !== 'BDT') {
-                document.getElementById('bdtInput').value = currentBdtValue.toFixed(2);
-            }
-
+            if(code !== 'BDT') document.getElementById('bdtInput').value = currentBdtValue.toFixed(2);
             updateAllCurrencyFields(code, false);
         }
 
         function updateAllCurrencyFields(originCode, isFirstLoad) {
             if(!exchangeRates) return;
-            
             const primaryList = { 'USD': 'Dollar', 'MYR': 'Ringgit', 'GBP': 'Pound', 'EUR': 'Euro', 'SAR': 'Riyal', 'INR': 'Rupee' };
             const topTenList = { 'CAD': 'CA Dollar', 'JPY': 'Yen', 'AUD': 'AU Dollar', 'CNY': 'Yuan', 'CHF': 'Franc', 'TRY': 'Lira', 'AED': 'Dirham', 'SGD': 'SG Dollar' };
-
             const render = (list, targetId) => {
                 const target = document.getElementById(targetId);
                 if(isFirstLoad) target.innerHTML = ""; 
-
                 for (let code in list) {
                     const displayVal = (currentBdtValue * exchangeRates[code]).toFixed(2);
                     if(isFirstLoad) {
-                        target.innerHTML += `
-                            <div class="currency-item">
-                                <span class="text-[8px] text-gray-500 font-black mb-1 block">${code}</span>
-                                <input type="number" id="input-${code}" class="currency-val-input" value="${displayVal}" oninput="handleCurrencyInput(this, '${code}')">
-                            </div>`;
+                        target.innerHTML += `<div class="currency-item"><span class="text-[8px] text-gray-500 font-black mb-1 block">${code}</span><input type="number" id="input-${code}" class="currency-val-input" value="${displayVal}" oninput="handleCurrencyInput(this, '${code}')"></div>`;
                     } else if (code !== originCode) {
                         const input = document.getElementById(`input-${code}`);
                         if(input) input.value = displayVal;
                     }
                 }
             };
-
             render(primaryList, 'currencyResults');
             render(topTenList, 'topTenResults');
         }
@@ -312,8 +337,8 @@
             let residue = 1 - totalFixed;
             if (residue > 0 && heirs.son > 0) { const parts = (heirs.son * 2) + heirs.daughter; const unit = residue / parts; shares['Son'] = { p: unit * 2 * heirs.son, n: heirs.son }; if (heirs.daughter > 0) shares['Daughter'] = { p: unit * heirs.daughter, n: heirs.daughter }; }
             const view = document.getElementById('resultsView'); const target = document.getElementById('tableTarget');
-            view.classList.remove('hidden'); let html = `<table class="result-table text-[10px]"><tbody>`;
-            for (let k in shares) { const indP = (shares[k].p / shares[k].n); html += `<tr><td class="font-bold">${k}</td><td class="text-indigo-400">${(indP * 100).toFixed(1)}%</td></tr>`; }
+            view.classList.remove('hidden'); let html = `<table class="w-full text-[11px]"><tbody>`;
+            for (let k in shares) { const indP = (shares[k].p / shares[k].n); html += `<tr><td class="font-bold py-1">${k}</td><td class="text-indigo-400 text-right">${(indP * 100).toFixed(1)}%</td></tr>`; }
             html += `</tbody></table>`; target.innerHTML = html;
         }
         fetchRates();
