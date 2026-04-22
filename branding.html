@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branding Intelligence | MD RAFAT UDDIN ARMAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Link to the main global logic file -->
+    <script src="main.js" defer></script>
+    <style>
+        body { background-color: #000000; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        #animation-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        .content-layer { position: relative; z-index: 10; min-height: 100vh; }
+        
+        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+        
+        .back-btn { display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 10px 25px; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase; transition: all 0.3s ease; margin-bottom: 20px; }
+        .back-btn:hover { background: #6366f1; border-color: #6366f1; transform: scale(1.05); }
+
+        /* THE BIG ACTION BUTTON */
+        .analysis-cta {
+            background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+            padding: 30px;
+            border-radius: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .analysis-cta:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 30px 60px rgba(99, 102, 241, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .analysis-cta::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotateGlow 6s linear infinite;
+        }
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .drop-zone { border: 2px dashed rgba(99, 102, 241, 0.2); border-radius: 24px; padding: 60px; text-align: center; cursor: pointer; transition: 0.3s; background: rgba(99, 102, 241, 0.02); }
+        .drop-zone:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.05); }
+        .drop-zone.active { border-color: #22c55e; background: rgba(34, 197, 94, 0.05); }
+
+        .stat-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 16px; text-align: center; }
+        .stat-val { font-size: 2rem; font-weight: 900; color: #6366f1; line-height: 1; margin-bottom: 5px; }
+        .stat-label { font-size: 9px; font-weight: 900; color: #555; text-transform: uppercase; letter-spacing: 0.2em; }
+
+        .chart-container { position: relative; height: 300px; width: 100%; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th { text-align: left; padding: 12px; font-weight: 900; text-transform: uppercase; color: #6366f1; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        td { padding: 10px; color: #888; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        tr:hover td { color: #fff; background: rgba(255,255,255,0.01); }
+
+        .sync-status { font-size: 9px; color: #6366f1; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 900; display: flex; align-items: center; gap: 6px; }
+        .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div id="animation-container"></div>
+
+    <div class="content-layer max-w-7xl mx-auto py-10">
+        <header class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <a href="index.html" class="back-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Hub
+                </a>
+                <h1 class="text-4xl md:text-7xl font-black uppercase italic tracking-tighter">Branding Lab</h1>
+                <p class="text-gray-500 text-[10px] mt-2 tracking-[0.4em] font-black uppercase">Visual Identity Analytics • Structural Intelligence • Trend Visualization</p>
+            </div>
+            <div class="text-right">
+                <div class="sync-status">
+                    <div class="sync-dot"></div>
+                    <span>Intelligence Active</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- THE BIG ANALYSIS BUTTON -->
+        <section class="mb-10">
+            <div class="analysis-cta" onclick="toggleUpload()">
+                <span class="block text-[10px] font-black uppercase tracking-[0.5em] text-white/60 mb-2">Neural Diagnostic Tool</span>
+                <h2 class="text-2xl md:text-4xl font-black uppercase italic text-white tracking-tight">Analysis Your Data...</h2>
+            </div>
+        </section>
+
+        <!-- UPLOAD SECTION (Controlled by Button) -->
+        <section id="upload-panel" class="mb-12 hidden">
+            <div class="drop-zone" id="dropZone" onclick="document.getElementById('csvInput').click()">
+                <input type="file" id="csvInput" class="hidden" accept=".csv" onchange="handleFileSelect(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-4 text-indigo-500" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <h2 class="text-2xl font-black uppercase italic mb-2">Injest Brand Dataset</h2>
+                <p class="text-gray-500 text-sm max-w-md mx-auto">Drop your CSV file here to begin structural auditing. The engine will parse entity distributions and generate visual telemetry.</p>
+            </div>
+        </section>
+
+        <!-- DASHBOARD (Visible after data load) -->
+        <main id="dashboard" class="hidden space-y-8">
+            <!-- OVERVIEW STATS -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="stat-card">
+                    <div class="stat-val" id="row-count">0</div>
+                    <div class="stat-label">Total Records</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="col-count">0</div>
+                    <div class="stat-label">Data Fields</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="unique-count">0</div>
+                    <div class="stat-label">Unique Entities</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val text-green-400" id="health-score">100%</div>
+                    <div class="stat-label">System Health</div>
+                </div>
+            </div>
+
+            <!-- VISUALIZATION -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass-panel p-8">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400 mb-6">Entity Distribution Matrix</h3>
+                    <div class="chart-container">
+                        <canvas id="mainChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-8">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400 mb-6">Secondary Frequency Mapping</h3>
+                    <div class="chart-container">
+                        <canvas id="secondaryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAW DATA PREVIEW -->
+            <section class="glass-panel overflow-hidden">
+                <div class="p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400">Telemetry Feed (Top 50 Segments)</h3>
+                    <button onclick="location.reload()" class="text-[9px] font-black uppercase text-gray-500 hover:text-white transition">Clear Data Session</button>
+                </div>
+                <div class="overflow-x-auto max-h-[500px]">
+                    <table id="dataTable">
+                        <thead id="tableHead"></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <div id="global-footer"></div>
+    </div>
+
+    <!-- ANALYTICS ENGINE -->
+    <script>
+        let charts = {};
+
+        function toggleUpload() {
+            const panel = document.getElementById('upload-panel');
+            panel.classList.toggle('hidden');
+            if(!panel.classList.contains('hidden')) {
+                panel.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function handleFileSelect(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) { processData(e.target.result); };
+            reader.readAsText(file);
+        }
+
+        function parseCSV(text) {
+            const cleanText = text.replace(/^\uFEFF/, '');
+            const lines = cleanText.split(/\r?\n/).filter(line => line.trim() !== "");
+            if (lines.length === 0) return [];
+            const separator = lines[0].includes(';') ? ';' : ',';
+            return lines.map(line => {
+                const result = [];
+                let current = '';
+                let inQuotes = false;
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    if (char === '"') inQuotes = !inQuotes;
+                    else if (char === separator && !inQuotes) { result.push(current.trim()); current = ''; }
+                    else current += char;
+                }
+                result.push(current.trim());
+                return result;
+            });
+        }
+
+        function processData(csvText) {
+            const rows = parseCSV(csvText);
+            if (rows.length < 2) return;
+            const headers = rows[0];
+            const data = rows.slice(1);
+
+            document.getElementById('upload-panel').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+
+            document.getElementById('row-count').innerText = data.length.toLocaleString();
+            document.getElementById('col-count').innerText = headers.length;
+
+            let emptyCells = 0;
+            const uniqueSet = new Set();
+            data.forEach(row => { row.forEach(cell => { if (!cell) emptyCells++; else uniqueSet.add(cell); }); });
+
+            document.getElementById('unique-count').innerText = uniqueSet.size.toLocaleString();
+            const totalCells = data.length * headers.length;
+            const health = Math.round(((totalCells - emptyCells) / totalCells) * 100);
+            document.getElementById('health-score').innerText = `${health}%`;
+
+            renderTable(headers, data.slice(0, 50));
+            renderCharts(headers, data);
+        }
+
+        function renderTable(headers, previewRows) {
+            const head = document.getElementById('tableHead');
+            const body = document.getElementById('tableBody');
+            head.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+            body.innerHTML = previewRows.map(row => `<tr>${row.map(cell => `<td>${cell || '-'}</td>`).join('')}</tr>`).join('');
+        }
+
+        function getTopValues(data, colIndex, limit = 8) {
+            const counts = {};
+            data.forEach(row => { const val = row[colIndex]; if (val) counts[val] = (counts[val] || 0) + 1; });
+            return Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, limit);
+        }
+
+        function renderCharts(headers, data) {
+            const topA = getTopValues(data, 0);
+            createChart('mainChart', topA.map(x => x[0]), topA.map(x => x[1]), headers[0]);
+            if (headers.length > 1) {
+                const topB = getTopValues(data, 1);
+                createChart('secondaryChart', topB.map(x => x[0]), topB.map(x => x[1]), headers[1]);
+            }
+        }
+
+        function createChart(canvasId, labels, values, label) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            if (charts[canvasId]) charts[canvasId].destroy();
+            charts[canvasId] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        data: values,
+                        backgroundColor: 'rgba(99, 102, 241, 0.4)',
+                        borderColor: '#6366f1',
+                        borderWidth: 2,
+                        borderRadius: 12
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#555' } },
+                        x: { grid: { display: false }, ticks: { color: '#888' } }
+                    }
+                }
+            });
+        }
+
+        const zone = document.getElementById('dropZone');
+        ['dragenter', 'dragover'].forEach(e => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.add('active'); }));
+        ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, (ev) => {
+            ev.preventDefault(); zone.classList.remove('active');
+            if (e === 'drop') {
+                const file = ev.dataTransfer.files[0];
+                if (file && file.name.endsWith('.csv')) handleFileSelect({ files: [file] });
+            }
+        }));
+    </script>
+</body>
+</html>
