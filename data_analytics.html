@@ -16,13 +16,13 @@
             --glass-bg: rgba(255, 255, 255, 0.5);
             --glass-border: rgba(255, 255, 255, 0.9);
             
-            --primary: #0f172a;      /* Deep Navy */
-            --secondary: #0d9488;    /* Surgical Teal */
-            --accent: #e11d48;       /* Emergency Crimson */
+            --primary: #0f172a;      
+            --secondary: #0d9488;    
+            --accent: #e11d48;       
             --text-main: #1e293b;
             --text-muted: #64748b;
             
-            --f-xl: clamp(32px, 5vw, 44px);    
+            --f-xl: clamp(28px, 4.5vw, 40px);    
             --f-lg: clamp(24px, 3vw, 32px);    
         }
 
@@ -120,6 +120,13 @@
         
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
+
+        .lady-icon {
+            font-size: 320px;
+            color: var(--primary);
+            opacity: 0.95;
+            transition: 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -134,7 +141,7 @@
         <div class="page-view active" id="p1" style="justify-content: center; align-items: center; text-align: center;">
             <div style="max-width: 1000px;">
                 <span class="section-tag" style="color: var(--secondary);">Masters Research Proposal Defense</span>
-                <h1 style="font-family: 'Space Grotesk'; font-size: 38px; font-weight: 800; line-height: 1.1; margin: 15px 0; color: var(--primary); text-transform: uppercase;">AN ENHANCED HUMAN-CENTERED UI/UX FRAMEWORK FOR DESIGNING EMERGENCY HEALTH CARD INTERFACES TO IMPROVE USER SATISFACTION IN BANGLADESH</h1>
+                <h1 style="font-family: 'Space Grotesk'; font-size: 36px; font-weight: 800; line-height: 1.1; margin: 20px 0; color: var(--primary); text-transform: uppercase;">AN ENHANCED HUMAN-CENTERED UI/UX FRAMEWORK FOR DESIGNING EMERGENCY HEALTH CARD INTERFACES TO IMPROVE USER SATISFACTION IN BANGLADESH</h1>
                 <div class="grid-2" style="margin-top: 40px; text-align: left;">
                     <div class="glass-card" style="border-left: 6px solid var(--secondary);">
                         <p style="font-weight: 800; font-size: 22px;">MD RAFAT UDDIN ARMAN</p>
@@ -256,7 +263,7 @@
             </div>
         </div>
 
-        <!-- 1.4 RO & 1.5 RQ -->
+        <!-- 1.4 RO & 1.5 RQ (SEPARATED) -->
         <div class="page-view" id="p7">
             <span class="section-tag">1.4 Research Objectives</span>
             <h2 class="slide-header">Objectives (RO)</h2>
@@ -286,7 +293,7 @@
             </div>
         </div>
 
-        <!-- 1.6 ELDERLY (BIG ICON) -->
+        <!-- 1.6 ELDERLY (EXTRA BIG ICON) -->
         <div class="page-view" id="p9">
             <span class="section-tag">1.6 Inclusion</span>
             <h2 class="slide-header">Empowering the Elderly</h2>
@@ -305,8 +312,8 @@
                         <div><b style="font-size:14px;">Assisted Navigation</b><p style="font-size:12px; color:var(--text-muted);">Simplified flows for motor-control decline.</p></div>
                     </div>
                 </div>
-                <div class="glass-card flex flex-col justify-center items-center text-center p-12" style="background: #f1f5f9; min-height: 400px;">
-                    <i class="fa-solid fa-person-cane text-[240px] text-slate-900 mb-8" style="opacity: 0.9;"></i>
+                <div class="glass-card flex flex-col justify-center items-center text-center p-12" style="background: #f1f5f9; min-height: 500px;">
+                    <i class="fa-solid fa-person-cane lady-icon"></i>
                     <h3 style="font-size: 32px; font-weight: 800; color:var(--primary); font-family:'Space Grotesk';">Accessible by Default</h3>
                     <p style="font-size: 13px; margin-top: 10px; opacity: 0.6; text-transform: uppercase; font-weight: 600;">Universal Design for Human Life</p>
                 </div>
@@ -389,7 +396,7 @@
             <div class="chapter-title">METHODOLOGY</div>
         </div>
 
-        <!-- 3.1 PILOT DATA -->
+        <!-- 3.1 PILOT DATA (VISUAL) -->
         <div class="page-view" id="p15">
             <span class="section-tag">3.1 Pilot Data (N=120)</span>
             <h2 class="slide-header">Survey Findings & Readiness</h2>
@@ -399,7 +406,7 @@
                 <div class="stat-box" style="border-color: var(--accent);"><div class="stat-val" style="color:var(--accent)">65%</div><div class="stat-label">Icon Confusion</div></div>
             </div>
             <div class="glass-card success-card mt-6">
-                <p style="font-size: 14px;"><b>Conclusion:</b> 78% of users are willing to adopt EHC if <b>Trust</b> and <b>Clarity</b> are addressed via Human-Centered Design.</p>
+                <p style="font-size: 14px;"><b>Strategic Conclusion:</b> 78% of users are willing to adopt EHC if <b>Trust</b> and <b>Clarity</b> are addressed via Human-Centered Design.</p>
             </div>
         </div>
 
@@ -426,7 +433,7 @@
             <span class="section-tag">3.3 Research Process</span>
             <h2 class="slide-header">Iterative Framework Development</h2>
             <div class="grid-3" style="align-items: stretch;">
-                <div class="glass-card" style="border-top: 4px solid var(--primary);">
+                <div class="glass-card" style="border-top: 4px solid #0f172a;">
                     <span class="phase-header">Phase 01: Analysis</span>
                     <p style="font-size: 10px; margin-top: 10px;">Review EHR gaps and context inquiry of Golden Hour workflows.</p>
                     <span style="font-size: 9px; font-weight: 800; color: var(--accent); margin-top: 15px; display: block; text-transform: uppercase;">Addresses Time & Trust</span>
@@ -448,7 +455,7 @@
             </div>
         </div>
 
-        <!-- 3.4 CORE RESEARCH MATRIX -->
+        <!-- 3.4 SUMMARY MATRIX -->
         <div class="page-view" id="p18">
             <span class="section-tag">3.4 Summary</span>
             <h2 class="slide-header">Core Research Matrix</h2>
@@ -483,7 +490,7 @@
 
         <!-- 3.5 TIMELINE -->
         <div class="page-view" id="p19">
-            <span class="section-tag">3.5 Lifecycle</span>
+            <span class="section-tag">3.5 Timeline</span>
             <h2 class="slide-header">18-Month Research Plan</h2>
             <table>
                 <thead><tr><th width="30%">Timeline</th><th>Critical Milestone</th></tr></thead>
@@ -497,21 +504,30 @@
             </table>
         </div>
 
-        <!-- REFERENCES -->
+        <!-- REFERENCES (ALL SOURCES) -->
         <div class="page-view" id="p20">
             <span class="section-tag">Bibliography</span>
-            <h2 class="slide-header">Key References</h2>
-            <ul style="font-size: 11px; color: var(--text-muted); line-height: 2.2; margin-left: 20px;">
+            <h2 class="slide-header">References</h2>
+            <ul style="font-size: 11px; color: var(--text-muted); line-height: 2.1; margin-left: 20px;">
+                <li><b>Ahmed et al. (2026).</b> Universal Health Coverage and Digital Anchors. <i>IJQSHW</i>.</li>
+                <li><b>Amouzadeh et al. (2025).</b> Age-friendly HCD interaction heuristics. <i>Journal of Inclusion</i>.</li>
+                <li><b>Arslan et al. (2025).</b> Visual Triage Dashboard for Clinicians. <i>SHTI</i>.</li>
+                <li><b>Biswas et al. (2022).</b> Smartphone Medical Assistance for Older Adults. <i>IJRIAS</i>.</li>
                 <li><b>EU (2018).</b> General Data Protection Regulation (GDPR). <i>Official Journal of the EU</i>.</li>
-                <li><b>WHO (2020).</b> Global Strategy on Digital Health 2020–2025. <i>Geneva: WHO Publishing</i>.</li>
-                <li><b>Norman, D. (2013).</b> The Design of Everyday Things. <i>Basic Books</i>.</li>
+                <li><b>Hasan et al. (2024).</b> Offline portability & local encryption for Rural Groups. <i>TechHealth</i>.</li>
+                <li><b>Hoque (2017).</b> mHealth adoption in Bangladesh: A structural equation modeling. <i>BMC Med. Inf.</i></li>
+                <li><b>Islam et al. (2024).</b> Public Perceptions of E-Health services in South Asia. <i>SAHR</i>.</li>
                 <li><b>ISO/IEC 9241-210 (2019).</b> Ergonomics — HCD for interactive systems.</li>
+                <li><b>Norman (2013).</b> The Design of Everyday Things. <i>Basic Books</i>.</li>
                 <li><b>NXP (2023).</b> Secure Smart Card ICs for Digital Health. <i>Whitepaper</i>.</li>
+                <li><b>Palas et al. (2022).</b> UTAUT2 UI Optimization for mHealth Adoption. <i>HCI Review</i>.</li>
+                <li><b>Sun (2025).</b> Unified sync framework for Developing Nations. <i>Global ICT</i>.</li>
+                <li><b>WHO (2020).</b> Global Strategy on Digital Health 2020–2025. <i>Geneva</i>.</li>
                 <li><b>World Bank (2022).</b> Digital Transformation for Health: Emerging economies.</li>
             </ul>
         </div>
 
-        <!-- FINAL: THANK YOU -->
+        <!-- SLIDE 21: THANK YOU -->
         <div class="page-view chapter-cover" id="p21">
             <h1 style="font-size: 80px; font-family: 'Space Grotesk'; font-weight: 800; letter-spacing: -2px; color: var(--secondary);">Thank You</h1>
             <div style="margin-top: 60px; text-align: center;">
@@ -545,7 +561,7 @@
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                    console.error(`Error full-screen mode: ${err.message}`);
                 });
             } else {
                 if (document.exitFullscreen) {
@@ -558,14 +574,10 @@
             const btn = document.getElementById('fsBtn');
             if (document.fullscreenElement) {
                 btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
-                btn.title = "Exit Fullscreen (F)";
             } else {
                 btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
-                btn.title = "Fullscreen (F)";
             }
         });
-
-        function goToPage(n) { current = n - 1; update(); }
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') next();
