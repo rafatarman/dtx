@@ -73,8 +73,6 @@
             align-items: flex-start; 
             gap: 25px; 
             overflow-y: auto;
-            transform-origin: center top;
-            transition: transform 0.3s ease;
         }
         .page-view.active { display: flex; animation: slideIn 0.5s ease-out; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -114,7 +112,7 @@
             background: #fff; border: 1px solid #e2e8f0;
             width: 45px; height: 45px; border-radius: 12px; cursor: pointer;
             display: grid; place-items: center; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #0f172a;
         }
         .nav-btn:hover { background: var(--secondary); color: #fff; transform: translateY(-3px); border-color: var(--secondary); }
 
@@ -525,8 +523,7 @@
 
         <!-- NAVIGATION CONTROLS -->
         <div class="nav-dock">
-            <button class="nav-btn" onclick="changeZoom(-0.1)" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-            <button class="nav-btn" onclick="changeZoom(0.1)" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+            <button class="nav-btn" id="fsBtn" onclick="toggleFullscreen()" title="Fullscreen (F)"><i class="fa-solid fa-expand"></i></button>
             <button class="nav-btn" onclick="prev()"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="nav-btn" onclick="next()"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
@@ -534,7 +531,6 @@
 
     <script>
         let current = 0;
-        let zoomLevel = 1;
         const slides = document.querySelectorAll('.page-view');
         const fill = document.getElementById('progress-fill');
 
@@ -546,20 +542,35 @@
         function next() { if (current < slides.length - 1) { current++; update(); } }
         function prev() { if (current > 0) { current--; update(); } }
 
-        function changeZoom(delta) {
-            zoomLevel = Math.max(0.5, Math.min(2, zoomLevel + delta));
-            slides.forEach(slide => {
-                slide.style.transform = `scale(${zoomLevel})`;
-            });
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
         }
+
+        document.addEventListener('fullscreenchange', () => {
+            const btn = document.getElementById('fsBtn');
+            if (document.fullscreenElement) {
+                btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+                btn.title = "Exit Fullscreen (F)";
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+                btn.title = "Fullscreen (F)";
+            }
+        });
 
         function goToPage(n) { current = n - 1; update(); }
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') next();
             if (e.key === 'ArrowLeft') prev();
-            if (e.key === '=' || e.key === '+') changeZoom(0.1);
-            if (e.key === '-' || e.key === '_') changeZoom(-0.1);
+            if (e.key.toLowerCase() === 'f') toggleFullscreen();
         });
         
         update();
