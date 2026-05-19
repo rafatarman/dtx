@@ -3,256 +3,1242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safiyya Khanwalli | Luxury Real Estate Concept</title>
+    <title>Sonar Bangla Livelihood Assessment & Budget Planner</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
-    <!-- Integration with the Ecosystem Brain -->
-    <script src="main.js" defer></script>
+    <!-- Google Fonts: Inter and Hind Siliguri (for clean Bengali text) -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Bangladesh-themed and utility icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root {
-            --primary-bg: #fdfcfb;
-            --text-main: #1c1917;
-            --accent-gold: #b45309; /* Deep Warm Amber/Gold */
-            --stone-muted: #78716c;
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
         }
-
-        body { 
-            background-color: var(--primary-bg); 
-            color: var(--text-main); 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            overflow-x: hidden; 
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.5);
         }
-
-        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
-
-        /* Slider Engine */
-        .slider-container {
-            position: relative;
-            height: 80vh;
-            width: 100%;
-            overflow: hidden;
-            background: #111;
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
         }
-        .slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out, transform 8s linear;
-            background-size: cover;
-            background-position: center;
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
-        .slide.active { opacity: 1; transform: scale(1.1); }
-        
-        .slider-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, var(--primary-bg) 100%);
-            z-index: 5;
+        ::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 4px;
         }
-
-        /* UI Components */
-        .nav-link { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; color: var(--stone-muted); transition: 0.3s; }
-        .nav-link:hover { color: var(--accent-gold); }
-
-        .property-card { 
-            background: #fff; 
-            border: 1px solid #e7e5e4; 
-            border-radius: 4px; 
-            overflow: hidden; 
-            transition: all 0.4s ease;
-        }
-        .property-card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            border-color: var(--accent-gold);
-        }
-        .property-img { height: 350px; background-color: #f5f5f4; background-size: cover; background-position: center; transition: 0.6s; }
-        
-        .blog-card {
-            padding: 30px;
-            border-bottom: 1px solid #e7e5e4;
-            transition: 0.3s;
-        }
-        .blog-card:hover { background: #f5f5f4; }
-
-        .gold-btn {
-            background: var(--accent-gold);
-            color: white;
-            padding: 18px 40px;
-            font-size: 11px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            border-radius: 2px;
-            transition: 0.3s;
-        }
-        .gold-btn:hover { background: #92400e; box-shadow: 0 10px 20px rgba(180, 83, 9, 0.2); }
-
-        .back-hub { position: fixed; bottom: 30px; left: 30px; z-index: 100; background: #000; color: #fff; padding: 10px 20px; border-radius: 100px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; opacity: 0.5; transition: 0.3s; }
-        .back-hub:hover { opacity: 1; transform: scale(1.05); }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeIn 1s ease forwards; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col transition-all duration-300">
 
-    <!-- Back to Ecosystem Anchor -->
-    <a href="index.html" class="back-hub">Hub Return</a>
+    <!-- Top Decorative Bangladesh Flag Stripe -->
+    <div class="h-2 w-full bg-gradient-to-r from-emerald-600 via-red-600 to-emerald-600"></div>
 
-    <div class="content-layer">
+    <!-- Onboarding / Welcome Splash Screen -->
+    <div id="onboardingScreen" class="fixed inset-0 z-50 bg-gradient-to-tr from-emerald-900 via-teal-900 to-slate-900 flex items-center justify-center p-4">
+        <div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
         
-        <!-- HEADER NAVIGATION -->
-        <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 px-8 py-6 flex justify-between items-center">
-            <div class="flex flex-col">
-                <span class="text-2xl font-black uppercase tracking-tighter serif">Safiyya <span class="text-amber-700">Khanwalli</span></span>
-                <span class="text-[8px] text-stone-400 font-bold uppercase tracking-[0.4em]">Strategic Real Estate Advisory</span>
-            </div>
-            <div class="hidden md:flex gap-10">
-                <a href="#about" class="nav-link">The Advisor</a>
-                <a href="#listings" class="nav-link">Portfolios</a>
-                <a href="#blog" class="nav-link">Insights</a>
-                <a href="#" class="nav-link text-amber-700">Contact</a>
-            </div>
-        </nav>
-
-        <!-- HERO SLIDER SECTION -->
-        <section class="slider-container">
-            <div class="slider-overlay"></div>
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-10 max-w-lg w-full shadow-2xl border border-white/20 text-center space-y-6 relative overflow-hidden">
+            <!-- Decorative circle -->
+            <div class="absolute -right-10 -top-10 w-32 h-32 bg-emerald-500/10 rounded-full"></div>
             
-            <!-- Slide 1 -->
-            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6199f7d009?q=80&w=2070&auto=format&fit=crop');"></div>
-            <!-- Slide 2 -->
-            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1600607687940-c52fb0a2a99b?q=80&w=2070&auto=format&fit=crop');"></div>
-            <!-- Slide 3 -->
-            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1974&auto=format&fit=crop');"></div>
-
-            <div class="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
-                <span class="text-white text-xs font-black uppercase tracking-[0.6em] mb-4 fade-in">Exclusive Portfolio 2026</span>
-                <h1 class="text-white text-6xl md:text-8xl font-bold mb-8 serif italic drop-shadow-2xl">Refined Living<br>Awaits</h1>
-                <a href="#listings" class="gold-btn">Explore Estates</a>
-            </div>
-        </section>
-
-        <!-- PERSONAL BRAND INTRODUCTION -->
-        <section id="about" class="max-w-4xl mx-auto py-32 px-8 text-center">
-            <span class="text-amber-700 text-[10px] font-black uppercase tracking-widest block mb-6 italic">The Mission</span>
-            <h2 class="text-4xl md:text-5xl font-bold mb-10 serif">Guiding you to a home that mirrors your personal evolution.</h2>
-            <p class="text-stone-500 text-lg leading-relaxed font-light">
-                Safiyya Khanwalli provides more than transaction management. She offers a specialized lens into luxury markets, combining analytical data with an intuitive understanding of architectural soul. Every property is selected to fulfill a higher standard of living.
-            </p>
-        </section>
-
-        <!-- LISTINGS GRID -->
-        <section id="listings" class="bg-stone-50 py-32">
-            <div class="max-w-7xl mx-auto px-8">
-                <div class="flex justify-between items-end mb-16">
-                    <div>
-                        <h2 class="text-4xl font-bold serif">Signature Collections</h2>
-                        <div class="w-20 h-1 bg-amber-700 mt-4"></div>
-                    </div>
-                    <p class="text-stone-400 text-xs font-bold uppercase tracking-widest">Active Inventory: $14.2M</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <!-- Property 1 -->
-                    <div class="property-card">
-                        <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071&auto=format&fit=crop');"></div>
-                        <div class="p-10">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-2xl font-bold serif">The Marrow Estate</h3>
-                                <span class="text-amber-800 font-black">$6,200,000</span>
-                            </div>
-                            <p class="text-stone-500 text-sm leading-relaxed mb-8">A sanctuary of glass and cedar nestled in the hills of Bel Air. Uninterrupted views meet cutting-edge smart home automation.</p>
-                            <div class="flex gap-6 text-[9px] font-black uppercase text-stone-400 border-t border-stone-100 pt-6">
-                                <span>8,200 SQFT</span>
-                                <span>6 BEDS</span>
-                                <span>8 BATHS</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Property 2 -->
-                    <div class="property-card">
-                        <div class="property-img" style="background-image: url('https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?q=80&w=2070&auto=format&fit=crop');"></div>
-                        <div class="p-10">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-2xl font-bold serif">Luxe Urban Penthouse</h3>
-                                <span class="text-amber-800 font-black">$3,850,000</span>
-                            </div>
-                            <p class="text-stone-500 text-sm leading-relaxed mb-8">Redefining high-rise living with a 360-degree skyline terrace. High-fidelity finishes and private elevator access.</p>
-                            <div class="flex gap-6 text-[9px] font-black uppercase text-stone-400 border-t border-stone-100 pt-6">
-                                <span>4,500 SQFT</span>
-                                <span>3 BEDS</span>
-                                <span>4 BATHS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- THE BLOG (SPIRITUAL & SOCIAL INSIGHTS) -->
-        <section id="blog" class="max-w-5xl mx-auto py-32 px-8">
-            <div class="text-center mb-20">
-                <h2 class="text-5xl font-bold serif italic mb-4">Lifestyle Intelligence</h2>
-                <p class="text-stone-400 text-[10px] font-black uppercase tracking-[0.4em]">Thoughts on Living, Growth & Connection</p>
-            </div>
-
-            <div class="divide-y divide-stone-100">
-                <!-- Post 1 -->
-                <article class="blog-card flex flex-col md:flex-row gap-10 items-center">
-                    <div class="w-full md:w-1/3 aspect-video bg-stone-100 rounded" style="background-image: url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=2067&auto=format&fit=crop'); background-size: cover;"></div>
-                    <div class="flex-1">
-                        <span class="text-[9px] text-amber-700 font-black uppercase mb-3 block">Perspective • 01</span>
-                        <h3 class="text-2xl font-bold serif mb-4">The Spiritual Geometry of Space</h3>
-                        <p class="text-stone-500 text-sm leading-relaxed">Exploring how natural light and open floor plans influence mental clarity and internal peace. Why your home is the primary canvas of your soul.</p>
-                    </div>
-                </article>
-
-                <!-- Post 2 -->
-                <article class="blog-card flex flex-col md:flex-row gap-10 items-center">
-                    <div class="w-full md:w-1/3 aspect-video bg-stone-100 rounded" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop'); background-size: cover;"></div>
-                    <div class="flex-1">
-                        <span class="text-[9px] text-amber-700 font-black uppercase mb-3 block">Society • 02</span>
-                        <h3 class="text-2xl font-bold serif mb-4">Redefining the Modern Neighborhood</h3>
-                        <p class="text-stone-500 text-sm leading-relaxed">In an age of digital isolation, Safiyya analyzes how architecture can foster genuine human connection and shared social responsibility.</p>
-                    </div>
-                </article>
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-800 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-scale-balanced text-3xl"></i>
             </div>
             
-            <div class="mt-16 text-center">
-                <a href="#" class="text-xs font-black uppercase tracking-widest text-stone-400 hover:text-amber-700 transition">View Full Insights Archive &rarr;</a>
+            <div class="space-y-2">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 leading-tight">
+                    Sonar Bangla
+                </h2>
+                <p class="text-xs md:text-sm text-emerald-800 font-semibold uppercase tracking-wider">
+                    Socio-Economic Analyzer & Budget Planner
+                </p>
+                <p class="text-slate-500 text-xs md:text-sm">
+                    Analyze monthly earnings, build your personalized living budget, and calculate estimated Bangladesh taxable values.
+                </p>
             </div>
-        </section>
-
-        <!-- CTA SECTION -->
-        <section class="bg-stone-900 py-32 px-8 text-center text-white">
-            <h2 class="text-5xl font-bold serif italic mb-8">The Journey Begins with a Dialogue.</h2>
-            <p class="text-stone-400 max-w-2xl mx-auto mb-12 text-lg font-light">Available for private consultancy and portfolio management. Experience real estate through the lens of excellence.</p>
-            <div class="flex flex-wrap justify-center gap-6">
-                <a href="#" class="gold-btn">Inquire Privately</a>
-                <a href="https://www.homes.com/real-estate-agents/safiyya-khanwalli/2x9vd6c/" target="_blank" class="border border-white/20 px-10 py-4 font-black uppercase text-xs hover:bg-white/10 transition">Homes.com Profile</a>
+            
+            <!-- Welcome Name Form -->
+            <div class="space-y-4 pt-2">
+                <div class="text-left">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 ml-1">What is your Name? (আপনার নাম লিখুন)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                        <input type="text" id="userNameInput" placeholder="Enter your name" class="w-full pl-10 pr-4 py-3.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 font-semibold outline-none text-slate-850">
+                    </div>
+                </div>
+                
+                <button onclick="submitOnboarding()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition-all duration-200 shadow-md flex items-center justify-center space-x-2">
+                    <span>Proceed to Assessment</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
-        </section>
-
-        <!-- Footer Targeted for main.js injection -->
-        <div id="global-footer"></div>
+        </div>
     </div>
 
-    <script>
-        // Hero Slider Logic
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 w-full glass-panel shadow-sm border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="flex items-center space-x-1 text-slate-500 hover:text-emerald-600 transition-colors text-xs font-bold mr-2">
+                    <i class="fa-solid fa-arrow-left"></i> <span>Hub</span>
+                </a>
+                <div class="w-10 h-10 bg-emerald-600 rounded-full flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-chart-pie text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg md:text-xl text-emerald-800 tracking-tight leading-none flex items-center gap-1.5">
+                        Sonar Bangla
+                    </h1>
+                    <span class="text-[10px] md:text-xs text-slate-500 font-medium tracking-wide uppercase" id="navSubtitle">
+                        Class-Based Income Evaluator
+                    </span>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- User Greeting Badge -->
+                <span id="userBadge" class="hidden md:inline-flex items-center bg-emerald-50 text-emerald-800 text-xs px-3 py-1.5 rounded-lg border border-emerald-100 font-semibold">
+                    <i class="fa-solid fa-user-check mr-1.5"></i> <span id="helloUserName">Guest</span>
+                </span>
+                
+                <!-- Language Switcher -->
+                <button id="langToggleBtn" onclick="toggleLanguage()" class="flex items-center space-x-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold border border-emerald-200 transition-all duration-200 shadow-sm">
+                    <i class="fa-solid fa-language text-base"></i>
+                    <span id="langBtnText">বাংলায় দেখুন</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6 md:py-10">
         
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+        <!-- Welcome personalized banner -->
+        <div class="bg-gradient-to-r from-emerald-800 to-teal-900 rounded-2xl p-6 md:p-8 text-white shadow-xl mb-8 relative overflow-hidden">
+            <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-y-6 translate-x-6">
+                <i class="fa-solid fa-building-columns text-[180px]"></i>
+            </div>
+            <div class="relative z-10 max-w-2xl">
+                <span class="bg-emerald-500/30 text-emerald-200 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider border border-emerald-500/20" id="badgeText">
+                    Empowering Bangladeshi Livelihoods
+                </span>
+                <h2 class="text-2xl md:text-4xl font-extrabold mt-3 leading-tight" id="mainTitle">
+                    Assalamu Alaikum, <span id="greetingUserName">Learner</span>!
+                </h2>
+                <p class="text-sm md:text-base text-emerald-100 mt-2 leading-relaxed font-light" id="mainDesc">
+                    Select a social class bracket, adjust your exact monthly income, and evaluate your national standing. Build an interactive budget and calculate standard tax exemptions easily.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Panel: User Input and Selection (6 Cols) -->
+            <div class="lg:col-span-6 space-y-6">
+                
+                <!-- Step 1: Earning Classes -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-150">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm">1</span>
+                        <h3 class="font-bold text-slate-800 text-lg" id="step1Title">Select Estimated Class Baseline</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-4" id="step1Desc">
+                        Choose a class structure below to pre-fill standard monthly income defaults for evaluation, or type your income directly in Step 2.
+                    </p>
+                    
+                    <!-- 5 Clean Classes directly visible -->
+                    <div class="space-y-3" id="classesSelectionContainer">
+                        <!-- Class 1 -->
+                        <div onclick="selectClass(1, 12000)" id="classCard-1" class="p-3.5 rounded-xl border-2 border-slate-150 bg-white cursor-pointer hover:border-emerald-300 transition-all duration-200 flex justify-between items-center group">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center">
+                                    <i class="fa-solid fa-coins"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-slate-800 text-sm md:text-base" id="c1Title">Class 1: Basic Earning Class</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-400" id="c1Sub">Basic survival threshold metrics</p>
+                                </div>
+                            </div>
+                            <span class="text-xs md:text-sm font-extrabold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg group-hover:bg-emerald-50 group-hover:text-emerald-700 transition-colors">
+                                ৳ 12,000
+                            </span>
+                        </div>
+
+                        <!-- Class 2 -->
+                        <div onclick="selectClass(2, 25000)" id="classCard-2" class="p-3.5 rounded-xl border-2 border-slate-150 bg-white cursor-pointer hover:border-emerald-300 transition-all duration-200 flex justify-between items-center group">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-slate-800 text-sm md:text-base" id="c2Title">Class 2: Lower-Middle Class</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-400" id="c2Sub">Establishing stability and goals</p>
+                                </div>
+                            </div>
+                            <span class="text-xs md:text-sm font-extrabold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg group-hover:bg-emerald-50 group-hover:text-emerald-700 transition-colors">
+                                ৳ 25,000
+                            </span>
+                        </div>
+
+                        <!-- Class 3 -->
+                        <div onclick="selectClass(3, 50000)" id="classCard-3" class="p-3.5 rounded-xl border-2 border-slate-150 bg-white cursor-pointer hover:border-emerald-300 transition-all duration-200 flex justify-between items-center group">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center">
+                                    <i class="fa-solid fa-scale-balanced"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-slate-800 text-sm md:text-base" id="c3Title">Class 3: Middle Class</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-400" id="c3Sub">Economic core and family priorities</p>
+                                </div>
+                            </div>
+                            <span class="text-xs md:text-sm font-extrabold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg group-hover:bg-emerald-50 group-hover:text-emerald-700 transition-colors">
+                                ৳ 50,000
+                            </span>
+                        </div>
+
+                        <!-- Class 4 -->
+                        <div onclick="selectClass(4, 110000)" id="classCard-4" class="p-3.5 rounded-xl border-2 border-slate-150 bg-white cursor-pointer hover:border-emerald-300 transition-all duration-200 flex justify-between items-center group">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-teal-50 text-teal-600 rounded-lg flex items-center justify-center">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-slate-800 text-sm md:text-base" id="c4Title">Class 4: Upper-Middle Class</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-400" id="c4Sub">Leadership and high-skill values</p>
+                                </div>
+                            </div>
+                            <span class="text-xs md:text-sm font-extrabold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg group-hover:bg-emerald-50 group-hover:text-emerald-700 transition-colors">
+                                ৳ 110,000
+                            </span>
+                        </div>
+
+                        <!-- Class 5 -->
+                        <div onclick="selectClass(5, 350000)" id="classCard-5" class="p-3.5 rounded-xl border-2 border-slate-150 bg-white cursor-pointer hover:border-emerald-300 transition-all duration-200 flex justify-between items-center group">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center">
+                                    <i class="fa-solid fa-crown"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-slate-800 text-sm md:text-base" id="c5Title">Class 5: Affluent Class</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-400" id="c5Sub">Strategic development investments</p>
+                                </div>
+                            </div>
+                            <span class="text-xs md:text-sm font-extrabold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg group-hover:bg-emerald-50 group-hover:text-emerald-700 transition-colors">
+                                ৳ 350,000
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Income and Area Setup -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-150 space-y-5">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm">2</span>
+                        <h3 class="font-bold text-slate-800 text-lg" id="step2Title">Adjust Income & Residence</h3>
+                    </div>
+
+                    <!-- Custom Income Input with BDT Symbol -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1.5 flex justify-between items-center">
+                            <span id="labelMonthlyIncome">Monthly Income (BDT)</span>
+                            <span id="autoFilledBadge" class="text-[10px] bg-amber-100 text-amber-800 border border-amber-200 px-2 py-0.5 rounded-full font-medium hidden">
+                                Baseline Selected
+                            </span>
+                        </label>
+                        <div class="relative rounded-xl shadow-sm">
+                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                                <span class="text-slate-500 font-bold text-lg">৳</span>
+                            </div>
+                            <input type="number" name="incomeAmount" id="incomeAmount" min="1000" max="5000000" class="block w-full rounded-xl border-slate-300 pl-9 pr-12 py-3.5 focus:border-emerald-500 focus:ring-emerald-500 text-lg font-bold text-slate-800 bg-slate-50/50" placeholder="Enter custom monthly income">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                <span class="text-slate-400 text-sm font-semibold uppercase">BDT</span>
+                            </div>
+                        </div>
+                        <!-- Range slider helper -->
+                        <input type="range" id="incomeSlider" min="5000" max="500000" step="2500" class="w-full mt-3 accent-emerald-600 cursor-pointer">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-semibold px-1 mt-1">
+                            <span>৳ 5,000</span>
+                            <span>৳ 250,000</span>
+                            <span>৳ 500,000+</span>
+                        </div>
+                    </div>
+
+                    <!-- Area selection (Cost of Living Factor) -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2" id="labelLivingArea">Primary Residence / Cost of Living Area</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <label class="relative flex flex-col p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer text-center group transition-all duration-200">
+                                <input type="radio" name="residenceArea" value="dhaka" checked class="sr-only peer">
+                                <span class="peer-checked:border-emerald-500 peer-checked:ring-2 peer-checked:ring-emerald-500/20 absolute inset-0 rounded-xl border border-transparent pointer-events-none"></span>
+                                <i class="fa-solid fa-city text-lg text-slate-400 group-hover:text-emerald-600 mb-1 transition-colors"></i>
+                                <span class="text-xs font-bold text-slate-700 block" id="areaDhaka">Dhaka (Metro)</span>
+                                <span class="text-[10px] text-slate-400 block mt-0.5" id="areaDhakaSub">Highest Expense</span>
+                            </label>
+
+                            <label class="relative flex flex-col p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer text-center group transition-all duration-200">
+                                <input type="radio" name="residenceArea" value="semi" class="sr-only peer">
+                                <span class="peer-checked:border-emerald-500 peer-checked:ring-2 peer-checked:ring-emerald-500/20 absolute inset-0 rounded-xl border border-transparent pointer-events-none"></span>
+                                <i class="fa-solid fa-tree-city text-lg text-slate-400 group-hover:text-emerald-600 mb-1 transition-colors"></i>
+                                <span class="text-xs font-bold text-slate-700 block" id="areaCtg">District Cities</span>
+                                <span class="text-[10px] text-slate-400 block mt-0.5" id="areaCtgSub">Moderate Expense</span>
+                            </label>
+
+                            <label class="relative flex flex-col p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer text-center group transition-all duration-200">
+                                <input type="radio" name="residenceArea" value="rural" class="sr-only peer">
+                                <span class="peer-checked:border-emerald-500 peer-checked:ring-2 peer-checked:ring-emerald-500/20 absolute inset-0 rounded-xl border border-transparent pointer-events-none"></span>
+                                <i class="fa-solid fa-wheat-awn text-lg text-slate-400 group-hover:text-emerald-600 mb-1 transition-colors"></i>
+                                <span class="text-xs font-bold text-slate-700 block" id="areaRural">Upazila / Rural</span>
+                                <span class="text-[10px] text-slate-400 block mt-0.5" id="areaRuralSub">Lesser Expense</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Action Trigger -->
+                    <button onclick="calculateEarningMetrics()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-600/25 hover:from-emerald-700 hover:to-teal-700 transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center space-x-2 text-base">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span id="btnCalculate">Evaluate My Livelihood</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel: Diagnostics & Judge Reports -->
+            <div class="lg:col-span-6 space-y-6">
+                <!-- Fallback No-data card -->
+                <div id="noDataCard" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-150 text-center flex flex-col justify-center items-center min-h-[500px]">
+                    <div class="w-20 h-20 bg-slate-50 border-2 border-dashed border-slate-200 rounded-full flex items-center justify-center text-slate-400 mb-4 animate-pulse">
+                        <i class="fa-solid fa-chart-pie text-3xl"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-700 text-lg mb-2" id="noDataTitle">Awaiting Assessment</h3>
+                    <p class="text-slate-400 text-xs max-w-xs leading-relaxed" id="noDataDesc">
+                        Hi <span class="font-bold text-emerald-700" id="userNameLabel">User</span>, choose a class category grade or enter your custom earnings, then tap the evaluation button to view your socio-economic rankings, customized budget breakdown, and tax assessment.
+                    </p>
+                </div>
+
+                <!-- Dynamic Diagnostic Outcome Panel (Initially hidden) -->
+                <div id="resultsCard" class="hidden space-y-6">
+                    <!-- Standard Indicator & Score Header -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-150 relative overflow-hidden">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600" id="resultLabelHeading">Verified Class Analysis</span>
+                            <h3 class="text-xl md:text-2xl font-black text-slate-800" id="resultVerdictName">Calculating status...</h3>
+                        </div>
+
+                        <!-- Dynamic Percentile Badge -->
+                        <div class="mt-4 p-4 rounded-xl bg-gradient-to-r from-amber-500/10 to-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center text-lg font-bold">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide block" id="percentileLabel">National Rank Estimate</span>
+                                    <span class="text-xs md:text-sm font-semibold text-slate-700" id="percentileDescText">Calculating bracket...</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="bg-emerald-600 text-white text-xs md:text-sm font-extrabold px-3 py-1.5 rounded-lg shadow-sm" id="percentileBadge">
+                                    Top 0%
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress indicator relative to average BDT -->
+                        <div class="mt-4 pt-4 border-t border-slate-100">
+                            <div class="flex justify-between items-center text-xs text-slate-500 mb-1.5 font-medium">
+                                <span id="verdictNationalMetric">Compared to National Average</span>
+                                <span class="font-bold text-emerald-600" id="nationalComparisonPercentage">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-150 h-3 rounded-full overflow-hidden flex">
+                                <div id="verdictProgressBar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Budget Planner Segment -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-150 space-y-4">
+                        <div class="border-b border-slate-100 pb-3">
+                            <h4 class="font-extrabold text-slate-800 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-receipt text-emerald-600"></i>
+                                <span id="budgetSecHeading">Budget Your Expenses With Us</span>
+                            </h4>
+                            <p class="text-slate-400 text-xs mt-1" id="budgetSecDesc">
+                                Custom allocate your monthly income percentages to see what remains for your emergency savings fund.
+                            </p>
+                        </div>
+
+                        <!-- Budget Sliders Interface -->
+                        <div class="space-y-4">
+                            <!-- Rent / Housing Slider -->
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                                    <span>Rent & Utilities (ভাড়া ও ইউটিলিটি)</span>
+                                    <span class="text-slate-800 font-bold" id="valRentDisplay">35% (৳0)</span>
+                                </div>
+                                <input type="range" id="sliderRent" min="10" max="60" value="35" oninput="updateBudgetAllocations()" class="w-full accent-slate-600 cursor-pointer">
+                            </div>
+
+                            <!-- Food / Groceries Slider -->
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                                    <span>Food & Provisions (খাদ্য ও নিত্যপণ্যের সওদা)</span>
+                                    <span class="text-slate-800 font-bold" id="valFoodDisplay">30% (৳0)</span>
+                                </div>
+                                <input type="range" id="sliderFood" min="10" max="60" value="30" oninput="updateBudgetAllocations()" class="w-full accent-emerald-600 cursor-pointer">
+                            </div>
+
+                            <!-- Education / Healthcare Slider -->
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                                    <span>Education & Healthcare (শিক্ষা ও চিকিৎসা ব্যয়)</span>
+                                    <span class="text-slate-800 font-bold" id="valEduDisplay">15% (৳0)</span>
+                                </div>
+                                <input type="range" id="sliderEdu" min="5" max="40" value="15" oninput="updateBudgetAllocations()" class="w-full accent-indigo-600 cursor-pointer">
+                            </div>
+
+                            <!-- Lifestyle / Transportation Slider -->
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                                    <span>Transportation & Leisure (যাতায়াত ও ব্যক্তিগত খরচ)</span>
+                                    <span class="text-slate-800 font-bold" id="valLifeDisplay">10% (৳0)</span>
+                                </div>
+                                <input type="range" id="sliderLife" min="5" max="30" value="10" oninput="updateBudgetAllocations()" class="w-full accent-teal-600 cursor-pointer">
+                            </div>
+
+                            <!-- Budget Balance Warnings & Savings Metrics -->
+                            <div class="p-4 rounded-xl border transition-all duration-300 bg-slate-50 border-slate-150" id="savingsContainer">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-sack-dollar text-emerald-600" id="savingsIcon"></i>
+                                        <span id="savingsLabel">Remaining Monthly Savings / Emergency Fund</span>
+                                    </span>
+                                    <span class="font-extrabold text-sm" id="valSavingsDisplay">10% (৳0)</span>
+                                </div>
+                                
+                                <div id="budgetWarningBox" class="hidden mt-3 p-2.5 bg-red-50 text-red-800 text-[11px] rounded-lg border border-red-200 font-medium text-center">
+                                    <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                                    Allocated expenses exceed 100%! Please adjust the sliders to balance your earnings.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- "Want to Calculate Tax???" Segment -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-150 space-y-4">
+                        <div class="border-b border-slate-100 pb-3 flex justify-between items-center">
+                            <h4 class="font-extrabold text-slate-800 text-base flex items-center gap-1.5">
+                                <i class="fa-solid fa-calculator text-amber-500"></i>
+                                <span id="taxSecTitle">Want to calculate tax???</span>
+                            </h4>
+                            <span class="text-[9px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded-full uppercase">NBR AY 2026/27</span>
+                        </div>
+
+                        <!-- Tax Category Selection -->
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1.5" id="taxpayerTypeLabel">Select Taxpayer Category</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="selectTaxCategory('general')" id="taxCat-general" class="py-2 px-3 text-xs font-bold border rounded-xl text-center transition-all bg-emerald-600 text-white border-emerald-600">
+                                    General Resident (৳3.75L Limit)
+                                </button>
+                                <button onclick="selectTaxCategory('female')" id="taxCat-female" class="py-2 px-3 text-xs font-bold border rounded-xl text-center transition-all bg-white text-slate-600 border-slate-200 hover:bg-slate-50">
+                                    Women & Seniors 65+ (৳4.25L Limit)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Investments & Deductions (Optional) -->
+                        <div class="p-4 rounded-xl border border-slate-150 bg-slate-50/50 space-y-3">
+                            <span class="text-xs font-bold text-slate-700 block flex items-center gap-1.5">
+                                <i class="fa-solid fa-piggy-bank text-emerald-600"></i>
+                                <span id="investmentsTitle">Investments & Deductions (Optional)</span>
+                            </span>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1" id="labelDPS">Annual DPS (ডিপিএস)</label>
+                                    <input type="number" id="taxDPS" min="0" value="0" oninput="calculateTaxMetrics()" class="w-full text-xs font-bold p-2.5 border border-slate-200 rounded-lg outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" placeholder="e.g. 60000">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1" id="labelFDR">Annual FDR/Savings (এফডিআর)</label>
+                                    <input type="number" id="taxFDR" min="0" value="0" oninput="calculateTaxMetrics()" class="w-full text-xs font-bold p-2.5 border border-slate-200 rounded-lg outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" placeholder="e.g. 100000">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1" id="labelInsurance">Annual Insurance (বীমা)</label>
+                                    <input type="number" id="taxInsurance" min="0" value="0" oninput="calculateTaxMetrics()" class="w-full text-xs font-bold p-2.5 border border-slate-200 rounded-lg outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" placeholder="e.g. 30000">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1" id="labelLoan">Home Loan Interest (ঋণের সুদ)</label>
+                                    <input type="number" id="taxLoan" min="0" value="0" oninput="calculateTaxMetrics()" class="w-full text-xs font-bold p-2.5 border border-slate-200 rounded-lg outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" placeholder="e.g. 50000">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Exemption & Tax Slabs breakdown -->
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-150 space-y-3.5 text-xs">
+                            <div class="flex justify-between items-center border-b border-slate-200/50 pb-2">
+                                <span class="text-slate-500 font-medium">Estimated Gross Annual Earnings:</span>
+                                <span class="font-bold text-slate-800" id="taxGrossAnnual">৳ 0</span>
+                            </div>
+
+                            <div class="flex justify-between items-center border-b border-slate-200/50 pb-2">
+                                <span class="text-slate-500 font-medium flex items-center gap-1">
+                                    Salary Exemption (1/3rd or Max 5L):
+                                    <i class="fa-solid fa-circle-question text-slate-400 text-[10px] cursor-pointer" title="NBR allows exemption of 1/3rd of salaries up to maximum of ৳5,00,000."></i>
+                                </span>
+                                <span class="font-bold text-emerald-600" id="taxExemption">৳ 0</span>
+                            </div>
+
+                            <!-- Home Loan Deduction Row (Dynamic) -->
+                            <div id="rowTaxLoan" class="flex justify-between items-center border-b border-slate-200/50 pb-2 hidden">
+                                <span class="text-slate-500 font-medium" id="lblTaxLoanRow">Home Loan Interest Deduction:</span>
+                                <span class="font-bold text-rose-600" id="taxLoanDeduction">-৳ 0</span>
+                            </div>
+
+                            <div class="flex justify-between items-center border-b border-slate-200/50 pb-2">
+                                <span class="text-slate-700 font-bold">Net Taxable Amount (বার্ষিক করযোগ্য আয়):</span>
+                                <span class="font-black text-slate-800" id="taxNetTaxable">৳ 0</span>
+                            </div>
+
+                            <!-- Investment Tax Rebate Row (Dynamic) -->
+                            <div id="rowTaxRebate" class="flex justify-between items-center border-b border-slate-200/50 pb-2 hidden">
+                                <span class="text-slate-500 font-medium" id="lblTaxRebateRow">Investment Tax Rebate (15%):</span>
+                                <span class="font-bold text-emerald-600" id="taxRebateValue">-৳ 0</span>
+                            </div>
+
+                            <div class="space-y-1.5 pt-1">
+                                <span class="text-[10px] font-bold uppercase text-slate-400 block tracking-wider">Estimated Progressive Tax Slabs:</span>
+                                <div id="taxSlabsContainer" class="space-y-1 text-[11px] text-slate-600">
+                                    <!-- Slabs dynamically rendered -->
+                                </div>
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-800 block">Total Est. Annual Income Tax:</span>
+                                    <span class="text-[10px] text-slate-400" id="minTaxNote">(Excludes regional rebates)</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-base font-black text-emerald-800 block" id="taxTotalAnnual">৳ 0</span>
+                                    <span class="text-[11px] font-semibold text-slate-500" id="taxTotalMonthly">~৳0 / month</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Culturally Authentic Appreciation & Warm Feedback Box -->
+                    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-500/20 rounded-2xl p-6 shadow-sm relative overflow-hidden">
+                        <div class="absolute -right-3 -top-3 w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-500">
+                            <i class="fa-solid fa-heart text-2xl animate-pulse"></i>
+                        </div>
+                        <h4 class="font-extrabold text-emerald-900 text-base mb-2 flex items-center gap-1.5" id="appreciationHeading">
+                            <span class="text-xl">💝</span> Shonmanona (শ্রদ্ধা ও সম্মান)
+                        </h4>
+                        <!-- Dynamic Bangla and English Appreciation messages combined -->
+                        <p class="text-slate-700 text-xs md:text-sm leading-relaxed mb-3 italic font-semibold" id="appreciationBangla">
+                            --
+                        </p>
+                        <p class="text-slate-500 text-[11px] md:text-xs leading-relaxed border-t border-slate-200/50 pt-2" id="appreciationEnglish">
+                            --
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Socio-Economic Context Section -->
+        <section class="mt-12 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-150">
+            <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-globe text-emerald-600"></i>
+                <span id="contextTitle">Understanding Socio-Economic Classes in Bangladesh</span>
+            </h3>
+            <p class="text-xs md:text-sm text-slate-500 mb-6 leading-relaxed" id="contextDesc">
+                According to contemporary socioeconomic research inside Bangladesh, household tiers correlate to earning capabilities. Let's look at how the 5 fundamental classes segment across Bangladesh:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <!-- Class 1 Card -->
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/60 flex flex-col justify-between">
+                    <div>
+                        <span class="bg-rose-50 text-rose-700 border border-rose-200 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase" id="cardC1Badge">Class 1</span>
+                        <h4 class="font-bold text-slate-800 text-xs mt-2 mb-1" id="cardC1Title">Basic Earning</h4>
+                        <p class="text-slate-500 text-[11px] leading-relaxed" id="cardC1Desc">
+                            Consists of foundational earners keeping domestic and daily services functional. Most impacted by retail price fluctuations.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-2 border-t border-slate-200/40 text-[10px] text-slate-400">
+                        ৳ 8K - 15K
+                    </div>
+                </div>
+
+                <!-- Class 2 Card -->
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/60 flex flex-col justify-between">
+                    <div>
+                        <span class="bg-amber-50 text-amber-700 border border-amber-200 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase" id="cardC2Badge">Class 2</span>
+                        <h4 class="font-bold text-slate-800 text-xs mt-2 mb-1" id="cardC2Title">Lower-Middle</h4>
+                        <p class="text-slate-500 text-[11px] leading-relaxed" id="cardC2Desc">
+                            Striving, hardworking bracket establishing family safety, moving steadily into broader formal financial systems.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-2 border-t border-slate-200/40 text-[10px] text-slate-400">
+                        ৳ 18K - 30K
+                    </div>
+                </div>
+
+                <!-- Class 3 Card -->
+                <div class="p-4 rounded-xl bg-emerald-50/30 border-2 border-emerald-500/20 flex flex-col justify-between">
+                    <div>
+                        <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase" id="cardC3Badge">Class 3</span>
+                        <h4 class="font-bold text-slate-800 text-xs mt-2 mb-1" id="cardC3Title">Middle Class</h4>
+                        <p class="text-slate-500 text-[11px] leading-relaxed" id="cardC3Desc">
+                            The active economic engine of Bangladesh. High focus on children's premium education, savings, and stable assets.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-2 border-t border-slate-200/40 text-[10px] text-emerald-800 font-semibold">
+                        ৳ 35K - 70K
+                    </div>
+                </div>
+
+                <!-- Class 4 Card -->
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/60 flex flex-col justify-between">
+                    <div>
+                        <span class="bg-teal-50 text-teal-700 border border-teal-200 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase" id="cardC4Badge">Class 4</span>
+                        <h4 class="font-bold text-slate-800 text-xs mt-2 mb-1" id="cardC4Title">Upper-Middle</h4>
+                        <p class="text-slate-500 text-[11px] leading-relaxed" id="cardC4Desc">
+                            Professional leaders and administrators contributing heavily to national taxes, regional businesses, and investments.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-2 border-t border-slate-200/40 text-[10px] text-slate-400">
+                        ৳ 75K - 180K
+                    </div>
+                </div>
+
+                <!-- Class 5 Card -->
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/60 flex flex-col justify-between">
+                    <div>
+                        <span class="bg-indigo-50 text-indigo-700 border border-indigo-200 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase" id="cardC5Badge">Class 5</span>
+                        <h4 class="font-bold text-slate-800 text-xs mt-2 mb-1" id="cardC5Title">Affluent Class</h4>
+                        <p class="text-slate-500 text-[11px] leading-relaxed" id="cardC5Desc">
+                            Substantial wealth tier guiding larger companies, export-import, high-end production, and strategic philanthropy.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-2 border-t border-slate-200/40 text-[10px] text-slate-400">
+                        ৳ 200K - 500K+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Interactive Toast Message for Dynamic feedback -->
+    <div id="appToast" class="fixed bottom-5 right-5 z-50 bg-emerald-900 text-white rounded-xl shadow-2xl px-4 py-3 border border-emerald-500/20 text-xs md:text-sm font-semibold flex items-center space-x-2 transform translate-y-24 opacity-0 transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastText">Evaluations calculated successfully!</span>
+    </div>
+
+    <!-- App Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center space-y-3">
+            <div class="flex justify-center space-x-3 text-2xl text-emerald-500">
+                <i class="fa-brands fa-square-js"></i>
+                <i class="fa-brands fa-html5"></i>
+                <i class="fa-brands fa-css3-alt"></i>
+            </div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-500" id="footerBuildText">Crafted with ❤️ for all Bangladeshi earning citizens</p>
+            <p class="text-[10px] text-slate-600" id="footerCopyright">© 2026 Sonar Bangla Calculator Systems. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Core Application Logic -->
+    <script>
+        // Profile state
+        let userName = "Learner";
+        let currentLang = 'en';
+        let selectedClassId = 1;
+        let selectedTaxpayerType = 'general'; // 'general' or 'female'
+
+        // Translate database
+        const dict = {
+            en: {
+                navSubtitle: "Class-Based Income Evaluator",
+                badgeText: "Empowering Bangladeshi Livelihoods",
+                step1Title: "Select Estimated Class Baseline",
+                step1Desc: "Choose a class structure below to pre-fill standard monthly income defaults for evaluation, or type your income directly in Step 2.",
+                step2Title: "Adjust Income & Residence",
+                labelMonthlyIncome: "Monthly Income (BDT)",
+                autoFilledBadge: "Baseline Selected",
+                labelLivingArea: "Primary Residence / Cost of Living Area",
+                areaDhaka: "Dhaka (Metro)",
+                areaDhakaSub: "Highest Expense",
+                areaCtg: "District Cities",
+                areaCtgSub: "Moderate Expense",
+                areaRural: "Upazila / Rural",
+                areaRuralSub: "Lesser Expense",
+                btnCalculate: "Evaluate My Livelihood",
+                noDataTitle: "Awaiting Assessment",
+                resultLabelHeading: "Verified Class Analysis",
+                percentileLabel: "National Rank Estimate",
+                verdictNationalMetric: "Compared to National Average",
+                appreciationHeading: "Shonmanona (শ্রদ্ধা ও সম্মান)",
+                budgetSecHeading: "Budget Your Expenses With Us",
+                budgetSecDesc: "Custom allocate your monthly income percentages to see what remains for your emergency savings fund.",
+                savingsLabel: "Remaining Monthly Savings / Emergency Fund",
+                taxSecTitle: "Want to calculate tax???",
+                taxpayerTypeLabel: "Select Taxpayer Category",
+                investmentsTitle: "Investments & Deductions (Optional)",
+                labelDPS: "Annual DPS (ডিপিএস)",
+                labelFDR: "Annual FDR/Savings (এফডিআর)",
+                labelInsurance: "Annual Insurance (বীমা)",
+                labelLoan: "Home Loan Interest (ঋণের সুদ)",
+                lblTaxLoanRow: "Home Loan Interest Deduction:",
+                lblTaxRebateRow: "Investment Tax Rebate (15%):",
+                contextTitle: "Understanding Socio-Economic Classes in Bangladesh",
+                contextDesc: "According to contemporary socioeconomic research inside Bangladesh, household tiers correlate to earning capabilities. Let's look at how the 5 fundamental classes segment across Bangladesh:",
+                cardC1Badge: "Class 1",
+                cardC1Title: "Basic Earning",
+                cardC1Desc: "Consists of foundational earners keeping domestic and daily services functional. Most impacted by retail price fluctuations.",
+                cardC2Badge: "Class 2",
+                cardC2Title: "Lower-Middle",
+                cardC2Desc: "Striving, hardworking bracket establishing family safety, moving steadily into broader formal financial systems.",
+                cardC3Badge: "Class 3",
+                cardC3Title: "Middle Class",
+                cardC3Desc: "The active economic engine of Bangladesh. High focus on children's premium education, savings, and stable assets.",
+                cardC4Badge: "Class 4",
+                cardC4Title: "Upper-Middle",
+                cardC4Desc: "Professional leaders and administrators contributing heavily to national taxes, regional businesses, and investments.",
+                cardC5Badge: "Class 5",
+                cardC5Title: "Affluent Class",
+                cardC5Desc: "Substantial wealth tier guiding larger companies, export-import, high-end production, and strategic philanthropy.",
+                footerBuildText: "Crafted with ❤️ for all Bangladeshi earning citizens",
+                footerCopyright: "© 2026 Sonar Bangla Calculator Systems. All Rights Reserved."
+            },
+            bn: {
+                navSubtitle: "শ্রেণী ভিত্তিক আয় পরিমাপক",
+                badgeText: "বাংলাদেশী উপার্জনকারীদের জন্য",
+                step1Title: "আর্থ-সামাজিক শ্রেণী নির্বাচন করুন",
+                step1Desc: "বিশ্লেষণ ও তুলনার সুবিধার্থে নিচের যেকোনো একটি শ্রেণী বেছে নিন অথবা সরাসরি ২য় ধাপে আপনার মাসিক আয় টাইপ করুন।",
+                step2Title: "আয় এবং বসবাসের স্থান সমন্বয়",
+                labelMonthlyIncome: "মাসিক আয় (টাকা)",
+                autoFilledBadge: "বেসলাইন সেট",
+                labelLivingArea: "বর্তমান বসবাসের স্থান (খরচ নির্ধারণী)",
+                areaDhaka: "ঢাকা ও মেট্রো অঞ্চল",
+                areaDhakaSub: "সবচেয়ে বেশি খরচ",
+                areaCtg: "জেলা শহরের কেন্দ্র",
+                areaCtgSub: "মাঝারি ধরনের খরচ",
+                areaRural: "উপজেলা / গ্রামীণ অঞ্চল",
+                areaRuralSub: "তুলনামূলক কম খরচ",
+                btnCalculate: "আর্থিক মূল্যায়ন সম্পন্ন করুন",
+                noDataTitle: "ফলাফলের জন্য অপেক্ষা করা হচ্ছে",
+                resultLabelHeading: "নির্ধারিত শ্রেণী বিশ্লেষণ",
+                percentileLabel: "জাতীয় আয়ের শতকরা হার",
+                verdictNationalMetric: "জাতীয় গড় বেতনের সাথে তুলনা",
+                appreciationHeading: "শ্রদ্ধা ও ভালোবাসার সম্মাননা",
+                budgetSecHeading: "আমাদের সাথে আপনার বাজেট পরিকল্পনা করুন",
+                budgetSecDesc: "আপনার মাসিক আয়ের অনুপাত নির্ধারণ করুন এবং দেখুন আপনার জন্য কত টাকা উদ্বৃত্ত বা আপদকালীন সঞ্চয় হিসেবে থাকছে।",
+                savingsLabel: "মাসিক অবশিষ্ট সঞ্চয় বা জরুরি তহবিল",
+                taxSecTitle: "ট্যাক্স বা আয়কর হিসাব করতে চান???",
+                taxpayerTypeLabel: "করদাতার ক্যাটাগরি নির্বাচন করুন",
+                investmentsTitle: "বিনিয়োগ ও কর রেয়াত (ঐচ্ছিক)",
+                labelDPS: "বার্ষিক ডিপিএস",
+                labelFDR: "বার্ষিক এফডিআর/সঞ্চয়পত্র",
+                labelInsurance: "বার্ষিক জীবন বীমা প্রিমিয়াম",
+                labelLoan: "বার্ষিক গৃহ ঋণের সুদ",
+                lblTaxLoanRow: "गृह ঋণের সুদ কর্তন:",
+                lblTaxRebateRow: "বিনিয়োগ কর রেয়াত (১৫%):",
+                contextTitle: "বাংলাদেশে আর্থ-সামাজিক স্তরবিন্যাস বুঝুন",
+                contextDesc: "বাংলাদেশে বসবাসের স্থান ও সুযোগ-সুবিধা অনুযায়ী আর্থ-সামাজিক শ্রেণীগুলো আয়ের ভিত্তিতে নির্ধারিত হয়ে থাকে। নিচে ৫টি প্রধান চিত্র তুলে ধরা হলো:",
+                cardC1Badge: "শ্রেণী ১",
+                cardC1Title: "মৌলিক আয়",
+                cardC1Desc: "দৈনন্দিন জীবনযাপন সচল রাখা ও প্রান্তিক জীবিকা নির্বাহকারী আয়ের মানুষেরা। বাজারমূল্যের উর্ধ্বগতিতে সবচেয়ে স্পর্শকাতর শ্রেণী।",
+                cardC2Badge: "শ্রেণী ২",
+                cardC2Title: "নিম্ন-মধ্যবিত্ত",
+                cardC2Desc: "চরম পরিশ্রমী একটি গোষ্ঠী, যারা পারিবারিক নিরাপত্তা গড়ার লক্ষ্যে সঞ্চয়ের দিকে অগ্রসর হওয়ার চেষ্টা করছেন।",
+                cardC3Badge: "শ্রেণী ৩",
+                cardC3Title: "মধ্যবিত্ত শ্রেণী",
+                cardC3Desc: "দেশের অর্থনীতির মূল চাকা। সন্তানদের উন্নত শিক্ষা, চিকিৎসা এবং সুন্দর দীর্ঘমেয়াদী ভবিষ্যৎ নির্মাণে সচেষ্ট।",
+                cardC4Badge: "শ্রেণী ৪",
+                cardC4Title: "উচ্চ-মধ্যবিত্ত",
+                cardC4Desc: "দক্ষ পেশাজীবী ও নেতৃত্ব প্রদানকারী শ্রেণী, যারা জাতীয় রাজস্ব ও অর্থনৈতিক অগ্রযাত্রায় বড় ভূমিকা রাখেন।",
+                cardC5Badge: "শ্রেণী ৫",
+                cardC5Title: "উচ্চবিত্ত / সমৃদ্ধ শ্রেণী",
+                cardC5Desc: "বৃহৎ উদ্যোক্তা ও সামাজিক স্তম্ভ। শীর্ষতম অর্থনৈতিক সচ্ছলতার শ্রেণী, যারা নতুন কর্মসংস্থান তৈরি, বৃহৎ বিনিয়োগ এবং দানশীলতায় অবদান রাখেন।",
+                footerBuildText: "বাংলাদেশের সকল সম্মানিত উপার্জনকারী নাগরিক ভাইবোনদের জন্য উৎসর্গীকৃত ❤️",
+                footerCopyright: "© ২০২৬ সোনার বাংলা ক্যালকুলেটর সিস্টেমস। সর্বস্বত্ব সংরক্ষিত।"
+            }
+        };
+
+        function submitOnboarding() {
+            const nameInput = document.getElementById('userNameInput').value.trim();
+            if (nameInput === '') {
+                showToast("Please enter your name to proceed!");
+                return;
+            }
+            userName = nameInput;
+            
+            // Update banners and names
+            document.getElementById('helloUserName').innerText = userName;
+            document.getElementById('greetingUserName').innerText = userName;
+            document.getElementById('userNameLabel').innerText = userName;
+            document.getElementById('userBadge').classList.remove('hidden');
+
+            // Slide out the onboarding screen
+            const onboarding = document.getElementById('onboardingScreen');
+            onboarding.style.opacity = '0';
+            onboarding.style.pointerEvents = 'none';
+            setTimeout(() => {
+                onboarding.classList.add('hidden');
+            }, 300);
+
+            showToast(`Welcome, ${userName}! Let's calculate.`);
+            selectClass(1, 12000);
         }
 
-        setInterval(nextSlide, 5000);
+        function selectClass(classNumber, baselineIncome) {
+            selectedClassId = classNumber;
+
+            // Highlight chosen class block
+            for (let i = 1; i <= 5; i++) {
+                const card = document.getElementById(`classCard-${i}`);
+                if (i === classNumber) {
+                    card.className = "p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50/20 cursor-pointer shadow-sm ring-2 ring-emerald-500/10 transition-all duration-200 flex justify-between items-center group";
+                } else {
+                    card.className = "p-3.5 rounded-xl border-2 border-slate-150 bg-white cursor-pointer hover:border-emerald-300 transition-all duration-200 flex justify-between items-center group";
+                }
+            }
+
+            // Sync Inputs
+            const incomeInput = document.getElementById('incomeAmount');
+            const slider = document.getElementById('incomeSlider');
+            incomeInput.value = baselineIncome;
+            slider.value = baselineIncome;
+
+            document.getElementById('autoFilledBadge').classList.remove('hidden');
+        }
+
+        // Sync Slider & Text Box
+        const incomeInput = document.getElementById('incomeAmount');
+        const slider = document.getElementById('incomeSlider');
+
+        incomeInput.addEventListener('input', (e) => {
+            slider.value = e.target.value;
+            document.getElementById('autoFilledBadge').classList.add('hidden'); 
+        });
+
+        slider.addEventListener('input', (e) => {
+            incomeInput.value = e.target.value;
+            document.getElementById('autoFilledBadge').classList.add('hidden'); 
+        });
+
+        // Calculate dynamic percentile rank inside Bangladesh's income distribution (Est. 2026 data models)
+        function getIncomePercentile(income) {
+            let topPercentage = 100;
+            if (income < 10000) {
+                topPercentage = 100 - (income / 10000) * 35; // Range: Top 100% to Top 65%
+            } else if (income >= 10000 && income < 25000) {
+                topPercentage = 65 - ((income - 10000) / 15000) * 25; // Range: Top 65% to Top 40%
+            } else if (income >= 25000 && income < 50000) {
+                topPercentage = 40 - ((income - 25000) / 25000) * 20; // Range: Top 40% to Top 20%
+            } else if (income >= 50000 && income < 100000) {
+                topPercentage = 20 - ((income - 50000) / 50000) * 12; // Range: Top 20% to Top 8%
+            } else if (income >= 100000 && income < 200000) {
+                topPercentage = 8 - ((income - 100000) / 100000) * 5; // Range: Top 8% to Top 3%
+            } else if (income >= 200000 && income < 500000) {
+                topPercentage = 3 - ((income - 200000) / 300000) * 2.5; // Range: Top 3% to Top 0.5%
+            } else {
+                topPercentage = Math.max(0.01, 0.5 - ((income - 500000) / 1000000) * 0.4); // Top 0.5% down to Top 0.1% or above
+            }
+            return topPercentage.toFixed(2);
+        }
+
+        // Live custom budget updates
+        function updateBudgetAllocations() {
+            const income = parseFloat(document.getElementById('incomeAmount').value) || 0;
+            if (income <= 0) return;
+
+            const rentPct = parseInt(document.getElementById('sliderRent').value);
+            const foodPct = parseInt(document.getElementById('sliderFood').value);
+            const eduPct = parseInt(document.getElementById('sliderEdu').value);
+            const lifePct = parseInt(document.getElementById('sliderLife').value);
+
+            // Compute values
+            const valRent = Math.round(income * (rentPct / 100));
+            const valFood = Math.round(income * (foodPct / 100));
+            const valEdu = Math.round(income * (eduPct / 100));
+            const valLife = Math.round(income * (lifePct / 100));
+
+            // Update display strings
+            document.getElementById('valRentDisplay').innerText = `${rentPct}% (৳${valRent.toLocaleString('en-US')})`;
+            document.getElementById('valFoodDisplay').innerText = `${foodPct}% (৳${valFood.toLocaleString('en-US')})`;
+            document.getElementById('valEduDisplay').innerText = `${eduPct}% (৳${valEdu.toLocaleString('en-US')})`;
+            document.getElementById('valLifeDisplay').innerText = `${lifePct}% (৳${valLife.toLocaleString('en-US')})`;
+
+            // Calculate savings percentage
+            const totalAllocatedPct = rentPct + foodPct + eduPct + lifePct;
+            const savingsPct = 100 - totalAllocatedPct;
+            const savingsVal = Math.round(income * (savingsPct / 100));
+
+            const warningBox = document.getElementById('budgetWarningBox');
+            const savingsContainer = document.getElementById('savingsContainer');
+            const savingsDisplay = document.getElementById('valSavingsDisplay');
+            const savingsIcon = document.getElementById('savingsIcon');
+
+            if (totalAllocatedPct > 100) {
+                // Negative / Deficit Budget state
+                warningBox.classList.remove('hidden');
+                savingsContainer.className = "p-4 rounded-xl border bg-rose-50 border-rose-200 text-rose-800";
+                savingsDisplay.innerText = `${savingsPct}% (Deficit: ৳${Math.abs(savingsVal).toLocaleString('en-US')})`;
+                savingsIcon.className = "fa-solid fa-circle-exclamation text-rose-600 animate-bounce";
+            } else {
+                // Positive/Balanced Budget state
+                warningBox.classList.add('hidden');
+                savingsContainer.className = "p-4 rounded-xl border bg-emerald-50/50 border-emerald-200 text-slate-800";
+                savingsDisplay.innerText = `${savingsPct}% (৳${savingsVal.toLocaleString('en-US')})`;
+                savingsIcon.className = "fa-solid fa-sack-dollar text-emerald-600";
+            }
+        }
+
+        // Tax Category Switcher
+        function selectTaxCategory(cat) {
+            selectedTaxpayerType = cat;
+            
+            const btnGeneral = document.getElementById('taxCat-general');
+            const btnFemale = document.getElementById('taxCat-female');
+
+            if (cat === 'general') {
+                btnGeneral.className = "py-2 px-3 text-xs font-bold border rounded-xl text-center transition-all bg-emerald-600 text-white border-emerald-600";
+                btnFemale.className = "py-2 px-3 text-xs font-bold border rounded-xl text-center transition-all bg-white text-slate-600 border-slate-200 hover:bg-slate-50";
+            } else {
+                btnFemale.className = "py-2 px-3 text-xs font-bold border rounded-xl text-center transition-all bg-emerald-600 text-white border-emerald-600";
+                btnGeneral.className = "py-2 px-3 text-xs font-bold border rounded-xl text-center transition-all bg-white text-slate-600 border-slate-200 hover:bg-slate-50";
+            }
+
+            calculateTaxMetrics();
+        }
+
+        // Compute Tax & render breakdown with deductions and rebates
+        function calculateTaxMetrics() {
+            const income = parseFloat(document.getElementById('incomeAmount').value) || 0;
+            const annualGross = income * 12;
+
+            // Optional Inputs for Investment Rebate & Loan Interest Deductions
+            const dps = parseFloat(document.getElementById('taxDPS').value) || 0;
+            const fdr = parseFloat(document.getElementById('taxFDR').value) || 0;
+            const ins = parseFloat(document.getElementById('taxInsurance').value) || 0;
+            const loan = parseFloat(document.getElementById('taxLoan').value) || 0;
+
+            // NBR Exemption Rules: 1/3 of total salary or Max 5 Lakhs
+            const employmentExemption = Math.min(annualGross / 3, 500000);
+            
+            // Taxable income after direct Home Loan Interest and salary exemption
+            const taxableAnnual = Math.max(0, annualGross - employmentExemption - loan);
+
+            // General limit is 3.75L, female/65+ limit is 4.25L as per NBR guidelines
+            const threshold = selectedTaxpayerType === 'general' ? 375000 : 425000;
+
+            let remainingTaxable = taxableAnnual;
+            let totalTax = 0;
+            const slabs = [];
+
+            // Exemption limit
+            const exemptPart = Math.min(remainingTaxable, threshold);
+            slabs.push({ label: `First ৳${threshold.toLocaleString('en-US')} (Tax Free)`, amount: exemptPart, rate: 0, tax: 0 });
+            remainingTaxable -= exemptPart;
+
+            // Next ৳3,00,000 @ 10%
+            if (remainingTaxable > 0) {
+                const next3L = Math.min(remainingTaxable, 300000);
+                const taxVal = next3L * 0.10;
+                totalTax += taxVal;
+                slabs.push({ label: `Next ৳3,00,000 @ 10%`, amount: next3L, rate: 10, tax: taxVal });
+                remainingTaxable -= next3L;
+            }
+
+            // Next ৳4,00,000 @ 15%
+            if (remainingTaxable > 0) {
+                const next4L = Math.min(remainingTaxable, 400000);
+                const taxVal = next4L * 0.15;
+                totalTax += taxVal;
+                slabs.push({ label: `Next ৳4,00,000 @ 15%`, amount: next4L, rate: 15, tax: taxVal });
+                remainingTaxable -= next4L;
+            }
+
+            // Next ৳5,00,000 @ 20%
+            if (remainingTaxable > 0) {
+                const next5L = Math.min(remainingTaxable, 500000);
+                const taxVal = next5L * 0.20;
+                totalTax += taxVal;
+                slabs.push({ label: `Next ৳5,00,000 @ 20%`, amount: next5L, rate: 20, tax: taxVal });
+                remainingTaxable -= next5L;
+            }
+
+            // Next ৳20,00,000 @ 25%
+            if (remainingTaxable > 0) {
+                const next20L = Math.min(remainingTaxable, 2000000);
+                const taxVal = next20L * 0.25;
+                totalTax += taxVal;
+                slabs.push({ label: `Next ৳20,00,000 @ 25%`, amount: next20L, rate: 25, tax: taxVal });
+                remainingTaxable -= next20L;
+            }
+
+            // Balance @ 30%
+            if (remainingTaxable > 0) {
+                const taxVal = remainingTaxable * 0.30;
+                totalTax += taxVal;
+                slabs.push({ label: `Remaining Balance @ 30%`, amount: remainingTaxable, rate: 30, tax: taxVal });
+            }
+
+            // NBR Investment Rebate Formula: 15% of allowable investments
+            // Allowable investment is capped at 20% of taxable income or ৳1,500,000 (15 Lakhs)
+            const totalInvested = dps + fdr + ins;
+            const maxAllowableInvest = Math.min(taxableAnnual * 0.20, 1500000);
+            const allowableInvest = Math.min(totalInvested, maxAllowableInvest);
+            const taxRebate = allowableInvest * 0.15;
+
+            // Deduct the calculated tax rebate from overall progressive tax
+            totalTax = Math.max(0, totalTax - taxRebate);
+
+            // Minimum tax thresholds vary according to primary residence location selection
+            const residenceArea = document.querySelector('input[name="residenceArea"]:checked').value;
+            const minTaxLimit = residenceArea === 'dhaka' ? 5000 : (residenceArea === 'semi' ? 4000 : 3000);
+
+            let minTaxLabel = "";
+            if (taxableAnnual > threshold && totalTax < minTaxLimit) {
+                totalTax = minTaxLimit;
+                minTaxLabel = `(Minimum tax BDT ${minTaxLimit.toLocaleString('en-US')} applied)`;
+            }
+
+            // Render calculations to DOM
+            document.getElementById('taxGrossAnnual').innerText = `৳ ${annualGross.toLocaleString('en-US')}`;
+            document.getElementById('taxExemption').innerText = `৳ ${employmentExemption.toLocaleString('en-US')}`;
+            document.getElementById('taxNetTaxable').innerText = `৳ ${taxableAnnual.toLocaleString('en-US')}`;
+
+            // Show/Hide Home Loan Deductions
+            const rowTaxLoan = document.getElementById('rowTaxLoan');
+            if (loan > 0) {
+                rowTaxLoan.classList.remove('hidden');
+                document.getElementById('taxLoanDeduction').innerText = `-৳ ${loan.toLocaleString('en-US')}`;
+            } else {
+                rowTaxLoan.classList.add('hidden');
+            }
+
+            // Show/Hide Investment Rebates
+            const rowTaxRebate = document.getElementById('rowTaxRebate');
+            if (taxRebate > 0) {
+                rowTaxRebate.classList.remove('hidden');
+                document.getElementById('taxRebateValue').innerText = `-৳ ${taxRebate.toLocaleString('en-US')}`;
+            } else {
+                rowTaxRebate.classList.add('hidden');
+            }
+
+            const slabsContainer = document.getElementById('taxSlabsContainer');
+            slabsContainer.innerHTML = '';
+            
+            slabs.forEach(slab => {
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center text-slate-500 py-0.5";
+                row.innerHTML = `
+                    <span>${slab.label}:</span>
+                    <span class="font-semibold text-slate-700">৳ ${slab.tax.toLocaleString('en-US')}</span>
+                `;
+                slabsContainer.appendChild(row);
+            });
+
+            document.getElementById('taxTotalAnnual').innerText = `৳ ${totalTax.toLocaleString('en-US')}`;
+            document.getElementById('taxTotalMonthly').innerText = `~ ৳ ${Math.round(totalTax / 12).toLocaleString('en-US')} / month`;
+            document.getElementById('minTaxNote').innerText = minTaxLabel || "(Based on progressive tax structures)";
+        }
+
+        // Evaluate user and output results
+        function calculateEarningMetrics() {
+            const income = parseFloat(incomeInput.value);
+            if (isNaN(income) || income <= 0) {
+                showToast(currentLang === 'en' ? "Please input a valid positive income amount!" : "দয়া করে একটি সঠিক মাসিক আয়ের অঙ্ক প্রদান করুন!");
+                return;
+            }
+
+            // Fetch Cost of Living Multiplier (Location Based)
+            const residenceArea = document.querySelector('input[name="residenceArea"]:checked').value;
+            let costFactor = 1.0; 
+            let locationNameEn = "Dhaka (Metro)";
+            let locationNameBn = "ঢাকা (মেট্রো এলাকা)";
+
+            if (residenceArea === 'semi') {
+                costFactor = 0.75; 
+                locationNameEn = "District Cities / Municipalities";
+                locationNameBn = "অন্যান্য জেলা ও জেলা সদর";
+            } else if (residenceArea === 'rural') {
+                costFactor = 0.55; 
+                locationNameEn = "Upazila / Rural Areas";
+                locationNameBn = "উপজেলা / গ্রামীণ অঞ্চল";
+            }
+
+            let classVerdictEn = "";
+            let classVerdictBn = "";
+            let nationalComparisonPct = 0;
+            let themeColorClass = "";
+            let progressPct = 0;
+
+            // Base standard average individual salary around ৳22,000 for standard workers
+            nationalComparisonPct = Math.round((income / 22000) * 100);
+
+            // Fetch dynamic top percentile rank
+            const topPercentRank = getIncomePercentile(income);
+
+            // 5 Classes Categorization
+            if (income < 15000) {
+                classVerdictEn = "Class 1: Basic Earning Class";
+                classVerdictBn = "শ্রেণী ১: মৌলিক আয়ের শ্রেণী";
+                themeColorClass = "border-rose-500 text-rose-700 bg-rose-50";
+                progressPct = Math.min((income / 15000) * 20, 20);
+            } else if (income >= 15000 && income < 30000) {
+                classVerdictEn = "Class 2: Lower-Middle Class";
+                classVerdictBn = "শ্রেণী ২: নিম্ন-মধ্যবিত্ত শ্রেণী";
+                themeColorClass = "border-amber-500 text-amber-700 bg-amber-50";
+                progressPct = 20 + Math.min(((income - 15000) / 15000) * 20, 20);
+            } else if (income >= 30000 && income < 75000) {
+                classVerdictEn = "Class 3: Middle Class";
+                classVerdictBn = "শ্রেণী ৩: মধ্যবিত্ত শ্রেণী";
+                themeColorClass = "border-emerald-500 text-emerald-700 bg-emerald-50";
+                progressPct = 40 + Math.min(((income - 30000) / 45000) * 20, 20);
+            } else if (income >= 75000 && income < 180000) {
+                classVerdictEn = "Class 4: Upper-Middle Class";
+                classVerdictBn = "শ্রেণী ৪: উচ্চ-মধ্যবিত্ত শ্রেণী";
+                themeColorClass = "border-teal-500 text-teal-700 bg-teal-50";
+                progressPct = 60 + Math.min(((income - 75000) / 105000) * 20, 20);
+            } else {
+                classVerdictEn = "Class 5: Affluent Class";
+                classVerdictBn = "শ্রেণী ৫: উচ্চবিত্ত/সমৃদ্ধ শ্রেণী";
+                themeColorClass = "border-indigo-500 text-indigo-700 bg-indigo-50";
+                progressPct = 80 + Math.min(((income - 180000) / 320000) * 20, 20);
+            }
+
+            // Update Class Badge & Indication Names
+            document.getElementById('resultVerdictName').innerText = currentLang === 'en' ? classVerdictEn : classVerdictBn;
+            document.getElementById('nationalComparisonPercentage').innerText = `${nationalComparisonPct}%`;
+            document.getElementById('verdictProgressBar').style.width = `${progressPct}%`;
+            
+            if (income < 15000) {
+                document.getElementById('verdictProgressBar').className = "bg-rose-500 h-full rounded-full transition-all duration-500";
+            } else if (income < 30000) {
+                document.getElementById('verdictProgressBar').className = "bg-amber-500 h-full rounded-full transition-all duration-500";
+            } else {
+                document.getElementById('verdictProgressBar').className = "bg-emerald-500 h-full rounded-full transition-all duration-500";
+            }
+
+            // Update percentile metrics
+            document.getElementById('percentileBadge').innerText = `Top ${topPercentRank}%`;
+            
+            const descEn = `You belong to the Top ${topPercentRank}% of earners in Bangladesh.`;
+            const descBn = `আপনি বাংলাদেশের শীর্ষ ${topPercentRank}% উপার্জনকারীর মধ্যে অবস্থান করছেন।`;
+            document.getElementById('percentileDescText').innerText = currentLang === 'en' ? descEn : descBn;
+
+            // Generative Appreciation & Warm Feedback
+            let appBn = "";
+            let appEn = "";
+
+            if (income < 15000) {
+                appBn = `সাবাশ ${userName}! চরম বৈরি বাজার ও জীবনযাত্রার ক্রমবর্ধমান খরচের মাঝেও আপনি সততা ও অসীম ধৈর্যের সাথে নিজের ও পরিবারের আহার জোটাচ্ছেন। আপনিই আমাদের অর্থনীতির প্রকৃত চালিকাশক্তি। আপনার প্রতিটি কষ্টার্জিত টাকা এদেশের মাটিতে অবদান রাখছে। মহান সৃষ্টিকর্তা আপনার কষ্টের যোগ্য প্রতিদান দিন।`;
+                appEn = `We salute your incredible resilience, ${userName}! In a demanding retail climate, your continuous hard work is what sustains the local economy. You are the unspoken backbone of Bangladesh, keeping us moving. Wishing you peace, ease, and growth!`;
+            } else if (income >= 15000 && income < 30000) {
+                appBn = `আপনার লড়াকু মনোভাব প্রশংসনীয়, ${userName}! সীমাহীন দ্রব্যমূল্য বৃদ্ধি ও মধ্যবিত্ত জীবনের টানাপোড়েনের মাঝেও আপনি নিয়মতান্ত্রিকভাবে জীবিকা নির্বাহ করছেন এবং ভবিষ্যৎ গড়ার পথে এগিয়ে যাচ্ছেন। আপনার সততা ও সুচারু মেধা আমাদের গর্বিত করে। আপনার সুন্দর ভবিষ্যতের জন্য শুভকামনা।`;
+                appEn = `Admirable persistence, ${userName}! Balancing the scales of a developing economy with fluctuating local inflations requires smart tactics and strict lifestyle discipline. You are the steadfast driver of our community stability and growth. Keep pushing forward!`;
+            } else if (income >= 30000 && income < 75000) {
+                appBn = `মাশাল্লাহ ${userName}! আপনার নিষ্ঠা ও দক্ষতার চমৎকার প্রতিফলন আপনার এই অর্জন। মধ্যম আয়ের মধ্যমণি হিসেবে আপনি সমাজ ও অর্থনীতিতে মেধা ও শ্রমের এক অনন্য দৃষ্টান্ত স্থাপন করছেন। আপনার সফল প্রয়াস আপনার পরিবার ও দেশের অর্থনৈতিক প্রবৃদ্ধিতে চমৎকার অবদান রাখছে। শুভকামনা!`;
+                appEn = `Mashallah ${userName}, a stellar milestone of your skillset! Representing the core engine of Bangladesh's professional workforce, you bridge the gap between essential labor and strategic growth. Your work is laying down vital foundations for family education and wealth!`;
+            } else if (income >= 75000 && income < 180000) {
+                appBn = `চমৎকার ও অভিনন্দন, ${userName}! আপনার সততা, প্রজ্ঞা ও উচ্চতর দক্ষতা আপনাকে সমাজে এক সম্মানজনক স্থানে অধিষ্ঠিত করেছে। আপনি করদাতাদের সারিতে নিজের অনন্য অবদান রাখছেন, দেশের রাজস্ব সচল রাখছেন এবং সমৃদ্ধ সোনার বাংলা গড়তে সাহায্য করছেন। আপনার এই প্রাচুর্য ও মেধার সুফল ছড়িয়ে পড়ুক সর্বত্র।`;
+                appEn = `Outstanding, ${userName}! Your high capabilities and executive skill set establish you as a leader within the Bangladeshi economy. By contributing to local taxation, domestic purchases, and creating employment options, you are driving our nation towards high middle-income status.`;
+            } else {
+                appBn = `আলহামদুলিল্লাহ ${userName}, আপনার অনন্য মেধা ও নেতৃত্বের সাফল্য সত্যিই অনুপ্রেরণাদায়ক! আপনার বড় ধরনের ব্যবসায়িক উদ্যোগ কিংবা সুউচ্চ পেশাদার দক্ষতা হাজারো মানুষের কর্মসংস্থানের সুযোগ সৃষ্টি করছে ও দেশের অর্থনীতিকে সমৃদ্ধ করছে। সামাজিকভাবে বঞ্চিত মানুষের পাশে দাঁড়িয়ে এদেশের সামগ্রিক উন্নয়নে আপনার মহৎ অবদান চিরস্মরণীয় থাকবে।`;
+                appEn = `Alhamdulillah, ${userName}! Your superior professional standing or industrial capability acts as a vital pillar for our nation. By injecting capital, scaling enterprise, and supporting high taxation margins, you possess the incredible power to drive philanthropy and local investments. May you continue to bless our homeland!`;
+            }
+
+            document.getElementById('appreciationBangla').innerText = appBn;
+            document.getElementById('appreciationEnglish').innerText = appEn;
+
+            // Trigger visual render for both Budget sliders & NBR Tax tables
+            updateBudgetAllocations();
+            calculateTaxMetrics();
+
+            // Toggle screens
+            document.getElementById('noDataCard').classList.add('hidden');
+            const resCard = document.getElementById('resultsCard');
+            resCard.classList.remove('hidden');
+            resCard.scrollIntoView({ behavior: 'smooth' });
+
+            // Toast Trigger
+            showToast(currentLang === 'en' ? "Economic diagnostics compiled successfully!" : "আর্থিক মূল্যায়ন সফলভাবে সম্পন্ন হয়েছে!");
+        }
+
+        // Switch Language utility
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'bn' : 'en';
+            
+            // Toggle Language Btn text
+            document.getElementById('langBtnText').innerText = currentLang === 'en' ? "বাংলায় দেখুন" : "View in English";
+
+            // Loop and translate dictionary items
+            Object.keys(dict[currentLang]).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) {
+                    if (el.tagName === 'INPUT' && el.type === 'button') {
+                        el.value = dict[currentLang][key];
+                    } else {
+                        el.innerHTML = dict[currentLang][key];
+                    }
+                }
+            });
+
+            // Re-render class cards headers dynamically based on language state
+            if (currentLang === 'en') {
+                document.getElementById('c1Title').innerText = "Class 1: Basic Earning Class";
+                document.getElementById('c1Sub').innerText = "Basic survival threshold metrics";
+                document.getElementById('c2Title').innerText = "Class 2: Lower-Middle Class";
+                document.getElementById('c2Sub').innerText = "Establishing stability and goals";
+                document.getElementById('c3Title').innerText = "Class 3: Middle Class";
+                document.getElementById('c3Sub').innerText = "Economic core and family priorities";
+                document.getElementById('c4Title').innerText = "Class 4: Upper-Middle Class";
+                document.getElementById('c4Sub').innerText = "Leadership and high-skill values";
+                document.getElementById('c5Title').innerText = "Class 5: Affluent Class";
+                document.getElementById('c5Sub').innerText = "Strategic development investments";
+            } else {
+                document.getElementById('c1Title').innerText = "শ্রেণী ১: মৌলিক আয়ের শ্রেণী";
+                document.getElementById('c1Sub').innerText = "জীবন ধারণের সাধারণ বেসলাইন";
+                document.getElementById('c2Title').innerText = "শ্রেণী ২: নিম্ন-মধ্যবিত্ত শ্রেণী";
+                document.getElementById('c2Sub').innerText = "পারিবারিক নিরাপত্তা গড়ার লক্ষ্য";
+                document.getElementById('c3Title').innerText = "শ্রেণী ৩: মধ্যবিত্ত শ্রেণী";
+                document.getElementById('c3Sub').innerText = "অর্থনীতির মূল চাকা ও সঞ্চয়";
+                document.getElementById('c4Title').innerText = "শ্রেণী ৪: উচ্চ-মধ্যবিত্ত শ্রেণী";
+                document.getElementById('c4Sub').innerText = "দক্ষ পেশাজীবী ও করদাতা গ্রুপ";
+                document.getElementById('c5Title').innerText = "শ্রেণী ৫: উচ্চবিত্ত / সমৃদ্ধ শ্রেণী";
+                document.getElementById('c5Sub').innerText = "বৃহৎ উদ্যোক্তা ও সামাজিক স্তম্ভ";
+            }
+
+            // Re-calculate if result is already open to update live strings
+            const resultsCard = document.getElementById('resultsCard');
+            if (!resultsCard.classList.contains('hidden')) {
+                calculateEarningMetrics();
+            }
+        }
+
+        // Interactive Toast Alert
+        function showToast(msg) {
+            const toast = document.getElementById('appToast');
+            document.getElementById('toastText').innerText = msg;
+            
+            // Slide & Fade in
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
     </script>
 </body>
 </html>
