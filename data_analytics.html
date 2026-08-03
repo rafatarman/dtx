@@ -1,324 +1,1851 @@
-Here is the complete, updated `analytics.html` file with your VitalCard data integrated.
-
-It features an interactive analytics layout with **key health metrics**, **blood pressure charts**, **family history mapping**, and a **patient profile sidebar** built with Tailwind CSS and Chart.js.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VitalCard Analytics Dashboard</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VitalCore Health OS v2.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root { --sys-bg: #f8fafc; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--sys-bg);
+            color: #0f172a;
+            overflow: hidden; 
+        }
+
+        .app-view {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            height: 100vh;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            padding-bottom: 80px; /* Space for global nav */
+        }
+        .app-view.active {
+            display: flex;
+            opacity: 1;
+            z-index: 10;
+        }
+
+        /* Global Nav Overlay */
+        #global-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #global-nav.hidden-nav { transform: translate(-50%, 150px); }
+
+        /* Global SOS Banner */
+        #global-sos-banner {
+            position: fixed; top: -100px; left: 0; width: 100%; z-index: 10000;
+            transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #global-sos-banner.active { top: 0; }
+
+        .mobile-mockup {
+            width: 100%; height: 100%; background: #fff; position: relative; overflow-x: hidden; overflow-y: auto;
+        }
+        @media (min-width: 768px) {
+            .mobile-mockup {
+                width: 375px; height: 812px; border: 12px solid #0f172a; border-radius: 2.5rem;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); margin: auto; flex-shrink: 0;
+            }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+
+        .scene { perspective: 1000px; width: 100%; height: 220px; }
+        .card-object {
+            width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; cursor: pointer; position: relative;
+        }
+        .card-object.is-flipped { transform: rotateY(180deg); }
+        .card-face {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+        .card-back { transform: rotateY(180deg); }
+
+        .pulse-ring {
+            position: absolute; width: 120px; height: 120px; border-radius: 50%;
+            background: rgba(239, 68, 68, 0.2); animation: pulse 2s infinite; pointer-events: none;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .sos-flash { animation: sosFlash 1.5s infinite; }
+        @keyframes sosFlash {
+            0%, 100% { background-color: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); }
+            50% { background-color: rgba(239, 68, 68, 0.3); border-color: rgba(239, 68, 68, 0.6); }
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
+<body>
 
-  <!-- Top Navigation Header -->
-  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="bg-red-600 text-white p-2 rounded-lg">
-          <i data-lucide="activity" class="w-6 h-6"></i>
+    <div id="global-sos-banner" class="bg-red-600 text-white shadow-2xl border-b-4 border-red-800">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-triangle-exclamation text-2xl animate-pulse text-yellow-300"></i>
+                <div>
+                    <h3 class="font-bold text-lg leading-none">GLOBAL SOS ALERT DETECTED</h3>
+                    <p class="text-xs text-red-200">Patient: Rafat Arman (MED-9921-X) • Location: 24.37° N, 88.60° E</p>
+                </div>
+            </div>
+            <div class="text-xs font-mono bg-red-900/50 px-3 py-1 rounded-lg border border-red-500">SYSTEM BROADCAST</div>
         </div>
-        <div>
-          <h1 class="font-bold text-lg tracking-wide">VitalCard<span class="text-red-500">.AI</span></h1>
-          <p class="text-xs text-slate-400">Patient Emergency & Analytics Portal</p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-4">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Card Active
-        </span>
-        <div class="text-right text-xs">
-          <p class="font-medium text-slate-200">ID: MED-9921-X</p>
-          <p class="text-slate-400">QR: vcore://pt/MED-9921-X</p>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    
-    <!-- Critical Warning Banner -->
-    <div class="mb-8 bg-red-50 border-l-4 border-red-600 p-4 rounded-r-xl shadow-sm flex items-start space-x-3">
-      <i data-lucide="alert-triangle" class="w-6 h-6 text-red-600 shrink-0 mt-0.5"></i>
-      <div>
-        <h3 class="text-sm font-bold text-red-800">CRITICAL ALLERGY ALERT</h3>
-        <p class="text-sm text-red-700 mt-0.5">Severe Penicillin Allergy recorded. Avoid all beta-lactam antibiotics unless explicitly authorized.</p>
-      </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      
-      <!-- LEFT / MAIN ANALYTICS COLUMN (2 Cols) -->
-      <div class="lg:col-span-2 space-x-0 space-y-6">
+    <div id="global-nav" class="hidden-nav bg-slate-900/90 backdrop-blur-md p-2 rounded-2xl shadow-2xl border border-slate-700 flex gap-2 items-center">
+        <div class="px-3 text-xs font-bold text-slate-400 uppercase tracking-widest border-r border-slate-700">OS Hub</div>
+        <button onclick="switchView('hub')" class="w-10 h-10 rounded-xl bg-slate-800 text-white hover:bg-slate-700 flex items-center justify-center transition" title="Role Selection"><i class="fa-solid fa-layer-group"></i></button>
+        <button onclick="switchView('patient')" class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white flex items-center justify-center transition" title="Patient App"><i class="fa-solid fa-mobile-screen"></i></button>
+        <button onclick="switchView('doctor')" class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 hover:bg-blue-500 hover:text-white flex items-center justify-center transition" title="Doctor Portal"><i class="fa-solid fa-user-doctor"></i></button>
+        <button onclick="switchView('responder')" class="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white flex items-center justify-center transition" title="Responder App"><i class="fa-solid fa-truck-medical"></i></button>
+        <button onclick="switchView('hospital')" class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500 hover:text-white flex items-center justify-center transition" title="Hospital Dashboard"><i class="fa-solid fa-desktop"></i></button>
+    </div>
 
-        <!-- Stat Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          
-          <!-- Card 1 -->
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Latest BP</p>
-              <h4 class="text-2xl font-bold text-slate-900 mt-1">118/78 <span class="text-xs font-normal text-slate-500">mmHg</span></h4>
-              <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center gap-1">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Normal Range
-              </p>
-            </div>
-            <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
-              <i data-lucide="heart-pulse" class="w-6 h-6"></i>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Resting Heart Rate</p>
-              <h4 class="text-2xl font-bold text-slate-900 mt-1">70 <span class="text-xs font-normal text-slate-500">bpm</span></h4>
-              <p class="text-xs text-slate-500 font-medium mt-1">Recorded Oct 10</p>
-            </div>
-            <div class="p-3 bg-red-50 text-red-600 rounded-xl">
-              <i data-lucide="activity" class="w-6 h-6"></i>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Active Diagnoses</p>
-              <h4 class="text-2xl font-bold text-slate-900 mt-1">2 <span class="text-xs font-normal text-slate-500">Conditions</span></h4>
-              <p class="text-xs text-amber-600 font-medium mt-1">Type 1 Diabetes, HTN</p>
-            </div>
-            <div class="p-3 bg-amber-50 text-amber-600 rounded-xl">
-              <i data-lucide="file-text" class="w-6 h-6"></i>
-            </div>
-          </div>
-
+    <div id="view-hub" class="app-view active flex-col justify-center items-center bg-slate-900 relative">
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-blue-500/10 blur-[100px]"></div>
+            <div class="absolute top-[60%] -right-[10%] w-[40%] h-[40%] rounded-full bg-rose-500/10 blur-[100px]"></div>
         </div>
 
-        <!-- Chart Section: Vitals Trend -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <div class="flex items-center justify-between mb-6">
-            <div>
-              <h3 class="text-lg font-bold text-slate-900">Vitals & BP Diagnostics</h3>
-              <p class="text-xs text-slate-500">Historical blood pressure tracking</p>
+        <div class="relative z-10 w-full max-w-5xl px-6 pb-20">
+            <div class="text-center mb-12">
+                <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/20">
+                    <i class="fa-solid fa-heart-pulse text-3xl text-white"></i>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-2">VitalCore OS <span class="text-xl text-blue-400 font-normal ml-2">v2.0</span></h1>
+                <p class="text-slate-400 text-lg">Integrated Session State Architecture</p>
             </div>
-            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2.5 py-1 rounded-lg">Last Encounter: Oct 10</span>
-          </div>
-          <div class="h-64">
-            <canvas id="vitalsChart"></canvas>
-          </div>
-        </div>
 
-        <!-- Two Grid Section: Medications & Clinical Encounters -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <!-- Active Medications -->
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="font-bold text-slate-900 flex items-center gap-2">
-                <i data-lucide="pill" class="w-5 h-5 text-indigo-600"></i> Active Medications
-              </h3>
-              <span class="text-xs font-semibold bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full">2 Prescriptions</span>
-            </div>
-            <div class="divide-y divide-slate-100">
-              <div class="py-3 flex justify-between items-center">
-                <div>
-                  <p class="font-semibold text-sm text-slate-800">Amlodipine</p>
-                  <p class="text-xs text-slate-500">Antihypertensive</p>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-medium bg-slate-100 text-slate-700 px-2 py-1 rounded">5mg • Daily</span>
-                </div>
-              </div>
-              <div class="py-3 flex justify-between items-center">
-                <div>
-                  <p class="font-semibold text-sm text-slate-800">Metformin</p>
-                  <p class="text-xs text-slate-500">Antidiabetic</p>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-medium bg-slate-100 text-slate-700 px-2 py-1 rounded">500mg • Twice Daily</span>
-                </div>
-              </div>
-            </div>
-          </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <button onclick="switchView('patient')" class="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-6 text-left transition-all hover:-translate-y-2 backdrop-blur-md">
+                    <div class="w-12 h-12 bg-rose-500/20 text-rose-400 rounded-xl flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform"><i class="fa-solid fa-user"></i></div>
+                    <h2 class="text-xl font-bold text-white mb-2">1. Patient App</h2>
+                    <p class="text-sm text-slate-400">Trigger SOS or view clinical updates pushed by doctors.</p>
+                </button>
 
-          <!-- Clinical Encounters & Appointments -->
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="font-bold text-slate-900 flex items-center gap-2">
-                <i data-lucide="calendar" class="w-5 h-5 text-emerald-600"></i> Next Appointment
-              </h3>
+                <button onclick="switchView('doctor')" class="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-6 text-left transition-all hover:-translate-y-2 backdrop-blur-md">
+                    <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform"><i class="fa-solid fa-stethoscope"></i></div>
+                    <h2 class="text-xl font-bold text-white mb-2">2. Doctor Portal</h2>
+                    <p class="text-sm text-slate-400">Add encounter notes. Data flows back to the Patient App.</p>
+                </button>
+
+                <button onclick="switchView('responder')" class="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-6 text-left transition-all hover:-translate-y-2 backdrop-blur-md">
+                    <div class="w-12 h-12 bg-red-500/20 text-red-400 rounded-xl flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform"><i class="fa-solid fa-truck-medical"></i></div>
+                    <h2 class="text-xl font-bold text-white mb-2">3. EMS Responder</h2>
+                    <p class="text-sm text-slate-400">Scan ID and dispatch patient data to the ER Queue.</p>
+                </button>
+
+                <button onclick="switchView('hospital')" class="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl p-6 text-left transition-all hover:-translate-y-2 backdrop-blur-md">
+                    <div class="w-12 h-12 bg-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform"><i class="fa-solid fa-desktop"></i></div>
+                    <h2 class="text-xl font-bold text-white mb-2">4. Hospital ER</h2>
+                    <p class="text-sm text-slate-400">Accept incoming EMS patients and log them to history.</p>
+                </button>
             </div>
             
-            <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4 mb-4">
-              <div class="flex items-start justify-between">
-                <div>
-                  <span class="text-xs font-bold text-emerald-800 uppercase">Cardiology Follow-up</span>
-                  <h4 class="font-semibold text-slate-900 text-sm mt-0.5">Dr. Farzana Rahman</h4>
-                </div>
-                <span class="text-xs bg-white text-emerald-700 font-bold px-2 py-1 rounded shadow-sm border border-emerald-200">Dec 24, 10:00 AM</span>
-              </div>
+            <div class="mt-12 bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 text-center text-blue-200 text-sm max-w-2xl mx-auto">
+                <i class="fa-solid fa-network-wired mr-2"></i> <strong>Simulation Active:</strong> Changes made in any module are saved to a central state manager and immediately reflect in connected modules.
             </div>
-
-            <div class="border-t border-slate-100 pt-3">
-              <p class="text-xs font-medium text-slate-500 uppercase mb-2">Last Clinical Note (Oct 10)</p>
-              <blockquote class="text-xs text-slate-600 italic bg-slate-50 p-2.5 rounded-lg border-l-2 border-slate-300">
-                "Routine checkup. All clear."
-              </blockquote>
-            </div>
-          </div>
-
         </div>
-
-      </div>
-
-      <!-- RIGHT SIDEBAR (1 Col) -->
-      <div class="space-y-6">
-        
-        <!-- Patient Identity Card -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <div class="flex items-center space-x-4 pb-4 border-b border-slate-100">
-            <div class="w-14 h-14 bg-slate-900 text-white font-bold text-xl rounded-2xl flex items-center justify-center shadow-md">
-              RA
-            </div>
-            <div>
-              <h3 class="font-bold text-lg text-slate-900">Rafat Arman</h3>
-              <p class="text-xs text-slate-500">Male • 28 Years Old</p>
-              <span class="inline-block mt-1 text-xs font-bold bg-red-100 text-red-700 px-2 py-0.5 rounded-full">Blood Type: B+</span>
-            </div>
-          </div>
-
-          <div class="mt-4 space-y-3 text-xs">
-            <div class="flex items-start gap-2 text-slate-600">
-              <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0 mt-0.5"></i>
-              <span>বিনোদপুর মোড়, রাজশাহী সিটি, রাজশাহী ৬০০০</span>
-            </div>
-            <div class="flex items-center gap-2 text-slate-600">
-              <i data-lucide="shield-alert" class="w-4 h-4 text-slate-400 shrink-0"></i>
-              <span>Primary Trauma: <strong class="text-slate-800">রাজশাহী মেডিকেল কলেজ হাসপাতাল</strong></span>
-            </div>
-            <div class="flex items-center gap-2 text-slate-600">
-              <i data-lucide="navigation" class="w-4 h-4 text-slate-400 shrink-0"></i>
-              <span>Trauma Level I (1.2 km away)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ICD-10 Diagnoses Code List -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <h3 class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-2">
-            <i data-lucide="file-code-2" class="w-4 h-4 text-blue-600"></i> Active Diagnoses (ICD-10)
-          </h3>
-          <ul class="space-y-2 text-xs">
-            <li class="flex justify-between items-center p-2 rounded-lg bg-slate-50">
-              <span class="font-medium text-slate-700">Type 1 Diabetes</span>
-              <span class="font-mono bg-slate-200 text-slate-800 px-2 py-0.5 rounded">E10.9</span>
-            </li>
-            <li class="flex justify-between items-center p-2 rounded-lg bg-slate-50">
-              <span class="font-medium text-slate-700">Essential Hypertension</span>
-              <span class="font-mono bg-slate-200 text-slate-800 px-2 py-0.5 rounded">I10</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Family History & Surgical History -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          
-          <div>
-            <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <i data-lucide="scissors" class="w-3.5 h-3.5 text-slate-500"></i> Surgical History
-            </h4>
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs">
-              <p class="font-semibold text-slate-800">Appendectomy <span class="text-slate-400 font-normal">• Mar 2023</span></p>
-              <p class="text-slate-500 mt-0.5">রাজশাহী মেডিকেল কলেজ হাসপাতাল</p>
-            </div>
-          </div>
-
-          <div>
-            <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <i data-lucide="users" class="w-3.5 h-3.5 text-slate-500"></i> Family Medical History
-            </h4>
-            <ul class="space-y-2 text-xs">
-              <li class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <p class="text-slate-700"><strong class="text-slate-900">Mother:</strong> Breast Cancer <span class="text-slate-500">(Age 55)</span></p>
-              </li>
-              <li class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <p class="text-slate-700"><strong class="text-slate-900">Father:</strong> Coronary Artery Disease <span class="text-slate-500">(Age 60)</span></p>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-
-      </div>
-
     </div>
 
-  </main>
+    <div id="view-patient" class="app-view bg-slate-200/50 justify-center items-center py-0 md:py-8">
+        <div class="mobile-mockup bg-stone-50 flex flex-col" id="patient-device-container">
+            <header class="bg-white/80 backdrop-blur-md border-b border-stone-200 px-6 py-5 flex justify-between items-center sticky top-0 z-40 transition-colors" id="pat-header">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-rose-600 rounded-xl flex items-center justify-center text-white text-xl" id="pat-header-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <span class="font-bold text-2xl text-stone-800 tracking-tight" id="pat-header-text">Vital<span class="text-rose-600">Card</span></span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="btn-voice" onclick="toggleVoice()" class="w-12 h-12 rounded-full bg-stone-100 text-stone-400 flex items-center justify-center transition-colors shadow-sm" title="Toggle Voiceover">
+                        <i class="fa-solid fa-volume-xmark text-xl"></i>
+                    </button>
+                    <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-stone-200 bg-stone-100">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=e5e7eb" alt="Profile" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </header>
 
-  <!-- Script Initializations -->
-  <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
+            <main class="flex-1 overflow-y-auto hide-scroll p-6 pb-24">
+                <h1 class="text-3xl font-extrabold text-stone-800 mb-8">Hello, Rafat 👋</h1>
 
-    // Chart.js Vitals Setup
-    const ctx = document.getElementById('vitalsChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['June', 'July', 'August', 'September', 'Oct 10 (Latest)'],
-        datasets: [
-          {
-            label: 'Systolic (mmHg)',
-            data: [125, 122, 120, 119, 118],
-            borderColor: '#ef4444',
-            backgroundColor: 'rgba(239, 68, 68, 0.05)',
-            fill: true,
-            tension: 0.3,
-            borderWidth: 2,
-            pointRadius: 4,
-          },
-          {
-            label: 'Diastolic (mmHg)',
-            data: [82, 80, 81, 79, 78],
-            borderColor: '#3b82f6',
-            backgroundColor: 'transparent',
-            tension: 0.3,
-            borderWidth: 2,
-            pointRadius: 4,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'top',
-            labels: { boxWidth: 12, font: { size: 11 } }
-          }
-        },
-        scales: {
-          y: {
-            min: 60,
-            max: 140,
-            grid: { color: '#f1f5f9' }
-          },
-          x: {
-            grid: { display: false }
-          }
+                <div class="scene mb-8 mx-auto max-w-[320px]">
+                    <div class="card-object" id="patient-vital-card" onclick="this.classList.toggle('is-flipped')">
+                        <!-- Front -->
+                        <div class="card-face bg-gradient-to-br from-rose-50 to-white border border-rose-100 p-5 flex flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <i class="fa-brands fa-nfc-symbol text-2xl text-rose-300"></i>
+                                <span class="bg-rose-100 text-rose-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide">Emergency ID</span>
+                            </div>
+                            <div class="flex gap-4 items-center">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=e5e7eb" class="w-16 h-16 rounded-full border-2 border-white shadow-sm">
+                                <div>
+                                    <h2 class="text-xl font-bold text-stone-800 leading-tight">Rafat Arman</h2>
+                                    <p class="text-sm font-medium text-stone-500">ID: MED-9921-X</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between bg-white/60 p-2 rounded-lg backdrop-blur-sm">
+                                <div class="text-center w-1/3"><div class="text-rose-600 font-bold text-sm">B+</div><div class="text-[8px] text-stone-500 uppercase font-bold">Blood</div></div>
+                                <div class="text-center w-1/3 border-x border-stone-200"><div class="text-amber-600 font-bold text-sm"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="text-[8px] text-stone-500 uppercase font-bold">Allergy</div></div>
+                                <div class="text-center w-1/3"><div class="text-blue-600 font-bold text-sm">28</div><div class="text-[8px] text-stone-500 uppercase font-bold">Years</div></div>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="card-face card-back bg-stone-900 text-white p-6 flex flex-col items-center justify-center text-center">
+                            <div class="bg-white p-2 rounded-lg mb-3"><div id="qr-patient" class="opacity-90"></div></div>
+                            <p class="text-xs text-stone-400">Scan for complete medical file</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Update -->
+                <div class="bg-white border-2 border-stone-100 p-5 rounded-3xl shadow-sm mb-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-extrabold text-stone-800 text-lg">📍 My Address</h3>
+                        <button onclick="toggleAddressEdit()" id="btn-edit-address" class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">
+                            <i class="fa-solid fa-pen text-xs mr-1"></i> Edit
+                        </button>
+                    </div>
+                    <p id="pat-address-display" class="text-base text-stone-600">বিনোদপুর মোড়, রাজশাহী সিটি, রাজশাহী ৬০০০</p>
+                    <div id="pat-address-edit" class="hidden mt-3">
+                        <textarea id="pat-address-input" rows="2" class="w-full bg-stone-50 border-2 border-stone-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:border-blue-500" placeholder="আপনার ঠিকানা লিখুন...">বিনোদপুর মোড়, রাজশাহী সিটি, রাজশাহী ৬০০০</textarea>
+                        <button onclick="saveAddress()" class="mt-2 w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-base">
+                            <i class="fa-solid fa-check mr-2"></i> Save Address
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <button id="btn-pat-sos" onclick="toggleSOS()" class="w-full bg-white border-2 border-rose-200 p-5 rounded-3xl shadow-md flex items-center justify-between group active:scale-95 transition-all mb-4">
+                    <div class="flex items-center gap-5">
+                        <div class="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center text-rose-600 text-3xl transition-colors" id="btn-pat-sos-icon">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-stone-800 text-xl" id="btn-pat-sos-title">SOS Emergency</h3>
+                            <p class="text-sm text-stone-500" id="btn-pat-sos-sub">Broadcast location & profile</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-stone-300 text-xl"></i>
+                </button>
+
+                <!-- SOS Status Panel (hidden by default) -->
+                <div id="pat-sos-status" class="hidden bg-red-50 border-2 border-red-200 rounded-3xl p-5 mb-8 text-center">
+                    <div id="pat-sos-status-icon" class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3 text-red-600 text-2xl">
+                        <i class="fa-solid fa-satellite-dish fa-beat-fade"></i>
+                    </div>
+                    <h4 id="pat-sos-status-title" class="font-bold text-red-800 text-lg">Sending SOS to ER...</h4>
+                    <p id="pat-sos-status-sub" class="text-sm text-red-600">Waiting for hospital response</p>
+                    <div id="pat-sos-messages" class="mt-3 space-y-2 text-left"></div>
+                </div>
+
+                <h3 class="font-extrabold text-stone-800 mb-4 text-xl">📅 Appointments</h3>
+                <div id="pat-appts-list" class="space-y-3 mb-6">
+                    <!-- Populated by JS state -->
+                </div>
+
+                <h3 class="font-extrabold text-stone-800 mb-4 text-xl">💊 Active Medications</h3>
+                <div id="pat-meds-list" class="space-y-3 mb-6">
+                    <!-- Populated by JS state -->
+                </div>
+
+                <h3 class="font-extrabold text-stone-800 mb-4 text-xl">🩺 Clinical Records (Synced)</h3>
+                
+                <div id="pat-encounters-list" class="space-y-3 mb-6">
+                    <!-- Populated by JS state -->
+                </div>
+
+                <h3 class="font-extrabold text-stone-800 mb-4 text-xl">📋 Access Log</h3>
+                <div id="pat-access-log" class="space-y-3 mb-6">
+                    <!-- Populated by JS state -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <div id="view-doctor" class="app-view bg-slate-50 flex-col pb-0">
+        <nav class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center shadow-sm shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 text-white p-2 rounded-lg shadow-sm"><i class="fa-solid fa-stethoscope"></i></div>
+                <h1 class="text-xl font-bold text-gray-800 tracking-tight">MediLink <span class="text-xs font-medium text-blue-600 bg-blue-50 border border-blue-100 rounded px-2 py-0.5 ml-1">CLINICIAN</span></h1>
+            </div>
+        </nav>
+
+        <div class="flex-1 flex flex-col md:flex-row overflow-hidden pb-20">
+            <!-- Left Panel -->
+            <div class="w-full md:w-1/3 border-r border-gray-200 bg-white p-6 flex flex-col overflow-y-auto">
+                <h2 class="text-lg font-bold text-slate-800 mb-4">NFC Intake Terminal</h2>
+                <div class="bg-slate-50 rounded-xl border border-slate-200 p-8 flex flex-col items-center justify-center text-center mb-6 h-48 relative overflow-hidden group cursor-pointer" onclick="docScanCard()">
+                    <div class="absolute inset-0 bg-blue-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col items-center">
+                        <i id="doc-scanner-icon" class="fa-brands fa-nfc-symbol text-5xl text-slate-300 group-hover:text-blue-500 transition-colors mb-3"></i>
+                        <h3 id="doc-scanner-status" class="font-bold text-slate-700">READY TO SCAN</h3>
+                        <p class="text-xs text-slate-500 mt-1">Tap physical card or click to simulate</p>
+                    </div>
+                </div>
+                <h3 class="font-bold text-slate-700 text-sm mb-2 border-b pb-2">Terminal Logs</h3>
+                <div id="doc-logs" class="flex-1 overflow-y-auto space-y-2 text-xs text-slate-500 font-mono">
+                    <p class="text-slate-400 italic">System initialized...</p>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div id="doc-patient-record" class="hidden w-full md:w-2/3 bg-slate-50 p-6 md:p-8 overflow-y-auto flex-col gap-6">
+                <!-- Profile Block -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden shrink-0">
+                    <div class="bg-red-50 border-b border-red-100 p-3 flex items-start gap-3">
+                        <i class="fa-solid fa-triangle-exclamation text-red-500 mt-1"></i>
+                        <div><span class="text-red-800 font-bold text-sm">CRITICAL:</span> <span class="text-red-700 text-sm">Severe Penicillin Allergy.</span></div>
+                    </div>
+                    <div class="p-6 flex items-center gap-5">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=f8fafc" class="w-20 h-20 rounded-xl border border-gray-200 shadow-sm">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800">Rafat Arman</h2>
+                            <p class="text-sm text-slate-500">ID: MED-9921-X • 28 Male • Blood: B+</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Block -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden shrink-0">
+                    <div class="p-6 bg-blue-50/30 border-b border-gray-100">
+                        <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2"><i class="fa-solid fa-notes-medical text-blue-500"></i> New Encounter Note</h3>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 mb-1">Blood Pressure</label>
+                                <input type="text" id="doc-bp" placeholder="120/80" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 mb-1">Heart Rate</label>
+                                <input type="text" id="doc-hr" placeholder="72 bpm" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-medium text-slate-500 mb-1">Clinical Notes</label>
+                            <textarea id="doc-notes" rows="2" placeholder="Observations..." class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+                        <div class="flex justify-end">
+                            <button onclick="docSaveRecord()" id="doc-save-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 shadow-sm">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Save to Central State
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prescribe Medicine Block -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden shrink-0">
+                    <div class="p-6 bg-purple-50/30 border-b border-gray-100">
+                        <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2"><i class="fa-solid fa-prescription-bottle-medical text-purple-500"></i> Prescribe Medicine</h3>
+                        <div class="grid grid-cols-1 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 mb-1">Medicine Name</label>
+                                <input type="text" id="doc-rx-name" placeholder="e.g. Amoxicillin 500mg" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-purple-500">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 mb-1">Duration (Days)</label>
+                                    <input type="number" id="doc-rx-days" placeholder="7" min="1" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 mb-1">How to Take</label>
+                                    <select id="doc-rx-instruction" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-purple-500">
+                                        <option value="Once daily (Morning)">Once daily (Morning)</option>
+                                        <option value="Once daily (Night)">Once daily (Night)</option>
+                                        <option value="Twice daily (Morning & Night)">Twice daily (Morning & Night)</option>
+                                        <option value="Three times daily (After meals)">Three times daily (After meals)</option>
+                                        <option value="As needed (PRN)">As needed (PRN)</option>
+                                        <option value="Before meals">Before meals</option>
+                                        <option value="After meals">After meals</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button onclick="docPrescribeMedicine()" id="doc-rx-btn" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 shadow-sm">
+                                <i class="fa-solid fa-prescription"></i> Prescribe & Sync to Patient
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Block -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex-1">
+                    <h3 class="font-bold text-slate-700 mb-4 border-b pb-2">Encounter History</h3>
+                    <div id="doc-history-list" class="space-y-4">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <div id="doc-empty-state" class="w-full md:w-2/3 flex flex-col items-center justify-center text-slate-400 bg-slate-50">
+                <i class="fa-solid fa-folder-open text-6xl mb-4 opacity-30"></i>
+                <p class="text-lg font-medium">No Patient Selected</p>
+            </div>
+            
+            <!-- FULL PROFILE MODAL (Hidden by default) -->
+            <div id="doc-profile-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity">
+                <div id="doc-profile-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
+                        <h2 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-file-waveform text-blue-500 mr-2"></i> Comprehensive Medical File</h2>
+                        <button onclick="docCloseFullProfile()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center transition-colors">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-6 space-y-6">
+                        <!-- Diagnostics -->
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">Active Diagnoses (ICD-10)</h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <span class="bg-amber-50 border border-amber-200 text-amber-800 px-3 py-1.5 rounded-lg text-sm font-medium"><i class="fa-solid fa-droplet text-amber-500 mr-1"></i> Type 1 Diabetes (E10.9)</span>
+                                <span class="bg-indigo-50 border border-indigo-200 text-indigo-800 px-3 py-1.5 rounded-lg text-sm font-medium"><i class="fa-solid fa-heart text-indigo-500 mr-1"></i> Hypertension (I10)</span>
+                            </div>
+                        </div>
+
+                        <hr class="border-gray-100">
+
+                        <!-- Surgical History -->
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">Surgical History</h3>
+                            <div class="space-y-3">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <p class="font-bold text-slate-700 text-sm">Appendectomy</p>
+                                    <p class="text-xs text-slate-500">Performed: Mar 2023 • রাজশাহী মেডিকেল কলেজ হাসপাতাল</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr class="border-gray-100">
+
+                        <!-- Family History -->
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">Family History</h3>
+                            <ul class="text-sm text-slate-600 list-disc pl-5 space-y-1">
+                                <li>Mother: Breast Cancer (Diagnosed age 55)</li>
+                                <li>Father: Coronary Artery Disease (Diagnosed age 60)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+    <div id="view-responder" class="app-view bg-slate-800 justify-center items-center py-0 md:py-8">
+        <div class="mobile-mockup bg-gray-50 flex flex-col border-4 border-slate-900 md:border-none">
+            <header class="bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-40">
+                <div>
+                    <h2 class="font-bold text-lg leading-none">EMS Portal</h2>
+                    <p class="text-[10px] text-red-400 font-mono mt-1">UNIT 42 • ONLINE</p>
+                </div>
+                <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center"><i class="fa-solid fa-shield-halved"></i></div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto flex flex-col pb-20">
+                <div id="resp-scanner" class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                    <div class="w-48 h-48 border-4 border-dashed border-slate-300 rounded-3xl flex items-center justify-center mb-8 relative group cursor-pointer bg-white" onclick="emsScan()">
+                        <div id="resp-pulse" class="pulse-ring hidden"></div>
+                        <div class="z-10 flex flex-col items-center gap-2">
+                            <i id="resp-scan-icon" class="fa-solid fa-mobile-retro text-5xl text-slate-400 group-hover:text-red-500 transition-colors"></i>
+                            <span class="text-xs font-bold text-slate-400 uppercase">Tap Card / NFC</span>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg mb-2">Identify Patient</h3>
+                    <p class="text-sm text-slate-500">Scan ID to prep transmission to ER.</p>
+                </div>
+
+                <div id="resp-profile" class="hidden flex-1 flex flex-col">
+                    <div class="bg-red-600 text-white p-5 rounded-b-[2rem] shadow-lg shrink-0">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-white rounded-full p-1"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=f8fafc" class="w-full h-full rounded-full"></div>
+                            <div>
+                                <h2 class="text-2xl font-bold">Rafat Arman</h2>
+                                <span class="bg-white/20 px-2 py-0.5 rounded text-xs font-bold font-mono">MED-9921-X</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5 flex-1 space-y-4 -mt-4 relative z-10 overflow-y-auto">
+                        <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-red-500">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Critical Allergy</p>
+                            <p class="font-bold text-red-600 text-lg">PENICILLIN</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-2">Transport Mode</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="resp-mode-onway" onclick="emsSetMode('onway')" class="bg-green-600 text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+                                    <i class="fa-solid fa-truck-fast"></i> Patient On The Way
+                                </button>
+                                <button id="resp-mode-ambulance" onclick="emsSetMode('ambulance')" class="bg-slate-100 text-slate-600 py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+                                    <i class="fa-solid fa-truck-medical"></i> Need Ambulance
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-2">Incident Type</label>
+                            <select id="resp-type" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500 font-bold text-slate-700">
+                                <option>Trauma / Accident</option>
+                                <option>Cardiac</option>
+                                <option>Respiratory Distress</option>
+                                <option>Unconscious</option>
+                                <option>Seizure</option>
+                                <option>Burn Injury</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-2">Triage Notes</label>
+                            <textarea id="resp-notes" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-red-500" placeholder="Condition details..."></textarea>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-2"><i class="fa-solid fa-hospital text-indigo-500 mr-1"></i> Select Nearby Hospital</label>
+                            <div class="space-y-2" id="resp-hospital-list">
+                                <label class="flex items-center gap-3 p-3 border-2 border-indigo-300 bg-indigo-50 rounded-xl cursor-pointer">
+                                    <input type="radio" name="resp-hospital" value="রাজশাহী মেডিকেল কলেজ হাসপাতাল" checked class="accent-indigo-600 w-4 h-4">
+                                    <div class="flex-1">
+                                        <p class="font-bold text-slate-800 text-sm">রাজশাহী মেডিকেল কলেজ হাসপাতাল</p>
+                                        <p class="text-[10px] text-slate-500">1.2 km • ETA ~4 min • Trauma Level I</p>
+                                    </div>
+                                    <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded font-bold">OPEN</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50">
+                                    <input type="radio" name="resp-hospital" value="ইসলামী ব্যাংক হাসপাতাল, রাজশাহী" class="accent-indigo-600 w-4 h-4">
+                                    <div class="flex-1">
+                                        <p class="font-bold text-slate-800 text-sm">ইসলামী ব্যাংক হাসপাতাল, রাজশাহী</p>
+                                        <p class="text-[10px] text-slate-500">3.5 km • ETA ~8 min • Trauma Level II</p>
+                                    </div>
+                                    <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded font-bold">OPEN</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50">
+                                    <input type="radio" name="resp-hospital" value="বরেন্দ্র মেডিকেল কলেজ হাসপাতাল" class="accent-indigo-600 w-4 h-4">
+                                    <div class="flex-1">
+                                        <p class="font-bold text-slate-800 text-sm">বরেন্দ্র মেডিকেল কলেজ হাসপাতাল</p>
+                                        <p class="text-[10px] text-slate-500">5.1 km • ETA ~12 min • Trauma Level I</p>
+                                    </div>
+                                    <span class="bg-yellow-100 text-yellow-700 text-[10px] px-2 py-0.5 rounded font-bold">BUSY</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 opacity-60">
+                                    <input type="radio" name="resp-hospital" value="শহীদ জিয়াউর রহমান হাসপাতাল" class="accent-indigo-600 w-4 h-4">
+                                    <div class="flex-1">
+                                        <p class="font-bold text-slate-800 text-sm">শহীদ জিয়াউর রহমান হাসপাতাল</p>
+                                        <p class="text-[10px] text-slate-500">7.8 km • ETA ~18 min • Trauma Level III</p>
+                                    </div>
+                                    <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded font-bold">FULL</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-white border-t border-slate-200">
+                        <button onclick="emsTransmit()" id="resp-transmit-btn" class="w-full bg-red-600 text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-lg shadow-red-500/30">
+                            <i class="fa-solid fa-tower-broadcast"></i> TRANSMIT TO ER
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Awaiting / Confirmed / Messages Screen -->
+                <div id="resp-awaiting" class="hidden flex-1 flex flex-col">
+                    <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                        <div id="resp-await-icon" class="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-4 text-amber-600 text-3xl">
+                            <i class="fa-solid fa-satellite-dish fa-beat-fade"></i>
+                        </div>
+                        <h3 id="resp-await-title" class="text-xl font-bold text-slate-800 mb-1">Awaiting Confirmation</h3>
+                        <p id="resp-await-sub" class="text-sm text-slate-500 mb-2">Data transmitted to hospital. Waiting for response...</p>
+                        <p id="resp-await-hospital" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg mb-4"></p>
+                        
+                        <!-- Hospital Messages Area -->
+                        <div id="resp-messages" class="w-full space-y-2 mb-4 max-h-40 overflow-y-auto hide-scroll"></div>
+                    </div>
+                    <div class="p-4 bg-white border-t border-slate-200">
+                        <button id="resp-new-scan-btn" onclick="emsReset()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold hidden">
+                            <i class="fa-solid fa-rotate-right mr-2"></i> Scan New Patient
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <div id="view-hospital" class="app-view bg-slate-100 flex-col pb-0">
+        <header class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-600 w-8 h-8 rounded flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-h"></i></div>
+                <h1 class="text-xl font-bold tracking-tight">ER Trauma Center</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-2 text-xs font-medium text-green-400 bg-green-900/50 px-3 py-1 rounded-full border border-green-800">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Active Receiving
+                </span>
+            </div>
+        </header>
+
+        <div class="flex-1 flex overflow-hidden p-6 gap-6 pb-24">
+            <!-- Left Panel: Split Queues -->
+            <div class="w-1/3 flex flex-col gap-6 h-full">
+                
+                <!-- Incoming List -->
+                <div class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col overflow-hidden min-h-[50%]">
+                    <div class="bg-red-50 border-b border-red-100 p-3 flex justify-between items-center shrink-0">
+                        <h3 class="font-bold text-red-900 flex items-center gap-2 text-sm"><i class="fa-solid fa-ambulance"></i> Incoming Alert</h3>
+                        <span id="hosp-queue-count" class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">0</span>
+                    </div>
+                    <div id="hosp-queue" class="flex-1 overflow-y-auto p-3 space-y-3 bg-slate-50/50">
+                        <div id="hosp-empty" class="text-center py-8 text-slate-400 flex flex-col items-center">
+                            <i class="fa-solid fa-radar text-3xl mb-2 opacity-30"></i>
+                            <p class="text-xs">Awaiting EMS Transmissions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History List -->
+                <div class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col overflow-hidden min-h-[50%]">
+                    <div class="bg-slate-100 border-b border-slate-200 p-3 shrink-0">
+                        <h3 class="font-bold text-slate-700 flex items-center gap-2 text-sm"><i class="fa-solid fa-clock-rotate-left"></i> Admitted Session History</h3>
+                    </div>
+                    <div id="hosp-history" class="flex-1 overflow-y-auto p-3 space-y-2 bg-slate-50">
+                        <div id="hosp-history-empty" class="text-center py-8 text-slate-400 text-xs italic">No patients admitted yet.</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Panel: Patient Detail -->
+            <div class="w-2/3 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col relative overflow-hidden h-full min-h-0">
+                <div id="hosp-detail-empty" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 bg-slate-50 z-10">
+                    <i class="fa-solid fa-laptop-medical text-6xl mb-4 opacity-30"></i>
+                    <p class="text-lg font-medium">Select an incoming alert</p>
+                </div>
+
+                <div id="hosp-detail-content" style="display:none;" class="flex-1 flex flex-col min-h-0">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-start bg-slate-50 shrink-0">
+                        <div class="flex gap-4">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=cbd5e1" class="w-16 h-16 rounded-xl border border-slate-200">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h2 class="text-2xl font-bold text-slate-800" id="hosp-det-name">Name</h2>
+                                    <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded font-bold border border-red-200">CRITICAL</span>
+                                </div>
+                                <p class="text-slate-500 text-sm" id="hosp-det-source">Sent by: EMS UNIT 42</p>
+                                <p class="text-slate-400 text-xs mt-0.5" id="hosp-det-location"></p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-3xl font-bold text-red-600 animate-pulse" id="hosp-det-eta">5 <span class="text-sm text-slate-500 font-normal">MINS</span></p>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">ETA</p>
+                            <p class="text-[10px] font-bold mt-1" id="hosp-det-mode"></p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex-1 overflow-y-auto flex flex-col gap-6">
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl">
+                            <p class="text-xs text-red-800 uppercase font-bold mb-1">Allergy Warning</p>
+                            <p class="font-bold text-red-900 text-lg">PENICILLIN</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-100 p-4 rounded-xl border border-slate-200">
+                                <p class="text-xs text-slate-500 uppercase font-bold mb-1">Incident Type</p>
+                                <p class="font-bold text-slate-800" id="hosp-det-type">--</p>
+                            </div>
+                            <div class="bg-slate-100 p-4 rounded-xl border border-slate-200">
+                                <p class="text-xs text-slate-500 uppercase font-bold mb-1">Field Notes</p>
+                                <p class="font-medium text-slate-700 text-sm italic" id="hosp-det-notes">--</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-bold text-slate-800 mb-3">Preparation Checklist</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                                    <input type="checkbox" class="w-5 h-5 accent-indigo-600">
+                                    <span class="font-medium text-sm text-slate-700">Prepare B+ Blood (2 Units)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 border border-red-200 bg-red-50/50 rounded-lg hover:bg-red-50 cursor-pointer">
+                                    <input type="checkbox" class="w-5 h-5 accent-red-600">
+                                    <span class="font-medium text-sm text-red-800">Clear Penicillin from Trauma Bay 1</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Advisory Message to EMS -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                            <h3 class="font-bold text-blue-800 mb-2 flex items-center gap-2 text-sm"><i class="fa-solid fa-comment-medical text-blue-500"></i> Send Advisory to EMS</h3>
+                            <div class="space-y-2">
+                                <select id="hosp-advisory-preset" class="w-full bg-white border border-blue-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+                                    <option value="">Select quick advisory...</option>
+                                    <option value="DO NOT administer Penicillin or related antibiotics">⚠️ DO NOT administer Penicillin</option>
+                                    <option value="Keep patient conscious and talking">💬 Keep patient conscious and talking</option>
+                                    <option value="Apply pressure to wound, do NOT remove foreign object">🩹 Apply pressure, don't remove objects</option>
+                                    <option value="Administer Epinephrine if anaphylaxis occurs">💉 Administer Epinephrine if needed</option>
+                                    <option value="Do NOT move patient — possible spinal injury">🚫 Do NOT move patient (spinal)</option>
+                                    <option value="Monitor blood sugar levels closely">📊 Monitor blood sugar levels</option>
+                                    <option value="Start IV fluids if possible">💧 Start IV fluids if possible</option>
+                                </select>
+                                <textarea id="hosp-advisory-text" rows="2" placeholder="Or type custom instructions..." class="w-full bg-white border border-blue-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"></textarea>
+                                <button onclick="hospSendAdvisory()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center gap-2 w-full justify-center">
+                                    <i class="fa-solid fa-paper-plane"></i> Send to EMS Responder
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sent Messages Log -->
+                        <div id="hosp-sent-messages" class="space-y-2"></div>
+                    </div>
+
+                    <div class="p-4 border-t border-slate-200 bg-slate-50 flex justify-end gap-3 shrink-0">
+                        <button id="hosp-dispatch-btn" onclick="hospDispatchAmbulance()" class="bg-red-600 text-white px-5 py-2.5 rounded-lg font-bold shadow-sm hover:bg-red-700 transition-colors hidden">
+                            <i class="fa-solid fa-truck-medical mr-2"></i> Dispatch Ambulance
+                        </button>
+                        <button id="hosp-admit-btn" onclick="hospAdmit()" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg font-bold shadow-sm hover:bg-indigo-700 transition-colors">
+                            <i class="fa-solid fa-check-to-slot mr-2"></i> Accept & Admit Patient
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const vcoreState = {
+            activeView: 'hub',
+            sosActive: false,
+            sosDispatched: false,
+            admitCounter: 0, // auto-increment admit ID counter
+            patient: {
+                id: "MED-9921-X",
+                name: "Rafat Arman",
+                address: "বিনোদপুর মোড়, রাজশাহী সিটি, রাজশাহী ৬০০০",
+                medications: [
+                    { name: "Amlodipine", dose: "5mg", freq: "Daily" },
+                    { name: "Metformin", dose: "500mg", freq: "Twice Daily" }
+                ],
+                appointments: [
+                    { date: "Dec 24, 10:00 AM", doc: "Dr. Farzana Rahman", type: "Cardiology Follow-up" }
+                ],
+                encounters: [
+                    { date: "Oct 10", bp: "118/78", hr: "70", notes: "Routine checkup. All clear." }
+                ],
+                accessLog: [
+                    { who: "System", role: "INIT", action: "Card Activated", time: "Jan 01, 09:00 AM" }
+                ]
+            },
+            sosTransmissionId: null, // tracks the active SOS transmission from patient
+            emsTransportMode: 'onway', // 'onway' or 'ambulance'
+            emsActiveTransmissions: [], // tracks all active EMS transmission IDs
+            hospital: {
+                incoming: [], // { id, name, type, notes, time, hospital, eta, mode, messages }
+                history: []  // { name, time, type, hospital, notes }
+            },
+            currentViewingId: null // Used by hospital detail pane
+        };
+
+        // --- localStorage Persistence Helpers ---
+        function saveHospitalHistory() {
+            try {
+                localStorage.setItem('vcore_hospital_history', JSON.stringify(vcoreState.hospital.history));
+            } catch(e) { console.warn('Failed to save history:', e); }
         }
-      }
-    });
-  </script>
+        function loadHospitalHistory() {
+            try {
+                const saved = localStorage.getItem('vcore_hospital_history');
+                if(saved) {
+                    vcoreState.hospital.history = JSON.parse(saved);
+                }
+            } catch(e) { console.warn('Failed to load history:', e); }
+        }
+
+        // Init Setup
+        document.addEventListener('DOMContentLoaded', () => {
+            new QRCode(document.getElementById("qr-patient"), {
+                text: "vcore://pt/MED-9921-X", width: 80, height: 80, colorDark: "#1c1917", colorLight: "#ffffff"
+            });
+            loadHospitalHistory();
+            renderPatientAppts();
+            renderPatientMeds();
+            renderPatientEncounters();
+            renderDoctorHistory();
+            renderAccessLog();
+            renderHospHistory();
+        });
+
+        // --- Voiceover & Audio Logic ---
+        let voiceEnabled = false;
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            const btn = document.getElementById('btn-voice');
+            if (voiceEnabled) {
+                btn.classList.replace('bg-stone-100', 'bg-blue-100');
+                btn.classList.replace('text-stone-400', 'text-blue-600');
+                btn.innerHTML = '<i class="fa-solid fa-volume-high text-lg"></i>';
+                speak("Voiceover enabled. Tap items to hear them.");
+            } else {
+                window.speechSynthesis.cancel();
+                btn.classList.replace('bg-blue-100', 'bg-stone-100');
+                btn.classList.replace('text-blue-600', 'text-stone-400');
+                btn.innerHTML = '<i class="fa-solid fa-volume-xmark text-lg"></i>';
+            }
+        }
+
+        function speak(text) {
+            if (!voiceEnabled) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // --- SOS Siren using native Web Audio API (reliable, no Tone.js dependency) ---
+        let sirenAudioCtx, sirenOscNode, sirenGainNode, sirenInterval;
+        function playSiren() {
+            try {
+                if(!sirenAudioCtx) sirenAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if(sirenAudioCtx.state === 'suspended') sirenAudioCtx.resume();
+                stopSiren(); // clear any previous siren
+                sirenGainNode = sirenAudioCtx.createGain();
+                sirenGainNode.gain.value = 0.15; // subtle volume
+                sirenGainNode.connect(sirenAudioCtx.destination);
+                sirenOscNode = sirenAudioCtx.createOscillator();
+                sirenOscNode.type = 'sine';
+                sirenOscNode.frequency.value = 523; // C5
+                sirenOscNode.connect(sirenGainNode);
+                sirenOscNode.start();
+                let isHigh = true;
+                sirenInterval = setInterval(() => {
+                    if(sirenOscNode) {
+                        sirenOscNode.frequency.setValueAtTime(isHigh ? 392 : 523, sirenAudioCtx.currentTime); // G4 / C5
+                        isHigh = !isHigh;
+                    }
+                }, 400);
+            } catch(e) { console.warn('Siren error:', e); }
+        }
+        
+        function stopSiren() {
+            if(sirenInterval) { clearInterval(sirenInterval); sirenInterval = null; }
+            if(sirenOscNode) { try { sirenOscNode.stop(); } catch(e) {} sirenOscNode = null; }
+            if(sirenGainNode) { sirenGainNode.disconnect(); sirenGainNode = null; }
+        }
+
+        function switchView(viewId) {
+            document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
+            document.getElementById(`view-${viewId}`).classList.add('active');
+            vcoreState.activeView = viewId;
+
+            const nav = document.getElementById('global-nav');
+            if (viewId === 'hub') nav.classList.add('hidden-nav');
+            else nav.classList.remove('hidden-nav');
+            
+            // Re-render specifically needed views to ensure fresh state
+            if(viewId === 'patient') { renderPatientEncounters(); renderPatientMeds(); renderAccessLog(); }
+            if(viewId === 'doctor') renderDoctorHistory();
+            if(viewId === 'hospital') { renderHospQueue(); renderHospHistory(); }
+        }
+
+        function loginAs(role) { switchView(role); }
+
+        function checkGlobalAlerts() {
+            const banner = document.getElementById('global-sos-banner');
+            const patContainer = document.getElementById('patient-device-container');
+            const patHeader = document.getElementById('pat-header');
+            
+            if (vcoreState.sosActive) {
+                // Show Banner (unless on patient view to avoid crowding)
+                if(vcoreState.activeView !== 'patient') banner.classList.add('active');
+                else banner.classList.remove('active');
+
+                // Patient Device FX
+                patContainer.classList.add('sos-flash');
+                patHeader.classList.replace('bg-white/80', 'bg-red-600/90');
+                document.getElementById('pat-header-text').classList.replace('text-stone-800', 'text-white');
+                document.getElementById('pat-header-icon').classList.replace('bg-rose-600', 'bg-white');
+                document.getElementById('pat-header-icon').classList.replace('text-white', 'text-red-600');
+            } else {
+                banner.classList.remove('active');
+                patContainer.classList.remove('sos-flash');
+                patHeader.classList.replace('bg-red-600/90', 'bg-white/80');
+                document.getElementById('pat-header-text').classList.replace('text-white', 'text-stone-800');
+                document.getElementById('pat-header-icon').classList.replace('bg-white', 'bg-rose-600');
+                document.getElementById('pat-header-icon').classList.replace('text-red-600', 'text-white');
+            }
+        }
+
+        async function toggleSOS() {
+            // Ensure AudioContext is unlocked on user gesture
+            if(sirenAudioCtx && sirenAudioCtx.state === 'suspended') await sirenAudioCtx.resume();
+            vcoreState.sosActive = !vcoreState.sosActive;
+            const btnTitle = document.getElementById('btn-pat-sos-title');
+            const btnSub = document.getElementById('btn-pat-sos-sub');
+            const icon = document.getElementById('btn-pat-sos-icon');
+            const statusPanel = document.getElementById('pat-sos-status');
+
+            if(vcoreState.sosActive) {
+                vcoreState.sosDispatched = false;
+                btnTitle.innerText = "CANCEL SOS";
+                btnTitle.classList.remove('text-stone-800', 'text-blue-600');
+                btnTitle.classList.add('text-red-600');
+                btnSub.innerText = "Alert broadcasting to Hospital!";
+                btnSub.classList.remove('text-stone-500', 'text-blue-500');
+                btnSub.classList.add('text-red-500');
+                icon.classList.remove('bg-rose-50', 'bg-blue-600');
+                icon.classList.add('bg-red-600');
+                icon.classList.replace('text-rose-600', 'text-white');
+                icon.classList.add('animate-pulse');
+                icon.innerHTML = '<i class="fa-solid fa-bell"></i>';
+                
+                // Push to Hospital Queue with full data structure
+                const sosId = 'sos-' + Date.now();
+                vcoreState.hospital.incoming.push({
+                    id: sosId,
+                    patientId: vcoreState.patient.id,
+                    name: vcoreState.patient.name,
+                    type: 'SOS MOBILE TRIGGER',
+                    notes: `Automated SOS from Patient Device.`,
+                    location: vcoreState.patient.address,
+                    time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    hospital: 'রাজশাহী মেডিকেল কলেজ হাসপাতাল',
+                    eta: '--',
+                    mode: 'ambulance',
+                    status: 'pending',
+                    messages: [],
+                    source: 'PATIENT APP'
+                });
+                vcoreState.sosTransmissionId = sosId;
+                renderHospQueue();
+
+                // Show SOS status panel
+                statusPanel.classList.remove('hidden');
+                document.getElementById('pat-sos-status-icon').className = 'w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3 text-red-600 text-2xl';
+                document.getElementById('pat-sos-status-icon').innerHTML = '<i class="fa-solid fa-satellite-dish fa-beat-fade"></i>';
+                document.getElementById('pat-sos-status-title').innerText = 'Sending SOS to ER...';
+                document.getElementById('pat-sos-status-title').className = 'font-bold text-red-800 text-lg';
+                document.getElementById('pat-sos-status-sub').innerText = 'Waiting for hospital response';
+                document.getElementById('pat-sos-messages').innerHTML = '';
+                
+                // Log access
+                const timeStr = new Date().toLocaleString([], { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                vcoreState.patient.accessLog.unshift({
+                    who: vcoreState.patient.name,
+                    role: 'PATIENT',
+                    action: `SOS Emergency Triggered — Location: ${vcoreState.patient.address}`,
+                    time: timeStr
+                });
+                renderAccessLog();
+                
+                speak("SOS Activated. Alert sent to Hospital Emergency Room.");
+                playSiren();
+            } else {
+                vcoreState.sosDispatched = false;
+                vcoreState.sosTransmissionId = null;
+                btnTitle.innerText = "SOS Emergency";
+                btnTitle.classList.remove('text-red-600', 'text-blue-600');
+                btnTitle.classList.add('text-stone-800');
+                btnSub.innerText = "Broadcast location & profile";
+                btnSub.classList.remove('text-red-500', 'text-blue-500');
+                btnSub.classList.add('text-stone-500');
+                icon.classList.remove('bg-red-600', 'bg-blue-600');
+                icon.classList.add('bg-rose-50');
+                icon.classList.replace('text-white', 'text-rose-600');
+                icon.classList.remove('animate-pulse');
+                icon.innerHTML = '<i class="fa-solid fa-bell"></i>';
+                statusPanel.classList.add('hidden');
+                speak("SOS Cancelled.");
+                stopSiren();
+            }
+            checkGlobalAlerts();
+        }
+
+        function toggleAddressEdit() {
+            const editSection = document.getElementById('pat-address-edit');
+            const btn = document.getElementById('btn-edit-address');
+            if(editSection.classList.contains('hidden')) {
+                editSection.classList.remove('hidden');
+                btn.innerHTML = '<i class="fa-solid fa-xmark text-xs mr-1"></i> Cancel';
+            } else {
+                editSection.classList.add('hidden');
+                btn.innerHTML = '<i class="fa-solid fa-pen text-xs mr-1"></i> Edit';
+            }
+        }
+
+        function saveAddress() {
+            const input = document.getElementById('pat-address-input').value.trim();
+            if(!input) return;
+            vcoreState.patient.address = input;
+            document.getElementById('pat-address-display').innerText = input;
+            document.getElementById('pat-address-edit').classList.add('hidden');
+            document.getElementById('btn-edit-address').innerHTML = '<i class="fa-solid fa-pen text-xs mr-1"></i> Edit';
+            speak('Address updated.');
+        }
+
+        function updatePatientSOSStatus(status, messages) {
+            const iconEl = document.getElementById('pat-sos-status-icon');
+            const titleEl = document.getElementById('pat-sos-status-title');
+            const subEl = document.getElementById('pat-sos-status-sub');
+            const panel = document.getElementById('pat-sos-status');
+
+            panel.classList.remove('hidden');
+
+            if(status === 'accepted' || status === 'dispatched') {
+                panel.className = 'bg-green-50 border-2 border-green-200 rounded-3xl p-5 mb-8 text-center';
+                iconEl.className = 'w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3 text-green-600 text-2xl';
+                iconEl.innerHTML = '<i class="fa-solid fa-truck-medical fa-bounce"></i>';
+                titleEl.innerText = status === 'dispatched' ? 'Ambulance Dispatched!' : 'Hospital Accepted!';
+                titleEl.className = 'font-bold text-green-800 text-lg';
+                subEl.innerText = 'Help is on the way. Stay calm.';
+                stopSiren();
+            }
+
+            const msgContainer = document.getElementById('pat-sos-messages');
+            if(messages && messages.length > 0) {
+                msgContainer.innerHTML = messages.map(msg => `
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-left">
+                        <div class="flex items-center gap-2 mb-1">
+                            <i class="fa-solid fa-hospital text-blue-500 text-xs"></i>
+                            <span class="text-[10px] font-bold text-blue-700 uppercase">Hospital Advisory</span>
+                        </div>
+                        <p class="text-sm font-medium text-blue-900">${msg.text}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function checkSOSDispatchStatus() {
+            if (vcoreState.sosActive && vcoreState.sosDispatched) {
+                const btnTitle = document.getElementById('btn-pat-sos-title');
+                const btnSub = document.getElementById('btn-pat-sos-sub');
+                const icon = document.getElementById('btn-pat-sos-icon');
+
+                btnTitle.innerText = "HELP IS ON THE WAY";
+                btnTitle.classList.replace('text-red-600', 'text-blue-600');
+                btnSub.innerText = "Hospital dispatched ambulance!";
+                btnSub.classList.replace('text-red-500', 'text-blue-500');
+
+                icon.classList.replace('bg-red-600', 'bg-blue-600');
+                icon.innerHTML = '<i class="fa-solid fa-truck-medical"></i>';
+                icon.classList.remove('animate-pulse');
+                
+                stopSiren();
+                speak("Hospital has acknowledged your SOS. An ambulance has been dispatched to your location.");
+            }
+        }
+
+        function renderPatientAppts() {
+            const list = document.getElementById('pat-appts-list');
+            list.innerHTML = vcoreState.patient.appointments.map(appt => `
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-stone-100 flex gap-5 items-center cursor-pointer hover:bg-slate-50 transition" onclick="speak('Appointment on ${appt.date} with ${appt.doc} for ${appt.type}')">
+                    <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-4xl shrink-0"><i class="fa-solid fa-user-doctor"></i></div>
+                    <div>
+                        <h4 class="font-bold text-stone-800 text-2xl">${appt.type}</h4>
+                        <p class="text-base text-stone-500 font-medium mt-2">${appt.doc} • ${appt.date}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPatientMeds() {
+            const list = document.getElementById('pat-meds-list');
+            list.innerHTML = vcoreState.patient.medications.map(med => `
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-stone-100 flex gap-5 items-center cursor-pointer hover:bg-slate-50 transition" onclick="speak('Medication: ${med.name}, ${med.dose}, ${med.freq}')">
+                    <div class="w-20 h-20 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-4xl shrink-0"><i class="fa-solid fa-prescription-bottle-medical"></i></div>
+                    <div>
+                        <h4 class="font-bold text-stone-800 text-2xl">${med.name}</h4>
+                        <p class="text-base text-stone-500 font-medium mt-2">${med.dose} • ${med.freq}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPatientEncounters() {
+            const list = document.getElementById('pat-encounters-list');
+            list.innerHTML = vcoreState.patient.encounters.map(enc => `
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-stone-100 flex gap-5 items-start cursor-pointer hover:bg-slate-50 transition" onclick="speak('Clinical record from ${enc.date}. Vitals: Blood Pressure ${enc.bp}, Heart Rate ${enc.hr}. Notes: ${enc.notes}')">
+                    <div class="w-20 h-20 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center text-4xl shrink-0 mt-1"><i class="fa-solid fa-file-medical"></i></div>
+                    <div class="flex-1">
+                        <div class="flex justify-between w-full gap-2 items-center mb-2">
+                            <h4 class="font-bold text-stone-800 text-2xl">Clinic Visit</h4>
+                            <span class="text-base font-bold text-stone-500 bg-stone-100 px-3 py-1.5 rounded-lg">${enc.date}</span>
+                        </div>
+                        <p class="text-base font-bold text-stone-500 mb-3 tracking-wide">BP: ${enc.bp} • HR: ${enc.hr}</p>
+                        <p class="text-base text-stone-600 bg-stone-50 p-4 rounded-xl border border-stone-100 italic">"${enc.notes}"</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function docScanCard() {
+            const status = document.getElementById('doc-scanner-status');
+            const icon = document.getElementById('doc-scanner-icon');
+            
+            status.innerText = "READING..."; status.className = "font-bold text-blue-500";
+            icon.classList.replace('text-slate-300', 'text-blue-500'); icon.classList.add('fa-beat-fade');
+
+            setTimeout(() => {
+                status.innerText = "SUCCESS"; status.className = "font-bold text-green-500";
+                icon.classList.remove('fa-beat-fade', 'text-blue-500'); icon.classList.add('text-green-500');
+                document.getElementById('doc-empty-state').classList.add('hidden');
+                document.getElementById('doc-patient-record').classList.remove('hidden');
+
+                // Log card access
+                const now = new Date();
+                const timeStr = now.toLocaleString([], { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                vcoreState.patient.accessLog.unshift({
+                    who: "Dr. Farzana Rahman",
+                    role: "CLINICIAN",
+                    action: "NFC Card Scanned — Full record accessed",
+                    time: timeStr
+                });
+                renderAccessLog();
+
+                docLog("NFC read: MED-9921-X. Data fetched.");
+                docLog("ACCESS LOG: Card accessed by Dr. Farzana Rahman at " + timeStr);
+
+                // Show previous access history in terminal
+                docLog("── ACCESS HISTORY ──");
+                vcoreState.patient.accessLog.forEach((entry, i) => {
+                    if(i > 0) docLog(`  [${entry.time}] ${entry.who} (${entry.role}): ${entry.action}`);
+                });
+                docLog("── END HISTORY ──");
+            }, 1000);
+        }
+
+        function docSaveRecord() {
+            const bp = document.getElementById('doc-bp').value;
+            const hr = document.getElementById('doc-hr').value;
+            const notes = document.getElementById('doc-notes').value;
+
+            if(!bp && !hr && !notes) return;
+
+            const btn = document.getElementById('doc-save-btn');
+            const ogHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving to State...`;
+
+            setTimeout(() => {
+                // Update Global State
+                vcoreState.patient.encounters.unshift({
+                    date: "Today", bp: bp || "--", hr: hr || "--", notes: notes || "No notes.", type: "Encounter Note", icon: "fa-stethoscope", color: "blue"
+                });
+
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> Saved`;
+                btn.classList.replace('bg-blue-600', 'bg-green-600');
+                
+                docLog("Record saved to global state. Synced to patient.");
+                renderDoctorHistory(); // Update local UI
+                renderPatientEncounters(); // Sync to Patient App!
+
+                setTimeout(() => {
+                    btn.innerHTML = ogHtml;
+                    btn.classList.replace('bg-green-600', 'bg-blue-600');
+                    document.getElementById('doc-bp').value = ""; document.getElementById('doc-hr').value = ""; document.getElementById('doc-notes').value = "";
+                }, 1500);
+            }, 800);
+        }
+
+        function docPrescribeMedicine() {
+            const name = document.getElementById('doc-rx-name').value;
+            const days = document.getElementById('doc-rx-days').value;
+            const instruction = document.getElementById('doc-rx-instruction').value;
+
+            if(!name) return;
+
+            const btn = document.getElementById('doc-rx-btn');
+            const ogHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Prescribing...`;
+
+            setTimeout(() => {
+                const doseText = `${instruction} for ${days || '—'} days`;
+
+                // Add to patient medications
+                vcoreState.patient.medications.unshift({
+                    name: name,
+                    dose: days ? `${days} days` : 'Ongoing',
+                    freq: instruction
+                });
+
+                // Add to patient encounters as a record
+                vcoreState.patient.encounters.unshift({
+                    date: "Today",
+                    bp: "--",
+                    hr: "--",
+                    notes: `Prescribed ${name} — ${doseText}`,
+                    type: "Prescription",
+                    icon: "fa-prescription-bottle-medical",
+                    color: "purple"
+                });
+
+                // Log access for prescription
+                const now = new Date();
+                const timeStr = now.toLocaleString([], { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                vcoreState.patient.accessLog.unshift({
+                    who: "Dr. Farzana Rahman",
+                    role: "CLINICIAN",
+                    action: `Prescribed: ${name} (${doseText})`,
+                    time: timeStr
+                });
+
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> Prescribed`;
+                btn.classList.replace('bg-purple-600', 'bg-green-600');
+
+                docLog(`PRESCRIBED: ${name} — ${doseText}`);
+                docLog(`Synced to patient medication list.`);
+
+                renderDoctorHistory();
+                renderPatientMeds();
+                renderPatientEncounters();
+                renderAccessLog();
+
+                setTimeout(() => {
+                    btn.innerHTML = ogHtml;
+                    btn.classList.replace('bg-green-600', 'bg-purple-600');
+                    document.getElementById('doc-rx-name').value = '';
+                    document.getElementById('doc-rx-days').value = '';
+                }, 1500);
+            }, 800);
+        }
+
+        function renderAccessLog() {
+            const list = document.getElementById('pat-access-log');
+            if(!list) return;
+            if(vcoreState.patient.accessLog.length === 0) {
+                list.innerHTML = '<p class="text-stone-400 text-base italic text-center py-4">No access records yet.</p>';
+                return;
+            }
+            list.innerHTML = vcoreState.patient.accessLog.map(entry => {
+                let roleColor = 'blue';
+                let roleIcon = 'fa-user-shield';
+                if(entry.role === 'CLINICIAN') { roleColor = 'blue'; roleIcon = 'fa-user-doctor'; }
+                else if(entry.role === 'EMS') { roleColor = 'red'; roleIcon = 'fa-truck-medical'; }
+                else if(entry.role === 'HOSPITAL') { roleColor = 'indigo'; roleIcon = 'fa-hospital'; }
+                else if(entry.role === 'PATIENT') { roleColor = 'rose'; roleIcon = 'fa-user'; }
+                else if(entry.role === 'INIT') { roleColor = 'slate'; roleIcon = 'fa-shield-halved'; }
+
+                return `
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-100 flex gap-4 items-center">
+                        <div class="w-14 h-14 bg-${roleColor}-50 text-${roleColor}-600 rounded-xl flex items-center justify-center text-2xl shrink-0">
+                            <i class="fa-solid ${roleIcon}"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-stone-800 text-lg truncate">${entry.who}</h4>
+                                <span class="text-sm font-bold text-${roleColor}-600 bg-${roleColor}-50 px-2 py-0.5 rounded-lg shrink-0">${entry.role}</span>
+                            </div>
+                            <p class="text-base text-stone-600">${entry.action}</p>
+                            <p class="text-sm text-stone-400 mt-1">${entry.time}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function docSwitchTab(tabId) {
+            // Hide all tabs
+            ['encounter', 'prescribe', 'tests', 'appt'].forEach(id => {
+                document.getElementById(`tab-${id}`).classList.add('hidden');
+                document.getElementById(`tab-${id}`).classList.remove('block');
+                
+                // Reset tab buttons
+                const btn = document.getElementById(`tab-btn-${id}`);
+                btn.classList.remove('border-blue-600', 'text-blue-600', 'bg-white');
+                btn.classList.add('border-transparent', 'text-slate-500');
+            });
+            
+            // Show active
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`).classList.add('block');
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            activeBtn.classList.add('border-blue-600', 'text-blue-600', 'bg-white');
+            activeBtn.classList.remove('border-transparent', 'text-slate-500');
+        }
+
+        function docSaveMedication() {
+            const name = document.getElementById('doc-med-name').value;
+            const dose = document.getElementById('doc-med-dose').value;
+            const freq = document.getElementById('doc-med-freq').value;
+            if(!name) return;
+
+            const btn = document.getElementById('doc-med-btn');
+            const ogHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Authorizing...`;
+
+            setTimeout(() => {
+                // Sync to Global State
+                vcoreState.patient.medications.unshift({ name, dose, freq });
+                vcoreState.patient.encounters.unshift({
+                    date: "Today", bp: "--", hr: "--", notes: `Prescribed ${name} (${dose}, ${freq})`, type: "Prescription", icon: "fa-prescription-bottle-medical", color: "purple"
+                });
+
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> Authorized`;
+                btn.classList.replace('bg-purple-600', 'bg-green-600');
+                
+                docLog(`Prescribed: ${name}`);
+                renderDoctorHistory();
+                renderPatientMeds(); // SYNC PATIENT APP
+                renderPatientEncounters();
+
+                setTimeout(() => {
+                    btn.innerHTML = ogHtml;
+                    btn.classList.replace('bg-green-600', 'bg-purple-600');
+                    document.getElementById('doc-med-name').value = ""; document.getElementById('doc-med-dose').value = ""; document.getElementById('doc-med-freq').value = "";
+                }, 1500);
+            }, 800);
+        }
+
+        function docSaveTest() {
+            const type = document.getElementById('doc-test-type').value;
+            const notes = document.getElementById('doc-test-notes').value;
+            if(!notes) return;
+
+            const btn = document.getElementById('doc-test-btn');
+            const ogHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Attaching...`;
+
+            setTimeout(() => {
+                vcoreState.patient.encounters.unshift({
+                    date: "Today", bp: "--", hr: "--", notes: `${type} Results: ${notes}`, type: "Lab Report", icon: "fa-microscope", color: "teal"
+                });
+
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> Attached`;
+                btn.classList.replace('bg-teal-600', 'bg-green-600');
+                
+                docLog(`Lab result filed: ${type}`);
+                renderDoctorHistory();
+                renderPatientEncounters(); // SYNC PATIENT APP
+
+                setTimeout(() => {
+                    btn.innerHTML = ogHtml;
+                    btn.classList.replace('bg-green-600', 'bg-teal-600');
+                    document.getElementById('doc-test-notes').value = "";
+                }, 1500);
+            }, 800);
+        }
+
+        function docSaveAppt() {
+            const date = document.getElementById('doc-appt-date').value;
+            const type = document.getElementById('doc-appt-type').value;
+            if(!date || !type) return;
+
+            const btn = document.getElementById('doc-appt-btn');
+            const ogHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Scheduling...`;
+
+            setTimeout(() => {
+                vcoreState.patient.appointments.unshift({
+                    date: date, doc: "Dr. Farzana Rahman", type: type
+                });
+
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> Scheduled`;
+                btn.classList.replace('bg-blue-600', 'bg-green-600');
+                
+                docLog(`Appointment scheduled: ${type} on ${date}`);
+                renderPatientAppts(); // SYNC PATIENT APP
+
+                setTimeout(() => {
+                    btn.innerHTML = ogHtml;
+                    btn.classList.replace('bg-green-600', 'bg-blue-600');
+                    document.getElementById('doc-appt-date').value = ""; document.getElementById('doc-appt-type').value = "";
+                }, 1500);
+            }, 800);
+        }
+
+        function docViewFullProfile() {
+            const modal = document.getElementById('doc-profile-modal');
+            const content = document.getElementById('doc-profile-modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
+
+        function docCloseFullProfile() {
+            const modal = document.getElementById('doc-profile-modal');
+            const content = document.getElementById('doc-profile-modal-content');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function renderDoctorHistory() {
+            const list = document.getElementById('doc-history-list');
+            list.innerHTML = vcoreState.patient.encounters.map(enc => `
+                <div class="border-l-2 border-${enc.color || 'blue'}-200 pl-4 relative pb-4">
+                    <div class="absolute w-3 h-3 bg-${enc.color || 'blue'}-500 rounded-full -left-[7px] top-1 border-2 border-white"></div>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-slate-700 text-sm flex items-center gap-2">
+                            <i class="fa-solid ${enc.icon || 'fa-notes-medical'} text-${enc.color || 'blue'}-500"></i> ${enc.type || 'Encounter Note'}
+                        </span>
+                        <span class="text-xs text-slate-400 font-bold">${enc.date}</span>
+                    </div>
+                    ${enc.bp !== '--' ? `<p class="text-xs text-slate-500 mb-1">Vitals: BP ${enc.bp} | HR ${enc.hr}</p>` : ''}
+                    <div class="bg-slate-50 p-2 rounded text-sm text-slate-600 border border-slate-100">${enc.notes}</div>
+                </div>
+            `).join('');
+        }
+
+        function docLog(msg) {
+            const logBox = document.getElementById('doc-logs');
+            const entry = document.createElement('p'); entry.innerText = `> ${msg}`;
+            logBox.appendChild(entry); logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function emsScan() {
+            const icon = document.getElementById('resp-scan-icon');
+            const pulse = document.getElementById('resp-pulse');
+            icon.classList.replace('text-slate-400', 'text-blue-400'); pulse.classList.remove('hidden');
+
+            setTimeout(() => {
+                pulse.classList.add('hidden');
+                document.getElementById('resp-scanner').classList.add('hidden');
+                document.getElementById('resp-profile').classList.remove('hidden');
+
+                // Log EMS card access
+                const now = new Date();
+                const timeStr = now.toLocaleString([], { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                vcoreState.patient.accessLog.unshift({
+                    who: "EMS Unit 42",
+                    role: "EMS",
+                    action: "NFC Card Scanned — Patient identified in field",
+                    time: timeStr
+                });
+                renderAccessLog();
+            }, 1200);
+        }
+
+        function emsSetMode(mode) {
+            vcoreState.emsTransportMode = mode;
+            const onwayBtn = document.getElementById('resp-mode-onway');
+            const ambBtn = document.getElementById('resp-mode-ambulance');
+            if(mode === 'onway') {
+                onwayBtn.className = 'bg-green-600 text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all';
+                ambBtn.className = 'bg-slate-100 text-slate-600 py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all';
+            } else {
+                ambBtn.className = 'bg-red-600 text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all';
+                onwayBtn.className = 'bg-slate-100 text-slate-600 py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all';
+            }
+        }
+
+        function emsGetSelectedHospital() {
+            const selected = document.querySelector('input[name="resp-hospital"]:checked');
+            return selected ? selected.value : 'রাজশাহী মেডিকেল কলেজ হাসপাতাল';
+        }
+
+        function emsGetETA() {
+            const hospital = emsGetSelectedHospital();
+            const etaMap = {
+                'রাজশাহী মেডিকেল কলেজ হাসপাতাল': '4',
+                'ইসলামী ব্যাংক হাসপাতাল, রাজশাহী': '8',
+                'বরেন্দ্র মেডিকেল কলেজ হাসপাতাল': '12',
+                'শহীদ জিয়াউর রহমান হাসপাতাল': '18'
+            };
+            return etaMap[hospital] || '5';
+        }
+
+        function emsTransmit() {
+            const btn = document.getElementById('resp-transmit-btn');
+            const type = document.getElementById('resp-type').value;
+            const notes = document.getElementById('resp-notes').value;
+            const hospital = emsGetSelectedHospital();
+            const eta = emsGetETA();
+            const mode = vcoreState.emsTransportMode;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> TRANSMITTING...`;
+
+            setTimeout(() => {
+                const transmissionId = 'inc-' + Date.now();
+                // Update Global State for Hospital
+                vcoreState.hospital.incoming.push({
+                    id: transmissionId,
+                    patientId: vcoreState.patient.id,
+                    name: vcoreState.patient.name,
+                    type: type,
+                    notes: notes || "No field notes provided.",
+                    time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    hospital: hospital,
+                    eta: eta,
+                    mode: mode,
+                    status: 'pending', // pending, accepted, dispatched
+                    messages: []
+                });
+
+                vcoreState.emsActiveTransmissions.push(transmissionId);
+
+                // Show awaiting screen
+                document.getElementById('resp-profile').classList.add('hidden');
+                document.getElementById('resp-awaiting').classList.remove('hidden');
+                document.getElementById('resp-awaiting').classList.add('flex');
+                document.getElementById('resp-await-hospital').innerText = `📍 ${hospital} • ETA ~${eta} min`;
+                document.getElementById('resp-messages').innerHTML = '';
+                document.getElementById('resp-new-scan-btn').classList.add('hidden');
+
+                // Reset await icon to waiting state
+                document.getElementById('resp-await-icon').className = 'w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-4 text-amber-600 text-3xl';
+                document.getElementById('resp-await-icon').innerHTML = '<i class="fa-solid fa-satellite-dish fa-beat-fade"></i>';
+                document.getElementById('resp-await-title').innerText = 'Awaiting Confirmation';
+                document.getElementById('resp-await-title').className = 'text-xl font-bold text-slate-800 mb-1';
+                document.getElementById('resp-await-sub').innerText = 'Data transmitted to hospital. Waiting for response...';
+
+                renderHospQueue();
+            }, 1500);
+        }
+
+        function emsUpdateAwaitingStatus(status, messages) {
+            const iconEl = document.getElementById('resp-await-icon');
+            const titleEl = document.getElementById('resp-await-title');
+            const subEl = document.getElementById('resp-await-sub');
+            const newScanBtn = document.getElementById('resp-new-scan-btn');
+
+            if(status === 'accepted') {
+                iconEl.className = 'w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 text-green-600 text-3xl';
+                iconEl.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                titleEl.innerText = 'Hospital Accepted!';
+                titleEl.className = 'text-xl font-bold text-green-700 mb-1';
+                subEl.innerText = 'Patient record confirmed. Proceed to hospital.';
+                newScanBtn.classList.remove('hidden');
+            } else if(status === 'dispatched') {
+                iconEl.className = 'w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600 text-3xl';
+                iconEl.innerHTML = '<i class="fa-solid fa-truck-medical fa-bounce"></i>';
+                titleEl.innerText = 'Ambulance Dispatched!';
+                titleEl.className = 'text-xl font-bold text-blue-700 mb-1';
+                subEl.innerText = 'Ambulance is on the way to your location.';
+                newScanBtn.classList.remove('hidden');
+            }
+
+            // Render messages from hospital
+            const msgContainer = document.getElementById('resp-messages');
+            if(messages && messages.length > 0) {
+                msgContainer.innerHTML = messages.map(msg => `
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-left">
+                        <div class="flex items-center gap-2 mb-1">
+                            <i class="fa-solid fa-hospital text-blue-500 text-xs"></i>
+                            <span class="text-[10px] font-bold text-blue-700 uppercase">Hospital Advisory</span>
+                            <span class="text-[10px] text-slate-400 ml-auto">${msg.time}</span>
+                        </div>
+                        <p class="text-sm font-medium text-blue-900">${msg.text}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function emsReset() {
+            // Don't clear emsActiveTransmissions — keep tracking previous transmissions
+            vcoreState.emsTransportMode = 'onway';
+            document.getElementById('resp-awaiting').classList.add('hidden');
+            document.getElementById('resp-awaiting').classList.remove('flex');
+            document.getElementById('resp-scanner').classList.remove('hidden');
+            document.getElementById('resp-scan-icon').classList.replace('text-blue-400', 'text-slate-400');
+            document.getElementById('resp-notes').value = '';
+            document.getElementById('resp-transmit-btn').innerHTML = `<i class="fa-solid fa-tower-broadcast"></i> TRANSMIT TO ER`;
+            emsSetMode('onway');
+        }
+
+        function renderHospQueue() {
+            const qList = document.getElementById('hosp-queue');
+            const empty = document.getElementById('hosp-empty');
+            const count = document.getElementById('hosp-queue-count');
+
+            count.innerText = vcoreState.hospital.incoming.length;
+            
+            if(vcoreState.hospital.incoming.length === 0) {
+                qList.innerHTML = ''; qList.appendChild(empty); empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            qList.innerHTML = vcoreState.hospital.incoming.map(inc => {
+                const modeIcon = inc.mode === 'ambulance' ? '<i class="fa-solid fa-truck-medical text-red-500"></i>' : '<i class="fa-solid fa-truck-fast text-green-500"></i>';
+                const modeLabel = inc.mode === 'ambulance' ? 'NEED AMB' : 'EN ROUTE';
+                const statusBadge = inc.status === 'accepted' ? '<span class="text-[10px] font-bold text-green-600 bg-green-50 px-1 rounded">ACCEPTED</span>' : '<span class="text-[10px] font-bold text-red-600 animate-pulse bg-red-50 px-1 rounded">PENDING</span>';
+                return `
+                    <div class="bg-white p-3 rounded-lg border-l-4 ${inc.status === 'accepted' ? 'border-green-500' : 'border-red-500'} shadow-sm cursor-pointer hover:bg-slate-50 transition" onclick="hospSelect('${inc.id}')">
+                        <div class="flex justify-between items-start mb-1">
+                            <h4 class="font-bold text-slate-800 text-sm">${inc.name}</h4>
+                            <span class="text-[10px] font-bold text-red-600 animate-pulse bg-red-50 px-1 rounded">ETA ${inc.eta}m</span>
+                        </div>
+                        <p class="text-xs text-slate-600 font-medium">${inc.type}</p>
+                        <div class="flex justify-between items-center mt-1">
+                            <p class="text-[10px] text-slate-400">EMS UNIT 42 • ${inc.time}</p>
+                            <div class="flex items-center gap-1">${modeIcon} ${statusBadge}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderHospHistory() {
+            const hList = document.getElementById('hosp-history');
+            const empty = document.getElementById('hosp-history-empty');
+            
+            if(vcoreState.hospital.history.length === 0) {
+                hList.innerHTML = ''; hList.appendChild(empty); empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            hList.innerHTML = vcoreState.hospital.history.map(hist => `
+                <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-center mb-1">
+                        <h4 class="font-bold text-slate-700 text-sm">${hist.name}</h4>
+                        <span class="bg-indigo-50 text-indigo-700 text-[10px] px-2 py-0.5 rounded font-bold">${hist.action || 'ADMITTED'}</span>
+                    </div>
+                    ${hist.admitId ? `<p class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded inline-block mb-1"><i class="fa-solid fa-id-badge mr-1"></i>${hist.admitId}</p>` : ''}
+                    <p class="text-[10px] text-slate-500">${hist.type || ''} ${hist.type ? '•' : ''} ${hist.time}</p>
+                    ${hist.hospital ? `<p class="text-[10px] text-indigo-500 mt-0.5"><i class="fa-solid fa-hospital mr-1"></i>${hist.hospital}</p>` : ''}
+                    ${hist.notes ? `<p class="text-[10px] text-slate-400 mt-0.5 italic">"${hist.notes}"</p>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function hospSelect(incId) {
+            vcoreState.currentViewingId = incId;
+            const data = vcoreState.hospital.incoming.find(i => i.id === incId);
+            if(!data) return;
+
+            document.getElementById('hosp-detail-empty').classList.add('hidden');
+            document.getElementById('hosp-detail-content').style.display = 'flex';
+            
+            document.getElementById('hosp-det-name').innerText = data.name;
+            document.getElementById('hosp-det-type').innerText = data.type;
+            document.getElementById('hosp-det-notes').innerText = `"${data.notes}"`;
+
+            // Source and location
+            const sourceEl = document.getElementById('hosp-det-source');
+            const locationEl = document.getElementById('hosp-det-location');
+            if(data.source === 'PATIENT APP') {
+                sourceEl.innerText = 'Source: Patient App (Direct SOS)';
+            } else {
+                sourceEl.innerText = 'Sent by: EMS UNIT 42';
+            }
+            locationEl.innerText = data.location ? `📍 ${data.location}` : '';
+
+            // Dynamic ETA from EMS data
+            document.getElementById('hosp-det-eta').innerHTML = `${data.eta || '--'} <span class="text-sm text-slate-500 font-normal">${data.eta === '--' ? '' : 'MINS'}</span>`;
+
+            // Transport mode indicator
+            const modeEl = document.getElementById('hosp-det-mode');
+            if(data.mode === 'ambulance') {
+                modeEl.innerHTML = '<i class="fa-solid fa-truck-medical mr-1"></i> NEEDS AMBULANCE';
+                modeEl.className = 'text-[10px] font-bold mt-1 text-red-600';
+                document.getElementById('hosp-dispatch-btn').classList.remove('hidden');
+            } else {
+                modeEl.innerHTML = '<i class="fa-solid fa-truck-fast mr-1"></i> PATIENT EN ROUTE';
+                modeEl.className = 'text-[10px] font-bold mt-1 text-green-600';
+                document.getElementById('hosp-dispatch-btn').classList.add('hidden');
+            }
+
+            // Render sent messages
+            const sentMsgContainer = document.getElementById('hosp-sent-messages');
+            if(data.messages && data.messages.length > 0) {
+                sentMsgContainer.innerHTML = '<h4 class="font-bold text-blue-800 text-xs mb-1"><i class="fa-solid fa-comments mr-1"></i> Sent Advisories</h4>' + data.messages.map(msg => `
+                    <div class="bg-blue-50/50 border border-blue-100 rounded-lg p-2">
+                        <p class="text-xs text-blue-800 font-medium">${msg.text}</p>
+                        <p class="text-[10px] text-slate-400 mt-0.5">${msg.time}</p>
+                    </div>
+                `).join('');
+            } else {
+                sentMsgContainer.innerHTML = '';
+            }
+
+            const admitBtn = document.getElementById('hosp-admit-btn');
+            if(data.type === 'SOS MOBILE TRIGGER') {
+                admitBtn.innerHTML = '<i class="fa-solid fa-truck-medical mr-2"></i> Dispatch Ambulance';
+                admitBtn.className = "bg-red-600 text-white px-6 py-2.5 rounded-lg font-bold shadow-sm hover:bg-red-700 transition-colors";
+            } else {
+                admitBtn.innerHTML = '<i class="fa-solid fa-check-to-slot mr-2"></i> Accept & Admit Patient';
+                admitBtn.className = "bg-indigo-600 text-white px-6 py-2.5 rounded-lg font-bold shadow-sm hover:bg-indigo-700 transition-colors";
+            }
+
+            // Log access when hospital views patient data
+            if(!data._accessed) {
+                data._accessed = true;
+                const timeStr = new Date().toLocaleString([], { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                vcoreState.patient.accessLog.unshift({
+                    who: 'ER Trauma Center',
+                    role: 'HOSPITAL',
+                    action: `Viewed patient record — ${data.type}`,
+                    time: timeStr
+                });
+                renderAccessLog();
+            }
+        }
+
+        function hospSendAdvisory() {
+            const id = vcoreState.currentViewingId;
+            if(!id) return;
+            const data = vcoreState.hospital.incoming.find(i => i.id === id);
+            if(!data) return;
+
+            const preset = document.getElementById('hosp-advisory-preset').value;
+            const custom = document.getElementById('hosp-advisory-text').value;
+            const text = custom || preset;
+            if(!text) return;
+
+            const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            data.messages.push({ text, time: timeStr });
+
+            // Update EMS side if this is one of the active transmissions
+            if(vcoreState.emsActiveTransmissions.includes(id)) {
+                emsUpdateAwaitingStatus(data.status, data.messages);
+            }
+
+            // Update Patient SOS side if this is the active SOS
+            if(vcoreState.sosTransmissionId === id) {
+                updatePatientSOSStatus(data.status || 'pending', data.messages);
+            }
+
+            // Clear inputs
+            document.getElementById('hosp-advisory-preset').value = '';
+            document.getElementById('hosp-advisory-text').value = '';
+
+            // Re-render sent messages in hospital view
+            hospSelect(id);
+        }
+
+        function hospDispatchAmbulance() {
+            const id = vcoreState.currentViewingId;
+            if(!id) return;
+            const data = vcoreState.hospital.incoming.find(i => i.id === id);
+            if(!data) return;
+
+            data.status = 'dispatched';
+            const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            data.messages.push({ text: '🚑 Ambulance dispatched to your location. Stand by.', time: timeStr });
+
+            // Update EMS side
+            if(vcoreState.emsActiveTransmissions.includes(id)) {
+                emsUpdateAwaitingStatus('dispatched', data.messages);
+            }
+
+            // Update Patient SOS side
+            if(vcoreState.sosTransmissionId === id) {
+                updatePatientSOSStatus('dispatched', data.messages);
+            }
+
+            // Generate admit ID
+            vcoreState.admitCounter++;
+            const dispatchAdmitId = 'ADM-' + String(vcoreState.admitCounter).padStart(5, '0') + '-' + Date.now().toString(36).toUpperCase().slice(-4);
+
+            // Log to history
+            vcoreState.hospital.history.unshift({
+                name: data.name,
+                time: timeStr,
+                type: data.type,
+                hospital: data.hospital || 'ER Trauma Center',
+                notes: data.notes,
+                action: 'AMBULANCE DISPATCHED',
+                admitId: dispatchAdmitId
+            });
+            saveHospitalHistory();
+
+            // Log admission to patient access log
+            vcoreState.patient.accessLog.unshift({
+                who: data.hospital || 'ER Trauma Center',
+                role: 'HOSPITAL',
+                action: `Ambulance dispatched — Admit ID: ${dispatchAdmitId} — ${data.type}`,
+                time: timeStr
+            });
+            renderAccessLog();
+
+            document.getElementById('hosp-dispatch-btn').classList.add('hidden');
+            renderHospQueue();
+            renderHospHistory();
+            speak('Ambulance dispatched.');
+        }
+
+        function hospAdmit() {
+            const idToAdmit = vcoreState.currentViewingId;
+            if(!idToAdmit) return;
+
+            // Move from incoming to history in Global State
+            const index = vcoreState.hospital.incoming.findIndex(i => i.id === idToAdmit);
+            if(index > -1) {
+                const item = vcoreState.hospital.incoming.splice(index, 1)[0];
+                const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+                // Generate admit ID
+                vcoreState.admitCounter++;
+                const admitId = 'ADM-' + String(vcoreState.admitCounter).padStart(5, '0') + '-' + Date.now().toString(36).toUpperCase().slice(-4);
+
+                vcoreState.hospital.history.unshift({
+                    name: item.name,
+                    time: timeStr,
+                    type: item.type,
+                    hospital: item.hospital || 'ER Trauma Center',
+                    notes: item.notes,
+                    action: item.type === 'SOS MOBILE TRIGGER' ? 'SOS DISPATCHED' : 'ADMITTED',
+                    admitId: admitId
+                });
+                saveHospitalHistory();
+
+                // Update EMS awaiting screen
+                if(vcoreState.emsActiveTransmissions.includes(idToAdmit)) {
+                    item.status = 'accepted';
+                    emsUpdateAwaitingStatus('accepted', item.messages);
+                    // Remove from active transmissions after acknowledgment
+                    vcoreState.emsActiveTransmissions = vcoreState.emsActiveTransmissions.filter(t => t !== idToAdmit);
+                }
+
+                // Update Patient SOS screen
+                if(vcoreState.sosTransmissionId === idToAdmit) {
+                    updatePatientSOSStatus('accepted', item.messages);
+                    vcoreState.sosDispatched = true;
+                    checkSOSDispatchStatus();
+                }
+
+                if (item.type === 'SOS MOBILE TRIGGER') {
+                    vcoreState.sosDispatched = true;
+                    checkSOSDispatchStatus();
+                    speak("Ambulance dispatched to patient location.");
+                } else {
+                    speak("Patient accepted and admitted.");
+                }
+
+                // Log access with admit ID to patient profile
+                vcoreState.patient.accessLog.unshift({
+                    who: item.hospital || 'ER Trauma Center',
+                    role: 'HOSPITAL',
+                    action: `Patient ${item.type === 'SOS MOBILE TRIGGER' ? 'SOS dispatched' : 'admitted'} — Admit ID: ${admitId} — ${item.type}`,
+                    time: timeStr
+                });
+                renderAccessLog();
+            }
+
+            vcoreState.currentViewingId = null;
+
+            // Reset UI
+            document.getElementById('hosp-detail-content').style.display = 'none';
+            document.getElementById('hosp-detail-empty').classList.remove('hidden');
+            document.getElementById('hosp-sent-messages').innerHTML = '';
+            
+            // Re-render Lists
+            renderHospQueue();
+            renderHospHistory();
+        }
+
+    </script>
 </body>
 </html>
-
-```
