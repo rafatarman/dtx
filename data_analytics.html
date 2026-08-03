@@ -1,594 +1,324 @@
+Here is the complete, updated `analytics.html` file with your VitalCard data integrated.
+
+It features an interactive analytics layout with **key health metrics**, **blood pressure charts**, **family history mapping**, and a **patient profile sidebar** built with Tailwind CSS and Chart.js.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proposal Defense | MD Rafat Uddin Arman</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <style>
-        /* --- 1. GLOBAL MASTER THEME & VARIABLES --- */
-        :root {
-            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
-            --glass-bg: rgba(255, 255, 255, 0.5);
-            --glass-border: rgba(255, 255, 255, 0.9);
-            
-            --primary: #0f172a;      
-            --secondary: #0d9488;    
-            --accent: #e11d48;       
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            
-            --f-xl: clamp(28px, 4.5vw, 40px);    
-            --f-lg: clamp(24px, 3vw, 32px);    
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            height: 100vh; width: 100vw;
-            overflow: hidden;
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        /* --- 2. BACKGROUND AMBIANCE --- */
-        .blob {
-            position: absolute; width: 600px; height: 600px; border-radius: 50%;
-            filter: blur(120px); z-index: 0; opacity: 0.15; animation: move 30s infinite alternate;
-        }
-        .blob-1 { background: var(--secondary); top: -200px; left: -200px; }
-        .blob-2 { background: var(--accent); bottom: -200px; right: -200px; }
-        @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 50px); } }
-
-        /* --- 3. MASTER VIEWPORT --- */
-        #viewport {
-            position: relative; 
-            width: 96vw; height: 94vh;
-            background: rgba(255, 255, 255, 0.2); 
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border); 
-            border-radius: 32px;
-            overflow: hidden; 
-            display: flex; flex-direction: column;
-            z-index: 10; 
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.1);
-        }
-
-        .progress-rail { position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: rgba(0,0,0,0.03); z-index: 100; }
-        #progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: 0.5s; box-shadow: 0 0 15px rgba(13, 148, 136, 0.3); }
-
-        /* --- 4. MODULAR SLIDE LOGIC --- */
-        .page-view {
-            position: absolute; inset: 0; 
-            padding: 60px 100px; 
-            display: none; 
-            flex-direction: column; 
-            justify-content: flex-start;
-            align-items: flex-start; 
-            gap: 25px; 
-            overflow-y: auto;
-        }
-        .page-view.active { display: flex; animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- 5. REUSABLE COMPONENTS --- */
-        .chapter-cover { justify-content: center; align-items: center; text-align: center; }
-        .chapter-number { font-size: 14px; font-weight: 800; letter-spacing: 10px; color: var(--secondary); text-transform: uppercase; margin-bottom: 10px; }
-        .chapter-title { font-family: 'Space Grotesk'; font-size: 60px; font-weight: 800; letter-spacing: -1px; color: var(--primary); }
-
-        .section-tag { color: var(--secondary); font-weight: 800; font-size: 11px; letter-spacing: 5px; text-transform: uppercase; margin-bottom: -10px; opacity: 0.8; }
-        h2.slide-header { font-family: 'Space Grotesk'; font-size: var(--f-lg); font-weight: 700; border-bottom: 1px solid rgba(0,0,0,0.08); width: 100%; padding-bottom: 15px; margin-bottom: 10px; color: var(--primary); }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7); border: 1px solid var(--glass-border);
-            padding: 25px; border-radius: 24px; width: 100%;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
-            transition: 0.3s ease;
-        }
-        .highlight-card { border-left: 6px solid var(--secondary) !important; background: rgba(13, 148, 136, 0.03) !important; }
-        .danger-card { border-left: 6px solid var(--accent) !important; background: rgba(225, 29, 72, 0.02) !important; }
-
-        .agenda-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
-        .agenda-card h4 { font-family: 'Space Grotesk'; font-size: 13px; color: var(--secondary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; border-bottom: 1px solid rgba(13, 148, 136, 0.2); padding-bottom: 5px; }
-
-        table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
-        th { background: var(--primary); color: #fff; text-align: left; padding: 10px 12px; text-transform: uppercase; letter-spacing: 1px; }
-        td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; background: rgba(255,255,255,0.4); color: var(--text-main); }
-
-        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
-        .stat-box { background: #fff; border: 1px solid #e2e8f0; padding: 25px; border-radius: 20px; text-align: center; }
-        .stat-val { font-size: 36px; font-weight: 800; font-family: 'Space Grotesk'; color: var(--secondary); }
-        .stat-label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; margin-top: 5px; }
-
-        /* --- 6. NAVIGATION --- */
-        .nav-dock { position: fixed; bottom: 30px; right: 50px; display: flex; gap: 12px; z-index: 1000; }
-        .nav-btn {
-            background: #fff; border: 1px solid #e2e8f0;
-            width: 45px; height: 45px; border-radius: 12px; cursor: pointer;
-            display: grid; place-items: center; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #0f172a;
-        }
-        .nav-btn:hover { background: var(--secondary); color: #fff; transform: translateY(-3px); border-color: var(--secondary); }
-
-        .phase-header { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 8px; display: block; border-bottom: 2px solid var(--primary); padding-bottom: 2px; width: fit-content; }
-        
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; }
-
-        .lady-icon {
-            font-size: 320px;
-            color: var(--primary);
-            opacity: 0.95;
-            transition: 0.3s ease;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VitalCard Analytics Dashboard</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
 
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-
-    <div id="viewport">
-        <div class="progress-rail"><div id="progress-fill"></div></div>
-
-        <!-- SLIDE 01: TITLE -->
-        <div class="page-view active" id="p1" style="justify-content: center; align-items: center; text-align: center;">
-            <div style="max-width: 1000px;">
-                <span class="section-tag" style="color: var(--secondary);">Masters Research Proposal Defense</span>
-                <h1 style="font-family: 'Space Grotesk'; font-size: 36px; font-weight: 800; line-height: 1.1; margin: 20px 0; color: var(--primary); text-transform: uppercase;">AN ENHANCED HUMAN-CENTERED UI/UX FRAMEWORK FOR DESIGNING EMERGENCY HEALTH CARD INTERFACES TO IMPROVE USER SATISFACTION IN BANGLADESH</h1>
-                <div class="grid-2" style="margin-top: 40px; text-align: left;">
-                    <div class="glass-card" style="border-left: 6px solid var(--secondary);">
-                        <p style="font-weight: 800; font-size: 22px;">MD RAFAT UDDIN ARMAN</p>
-                        <p style="font-size: 14px; opacity: 0.7;">FTMK, UTeM (M032510030)</p>
-                    </div>
-                    <div class="glass-card">
-                        <p style="font-weight: 700; font-size: 16px;">Ts. Dr. Che Ku Nuraini (Supervisor)</p>
-                        <p style="font-size: 16px; opacity: 0.7;">Ikmal Faiq Albakri (Co-Supervisor)</p>
-                    </div>
-                </div>
-            </div>
+  <!-- Top Navigation Header -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-red-600 text-white p-2 rounded-lg">
+          <i data-lucide="activity" class="w-6 h-6"></i>
         </div>
-
-        <!-- SLIDE 02: ROADMAP -->
-        <div class="page-view" id="p2">
-            <span class="section-tag">Presentation Overview</span>
-            <h2 class="slide-header">Research Roadmap</h2>
-            <div class="agenda-grid">
-                <div class="agenda-card glass-card">
-                    <h4>Chapter 01</h4>
-                    <ul style="list-style: none; font-size: 11px; line-height: 1.8;">
-                        <li><b>1.1</b> Background History</li>
-                        <li><b>1.2</b> Research Overview</li>
-                        <li><b>1.3</b> Problem Statement (1, 2, 3)</li>
-                        <li><b>1.4</b> Research Objectives (RO)</li>
-                        <li><b>1.5</b> Research Questions (RQ)</li>
-                        <li><b>1.6</b> Elderly Inclusion</li>
-                    </ul>
-                </div>
-                <div class="agenda-card glass-card">
-                    <h4>Chapter 02</h4>
-                    <ul style="list-style: none; font-size: 11px; line-height: 1.8;">
-                        <li><b>2.1</b> Information Concepts</li>
-                        <li><b>2.2</b> Literature Matrix (9 Citations)</li>
-                        <li><b>2.3</b> ISO 9241-210 Theory</li>
-                        <li><b>2.4</b> Theoretical Models</li>
-                        <li><b>2.5</b> Systemic Gaps</li>
-                    </ul>
-                </div>
-                <div class="agenda-card glass-card">
-                    <h4>Chapter 03</h4>
-                    <ul style="list-style: none; font-size: 11px; line-height: 1.8;">
-                        <li><b>3.1</b> Pilot Survey (N=120)</li>
-                        <li><b>3.2</b> Triangulation Rigor</li>
-                        <li><b>3.3</b> Iterative Framework</li>
-                        <li><b>3.4</b> Core Research Matrix</li>
-                        <li><b>3.5</b> Timeline</li>
-                    </ul>
-                </div>
-            </div>
+        <div>
+          <h1 class="font-bold text-lg tracking-wide">VitalCard<span class="text-red-500">.AI</span></h1>
+          <p class="text-xs text-slate-400">Patient Emergency & Analytics Portal</p>
         </div>
-
-        <!-- CHAPTER 01 COVER -->
-        <div class="page-view chapter-cover" id="p3">
-            <div class="chapter-number">Chapter 01</div>
-            <div class="chapter-title">INTRODUCTION</div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Card Active
+        </span>
+        <div class="text-right text-xs">
+          <p class="font-medium text-slate-200">ID: MED-9921-X</p>
+          <p class="text-slate-400">QR: vcore://pt/MED-9921-X</p>
         </div>
+      </div>
+    </div>
+  </header>
 
-        <!-- 1.1 BACKGROUND -->
-        <div class="page-view" id="p4">
-            <span class="section-tag">1.1 Background History</span>
-            <h2 class="slide-header">Global Paradigm vs. Local Reality</h2>
-            <div class="grid-2">
-                <div class="glass-card highlight-card">
-                    <h4 style="color: var(--secondary); font-weight: 800; margin-bottom: 10px;">Systemic Foundation</h4>
-                    <p style="font-size: 13px; line-height: 1.6;">Digital technologies are foundational for <b>Universal Health Coverage (UHC)</b>. Bangladesh has 98% NID penetration, yet emergency care remains paper-reliant.</p>
-                </div>
-                <div class="glass-card danger-card">
-                    <h4 style="color: var(--accent); font-weight: 800; margin-bottom: 10px;">Historical Blindness</h4>
-                    <p style="font-size: 13px; line-height: 1.6;">Absence of a <b>digital health dataset</b> means responders cannot recall medical history, leading to lethal errors in acute care.</p>
-                </div>
-            </div>
-            <div class="glass-card mt-4" style="background: var(--primary); color: #fff; display: flex; align-items: center; gap: 20px;">
-                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-2xl"></i>
-                <div>
-                    <b style="color: var(--secondary); font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">The Adoption Void</b>
-                    <p style="font-size: 11px; opacity: 0.8;">Sophisticated backend ecosystems fail when the "Human Interface" is ignored.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 1.2 OVERVIEW -->
-        <div class="page-view" id="p5">
-            <span class="section-tag">1.2 Research Overview</span>
-            <h2 class="slide-header">The Retrieval Bridge</h2>
-            <div class="grid-3">
-                <div class="glass-card">
-                    <div class="stat-val" style="font-size: 24px;"><i class="fa-solid fa-bolt"></i> Activation</div>
-                    <p style="margin-top:10px; font-size:11px; color: var(--text-muted);">Immediate response activation through passive identifiers.</p>
-                </div>
-                <div class="glass-card">
-                    <div class="stat-val" style="font-size: 24px;"><i class="fa-solid fa-sync"></i> Data Sync</div>
-                    <p style="margin-top:10px; font-size:11px; color: var(--text-muted);">Seamless synchronization between NID and clinical databases.</p>
-                </div>
-                <div class="glass-card">
-                    <div class="stat-val" style="font-size: 24px;"><i class="fa-solid fa-heart-pulse"></i> Life Action</div>
-                    <p style="margin-top:10px; font-size:11px; color: var(--text-muted);">Minimizing triage time to maximize survival in the Golden Hour.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 1.3 PROBLEM STATEMENT -->
-        <div class="page-view" id="p6">
-            <span class="section-tag">1.3 Problem Statement</span>
-            <h2 class="slide-header">Socio-Technical Gaps</h2>
-            <div class="grid-3">
-                <div class="glass-card danger-card">
-                    <h4>Problem 1</h4>
-                    <p style="font-size: 12px; margin-top: 10px;">Acute info blindness in the <b>Golden Hour</b>. <span class="defense-anchor">48% of delays</span> are manual process-related.</p>
-                </div>
-                <div class="glass-card danger-card">
-                    <h4>Problem 2</h4>
-                    <p style="font-size: 12px; margin-top: 10px;">Regional <b>Surveillance Fear</b> prevents adoption of digital health identifiers.</p>
-                </div>
-                <div class="glass-card danger-card">
-                    <h4>Problem 3</h4>
-                    <p style="font-size: 12px; margin-top: 10px;">Complexity leads to <b>navigation paralysis</b> for non-tech users and seniors (59+).</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 1.4 RO & 1.5 RQ (SEPARATED) -->
-        <div class="page-view" id="p7">
-            <span class="section-tag">1.4 Research Objectives</span>
-            <h2 class="slide-header">Objectives (RO)</h2>
-            <div class="grid-3">
-                <div class="glass-card highlight-card" style="text-align: center;">
-                    <h1 style="color: var(--secondary); font-family:'Space Grotesk';">RO1</h1>
-                    <p style="font-size:13px; margin-top:15px; font-weight:600;">To identify specific needs and HCD requirements for Bangladesh.</p>
-                </div>
-                <div class="glass-card highlight-card" style="text-align: center;">
-                    <h1 style="color: var(--secondary); font-family:'Space Grotesk';">RO2</h1>
-                    <p style="font-size:13px; margin-top:15px; font-weight:600;">To develop the DEHCMsync validated UI/UX framework.</p>
-                </div>
-                <div class="glass-card highlight-card" style="text-align: center;">
-                    <h1 style="color: var(--secondary); font-family:'Space Grotesk';">RO3</h1>
-                    <p style="font-size:13px; margin-top:15px; font-weight:600;">To evaluate impact on satisfaction and retrieval speed.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="page-view" id="p8">
-            <span class="section-tag">1.5 Research Questions</span>
-            <h2 class="slide-header">Inquiries (RQ)</h2>
-            <div style="display:flex; flex-direction:column; gap:15px; width:100%;">
-                <div class="glass-card highlight-card"><p><b>RQ1:</b> What HCD requirements minimize retrieval time for low digital literacy users?</p></div>
-                <div class="glass-card highlight-card"><p><b>RQ2:</b> How can "Transparent Security" UI bridge intimidation and trust gaps?</p></div>
-                <div class="glass-card highlight-card"><p><b>RQ3:</b> Does the framework improve usage satisfaction for citizens with limited tech exposure?</p></div>
-            </div>
-        </div>
-
-        <!-- 1.6 ELDERLY (EXTRA BIG ICON) -->
-        <div class="page-view" id="p9">
-            <span class="section-tag">1.6 Inclusion</span>
-            <h2 class="slide-header">Empowering the Elderly</h2>
-            <div class="grid-2" style="align-items: center;">
-                <div style="display: flex; flex-direction: column; gap: 30px;">
-                    <div class="glass-card" style="border-left: 5px solid var(--primary); background: #fff;">
-                        <span style="background:var(--primary); color:#fff; font-size:9px; padding:4px 10px; font-weight:900; text-transform:uppercase;">Design Pillar</span>
-                        <p style="font-weight:700; margin-top:10px; color:var(--primary); font-size:14px;">Digital equity is achieved only when the most vulnerable can navigate health systems without assistance.</p>
-                    </div>
-                    <div style="display:grid; grid-template-columns: 50px 1fr; gap: 15px; align-items: center;">
-                        <div style="background:#f1f5f9; width:50px; height:50px; border-radius:8px; display:grid; place-items:center;"><i class="fa-solid fa-magnifying-glass-plus text-teal-600 text-xl"></i></div>
-                        <div><b style="font-size:14px;">Visual Aids</b><p style="font-size:12px; color:var(--text-muted);">High-contrast modes and oversized typography.</p></div>
-                    </div>
-                    <div style="display:grid; grid-template-columns: 50px 1fr; gap: 15px; align-items: center;">
-                        <div style="background:#f1f5f9; width:50px; height:50px; border-radius:8px; display:grid; place-items:center;"><i class="fa-solid fa-hand-pointer text-teal-600 text-xl"></i></div>
-                        <div><b style="font-size:14px;">Assisted Navigation</b><p style="font-size:12px; color:var(--text-muted);">Simplified flows for motor-control decline.</p></div>
-                    </div>
-                </div>
-                <div class="glass-card flex flex-col justify-center items-center text-center p-12" style="background: #f1f5f9; min-height: 500px;">
-                    <i class="fa-solid fa-person-cane lady-icon"></i>
-                    <h3 style="font-size: 32px; font-weight: 800; color:var(--primary); font-family:'Space Grotesk';">Accessible by Default</h3>
-                    <p style="font-size: 13px; margin-top: 10px; opacity: 0.6; text-transform: uppercase; font-weight: 600;">Universal Design for Human Life</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- CHAPTER 02 COVER -->
-        <div class="page-view chapter-cover" id="p10">
-            <div class="chapter-number">Chapter 02</div>
-            <div class="chapter-title">LITERATURE REVIEW</div>
-        </div>
-
-        <!-- 2.1 TERMINOLOGY -->
-        <div class="page-view" id="p11">
-            <span class="section-tag">2.1 Concepts</span>
-            <h2 class="slide-header">Retrieval Bridge Terminology</h2>
-            <div class="grid-2">
-                <div class="glass-card highlight-card">
-                    <h4>Glanceability Metric</h4>
-                    <p style="font-size:13px;">Information signaled in <b>under 5 seconds</b> to solve the "Recall Void" during paramedic triage.</p>
-                </div>
-                <div class="glass-card">
-                    <h4>Digital Health Concept</h4>
-                    <p style="font-size:13px;">ICT application for care coordination during acute health crises across fragmented providers.</p>
-                </div>
-            </div>
-            <div class="grid-3" style="text-align: center; margin-top: 20px;">
-                <div class="glass-card" style="padding: 15px; font-weight: 800; color: var(--secondary);">Response Activation</div>
-                <div class="glass-card" style="padding: 15px; font-weight: 800; color: var(--secondary);">Data Sync</div>
-                <div class="glass-card" style="padding: 15px; font-weight: 800; color: var(--secondary);">Life Action</div>
-            </div>
-        </div>
-
-        <!-- 2.2 CITATION MATRIX -->
-        <div class="page-view" id="p12">
-            <span class="section-tag">2.2 Gap Analysis</span>
-            <h2 class="slide-header">Comparative Matrix (9 Citations)</h2>
-            <table style="font-size: 9px;">
-                <thead>
-                    <tr><th>Author/Year</th><th>Population</th><th>Barrier Identified</th><th>Gap Addressed</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Ahmed (2026)</td><td>BD General</td><td>Infrastructure Silos</td><td>Synchronized multi-user history.</td></tr>
-                    <tr><td>Biswas (2022)</td><td>Elderly</td><td>Manual Processes</td><td>Passive NFC/QR triggers.</td></tr>
-                    <tr><td>Hasan (2024)</td><td>Rural Groups</td><td>Low Connectivity</td><td>Offline portability & encryption.</td></tr>
-                    <tr><td>Islam (2024)</td><td>South Asian</td><td>Surveillance Fear</td><td>Transparent Security UI cues.</td></tr>
-                    <tr><td>Arslan (2025)</td><td>Clinicians</td><td>Info Overload</td><td>Visual Triage Dashboard.</td></tr>
-                    <tr><td>Amouzadeh (2025)</td><td>Seniors</td><td>Cognitive Decline</td><td>Age-friendly HCD heuristics.</td></tr>
-                    <tr><td>Palas (2022)</td><td>mHealth</td><td>Effort Expectancy</td><td>UTAUT2 UI Optimization.</td></tr>
-                    <tr><td>Sun (2025)</td><td>Developing</td><td>Fragmentation</td><td>Unified sync framework.</td></tr>
-                    <tr><td>Hoque (2017)</td><td>LMIC Population</td><td>Digital Literacy</td><td>Inclusive load reduction.</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- 2.3 THEORY & 2.4 MODELS -->
-        <div class="page-view" id="p13">
-            <span class="section-tag">2.3-2.5 Foundations</span>
-            <h2 class="slide-header">Theory & Systemic Gaps</h2>
-            <div class="grid-2">
-                <div class="glass-card highlight-card">
-                    <h4>ISO 9241-210 Theory</h4>
-                    <p style="font-size:12px; color: var(--text-muted);">Iterative lifecycle focused strictly on the <b>Context of Use</b>: Paramedics under stress and seniors with cognitive decline.</p>
-                </div>
-                <div class="glass-card">
-                    <h4>Theoretical Models</h4>
-                    <p style="font-size:12px;"><b>UTAUT2:</b> Effort expectancy reduction.</p>
-                    <p style="font-size:12px; margin-top:5px;"><b>Trust Transfer:</b> Leveraging clinical authority.</p>
-                </div>
-            </div>
-            <div class="glass-card mt-4 danger-card">
-                <h4>Stakeholder Administrative Gaps</h4>
-                <p style="font-size:12px; line-height: 1.6;">Information overload vs. manual handwriting results in <b>"Administrative Blindness."</b> Static IDs need to become <b>"Digital Triggers."</b></p>
-            </div>
-        </div>
-
-        <!-- CHAPTER 03 COVER -->
-        <div class="page-view chapter-cover" id="p14">
-            <div class="chapter-number">Chapter 03</div>
-            <div class="chapter-title">METHODOLOGY</div>
-        </div>
-
-        <!-- 3.1 PILOT DATA (VISUAL) -->
-        <div class="page-view" id="p15">
-            <span class="section-tag">3.1 Pilot Data (N=120)</span>
-            <h2 class="slide-header">Survey Findings & Readiness</h2>
-            <div class="stat-grid">
-                <div class="stat-box"><div class="stat-val">98.2%</div><div class="stat-label">Possess NID</div></div>
-                <div class="stat-box"><div class="stat-val">53.3%</div><div class="stat-label">Surveillance Fear</div></div>
-                <div class="stat-box" style="border-color: var(--accent);"><div class="stat-val" style="color:var(--accent)">65%</div><div class="stat-label">Icon Confusion</div></div>
-            </div>
-            <div class="glass-card success-card mt-6">
-                <p style="font-size: 14px;"><b>Strategic Conclusion:</b> 78% of users are willing to adopt EHC if <b>Trust</b> and <b>Clarity</b> are addressed via Human-Centered Design.</p>
-            </div>
-        </div>
-
-        <!-- 3.2 RIGOR -->
-        <div class="page-view" id="p16">
-            <span class="section-tag">3.2 Triangulation</span>
-            <h2 class="slide-header">Triangulation Rigor</h2>
-            <div class="grid-2">
-                <div class="glass-card" style="border-bottom: 4px solid var(--accent) !important;">
-                    <i class="fa-solid fa-magnifying-glass text-xl mb-4 text-rose-600"></i>
-                    <h4 style="color: var(--primary); font-weight:800;">Qualitative</h4>
-                    <p style="font-size: 11px; line-height: 1.6;">Thematic coding via <b>NVivo</b> to map interaction barriers and technophobia triggers among seniors.</p>
-                </div>
-                <div class="glass-card" style="border-bottom: 4px solid var(--secondary) !important;">
-                    <i class="fa-solid fa-chart-line text-xl mb-4 text-teal-600"></i>
-                    <h4 style="color: var(--primary); font-weight:800;">Quantitative</h4>
-                    <p style="font-size: 11px; line-height: 1.6;"><b>SUS Likert</b> analysis and retrieval speed benchmarks (Target: <b>< 30 seconds</b>).</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3.3 PROCESS -->
-        <div class="page-view" id="p17">
-            <span class="section-tag">3.3 Research Process</span>
-            <h2 class="slide-header">Iterative Framework Development</h2>
-            <div class="grid-3" style="align-items: stretch;">
-                <div class="glass-card" style="border-top: 4px solid #0f172a;">
-                    <span class="phase-header">Phase 01: Analysis</span>
-                    <p style="font-size: 10px; margin-top: 10px;">Review EHR gaps and context inquiry of Golden Hour workflows.</p>
-                    <span style="font-size: 9px; font-weight: 800; color: var(--accent); margin-top: 15px; display: block; text-transform: uppercase;">Addresses Time & Trust</span>
-                </div>
-                <div class="glass-card" style="border-top: 4px solid var(--secondary);">
-                    <span class="phase-header" style="border-color: var(--secondary);">Phase 02: Design</span>
-                    <p style="font-size: 10px; margin-top: 10px;">Figma wireframes and interactive simulation prototypes (VitalCard).</p>
-                    <span style="font-size: 9px; font-weight: 800; color: var(--secondary); margin-top: 15px; display: block; text-transform: uppercase;">Addresses Clarity Gap</span>
-                </div>
-                <div class="glass-card" style="border-top: 4px solid var(--accent);">
-                    <span class="phase-header" style="border-color: var(--accent);">Phase 03: Evaluation</span>
-                    <p style="font-size: 10px; margin-top: 10px;">Task-based usability testing and comparison with speed benchmarks.</p>
-                    <span style="font-size: 9px; font-weight: 800; color: var(--primary); margin-top: 15px; display: block; text-transform: uppercase;">Addresses Intimidation</span>
-                </div>
-            </div>
-            <div class="glass-box" style="margin-top: 20px; background: var(--primary); color: white; display: flex; align-items: center; gap: 20px; padding: 15px;">
-                <i class="fa-solid fa-award text-teal-400 text-xl"></i>
-                <span style="font-size:12px; font-weight: 700;">FINAL DELIVERABLE: A validated UI/UX framework to save seconds and improve trust.</span>
-            </div>
-        </div>
-
-        <!-- 3.4 SUMMARY MATRIX -->
-        <div class="page-view" id="p18">
-            <span class="section-tag">3.4 Summary</span>
-            <h2 class="slide-header">Core Research Matrix</h2>
-            <div class="glass-card p-0 overflow-hidden">
-                <table style="margin: 0; width: 100%;">
-                    <thead>
-                        <tr><th>Problem</th><th>Objective</th><th>Questions</th><th>Methodology</th><th>Contribution</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><b>Time-Critical Data Access</b><br>Blindness during the "Golden Hour".</td>
-                            <td><span style="color:var(--secondary); font-weight:800;">RO1: To identify</span><br>Critical emergency data points.</td>
-                            <td>What UI/UX features minimize data retrieval time?</td>
-                            <td>Interviews & Inquiry (N=101)</td>
-                            <td><b>Operational:</b> Triage speed.</td>
-                        </tr>
-                        <tr>
-                            <td><b>Trust & Security Deficit</b><br>Public anxiety regarding misuse.</td>
-                            <td><span style="color:var(--secondary); font-weight:800;">RO2: To develop</span><br>"Transparent Security" UI.</td>
-                            <td>How can design bridge the trust and intimidation gaps?</td>
-                            <td>HCD Design Science</td>
-                            <td><b>Theoretical:</b> Trust Model.</td>
-                        </tr>
-                        <tr>
-                            <td><b>UI Cognitive Barriers</b><br>Complexity for elderly.</td>
-                            <td><span style="color:var(--secondary); font-weight:800;">RO3: To evaluate</span><br>Measure cognitive load loss.</td>
-                            <td>Does the framework improve efficiency and user satisfaction?</td>
-                            <td>Does the framework improve efficiency and user satisfaction?</td>
-                            <td><b>Social:</b> Digital Inclusion.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 3.5 TIMELINE -->
-        <div class="page-view" id="p19">
-            <span class="section-tag">3.5 Timeline</span>
-            <h2 class="slide-header">18-Month Research Plan</h2>
-            <table>
-                <thead><tr><th width="30%">Timeline</th><th>Critical Milestone</th></tr></thead>
-                <tbody>
-                    <tr><td>Months 1-3</td><td>Lit Review & Ethics Protocol</td></tr>
-                    <tr><td>Months 4-6</td><td>Phase 1: Analysis & User Discovery</td></tr>
-                    <tr><td>Months 7-12</td><td>Phase 2: Synthesis & Hi-Fi Prototyping</td></tr>
-                    <tr><td>Months 13-16</td><td>Phase 3: SUS Validation & Expert Review</td></tr>
-                    <tr><td>Months 17-18</td><td>Final Thesis Submission & Defense</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- REFERENCES (APA 7th EDITION) -->
-        <div class="page-view" id="p20">
-            <span class="section-tag">Bibliography</span>
-            <h2 class="slide-header">References</h2>
-            <ul style="font-size: 10px; color: var(--text-muted); line-height: 1.8; margin-left: 20px; list-style: none;">
-                <li class="mb-2">Ahmed, M. W. (2026). Universal health coverage and digital anchors. <i>International Journal of Quality in Social and Health Welfare (IJQSHW).</i></li>
-                <li class="mb-2">Amouzadeh, A. (2025). Age-friendly human-centered design interaction heuristics. <i>Journal of Inclusion.</i></li>
-                <li class="mb-2">Arslan, S. T. A. (2025). Human-centered design for health care older adults. <i>Studies in Health Technology and Informatics (SHTI).</i></li>
-                <li class="mb-2">Biswas, M. (2022). Smartphone medical assistance for older adults. <i>International Journal of Research and Innovation in Applied Science (IJRIAS).</i></li>
-                <li class="mb-2">European Union. (2018). General Data Protection Regulation (GDPR). <i>Official Journal of the European Union.</i></li>
-                <li class="mb-2">Hasan, M. (2024). Offline portability and local encryption for rural groups. <i>TechHealth.</i></li>
-                <li class="mb-2">Hoque, M. R. (2017). mHealth adoption in Bangladesh: A structural equation modeling approach. <i>BMC Medical Informatics and Decision Making.</i></li>
-                <li class="mb-2">International Organization for Standardization. (2019). <i>Ergonomics of human-system interaction — Part 210: Human-centered design for interactive systems</i> (ISO Standard No. 9241-210).</li>
-                <li class="mb-2">Islam, M. R. (2024). Public perceptions of e-health services in South Asia. <i>South Asian Health Review (SAHR).</i></li>
-                <li class="mb-2">Norman, D. (2013). <i>The design of everyday things: Revised and expanded edition.</i> Basic Books.</li>
-                <li class="mb-2">NXP Semiconductors. (2023). <i>Secure smart card ICs for digital health applications</i> [Whitepaper].</li>
-                <li class="mb-2">Palas, J. U. (2022). UTAUT2 UI optimization for mHealth adoption. <i>HCI Review.</i></li>
-                <li class="mb-2">Sun, X. (2025). Unified sync framework for developing nations. <i>Global ICT.</i></li>
-                <li class="mb-2">World Bank. (2022). <i>Digital transformation for health: A framework for emerging economies.</i></li>
-                <li class="mb-2">World Health Organization. (2020). <i>Global strategy on digital health 2020–2025.</i></li>
-            </ul>
-        </div>
-
-        <!-- SLIDE 21: THANK YOU -->
-        <div class="page-view chapter-cover" id="p21">
-            <h1 style="font-size: 80px; font-family: 'Space Grotesk'; font-weight: 800; letter-spacing: -2px; color: var(--secondary);">Thank You</h1>
-            <div style="margin-top: 60px; text-align: center;">
-                <p style="font-weight: 800; font-size: 24px; letter-spacing: 1px; color: var(--primary);">MD RAFAT UDDIN ARMAN</p>
-                <p style="font-size: 14px; opacity: 0.7; text-transform: uppercase; letter-spacing: 2px; margin-top: 10px; color: var(--text-muted);">Master by Research</p>
-                <p style="color: var(--secondary); font-weight: 700; margin-top: 20px; font-size: 16px;">m032510030@student.utem.edu.my</p>
-            </div>
-        </div>
-
-        <!-- NAVIGATION CONTROLS -->
-        <div class="nav-dock">
-            <button class="nav-btn" id="fsBtn" onclick="toggleFullscreen()" title="Fullscreen (F)"><i class="fa-solid fa-expand"></i></button>
-            <button class="nav-btn" onclick="prev()"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="nav-btn" onclick="next()"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Critical Warning Banner -->
+    <div class="mb-8 bg-red-50 border-l-4 border-red-600 p-4 rounded-r-xl shadow-sm flex items-start space-x-3">
+      <i data-lucide="alert-triangle" class="w-6 h-6 text-red-600 shrink-0 mt-0.5"></i>
+      <div>
+        <h3 class="text-sm font-bold text-red-800">CRITICAL ALLERGY ALERT</h3>
+        <p class="text-sm text-red-700 mt-0.5">Severe Penicillin Allergy recorded. Avoid all beta-lactam antibiotics unless explicitly authorized.</p>
+      </div>
     </div>
 
-    <script>
-        let current = 0;
-        const slides = document.querySelectorAll('.page-view');
-        const fill = document.getElementById('progress-fill');
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- LEFT / MAIN ANALYTICS COLUMN (2 Cols) -->
+      <div class="lg:col-span-2 space-x-0 space-y-6">
 
-        function update() {
-            slides.forEach((s, i) => s.classList.toggle('active', i === current));
-            fill.style.width = ((current + 1) / slides.length) * 100 + '%';
-        }
+        <!-- Stat Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          
+          <!-- Card 1 -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Latest BP</p>
+              <h4 class="text-2xl font-bold text-slate-900 mt-1">118/78 <span class="text-xs font-normal text-slate-500">mmHg</span></h4>
+              <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center gap-1">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Normal Range
+              </p>
+            </div>
+            <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
+              <i data-lucide="heart-pulse" class="w-6 h-6"></i>
+            </div>
+          </div>
 
-        function next() { if (current < slides.length - 1) { current++; update(); } }
-        function prev() { if (current > 0) { current--; update(); } }
+          <!-- Card 2 -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Resting Heart Rate</p>
+              <h4 class="text-2xl font-bold text-slate-900 mt-1">70 <span class="text-xs font-normal text-slate-500">bpm</span></h4>
+              <p class="text-xs text-slate-500 font-medium mt-1">Recorded Oct 10</p>
+            </div>
+            <div class="p-3 bg-red-50 text-red-600 rounded-xl">
+              <i data-lucide="activity" class="w-6 h-6"></i>
+            </div>
+          </div>
 
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error(`Error full-screen mode: ${err.message}`);
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
-        }
+          <!-- Card 3 -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Active Diagnoses</p>
+              <h4 class="text-2xl font-bold text-slate-900 mt-1">2 <span class="text-xs font-normal text-slate-500">Conditions</span></h4>
+              <p class="text-xs text-amber-600 font-medium mt-1">Type 1 Diabetes, HTN</p>
+            </div>
+            <div class="p-3 bg-amber-50 text-amber-600 rounded-xl">
+              <i data-lucide="file-text" class="w-6 h-6"></i>
+            </div>
+          </div>
 
-        document.addEventListener('fullscreenchange', () => {
-            const btn = document.getElementById('fsBtn');
-            if (document.fullscreenElement) {
-                btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
-            } else {
-                btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
-            }
-        });
+        </div>
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') next();
-            if (e.key === 'ArrowLeft') prev();
-            if (e.key.toLowerCase() === 'f') toggleFullscreen();
-        });
+        <!-- Chart Section: Vitals Trend -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">Vitals & BP Diagnostics</h3>
+              <p class="text-xs text-slate-500">Historical blood pressure tracking</p>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2.5 py-1 rounded-lg">Last Encounter: Oct 10</span>
+          </div>
+          <div class="h-64">
+            <canvas id="vitalsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Two Grid Section: Medications & Clinical Encounters -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Active Medications -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="pill" class="w-5 h-5 text-indigo-600"></i> Active Medications
+              </h3>
+              <span class="text-xs font-semibold bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full">2 Prescriptions</span>
+            </div>
+            <div class="divide-y divide-slate-100">
+              <div class="py-3 flex justify-between items-center">
+                <div>
+                  <p class="font-semibold text-sm text-slate-800">Amlodipine</p>
+                  <p class="text-xs text-slate-500">Antihypertensive</p>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-medium bg-slate-100 text-slate-700 px-2 py-1 rounded">5mg • Daily</span>
+                </div>
+              </div>
+              <div class="py-3 flex justify-between items-center">
+                <div>
+                  <p class="font-semibold text-sm text-slate-800">Metformin</p>
+                  <p class="text-xs text-slate-500">Antidiabetic</p>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-medium bg-slate-100 text-slate-700 px-2 py-1 rounded">500mg • Twice Daily</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clinical Encounters & Appointments -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="calendar" class="w-5 h-5 text-emerald-600"></i> Next Appointment
+              </h3>
+            </div>
+            
+            <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4 mb-4">
+              <div class="flex items-start justify-between">
+                <div>
+                  <span class="text-xs font-bold text-emerald-800 uppercase">Cardiology Follow-up</span>
+                  <h4 class="font-semibold text-slate-900 text-sm mt-0.5">Dr. Farzana Rahman</h4>
+                </div>
+                <span class="text-xs bg-white text-emerald-700 font-bold px-2 py-1 rounded shadow-sm border border-emerald-200">Dec 24, 10:00 AM</span>
+              </div>
+            </div>
+
+            <div class="border-t border-slate-100 pt-3">
+              <p class="text-xs font-medium text-slate-500 uppercase mb-2">Last Clinical Note (Oct 10)</p>
+              <blockquote class="text-xs text-slate-600 italic bg-slate-50 p-2.5 rounded-lg border-l-2 border-slate-300">
+                "Routine checkup. All clear."
+              </blockquote>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR (1 Col) -->
+      <div class="space-y-6">
         
-        update();
-    </script>
+        <!-- Patient Identity Card -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex items-center space-x-4 pb-4 border-b border-slate-100">
+            <div class="w-14 h-14 bg-slate-900 text-white font-bold text-xl rounded-2xl flex items-center justify-center shadow-md">
+              RA
+            </div>
+            <div>
+              <h3 class="font-bold text-lg text-slate-900">Rafat Arman</h3>
+              <p class="text-xs text-slate-500">Male • 28 Years Old</p>
+              <span class="inline-block mt-1 text-xs font-bold bg-red-100 text-red-700 px-2 py-0.5 rounded-full">Blood Type: B+</span>
+            </div>
+          </div>
+
+          <div class="mt-4 space-y-3 text-xs">
+            <div class="flex items-start gap-2 text-slate-600">
+              <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0 mt-0.5"></i>
+              <span>বিনোদপুর মোড়, রাজশাহী সিটি, রাজশাহী ৬০০০</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-600">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-slate-400 shrink-0"></i>
+              <span>Primary Trauma: <strong class="text-slate-800">রাজশাহী মেডিকেল কলেজ হাসপাতাল</strong></span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-600">
+              <i data-lucide="navigation" class="w-4 h-4 text-slate-400 shrink-0"></i>
+              <span>Trauma Level I (1.2 km away)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ICD-10 Diagnoses Code List -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <h3 class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-2">
+            <i data-lucide="file-code-2" class="w-4 h-4 text-blue-600"></i> Active Diagnoses (ICD-10)
+          </h3>
+          <ul class="space-y-2 text-xs">
+            <li class="flex justify-between items-center p-2 rounded-lg bg-slate-50">
+              <span class="font-medium text-slate-700">Type 1 Diabetes</span>
+              <span class="font-mono bg-slate-200 text-slate-800 px-2 py-0.5 rounded">E10.9</span>
+            </li>
+            <li class="flex justify-between items-center p-2 rounded-lg bg-slate-50">
+              <span class="font-medium text-slate-700">Essential Hypertension</span>
+              <span class="font-mono bg-slate-200 text-slate-800 px-2 py-0.5 rounded">I10</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Family History & Surgical History -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          
+          <div>
+            <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <i data-lucide="scissors" class="w-3.5 h-3.5 text-slate-500"></i> Surgical History
+            </h4>
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs">
+              <p class="font-semibold text-slate-800">Appendectomy <span class="text-slate-400 font-normal">• Mar 2023</span></p>
+              <p class="text-slate-500 mt-0.5">রাজশাহী মেডিকেল কলেজ হাসপাতাল</p>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <i data-lucide="users" class="w-3.5 h-3.5 text-slate-500"></i> Family Medical History
+            </h4>
+            <ul class="space-y-2 text-xs">
+              <li class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <p class="text-slate-700"><strong class="text-slate-900">Mother:</strong> Breast Cancer <span class="text-slate-500">(Age 55)</span></p>
+              </li>
+              <li class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                <p class="text-slate-700"><strong class="text-slate-900">Father:</strong> Coronary Artery Disease <span class="text-slate-500">(Age 60)</span></p>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Script Initializations -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Chart.js Vitals Setup
+    const ctx = document.getElementById('vitalsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['June', 'July', 'August', 'September', 'Oct 10 (Latest)'],
+        datasets: [
+          {
+            label: 'Systolic (mmHg)',
+            data: [125, 122, 120, 119, 118],
+            borderColor: '#ef4444',
+            backgroundColor: 'rgba(239, 68, 68, 0.05)',
+            fill: true,
+            tension: 0.3,
+            borderWidth: 2,
+            pointRadius: 4,
+          },
+          {
+            label: 'Diastolic (mmHg)',
+            data: [82, 80, 81, 79, 78],
+            borderColor: '#3b82f6',
+            backgroundColor: 'transparent',
+            tension: 0.3,
+            borderWidth: 2,
+            pointRadius: 4,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { boxWidth: 12, font: { size: 11 } }
+          }
+        },
+        scales: {
+          y: {
+            min: 60,
+            max: 140,
+            grid: { color: '#f1f5f9' }
+          },
+          x: {
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>
+
+```
